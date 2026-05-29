@@ -1,12 +1,12 @@
 ---
 name: write-worklog
-description: "오늘 작업 세션을 jumi-worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)으로 정리하고 JumiJeong-design/jumi-worklog 레포에 push한다. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
+description: "오늘 작업 세션을 요약→문서화→GitHub push→Notion 업로드 순서로 자동 완료한다. jumi-worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)으로 정리. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
 disable-model-invocation: false
 ---
 
 # write-worklog
 
-오늘 작업 세션을 jumi-worklog 포맷으로 정리하고 GitHub에 커밋·push까지 완료한다.
+오늘 작업 세션을 **요약 → 문서화 → GitHub push → Notion 업로드** 순서로 자동 완료한다.
 대화 컨텍스트에서 작업 내용을 직접 추출하므로, 사용자가 별도로 내용을 타이핑할 필요가 없다.
 
 ---
@@ -14,6 +14,7 @@ disable-model-invocation: false
 ## Mandatory prerequisites
 
 - GitHub MCP (`mcp__github__*`) — 파일 읽기·쓰기에 사용
+- Notion MCP (`mcp__a2cd6401__notion-*`) — Notion DB 업로드에 사용 (미연결 시 GitHub만 push)
 - 오늘 날짜 확인 필요 (`currentDate` 시스템 컨텍스트 또는 대화에서 추출)
 
 ---
@@ -155,20 +156,35 @@ disable-model-invocation: false
 | message | `feat: YYYY-MM-DD worklog 추가` |
 | sha | 기존 파일이 있는 경우 반드시 포함 |
 
-성공 시 출력:
-```
-worklog 저장 완료.
-파일: YYYY-MM-DD.md → JumiJeong-design/jumi-worklog
-```
-
 **에러 처리:** SHA 없이 기존 파일 업데이트 → SHA 먼저 읽고 재시도. 네트워크 에러 → 3회 재시도 (2s → 4s → 8s).
 
 ---
 
-## Step 5 — (선택) Notion 동기화  [Confirm]
+## Step 5 — Notion 동기화  [Write]
 
-사용자가 "Notion에도 올려줘" 요청 시에만 진행.
-Notion MCP(`mcp__a2cd6401__notion-*`)로 디자인팀 DB에 페이지 생성/업데이트.
+Notion MCP(`mcp__a2cd6401__notion-*`)로 디자인팀 DB에 오늘 작업 로그를 업로드한다.
+
+**Do:**
+1. `mcp__a2cd6401__notion-search`로 오늘 날짜 페이지가 이미 존재하는지 확인한다.
+2. 존재하면: `mcp__a2cd6401__notion-update-page`로 내용 업데이트
+3. 없으면: `mcp__a2cd6401__notion-create-pages`로 신규 페이지 생성
+
+**페이지 구조:**
+| 속성 | 값 |
+|------|-----|
+| Title | `YYYY-MM-DD 업무 로그` |
+| Date | 오늘 날짜 |
+
+**본문:** worklog 마크다운 내용 그대로 (미해결 항목 → 함정 → 회고 → 작업 목록 → 커밋)
+
+성공 시 출력:
+```
+worklog 저장 완료.
+├── GitHub: YYYY-MM-DD.md → JumiJeong-design/jumi-worklog
+└── Notion: YYYY-MM-DD 업무 로그 업데이트
+```
+
+**에러 처리:** Notion MCP 미연결 시 → GitHub push만 완료하고 "Notion MCP가 연결되지 않아 GitHub에만 저장했어요." 출력.
 
 ---
 
