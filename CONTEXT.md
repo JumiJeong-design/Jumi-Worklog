@@ -19,7 +19,7 @@
 
 - [ ] Figma 디자인 전체 리디자인 (주미님 직접) → 완료 후 코드 sync
 - [ ] 코드 기반 컴포넌트 라이브러리 기술 스택 확정 → 확정 후 Code Connect
-- [ ] FIGMA_TOKEN 환경변수 등록 → REST API 전환 (PAT 발급 대기 중)
+- [ ] FIGMA_TOKEN 등록 완료 + 네트워크 정책 `api.figma.com` 추가 완료 → **새 세션에서 REST API 전환 테스트 필요**
 - [ ] 브랜드 컬러 확정 (리디자인 전제조건)
 - [ ] Latin + JP 폰트 확정 (Noto Sans JP 재검토 필요)
 - [ ] Foundation에 Error states · Motion · Breakpoints 추가
@@ -51,7 +51,7 @@
 
 ## Figma 파일 페이지 구조
 
-파일 키: `DcYgJjGAfObOIM4IyrQjgj` | MCP는 lazy loading으로 2개만 반환 (REST API 필요)
+파일 키: `DcYgJjGAfObOIM4IyrQjgj` | MCP Plugin API는 lazy loading으로 2개만 반환 → REST API 필요
 
 | 페이지 | node ID | 내용 |
 |--------|---------|------|
@@ -60,6 +60,8 @@
 | Icons | `74:10109` | Lucide 전체 + In Use 24개 |
 | Pages | 미확인 | 화면 디자인 (준비 중) |
 | Image reference | 미확인 | 참조 이미지 모음 |
+
+> node ID 미확인 항목은 REST API 전환 후 다음 세션에서 확인 예정
 
 ---
 
@@ -92,12 +94,13 @@
 - Stop hook 완료 (워크로그 없으면 블로킹)
 - write-worklog 스킬 완료 (Step 4.5 CONTEXT.md 자동 갱신)
 - **ops-plan.md 전면 재작성 완료 — 글로벌 서비스 아키텍처**
+- **2026-05-30 워크로그 작성 완료**
 
 ---
 
 ## 다음 작업 예정
 
-1. FIGMA_TOKEN 등록 → REST API 전환 + Variables audit + SessionStart hook 업그레이드
+1. **새 세션**: REST API 전환 테스트 → 5페이지 node ID 전체 확인 → Variables audit → SessionStart hook 업그레이드
 2. Figma Foundation에 Error states / Motion / Breakpoints 추가 (주미님)
 3. 브랜드 컬러 + 폰트 확정 (주미님) → 리디자인 시작
 4. 기술 스택 확정 → Code Connect + 토큰 파이프라인
