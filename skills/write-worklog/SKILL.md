@@ -1,12 +1,12 @@
 ---
 name: write-worklog
-description: "오늘 작업 세션을 요약→문서화→GitHub push→Notion 업로드 순서로 자동 완료한다. jumi-worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)으로 정리. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
+description: "오늘 작업 세션을 요약→문서화→GitHub push→CONTEXT.md 갱신→Notion 업로드 순서로 자동 완료한다. jumi-worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)으로 정리. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
 disable-model-invocation: false
 ---
 
 # write-worklog
 
-오늘 작업 세션을 **요약 → 문서화 → GitHub push → Notion 업로드** 순서로 자동 완료한다.
+오늘 작업 세션을 **요약 → 문서화 → GitHub push → CONTEXT.md 갱신 → Notion 업로드** 순서로 자동 완료한다.
 대화 컨텍스트에서 작업 내용을 직접 추출하므로, 사용자가 별도로 내용을 타이핑할 필요가 없다.
 
 ---
@@ -160,6 +160,34 @@ disable-model-invocation: false
 
 ---
 
+## Step 4.5 — CONTEXT.md 갱신  [Write]
+
+워크로그 push 직후 `jumi-worklog/CONTEXT.md`를 업데이트한다. 다음 세션 자동 로드 시 항상 최신 상태가 반영되도록 한다.
+
+**Do:**
+1. `mcp__github__get_file_contents`로 `CONTEXT.md`의 현재 내용과 SHA를 읽는다.
+2. 오늘 worklog에서 다음을 추출한다:
+   - 완료된 항목 → `## 미해결 항목`에서 제거
+   - 새로 생긴 미완료 항목 → `## 미해결 항목`에 추가
+   - 오늘 완료한 주요 작업 → `## 현재 진행 상황` 해당 레포 섹션 갱신
+   - 새로 결정된 사항 → `## 최근 주요 결정` 추가 (중요한 경우만)
+   - 다음 세션 할 일 → `## 다음 작업 예정` 업데이트
+3. `Last updated: YYYY-MM-DD` 날짜를 오늘로 갱신한다.
+4. `mcp__github__create_or_update_file`로 저장한다.
+
+| 파라미터 | 값 |
+|---------|-----|
+| owner | `jumijeong-design` |
+| repo | `jumi-worklog` |
+| path | `CONTEXT.md` |
+| branch | `main` |
+| message | `chore: CONTEXT.md 업데이트 — YYYY-MM-DD 세션 반영` |
+| sha | 반드시 포함 (읽은 SHA 사용) |
+
+**주의:** `##` 헤더와 테이블 구조는 유지하고 내용만 수정한다.
+
+---
+
 ## Step 5 — Notion 동기화  [Write]
 
 Notion MCP(`mcp__a2cd6401__notion-*`)로 디자인팀 DB에 오늘 작업 로그를 업로드한다.
@@ -181,10 +209,11 @@ Notion MCP(`mcp__a2cd6401__notion-*`)로 디자인팀 DB에 오늘 작업 로그
 ```
 worklog 저장 완료.
 ├── GitHub: YYYY-MM-DD.md → JumiJeong-design/jumi-worklog
+├── CONTEXT.md 갱신 완료
 └── Notion: YYYY-MM-DD 업무 로그 업데이트
 ```
 
-**에러 처리:** Notion MCP 미연결 시 → GitHub push만 완료하고 "Notion MCP가 연결되지 않아 GitHub에만 저장했어요." 출력.
+**에러 처리:** Notion MCP 미연결 시 → GitHub push + CONTEXT.md 갱신만 완료하고 "Notion MCP가 연결되지 않아 GitHub에만 저장했어요." 출력.
 
 ---
 
