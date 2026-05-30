@@ -35,7 +35,7 @@
 | 페이지 | node ID | 내용 |
 |--------|---------|------|
 | Components | `0:1` | 컴포넌트 35개 |
-| Foundation | 미확인 | Color(light/dark) · Typography · Spacing · Shadow |
+| Foundation | 미확인 | Color(light/dark) · Typography · Spacing · Shadow · Markdown 렌더링 디자인 |
 | Icons | `74:10109` | Lucide 전체 + In Use 24개 |
 | Pages | 미확인 | 화면 디자인 (준비 중) |
 | Image reference | 미확인 | 디자인 참조 이미지 모음 |
@@ -50,7 +50,7 @@
 - 중복 skills/write-worklog 삭제 완료
 - **design-system/components.md — Figma 실제 상태로 전면 싱크 완료 (35개 컴포넌트)**
 - **design-system/decisions.md — Model Profile 아이콘 완료 상태 반영**
-- **docs/agent-rules.md — Figma 5개 페이지 전체 구조 반영 완료**
+- **docs/agent-rules.md — Figma 5개 페이지 전체 구조 + Markdown 디자인 반영 완료**
 - Model Profile: 브랜드 아이콘 이미지 fill로 내장 완료 (Claude/GPT/Gemini/Grok/Perplexity × sm/md/lg)
 
 ### socra-ai-workflow-guide
