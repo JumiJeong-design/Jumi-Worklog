@@ -11,6 +11,13 @@
 2. 오늘 날짜 worklog 파일이 없으면 세션 종료 시 생성
 3. `skills/` 폴더에 공통 스킬 목록이 있음 — 사용자가 트리거하면 해당 SKILL.md 로드
 
+## AI 도구별 진입점
+
+| 도구 | 세션 시작 방식 |
+|------|---------------|
+| Claude Code | `CLAUDE.md` + SessionStart 훅 (`~/.claude/settings.json`) — 자동으로 이 체크리스트 실행 |
+| Codex | 이 파일(`AGENTS.md`) 자동 로드 |
+
 ## 공통 스킬 목록
 
 프로젝트에 관계없이 쓰는 스킬은 `skills/` 폴더에 있다.
