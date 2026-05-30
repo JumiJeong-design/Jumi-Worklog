@@ -1,0 +1,19 @@
+name: Documentation task
+description: Promote worklog material into documentation
+title: "[Docs] "
+labels: ["type:docs", "status:draft"]
+body:
+  - type: input
+    id: source
+    attributes:
+      label: Source worklog
+      description: Link `logs/YYYY/MM/YYYY-MM-DD.md`.
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Target documentation
+      description: Which workflow-guide doc should this become?
+    validations:
+      required: true
