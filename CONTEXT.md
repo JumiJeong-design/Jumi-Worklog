@@ -26,15 +26,19 @@
 - 세션 자동화: SessionStart 훅으로 이 파일 자동 로드 (2026-05-30 구축)
 - 공통 스킬 정본 위치: jumi-worklog/skills/ (각 레포 로컬 사본 제거)
 - 세션 종료 자동화: Stop hook이 오늘 worklog 없으면 블로킹 리마인더 출력
-- Figma 파일 키: `DcYgJjGAfObOIM4IyrQjgj` (페이지 5개 — Components/Foundation/Icons 확인됨)
+- Figma 파일 키: `DcYgJjGAfObOIM4IyrQjgj` (페이지 5개 전체 확인 완료)
 
 ## Figma 파일 페이지 구조
 
-총 5개 페이지 (Figma MCP `get_metadata`는 2개만 반환하는 버그 있음):
-- `0:1` Components — 컴포넌트 35개
-- Foundation — Color(light/dark), Typography, Spacing, Shadow 프레임 (node ID 미확인)
-- `74:10109` Icons — Lucide 전체 + In Use 24개
-- `---` 구분선 + 추가 페이지 (참조 이미지 등)
+총 5개 페이지 + 구분선 2개 (MCP `get_metadata`는 lazy loading으로 일부만 반환):
+
+| 페이지 | node ID | 내용 |
+|--------|---------|------|
+| Components | `0:1` | 컴포넌트 35개 |
+| Foundation | 미확인 | Color(light/dark) · Typography · Spacing · Shadow |
+| Icons | `74:10109` | Lucide 전체 + In Use 24개 |
+| Pages | 미확인 | 화면 디자인 (준비 중) |
+| Image reference | 미확인 | 디자인 참조 이미지 모음 |
 
 ## 현재 진행 상황
 
@@ -46,7 +50,7 @@
 - 중복 skills/write-worklog 삭제 완료
 - **design-system/components.md — Figma 실제 상태로 전면 싱크 완료 (35개 컴포넌트)**
 - **design-system/decisions.md — Model Profile 아이콘 완료 상태 반영**
-- **docs/agent-rules.md — Figma 파일 키 + 페이지 구조 (Foundation 포함 5개) 반영 완료**
+- **docs/agent-rules.md — Figma 5개 페이지 전체 구조 반영 완료**
 - Model Profile: 브랜드 아이콘 이미지 fill로 내장 완료 (Claude/GPT/Gemini/Grok/Perplexity × sm/md/lg)
 
 ### socra-ai-workflow-guide
