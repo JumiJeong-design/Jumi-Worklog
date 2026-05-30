@@ -1,0 +1,19 @@
+name: Sync task
+description: Log a Figma/Git synchronization session
+title: "[Sync] "
+labels: ["sync:figma-to-git", "type:worklog"]
+body:
+  - type: input
+    id: date
+    attributes:
+      label: Worklog date
+      description: YYYY-MM-DD
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Sync summary
+      description: What changed, and where should it be recorded?
+    validations:
+      required: true
