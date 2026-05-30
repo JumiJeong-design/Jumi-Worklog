@@ -24,6 +24,7 @@
 - `design-system/` = 구현 자산 (컴포넌트·토큰·파운데이션)
 - `docs/` = 판단 근거 문서 (UX 원칙·의사결정·가이드)
 - 세션 자동화: SessionStart 훅으로 이 파일 자동 로드 (2026-05-30 구축)
+- 공통 스킬 정본 위치: jumi-worklog/skills/ (각 레포 로컬 사본 제거)
 
 ## 현재 진행 상황
 
@@ -31,14 +32,19 @@
 - 파운데이션 문서 4종 작성 완료 (color, typography, spacing, shadow)
 - docs/ux-principles.md 작성 완료
 - Figma 리디자인 대기 중
+- AGENTS.md 세션 시작 절차·AI 도구별 진입점 추가 (main 반영 완료)
+- 중복 skills/write-worklog 삭제 완료
 
 ### socra-ai-workflow-guide
 - v0.4 배포 완료
 - Figma AI 스킬 가이드 섹션 추가됨
+- AGENTS.md 세션 시작 절차·AI 도구별 진입점 추가 (main 반영 완료)
+- product-context.md → site-context.md 이름 변경 (충돌 해결)
 
 ### jumi-worklog
 - SessionStart 훅 구축 완료 — GitHub API로 이 파일 자동 로드
-- AGENTS.md 도구별 진입점 정비 완료
+- AGENTS.md AI 도구별 진입점 테이블 추가 (main 반영 완료)
+- README.md 내용 보강 완료
 
 ## 다음 작업 예정
 
