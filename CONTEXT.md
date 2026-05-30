@@ -15,8 +15,6 @@
 
 ## 미해결 항목
 
-- [ ] **Figma 파일 URL 등록 필요** — `socra-ai-product-design/docs/agent-rules.md`의 Figma 파일 링크 섹션에 URL 추가 (주미님 직접)
-- [ ] **LobeHub 아이콘 교체** — Model Profile 컴포넌트(Claude/GPT/Gemini/Grok/Perplexity)를 lobehub.com에서 SVG 드래그해 Figma에 교체 (주미님 직접)
 - [ ] Figma 디자인 전체 리디자인 (주미님 직접 진행) → 완료 후 코드 sync 재진행
 - [ ] 코드 기반 컴포넌트 라이브러리 관리 방식 확정 → 확정 후 Code Connect 설정
 
@@ -28,6 +26,7 @@
 - 세션 자동화: SessionStart 훅으로 이 파일 자동 로드 (2026-05-30 구축)
 - 공통 스킬 정본 위치: jumi-worklog/skills/ (각 레포 로컬 사본 제거)
 - 세션 종료 자동화: Stop hook이 오늘 worklog 없으면 블로킹 리마인더 출력
+- Figma 파일 키: `DcYgJjGAfObOIM4IyrQjgj` (Components 35개, Icons Lucide 전체)
 
 ## 현재 진행 상황
 
@@ -37,7 +36,10 @@
 - Figma 리디자인 대기 중
 - AGENTS.md 세션 시작 절차·AI 도구별 진입점 추가 (main 반영 완료)
 - 중복 skills/write-worklog 삭제 완료
-- docs/agent-rules.md — Figma 파일 링크 섹션 + Code Connect 파이프라인 가이드 추가
+- **design-system/components.md — Figma 실제 상태로 전면 싱크 완료 (35개 컴포넌트)**
+- **design-system/decisions.md — Model Profile 아이콘 완료 상태 반영**
+- **docs/agent-rules.md — Figma 파일 키 등록 + 아이콘 연동 상태 완료**
+- Model Profile: 브랜드 아이콘 이미지 fill로 내장 완료 (Claude/GPT/Gemini/Grok/Perplexity × sm/md/lg)
 
 ### socra-ai-workflow-guide
 - v0.4 배포 완료
@@ -54,7 +56,5 @@
 
 ## 다음 작업 예정
 
-- 주미님: Figma URL을 docs/agent-rules.md에 등록
-- 주미님: LobeHub 아이콘을 Figma Model Profile에 교체
 - Figma 리디자인 완료 후 → Code Connect 설정 + 코드 컴포넌트 생성
 - 컴포넌트 라이브러리 관리 방식 확정
