@@ -1,0 +1,14 @@
+name: Validate worklogs
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate-worklogs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate worklog paths
+        run: bash scripts/validate-worklogs.sh
