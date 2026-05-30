@@ -1,0 +1,19 @@
+name: Design task
+description: Track design work that should be logged
+title: "[Design] "
+labels: ["type:worklog", "status:draft"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What design work should be captured?
+    validations:
+      required: true
+  - type: textarea
+    id: channels
+    attributes:
+      label: Related channels
+      description: Link product-design, workflow-guide, or Figma context.
+    validations:
+      required: false
