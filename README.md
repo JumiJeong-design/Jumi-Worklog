@@ -1,21 +1,48 @@
 # jumi-worklog
 
-주미님과 AI 도구(Claude Code, Codex)의 **공동 기록 허브**.
+주미님과 AI 도구(Claude Code, Codex)의 **공동 기록 허브**입니다. 이 repo는 날짜별 작업 기록, 세션 맥락, 결정 전 고민, 시행착오를 보존하는 공동 채널입니다.
 
-## 역할
+## What Belongs Here
 
-- 날짜별 worklog 저장 (`YYYY-MM-DD.md`)
+- 날짜별 worklog (`logs/YYYY/MM/YYYY-MM-DD.md`)
+- AI 세션에서 나온 맥락, 시도, 막힌 지점, 다음 행동
+- 다른 repo에서 진행한 작업의 하루 단위 요약
+- 나중에 `socra-ai-workflow-guide`로 승격할 후보 메모
 - 공통 스킬 관리 (`skills/`)
 - 세션 간 컨텍스트 스냅샷 (`CONTEXT.md`)
-- 다른 두 레포 작업도 여기에 합산 기록
+
+## What Does Not Belong Here
+
+- 정제된 가이드/플레이북: `socra-ai-workflow-guide`로 승격
+- 제품 디자인 시스템 원본 스펙: `socra-ai-product-design`에 기록
+- Figma의 시각적 원본: Figma `Socra Design system test`에서 관리
 
 ## 레포 구조
 
 | 레포 | 역할 |
 |------|------|
-| **jumi-worklog** (this) | 공동 기록 허브 |
+| **jumi-worklog** (this) | 공동 기록 허브, 날짜별 작업 로그 |
 | socra-ai-product-design | 제품 채널 — 디자인시스템/컴포넌트 → 전체 화면 |
 | socra-ai-workflow-guide | 위키 채널 — AI 워크플로우·프로세스·시행착오 |
+
+## 기본 폴더
+
+```text
+/logs/
+  YYYY/
+    MM/
+      YYYY-MM-DD.md
+/templates/
+  daily-worklog-template.md
+  ai-session-template.md
+```
+
+## Worklog Rule
+
+- 하루의 날것 기록은 여기에 남긴다.
+- 반복 가능한 패턴이 보이면 `socra-ai-workflow-guide` 문서 후보로 표시한다.
+- 제품/컴포넌트 스펙이 필요하면 `socra-ai-product-design` 문서로 연결한다.
+- worklog를 지식화했으면 양쪽에 역링크를 남긴다.
 
 ## 공통 스킬
 
