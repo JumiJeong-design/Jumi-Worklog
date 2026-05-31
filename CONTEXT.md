@@ -15,13 +15,40 @@
 
 ---
 
+## ⭐ 주미님 액션 아이템 (블로커 — Figma에서 직접)
+
+> Claude가 MCP로 시도했으나 **연결된 Figma가 로컬 폰트를 못 봐서** 막힌 작업. 주미님이 Figma에서 처리해야 진행됨.
+
+### 1. 폰트 Pretendard 패밀리를 Figma에 적용
+- **상태:** 결정은 5/31 완료(Pretendard 통일), Git 문서도 반영. **Figma Variables만 미적용.**
+- **막힌 이유:** MCP가 연결된 Figma는 **Google Fonts(1723개)만** 보임 → 로컬 전용 폰트인 Pretendard가 안 보임. (Geist·M PLUS 2·Noto Sans KR은 구글폰트라 보였던 것)
+- **주미님 할 일:**
+  1. macOS `Font Book`에 **Pretendard** + **Pretendard JP**(별도 패키지) 설치 확인
+  2. Figma 데스크탑 **완전 종료(Cmd+Q) 후 재실행** — 텍스트 폰트 검색에 `Pretendard` 떠야 함
+  3. 뜨면 Claude에게 알리기 → 변수 4개 교체(아래) 또는 직접 교체
+- **교체 대상 (컬렉션 `typography`, 모드 `5:0`):**
+  | Variable ID | 이름 | 현재값 | → 바꿀 값 |
+  |---|---|---|---|
+  | `VariableID:5:3` | font/family/base | Noto Sans KR | **Pretendard** |
+  | `VariableID:5:4` | font/family/latin | Geist | **Pretendard** |
+  | `VariableID:7:2` | font/family/japanese | M PLUS 2 | **Pretendard JP** |
+  | `VariableID:5:5` | font/family/mono | Noto Sans Mono | 유지 (단 Figma에 미설치 상태 — 확인 필요) |
+- 적용 후 Git 문서(typography.md·rules.md Rule 17) 상태를 ⏳ → ✅로 갱신
+
+### 2. color 컬렉션 다크 모드 모드 중복 정리
+- `color` 컬렉션에 모드가 **3개**: `Light(2:0)` / `theme-dark(2:1)` / `Dark(118:0)`
+- **theme-dark와 Dark가 중복** — 어느 쪽에 값이 채워져 있고 컴포넌트가 어디에 바인딩됐는지 확인 후 하나로 합쳐야 함 (조사·정리 미완)
+
+---
+
 ## 미해결 항목
 
 - [ ] Figma 디자인 전체 리디자인 (주미님 직접) → 완료 후 코드 sync
 - [ ] 코드 기반 컴포넌트 라이브러리 기술 스택 확정 → 확정 후 Code Connect
 - [ ] FIGMA_TOKEN 등록 완료 + 네트워크 정책 `api.figma.com` 추가 완료 → **새 세션에서 REST API 전환 테스트 필요**
 - [ ] 브랜드 컬러 확정 (리디자인 전제조건)
-- [ ] Pretendard / Pretendard JP Figma 등록 + 전체 컴포넌트 적용 (주미님) — 폰트 패밀리는 5/31 Pretendard 통일로 확정됨
+- [ ] **폰트 Pretendard Figma 적용** (주미님, ↑ 액션 아이템 1) — 결정·문서 완료, Figma Variables만 대기
+- [ ] **color 다크 모드 모드 중복(theme-dark/Dark) 정리** (↑ 액션 아이템 2)
 - [ ] Foundation에 Error states · Motion · Breakpoints 추가 (주미님)
 - [ ] PR #3 머지 — `socra-ai-product-design` Rule 18 + 폰트 Pretendard 통일 브랜치, CI 통과 후 머지 판단
 
@@ -68,6 +95,15 @@
 
 > node ID 미확인 항목은 REST API 전환 후 다음 세션에서 확인 예정
 
+### Figma Variable 컬렉션 (2026-05-31 조사)
+
+| 컬렉션 | ID | 모드 | 변수 수 |
+|--------|-----|------|--------|
+| color | `2:2` | Light(2:0) · theme-dark(2:1) · Dark(118:0) ⚠️중복 | 52 |
+| typography | `5:2` | default(5:0) | 26 |
+| spacing | `8:2` | default(8:0) | 20 |
+| radius | `9:2` | default(9:0) | 9 |
+
 ---
 
 ## AI 모델 현황
@@ -83,7 +119,7 @@
 - docs/ux-principles.md 완료 + a11y 체크리스트 (WCAG 2.1 AA, 터치타겟, 스크린리더)
 - design-system/components.md — 35개 컴포넌트 전면 싱크 완료
 - design-system/decisions.md — 5/29 폰트 결정 + 5/31 Pretendard 통일 결정 추가
-- **design-system/foundation/typography.md — 폰트 Pretendard 패밀리 통일** (KR·EN=Pretendard, JP=Pretendard JP, Geist 제거) [PR #3 브랜치]
+- **design-system/foundation/typography.md — 폰트 Pretendard 패밀리 통일** (KR·EN=Pretendard, JP=Pretendard JP, Geist 제거) [PR #3 브랜치, Figma 반영 대기]
 - **design-system/rules.md — 18규칙** (Rule 17 폰트=Pretendard 통일로 갱신, Rule 18 Auto Layout 필수, **PR #3 브랜치, main 미머지**)
 - design-system/screens.md — 5개 화면 스캐폴딩
 - docs/product-context.md · model-registry.md · agent-rules.md 완료
@@ -101,6 +137,7 @@
 - SessionStart hook (CONTEXT.md 자동 로드) + Stop hook 완료
 - write-worklog 스킬 — Step 2.5 SHA 무결성 + Step 4.6 뷰어 동기화
 - 워크로그 계층 `logs/YYYY/MM/`로 통일 — 루트 6개 이전 + 5/29 복원 + 스킬/AGENTS 경로 수정
+- Notion 동기화 — 작업 로그 DB(DAX 로그)에 5/31 페이지 업로드 (5/30 백필 예정)
 - ops-plan.md 전면 재작성 완료 (글로벌 서비스 아키텍처)
 - 2026-05-31 워크로그까지 작성 완료
 
@@ -108,9 +145,9 @@
 
 ## 다음 작업 예정
 
-1. **새 세션**: REST API 전환 테스트 → 5페이지 node ID 전체 확인 → Variables dark mode audit → SessionStart hook 업그레이드
-2. PR #3 CI 통과 확인 → 머지 판단 (Rule 18 + 폰트 Pretendard 통일)
-3. Pretendard / Pretendard JP Figma 등록 + 전체 컴포넌트 적용 (주미님)
+1. **(주미님)** 폰트 Figma 적용 + theme 모드 중복 정리 → ↑ 주미님 액션 아이템 참고
+2. **새 세션**: REST API 전환 테스트 → 5페이지 node ID 전체 확인 → Variables dark mode audit → SessionStart hook 업그레이드
+3. PR #3 CI 통과 확인 → 머지 판단 (Rule 18 + 폰트 Pretendard 통일)
 4. Figma Foundation에 Error states / Motion / Breakpoints 추가 (주미님)
 5. 브랜드 컬러 확정 (주미님) → 리디자인 시작
 6. 기술 스택 확정 → Code Connect + 토큰 파이프라인
