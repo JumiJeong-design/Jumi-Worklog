@@ -44,7 +44,7 @@
 ## 미해결 항목
 
 - [ ] Figma 디자인 전체 리디자인 (주미님 직접) → 완료 후 코드 sync
-- [ ] 코드 기반 컴포넌트 라이브러리 기술 스택 확정 → 확정 후 Code Connect
+- [ ] 코드 기반 컴포넌트 라이브러리 기술 스택 확정 → 확정 후 Code Connect (Codex가 Storybook 착수 — 진행 중)
 - [ ] FIGMA_TOKEN 등록 완료 + 네트워크 정책 `api.figma.com` 추가 완료 → **새 세션에서 REST API 전환 테스트 필요**
 - [ ] 브랜드 컬러 확정 (리디자인 전제조건)
 - [ ] **폰트 Pretendard Figma 적용** (주미님, ↑ 액션 아이템 1) — 결정·문서 완료, Figma Variables만 대기
@@ -69,8 +69,9 @@
 | 결정 | 이유 한 줄 |
 |------|------------|
 | **폰트 Pretendard 패밀리로 통일** (KR·EN=Pretendard, JP=Pretendard JP, 코드=Noto Sans Mono) | 5/29 Geist+M PLUS 2 혼용은 패밀리가 갈려 한·일·영 톤이 분리됨. orioncactus/pretendard 한 패밀리로 일관성↑·관리 단순. Geist 제거 |
+| Figma=SOT, Git이 뒤따른다 (재확인) | 폰트 결정을 Figma 반영 전 Git에 "확정"으로 박은 게 원칙 위반 → 문서 상태를 'Figma 반영 대기'로 정정 |
 | 워크로그 경로 `logs/YYYY/MM/`로 통일 | write-worklog는 루트, CI는 logs/만 검증 → 6일치가 검증 사각지대에 쌓임. 스킬·AGENTS 경로 수정으로 재발 차단 |
-| Figma-first → Storybook 검증 모델 채택 | 컴포넌트 구현 전 Figma 추출 필수, 임의 스타일링 금지를 가이드 규칙으로 |
+| Figma-first → Storybook 검증 모델 채택 | 컴포넌트 구현 전 Figma 추출 필수, 임의 스타일링 금지. Storybook shell은 컴포넌트 CSS와 분리해 격리 렌더 |
 | rules.md Rule 18 Auto Layout 필수 | 다국어 텍스트 길이(KR/JA/EN) 변화에 레이아웃이 깨지지 않게 |
 | write-worklog에 SHA 무결성 검증(Step 2.5) 추가 | 세션 간 히스토리 충돌로 5/29 rules.md 17규칙이 고아 커밋으로 유실됐다가 복구된 사고 재방지 |
 | write-worklog에 worklog.html 자동 동기화(Step 4.6) 추가 | jumi-worklog private이라 GitHub Pages 뷰어와 수동 동기화 필요 → 자동화 |
@@ -124,20 +125,21 @@
 - design-system/screens.md — 5개 화면 스캐폴딩
 - docs/product-context.md · model-registry.md · agent-rules.md 완료
 - Model Profile: 브랜드 아이콘 이미지 fill 완료 (5모델 × 3사이즈)
+- **Storybook 착수 (Codex, main)** — Storybook 전용 shell 스타일을 앱/컴포넌트 CSS에서 분리, Button 스토리 + token fallback로 격리 렌더. `.md` 문서만 있던 레포에 실제 코드 시작
 - Figma 리디자인 대기 중
 
 ### socra-ai-workflow-guide
 - v0.4 배포 완료
 - 4채널 운영 모델 + Figma-Git sync 가이드 체계 구축 (Codex)
 - GitHub 인프라 — 가이드 검증 CI, PR·이슈 템플릿 3종, 추천 라벨
-- Figma-first 규칙 강화 — 컴포넌트 구현 전 Figma 추출 필수, 임의 스타일링 금지
-- worklog.html — 5/30·5/31 엔트리 반영
+- Figma-first 규칙 강화 — 컴포넌트 구현 전 Figma 추출 필수, 임의 스타일링 금지, Storybook shell 경계 명확화
+- worklog.html — 5/30·5/31 엔트리 반영 + **각 엔트리에 Notion 페이지 링크 연동**
 
 ### jumi-worklog
 - SessionStart hook (CONTEXT.md 자동 로드) + Stop hook 완료
 - write-worklog 스킬 — Step 2.5 SHA 무결성 + Step 4.6 뷰어 동기화
 - 워크로그 계층 `logs/YYYY/MM/`로 통일 — 루트 6개 이전 + 5/29 복원 + 스킬/AGENTS 경로 수정
-- Notion 동기화 — 작업 로그 DB(DAX 로그)에 5/31 페이지 업로드 (5/30 백필 예정)
+- **Notion 동기화 — 작업 로그 DB(DAX 로그)에 5/31·5/30 페이지 업로드 + 뷰어 Notion 링크 연동** (5/21~5/29 기존 페이지 전부 링크됨)
 - ops-plan.md 전면 재작성 완료 (글로벌 서비스 아키텍처)
 - 2026-05-31 워크로그까지 작성 완료
 
@@ -148,6 +150,6 @@
 1. **(주미님)** 폰트 Figma 적용 + theme 모드 중복 정리 → ↑ 주미님 액션 아이템 참고
 2. **새 세션**: REST API 전환 테스트 → 5페이지 node ID 전체 확인 → Variables dark mode audit → SessionStart hook 업그레이드
 3. PR #3 CI 통과 확인 → 머지 판단 (Rule 18 + 폰트 Pretendard 통일)
-4. Figma Foundation에 Error states / Motion / Breakpoints 추가 (주미님)
-5. 브랜드 컬러 확정 (주미님) → 리디자인 시작
-6. 기술 스택 확정 → Code Connect + 토큰 파이프라인
+4. Codex Storybook 진행 — Button 외 컴포넌트 스토리 확장 + 기술 스택 확정 → Code Connect
+5. Figma Foundation에 Error states / Motion / Breakpoints 추가 (주미님)
+6. 브랜드 컬러 확정 (주미님) → 리디자인 시작
