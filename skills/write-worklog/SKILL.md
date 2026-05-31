@@ -1,6 +1,6 @@
 ---
 name: write-worklog
-description: "오늘 작업 세션을 요약→문서화→GitHub push→CONTEXT.md 갱신→worklog.html 뷰어 동기화→Notion 업로드 순서로 자동 완료한다. jumi-worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)으로 정리. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
+description: "오늘 작업 세션을 요약→문서화→GitHub push→CONTEXT.md 갱신→worklog.html 뷰어 동기화→Notion 업로드 순서로 자동 완료한다. jumi-worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)로 정리. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
 disable-model-invocation: false
 ---
 
@@ -9,7 +9,7 @@ disable-model-invocation: false
 오늘 작업 세션을 **요약 → 문서화 → GitHub push → CONTEXT.md 갱신 → worklog.html 뷰어 동기화 → Notion 업로드** 순서로 자동 완료한다.
 대화 컨텍스트에서 작업 내용을 직접 추출하므로, 사용자가 별도로 내용을 타이핑할 필요가 없다.
 
-> **핵심:** worklog는 두 곳에 저장된다 — ① `jumi-worklog/YYYY-MM-DD.md`(원본 마크다운, private) ② `socra-ai-workflow-guide/worklog.html`(공개 뷰어, 엔트리 하드코딩). 뷰어는 private 레포를 실시간으로 못 읽으므로, 이 스킬이 push 시점에 **둘 다** 갱신해야 한다. Step 4.6을 건너뛰면 뷰어에 오늘 날짜가 안 보인다.
+> **핵심:** worklog는 두 곳에 저장된다 — ① `jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`(원본 마크다운, private) ② `socra-ai-workflow-guide/worklog.html`(공개 뷰어, 엔트리 하드코딩). 뷰어는 private 레포를 실시간으로 못 읽으므로, 이 스킬이 push 시점에 **둘 다** 갱신해야 한다. Step 4.6을 건너뛰면 뷰어에 오늘 날짜가 안 보인다.
 
 ---
 
@@ -85,6 +85,7 @@ disable-model-invocation: false
 | 규칙 | 내용 |
 |------|------|
 | 파일명 | `YYYY-MM-DD.md` (오늘 날짜) |
+| 저장 경로 | `logs/YYYY/MM/YYYY-MM-DD.md` |
 | 사용자 요청 | 코드블록으로 감싸기 (원문 그대로, 오타 수정 금지) |
 | Claude 작업 | 불릿 포인트 (`-`) |
 | 미해결 항목 | 이전 worklog 미완료 항목 이월 + 오늘 미완료 |
@@ -99,9 +100,9 @@ disable-model-invocation: false
 
 **Do:**
 1. 오늘 날짜를 확인한다 (`currentDate` 시스템 컨텍스트 또는 대화에서 추출).
-2. `mcp__github__get_file_contents`로 `jumijeong-design/jumi-worklog` 레포 루트(`/`)를 읽어 최근 날짜 파일 목록을 확인한다.
+2. `mcp__github__get_file_contents`로 `jumijeong-design/jumi-worklog` 레포의 `logs/YYYY/MM/` 경로를 읽어 최근 날짜 파일 목록을 확인한다. (`YYYY`와 `MM`은 오늘 날짜 기준)
 3. 최근 1~2개 worklog 파일을 읽는다 (미해결 항목 이월, 맥락 파악 목적).
-4. 오늘 날짜 파일(`YYYY-MM-DD.md`)이 이미 존재하는지 확인한다.
+4. 오늘 날짜 파일(`logs/YYYY/MM/YYYY-MM-DD.md`)이 이미 존재하는지 확인한다.
    - 존재하면: SHA와 기존 내용을 읽어 이어쓰기 준비
    - 없으면: 새 파일 생성 준비
 
@@ -117,12 +118,12 @@ disable-model-invocation: false
 대화 컨텍스트 전체를 스캔해서 아래 항목을 추출한다.
 
 | 추출 대상 | 추출 방법 |
-|-----------|-----------|
+|-----------|----------|
 | 사용자 요청 | 사용자가 직접 입력한 지시/질문 문구 (원문 그대로) |
 | Claude 작업 | 실제로 수행한 작업 (파일 수정, 생성, 분석, push 등) |
 | 커밋 정보 | SHA 7자리 + 커밋 메시지 (언급된 경우) |
 | 함정/삽질 | 발생한 에러, 잘못된 접근, 재발 방지 포인트 |
-| 인사이트 | 깨달은 것, 방향 전환, 설계 결정 |
+| 인사이트 | 깨늬은 것, 방향 전환, 설계 결정 |
 | 미완료 항목 | 시작했지만 끝나지 않은 작업 |
 
 작업이 없거나 대화가 짧은 경우: 사용자에게 "오늘 한 일을 간략히 말해줘"라고 요청한다.
@@ -133,12 +134,12 @@ disable-model-invocation: false
 
 커밋 테이블에 넣을 SHA가 **실제로 해당 레포 main에 도달 가능한지** 검증한다. 이 단계가 없으면, 작업이 orphaned(히스토리에서 떨어져 나감)됐는데도 "완료"로 기록되어 다음 세션이 잘못된 상태를 신뢰하게 된다.
 
-**배경 (2026-05-30 실제 사고):** 5/29 작업(커밋 `b93d8db`, rules.md 규칙 17개)이 세션 간 히스토리 충돌로 main에서 orphaned됐는데, 워크로그엔 "완료"로 적혀 있었다. 다음 세션이 그 위에 작업을 쌓다가 유실을 뒤늦게 발견했다.
+**배경 (2026-05-30 실제 사고):** 5/29 작업(커밋 `b93d8db`, rules.md 규칙 17개)이 세션 간 히스토리 충돌로 main에서 orphaned됐는데, 워크로그에는 "완료"로 적혀 있었다. 다음 세션이 그 위에 작업을 쌓다가 유실을 뜻능게 발견했다.
 
 **Do:**
 1. 커밋 테이블에 기재할 각 SHA에 대해 `mcp__github__list_commits`(해당 레포, main)로 그 SHA가 목록에 나오는지 확인한다. (또는 `get_commit`으로 존재는 확인되더라도, list_commits 도달성 여부가 핵심)
 2. main에서 도달 불가(orphaned)한 SHA는:
-   - 커밋 테이블에 그냥 적지 않는다. 대신 **함정 모음에 "유실 위험" 항목으로 기록**하고 사용자에게 보고한다.
+   - 커밋 텎이블에 그냥 적지 않는다. 대신 **함정 모음에 "유실 위험" 항목으로 기록**하고 사용자에게 보고한다.
    - 유실된 작업 내용이 중요하면 `get_file_contents`에 `sha`(전체 커밋 SHA) 파라미터로 그 시점 파일을 읽어 **복구**를 제안한다.
 3. 문서 변경을 기록할 때 "할 예정"과 "실제 main에 push 완료"를 구분한다. 추측으로 "완료"라고 쓰지 않는다.
 
@@ -154,7 +155,7 @@ disable-model-invocation: false
 3. 초안을 채팅에 마크다운으로 출력한다.
 4. "이 내용으로 저장할까요? (수정 사항이 있으면 말해줘)" 라고 묻는다.
 
-**수정 요청 시:** 반영 후 재출력, 최대 2회. 이후엔 확인 없이 저장.
+**수정 요청 시:** 반영 후 재출력, 최대 2회. 이후에는 확인 없이 저장.
 
 **섹션 생략 규칙:**
 - 함정 없음 → `## 함정 모음` 섹션 전체 생략
@@ -172,7 +173,7 @@ disable-model-invocation: false
 |---------|-----|
 | owner | `jumijeong-design` |
 | repo | `jumi-worklog` |
-| path | `YYYY-MM-DD.md` |
+| path | `logs/YYYY/MM/YYYY-MM-DD.md` |
 | branch | `main` |
 | message | `feat: YYYY-MM-DD worklog 추가` |
 | sha | 기존 파일이 있는 경우 반드시 포함 |
@@ -227,7 +228,7 @@ worklog.html은 엔트리를 두 군데에 하드코딩한다:
    (worklog 마크다운 본문)
    </script>
    ```
-4. **ENTRIES 배열 갱신:** 배열 맨 앞(최신순)에 오늘 항목을 추가한다.
+4. **ENTRIES 배열 갱신:** 배열 맵 앞(최신순)에 오늘 항목을 추가한다.
    ```js
    { date: 'YYYY-MM-DD', dayKo: '요일', tags: ['태그1', '태그2'] },
    ```
@@ -272,7 +273,7 @@ Notion MCP(`mcp__a2cd6401__notion-*`)로 디자인팀 DB에 오늘 작업 로그
 성공 시 출력:
 ```
 worklog 저장 완료.
-├── GitHub: YYYY-MM-DD.md → JumiJeong-design/jumi-worklog
+├── GitHub: logs/YYYY/MM/YYYY-MM-DD.md → JumiJeong-design/jumi-worklog
 ├── CONTEXT.md 갱신 완료
 ├── worklog.html 뷰어 동기화 완료 → socra-ai-workflow-guide
 └── Notion: YYYY-MM-DD 업무 로그 업데이트
