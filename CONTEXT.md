@@ -15,6 +15,32 @@
 
 ---
 
+## 🤖 자동화 — 스킬 & 훅 (안 외워도 됨)
+
+> 이 표는 세션 시작 시 자동 로드되니, 무슨 스킬·훅이 있는지 기억 안 나면 여기만 보면 됨.
+
+### 스킬 (트리거 문구만 말하면 실행) — `skills/` 폴더
+
+| 스킬 | 트리거 문구 | 하는 일 |
+|------|------------|---------|
+| `write-worklog` | "워크로그 써줘", "오늘 정리해줘" | 오늘 작업 요약 → md push → CONTEXT 갱신 → 뷰어 동기화 → Notion 업로드 |
+| `prep-meeting` | "미팅 준비해줘", "이번주 요약해줘" | 최근 7일 워크로그 읽어 업무 요약 + 미팅 아젠다 생성 |
+| `bump-version` | "버전 올려줘", "배포할게" | socra-ai-workflow-guide 버전 4개 파일 동시 갱신 |
+| `record-trap` | "이거 기억해줘", "규칙 추가해줘" | 함정/규칙을 rules.md·agent-rules.md에 기록 |
+
+> Figma MCP 슬래시 스킬(6개)은 워크로그 뷰어 ⚡스킬 탭 참고.
+
+### 훅 (자동 실행) — `~/.claude/settings.json` (로컬 머신, 레포엔 없음)
+
+| 훅 | 시점 | 하는 일 |
+|----|------|---------|
+| SessionStart | 세션 시작 | 이 CONTEXT.md를 자동 로드 (맥락 자동 파악) |
+| Stop | 세션 종료 | 오늘 워크로그가 없으면 종료 차단 (기록 누락 방지) |
+
+> ⚠️ 훅은 로컬 `~/.claude/settings.json`에만 있어 레포·뷰어에 안 보임. 새 머신 세팅 시 재설정 필요.
+
+---
+
 ## ⭐ 주미님 액션 아이템 (블로커 — Figma에서 직접)
 
 > Claude가 MCP로 시도했으나 **연결된 Figma가 로컬 폰트를 못 봐서** 막힌 작업. 주미님이 Figma에서 처리해야 진행됨.
@@ -51,6 +77,7 @@
 - [ ] **color 다크 모드 모드 중복(theme-dark/Dark) 정리** (↑ 액션 아이템 2)
 - [ ] Foundation에 Error states · Motion · Breakpoints 추가 (주미님)
 - [ ] PR #3 머지 — `socra-ai-product-design` Rule 18 + 폰트 Pretendard 통일 브랜치, CI 통과 후 머지 판단
+- [ ] (구조) workflow-guide 사이드바에 guides/·playbooks/·worklog.html 링크 연결 — Codex 영역
 
 ---
 
@@ -129,14 +156,17 @@
 - Figma 리디자인 대기 중
 
 ### socra-ai-workflow-guide
-- v0.4 배포 완료
-- 4채널 운영 모델 + Figma-Git sync 가이드 체계 구축 (Codex)
+- v0.10 (Codex가 지속 버전업 중)
+- 4채널 운영 모델 + Figma-Git sync 가이드 체계 구축 (Codex) — guides/(4) + playbooks/(2)
 - GitHub 인프라 — 가이드 검증 CI, PR·이슈 템플릿 3종, 추천 라벨
 - Figma-first 규칙 강화 — 컴포넌트 구현 전 Figma 추출 필수, 임의 스타일링 금지, Storybook shell 경계 명확화
+- figma-mcp-traps.html — 함정 9개 (T8 폰트, T9 Variables 포함)
 - worklog.html — 5/30·5/31 엔트리 반영 + **각 엔트리에 Notion 페이지 링크 연동**
+- ⚠️ guides/·playbooks/·worklog.html이 사이드바 네비에 미연결 (도달 불가) — Codex 정리 예정
 
 ### jumi-worklog
-- SessionStart hook (CONTEXT.md 자동 로드) + Stop hook 완료
+- SessionStart hook (CONTEXT.md 자동 로드) + Stop hook (워크로그 없으면 차단) 완료
+- 스킬 4개 — write-worklog / prep-meeting / bump-version / record-trap (↑ 자동화 표 참고)
 - write-worklog 스킬 — Step 2.5 SHA 무결성 + Step 4.6 뷰어 동기화
 - 워크로그 계층 `logs/YYYY/MM/`로 통일 — 루트 6개 이전 + 5/29 복원 + 스킬/AGENTS 경로 수정
 - **Notion 동기화 — 작업 로그 DB(DAX 로그)에 5/31·5/30 페이지 업로드 + 뷰어 Notion 링크 연동** (5/21~5/29 기존 페이지 전부 링크됨)
