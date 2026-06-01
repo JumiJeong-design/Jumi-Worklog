@@ -1,7 +1,7 @@
 # 현재 상태 스냅샷
 
 > 세션 시작 시 자동 로드되는 파일. 세션 종료 전 반드시 업데이트.
-> Last updated: 2026-05-31
+> Last updated: 2026-06-01
 
 ---
 
@@ -95,6 +95,7 @@
 
 | 결정 | 이유 한 줄 |
 |------|------------|
+| 에이전트 분담은 맥락 소유권 기준 | Claude/Codex 능력차 아님 — 충돌 회피 + Figma MCP 연결만 실질 차이. 코드=Codex, Figma·워크로그=Claude |
 | **폰트 Pretendard 패밀리로 통일** (KR·EN=Pretendard, JP=Pretendard JP, 코드=Noto Sans Mono) | 5/29 Geist+M PLUS 2 혼용은 패밀리가 갈려 한·일·영 톤이 분리됨. orioncactus/pretendard 한 패밀리로 일관성↑·관리 단순. Geist 제거 |
 | Figma=SOT, Git이 뒤따른다 (재확인) | 폰트 결정을 Figma 반영 전 Git에 "확정"으로 박은 게 원칙 위반 → 문서 상태를 'Figma 반영 대기'로 정정 |
 | 워크로그 경로 `logs/YYYY/MM/`로 통일 | write-worklog는 루트, CI는 logs/만 검증 → 6일치가 검증 사각지대에 쌓임. 스킬·AGENTS 경로 수정으로 재발 차단 |
