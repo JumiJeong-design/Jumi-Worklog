@@ -9,7 +9,7 @@ disable-model-invocation: false
 오늘 작업 세션을 **요약 → 문서화 → GitHub push → CONTEXT.md 갱신 → worklog.html 뷰어 동기화 → Notion 업로드** 순서로 자동 완료한다.
 대화 컨텍스트에서 작업 내용을 직접 추출하므로, 사용자가 별도로 내용을 타이핑할 필요가 없다.
 
-> **핵심:** worklog는 두 곳에 저장된다 — ① `jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`(원본 마크다운, private) ② `socra-ai-workflow-guide/worklog.html`(공개 뷰어, 엔트리 하드코딩). 뷰어는 private 레포를 실시간으로 못 읽으므로, 이 스킬이 push 시점에 **둘 다** 갱신해야 한다. Step 4.6을 건너뛰면 뷰어에 오늘 날짜가 안 보인다.
+> **핵심:** worklog는 두 곳에 저장된다 — ① `jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`(원본 마크다운, private) ② `socra-ai-workflow-wiki/worklog.html`(공개 뷰어, 엔트리 하드코딩). 뷰어는 private 레포를 실시간으로 못 읽으므로, 이 스킬이 push 시점에 **둘 다** 갱신해야 한다. Step 4.6을 건너뛰면 뷰어에 오늘 날짜가 안 보인다.
 
 ---
 
@@ -18,7 +18,7 @@ disable-model-invocation: false
 - GitHub MCP (`mcp__github__*`) — 파일 읽기·쓰기에 사용
 - Notion MCP (`mcp__a2cd6401__notion-*`) — Notion DB 업로드에 사용 (미연결 시 GitHub만 push)
 - 오늘 날짜 확인 필요 (`currentDate` 시스템 컨텍스트 또는 대화에서 추출)
-- 대상 레포 2개: `jumijeong-design/jumi-worklog`(원본), `jumijeong-design/socra-ai-workflow-guide`(뷰어)
+- 대상 레포 2개: `jumijeong-design/jumi-worklog`(원본), `jumijeong-design/socra-ai-workflow-wiki`(뷰어)
 
 ---
 
@@ -53,23 +53,15 @@ disable-model-invocation: false
 
 ---
 
-## YYYY-MM-DD
+## 작업 영역 제목 1
 
-### 1. 작업 제목
-
-```
-사용자가 실제로 입력한 요청 문구를 코드블록으로
-```
-
-**Claude Code 작업:**
-- 완료한 세부 작업 1
-- 완료한 세부 작업 2
+(작업 내용)
 
 ---
 
-### 2. 작업 제목
+## 작업 영역 제목 2
 
-...
+(작업 내용)
 
 ---
 
@@ -90,6 +82,7 @@ disable-model-invocation: false
 | Claude 작업 | 불릿 포인트 (`-`) |
 | 미해결 항목 | 이전 worklog 미완료 항목 이월 + 오늘 미완료 |
 | 함정 | **굵은 제목** + em dash(—) + 설명 |
+| **작업 영역 구분** | **영역마다 `## 제목` 섹션으로 나눈다 — 뷰어에서 서브탭으로 자동 생성됨** |
 | 커밋 테이블 | 레포마다 별도 섹션 (`## 커밋 (repo-name)`) |
 | 섹션 구분 | `---` 로 구분 |
 | 커밋 SHA | 7자리 축약형, **단 main에 도달 가능한 SHA만 기재** (Step 2.5) |
@@ -115,15 +108,22 @@ disable-model-invocation: false
 
 ## Step 2 — 오늘 작업 추출  [Research]
 
-대화 컨텍스트 전체를 스캔해서 아래 항목을 추출한다.
+> ⚠️ **대화 컨텍스트만 보면 놓친다.** 세션이 여러 개이거나 다른 도구가 작업한 경우 컨텍스트에 안 잡힌 커밋이 있다. 반드시 **GitHub에서 레포별 커밋을 직접 조회**한다.
+
+**Do:**
+1. `mcp__github__list_commits`로 오늘 날짜 기준 커밋을 **3개 레포 모두** 조회한다 (`since: YYYY-MM-DDT00:00:00Z`):
+   - `jumijeong-design/jumi-worklog`
+   - `jumijeong-design/socra-ai-workflow-wiki`
+   - `riiid/prism`
+2. 조회된 커밋 목록과 대화 컨텍스트를 합쳐서 아래 항목을 추출한다.
 
 | 추출 대상 | 추출 방법 |
 |-----------|----------|
 | 사용자 요청 | 사용자가 직접 입력한 지시/질문 문구 (원문 그대로) |
 | Claude 작업 | 실제로 수행한 작업 (파일 수정, 생성, 분석, push 등) |
-| 커밋 정보 | SHA 7자리 + 커밋 메시지 (언급된 경우) |
+| 커밋 정보 | SHA 7자리 + 커밋 메시지 (GitHub 조회 결과 기준) |
 | 함정/삽질 | 발생한 에러, 잘못된 접근, 재발 방지 포인트 |
-| 인사이트 | 깨늬은 것, 방향 전환, 설계 결정 |
+| 인사이트 | 깨달은 것, 방향 전환, 설계 결정 |
 | 미완료 항목 | 시작했지만 끝나지 않은 작업 |
 
 작업이 없거나 대화가 짧은 경우: 사용자에게 "오늘 한 일을 간략히 말해줘"라고 요청한다.
@@ -134,12 +134,12 @@ disable-model-invocation: false
 
 커밋 테이블에 넣을 SHA가 **실제로 해당 레포 main에 도달 가능한지** 검증한다. 이 단계가 없으면, 작업이 orphaned(히스토리에서 떨어져 나감)됐는데도 "완료"로 기록되어 다음 세션이 잘못된 상태를 신뢰하게 된다.
 
-**배경 (2026-05-30 실제 사고):** 5/29 작업(커밋 `b93d8db`, rules.md 규칙 17개)이 세션 간 히스토리 충돌로 main에서 orphaned됐는데, 워크로그에는 "완료"로 적혀 있었다. 다음 세션이 그 위에 작업을 쌓다가 유실을 뜻능게 발견했다.
+**배경 (2026-05-30 실제 사고):** 5/29 작업(커밋 `b93d8db`, rules.md 규칙 17개)이 세션 간 히스토리 충돌로 main에서 orphaned됐는데, 워크로그에는 "완료"로 적혀 있었다. 다음 세션이 그 위에 작업을 쌓다가 유실을 뒤늦게 발견했다.
 
 **Do:**
 1. 커밋 테이블에 기재할 각 SHA에 대해 `mcp__github__list_commits`(해당 레포, main)로 그 SHA가 목록에 나오는지 확인한다. (또는 `get_commit`으로 존재는 확인되더라도, list_commits 도달성 여부가 핵심)
 2. main에서 도달 불가(orphaned)한 SHA는:
-   - 커밋 텎이블에 그냥 적지 않는다. 대신 **함정 모음에 "유실 위험" 항목으로 기록**하고 사용자에게 보고한다.
+   - 커밋 테이블에 그냥 적지 않는다. 대신 **함정 모음에 "유실 위험" 항목으로 기록**하고 사용자에게 보고한다.
    - 유실된 작업 내용이 중요하면 `get_file_contents`에 `sha`(전체 커밋 SHA) 파라미터로 그 시점 파일을 읽어 **복구**를 제안한다.
 3. 문서 변경을 기록할 때 "할 예정"과 "실제 main에 push 완료"를 구분한다. 추측으로 "완료"라고 쓰지 않는다.
 
@@ -159,9 +159,15 @@ disable-model-invocation: false
 
 **섹션 생략 규칙:**
 - 함정 없음 → `## 함정 모음` 섹션 전체 생략
-- 인사이트 없음 → `## 회고 및 인사이트` 섹션 전체 생략
 - 커밋 없음 → `## 커밋` 섹션 생략
 - 미해결 항목 없음 → `## 미해결 항목` 섹션 생략
+- ⚠️ **`## 회고 및 인사이트`는 생략 금지** — 반드시 포함한다. `### AI 도구 활용`과 `### 설계 결정` 중 해당하는 항목만 채우면 된다.
+
+**Self-check (초안 출력 전 확인):**
+- [ ] 3개 레포 커밋을 모두 반영했는가?
+- [ ] 작업 영역이 2개 이상이면 `##` 섹션으로 나눴는가? (뷰어 서브탭 자동 생성)
+- [ ] `## 회고 및 인사이트` 섹션이 있는가?
+- [ ] `### AI 도구 활용` 또는 `### 설계 결정` 중 최소 하나에 내용이 있는가?
 
 ---
 
@@ -212,7 +218,7 @@ disable-model-invocation: false
 
 ## Step 4.6 — worklog.html 뷰어 동기화  [Write]
 
-공개 뷰어 `socra-ai-workflow-guide/worklog.html`에 오늘 엔트리를 추가한다.
+공개 뷰어 `socra-ai-workflow-wiki/site/worklog.html`에 오늘 엔트리를 추가한다.
 **이 단계를 건너뛰면 뷰어 페이지에 오늘 날짜가 안 보인다.** (private 레포라 실시간 fetch 불가 → 수동 동기화 필수)
 
 worklog.html은 엔트리를 두 군데에 하드코딩한다:
@@ -220,36 +226,35 @@ worklog.html은 엔트리를 두 군데에 하드코딩한다:
 2. JS `const ENTRIES = [ … ]` 배열 — 날짜·요일·태그 메타데이터
 
 **Do:**
-1. `mcp__github__get_file_contents`로 `socra-ai-workflow-guide/worklog.html`의 현재 내용과 SHA를 읽는다.
+1. `mcp__github__get_file_contents`로 `socra-ai-workflow-wiki/site/worklog.html`의 현재 내용과 SHA를 읽는다.
 2. 오늘 엔트리가 이미 있는지(`id="entry-YYYY-MM-DD"`) 확인. 있으면 해당 블록 교체, 없으면 신규 추가.
-3. **엔트리 블록 삽입:** 가장 최신 엔트리 블록 **바로 위**(`<div class="main">` 다음, 첫 `<script type="text/plain">` 앞)에 새 블록을 넣는다. 본문은 Step 3에서 확정한 마크다운을 그대로 사용하되, 뷰어 가독성을 위해 길면 핵심만 요약해도 된다.
+3. **엔트리 블록 삽입:** 가장 최신 엔트리 블록 **바로 위**에 새 블록을 넣는다.
    ```
    <script type="text/plain" id="entry-YYYY-MM-DD">
    (worklog 마크다운 본문)
    </script>
    ```
+   - 작업 영역이 2개 이상이면 `##` 섹션으로 나눈다 — 뷰어가 자동으로 서브탭을 생성한다.
+   - `</script>` 문자열이 본문에 들어가면 블록이 깨지므로 피한다.
 4. **ENTRIES 배열 갱신:** 배열 맵 앞(최신순)에 오늘 항목을 추가한다.
    ```js
    { date: 'YYYY-MM-DD', dayKo: '요일', tags: ['태그1', '태그2'] },
    ```
    - `dayKo`: 오늘 날짜의 한국어 요일 (일~토). 날짜로 정확히 계산할 것.
-   - `tags`: 오늘 작업의 핵심 레포·주제 2~4개 (예: `figma`, `socra-ai-product`, `ops-plan`).
-   - 배열은 **최신 날짜가 인덱스 0** (내림차순) 이어야 한다. 페이지 로드 시 index 0이 기본 표시됨.
+   - `tags`: 오늘 작업의 핵심 레포·주제 2~4개.
+   - 배열은 **최신 날짜가 인덱스 0** (내림차순) 이어야 한다.
 5. `mcp__github__create_or_update_file`로 저장한다.
 
 | 파라미터 | 값 |
 |---------|-----|
 | owner | `jumijeong-design` |
-| repo | `socra-ai-workflow-guide` |
-| path | `worklog.html` |
+| repo | `socra-ai-workflow-wiki` |
+| path | `site/worklog.html` |
 | branch | `main` |
 | message | `feat: YYYY-MM-DD worklog 엔트리 추가` |
 | sha | 반드시 포함 (읽은 SHA 사용) |
 
-**주의:**
-- `<style>`, 사이드바, 스킬 패널, JS 함수 등 **엔트리 외 구조는 절대 건드리지 않는다.** 오직 엔트리 블록 1개 + ENTRIES 배열 1줄만 추가.
-- ENTRIES 배열과 엔트리 블록의 날짜 ID가 **정확히 일치**해야 한다. 불일치 시 뷰어가 빈 내용 표시.
-- 뷰어 본문은 코드블록(```)을 포함해도 되지만, `</script>` 문자열이 본문에 들어가면 블록이 깨지므로 피한다.
+**주의:** `<style>`, 사이드바, 스킬 패널, JS 함수 등 **엔트리 외 구조는 절대 건드리지 않는다.** 오직 엔트리 블록 1개 + ENTRIES 배열 1줄만 추가.
 
 ---
 
@@ -275,7 +280,7 @@ Notion MCP(`mcp__a2cd6401__notion-*`)로 디자인팀 DB에 오늘 작업 로그
 worklog 저장 완료.
 ├── GitHub: logs/YYYY/MM/YYYY-MM-DD.md → JumiJeong-design/jumi-worklog
 ├── CONTEXT.md 갱신 완료
-├── worklog.html 뷰어 동기화 완료 → socra-ai-workflow-guide
+├── worklog.html 뷰어 동기화 완료 → socra-ai-workflow-wiki
 └── Notion: YYYY-MM-DD 업무 로그 업데이트
 ```
 
@@ -286,12 +291,13 @@ worklog 저장 완료.
 ## 운영 규칙
 
 - 미완료 항목(`- [ ]`)만 이월, 완료 항목(`- [x]`)은 이월 금지
-- 빈 섹션 작성 금지 (내용 없으면 섹션 자체 생략)
+- 빈 섹션 작성 금지 (내용 없으면 섹션 자체 생략) — 단 **회고는 예외, 항상 포함**
 - 사용자 요청 코드블록: 원문 그대로 (오타·수정 금지)
 - 작업 번호는 1부터 순서대로
-- **worklog.html 동기화(Step 4.6)는 빠뜨리지 않는다** — 사용자가 따로 "뷰어도 업데이트해줘"라고 말하지 않아도 항상 수행
-- **커밋 SHA는 main 도달 가능성을 검증하고 기재한다(Step 2.5)** — orphaned 커밋을 "완료"로 기록하지 않는다
-- 레포 정비·대량 수정 시 반드시 origin/main 최신 상태를 먼저 읽고 작업한다. force-push로 남의 세션 작업을 덮지 않는다
+- **worklog.html 동기화(Step 4.6)는 빠뜨리지 않는다**
+- **커밋 SHA는 main 도달 가능성을 검증하고 기재한다(Step 2.5)**
+- **Step 2에서 3개 레포 커밋을 GitHub에서 직접 조회한다** — 대화 컨텍스트만 보면 다른 세션 작업을 놓친다
+- 레포 정비·대량 수정 시 반드시 origin/main 최신 상태를 먼저 읽고 작업한다
 
 ## Trigger phrases
 
