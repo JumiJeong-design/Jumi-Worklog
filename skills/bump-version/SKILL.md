@@ -1,12 +1,12 @@
 ---
 name: bump-version
-description: "socra-ai-workflow-guide 버전을 올릴 때 4개 파일(sidebar.html, ai-workflow-guide.html, changelog.html, index.html)을 동시에 수정한다. '버전 올려줘', 'v0.X 배포해줘', '/bump-version' 시 실행."
+description: "socra-ai-workflow-wiki 버전을 올릴 때 4개 파일(sidebar.html, ai-workflow-guide.html, changelog.html, index.html)을 동시에 수정한다. '버전 올려줘', 'v0.X 배포해줘', '/bump-version' 시 실행."
 disable-model-invocation: false
 ---
 
 # bump-version
 
-`socra-ai-workflow-guide` 버전을 올릴 때 반드시 수정해야 하는 4개 파일을 순서대로 처리한다.
+`socra-ai-workflow-wiki` 버전을 올릴 때 반드시 수정해야 하는 4개 파일을 순서대로 처리한다.
 누락이나 날짜 오타를 방지하기 위해 스킬로 관리한다.
 
 ---
@@ -47,7 +47,7 @@ disable-model-invocation: false
 - `changelog.html`
 - `index.html`
 
-모두 `jumijeong-design/socra-ai-workflow-guide` 레포, `main` 브랜치에서 읽는다.
+모두 `jumijeong-design/socra-ai-workflow-wiki` 레포, `main` 브랜치에서 읽는다.
 
 ---
 
@@ -81,7 +81,7 @@ disable-model-invocation: false
 | 파라미터 | 값 |
 |---------|-----|
 | owner | `jumijeong-design` |
-| repo | `socra-ai-workflow-guide` |
+| repo | `socra-ai-workflow-wiki` |
 | branch | `main` |
 | sha | Step 2에서 읽은 각 파일의 SHA (필수) |
 

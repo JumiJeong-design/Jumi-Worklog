@@ -221,9 +221,7 @@ disable-model-invocation: false
 공개 뷰어 `socra-ai-workflow-wiki/site/worklog.html`에 오늘 엔트리를 추가한다.
 **이 단계를 건너뛰면 뷰어 페이지에 오늘 날짜가 안 보인다.** (private 레포라 실시간 fetch 불가 → 수동 동기화 필수)
 
-worklog.html은 엔트리를 두 군데에 하드코딩한다:
-1. `<script type="text/plain" id="entry-YYYY-MM-DD">` … `</script>` 블록 — 마크다운 본문
-2. JS `const ENTRIES = [ … ]` 배열 — 날짜·요일·태그 메타데이터
+worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIES 목록은 DOM에서 자동 파생되므로 별도로 건드리지 않는다.
 
 **Do:**
 1. `mcp__github__get_file_contents`로 `socra-ai-workflow-wiki/site/worklog.html`의 현재 내용과 SHA를 읽는다.
@@ -236,13 +234,13 @@ worklog.html은 엔트리를 두 군데에 하드코딩한다:
    ```
    - 작업 영역이 2개 이상이면 `##` 섹션으로 나눈다 — 뷰어가 자동으로 서브탭을 생성한다.
    - `</script>` 문자열이 본문에 들어가면 블록이 깨지므로 피한다.
-4. **ENTRIES 배열 갱신:** 배열 맵 앞(최신순)에 오늘 항목을 추가한다.
+4. **ENTRY_META 갱신 (선택):** tags나 notion 링크가 있으면 `ENTRY_META` 객체에만 추가한다.
    ```js
-   { date: 'YYYY-MM-DD', dayKo: '요일', tags: ['태그1', '태그2'] },
+   'YYYY-MM-DD': { tags: ['태그1', '태그2'] },
+   // notion 링크가 있는 경우: 'YYYY-MM-DD': { tags: [...], notion: 'https://...' },
    ```
-   - `dayKo`: 오늘 날짜의 한국어 요일 (일~토). 날짜로 정확히 계산할 것.
-   - `tags`: 오늘 작업의 핵심 레포·주제 2~4개.
-   - 배열은 **최신 날짜가 인덱스 0** (내림차순) 이어야 한다.
+   - tags나 notion이 없으면 이 단계는 생략해도 된다.
+   - **ENTRIES 배열은 건드리지 않는다** — `entry-YYYY-MM-DD` 블록 추가만으로 캘린더·목록에 자동 반영된다.
 5. `mcp__github__create_or_update_file`로 저장한다.
 
 | 파라미터 | 값 |
@@ -254,7 +252,7 @@ worklog.html은 엔트리를 두 군데에 하드코딩한다:
 | message | `feat: YYYY-MM-DD worklog 엔트리 추가` |
 | sha | 반드시 포함 (읽은 SHA 사용) |
 
-**주의:** `<style>`, 사이드바, 스킬 패널, JS 함수 등 **엔트리 외 구조는 절대 건드리지 않는다.** 오직 엔트리 블록 1개 + ENTRIES 배열 1줄만 추가.
+**주의:** `<style>`, 사이드바, 스킬 패널, JS 함수 등 **엔트리 외 구조는 절대 건드리지 않는다.** 오직 엔트리 블록(`entry-/plan-`) + ENTRY_META(선택)만 추가.
 
 ---
 
