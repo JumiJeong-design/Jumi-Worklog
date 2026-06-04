@@ -15,8 +15,8 @@ disable-model-invocation: false
 
 | 파일 | 역할 | 레포 |
 |------|------|------|
-| `design-system/rules.md` | 컴포넌트·디자인 작업 원칙 (구현 규칙) | `socra-ai-product-design` |
-| `docs/agent-rules.md` | AI 에이전트가 따라야 할 행동 규칙 | `socra-ai-product-design` |
+| `design-system/rules.md` | 컴포넌트·디자인 작업 원칙 (주미님 잔소리/실수 방지 규칙) | `riiid/prism` |
+| `docs/agent-rules.md` | AI 에이전트가 따라야 할 행동 규칙 | `riiid/prism` |
 | 오늘 worklog `## 함정 모음` | 날짜별 함정 기록 | `jumi-worklog` |
 
 상황에 따라 1~3개 모두 또는 일부만 업데이트한다.
@@ -58,7 +58,7 @@ disable-model-invocation: false
 
 `mcp__github__get_file_contents`로 업데이트할 파일의 현재 내용과 SHA를 읽는다.
 
-- `jumijeong-design/socra-ai-product-design` → `design-system/rules.md`, `docs/agent-rules.md`
+- `riiid/prism` → `design-system/rules.md`, `docs/agent-rules.md`
 - `jumijeong-design/jumi-worklog` → 오늘 날짜 worklog 파일 (`YYYY-MM-DD.md`)
 
 ---

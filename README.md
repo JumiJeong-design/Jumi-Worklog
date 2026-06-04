@@ -14,7 +14,7 @@
 ## What Does Not Belong Here
 
 - 정제된 가이드/플레이북: `socra-ai-workflow-guide`로 승격
-- 제품 디자인 시스템 원본 스펙: `socra-ai-product-design`에 기록
+- 제품 디자인 시스템 원본 스펙: `riiid/prism`에 기록
 - Figma의 시각적 원본: Figma `Socra Design system test`에서 관리
 
 ## 레포 구조
@@ -22,7 +22,7 @@
 | 레포 | 역할 |
 |------|------|
 | **jumi-worklog** (this) | 공동 기록 허브, 날짜별 작업 로그 |
-| socra-ai-product-design | 제품 채널 — 디자인시스템/컴포넌트 → 전체 화면 |
+| riiid/prism | Prism package repo — 디자인 시스템, 컴포넌트 계약, 토큰, Storybook, release workflow |
 | socra-ai-workflow-guide | 위키 채널 — AI 워크플로우·프로세스·시행착오 |
 
 ## 기본 폴더
@@ -41,7 +41,7 @@
 
 - 하루의 날것 기록은 여기에 남긴다.
 - 반복 가능한 패턴이 보이면 `socra-ai-workflow-guide` 문서 후보로 표시한다.
-- 제품/컴포넌트 스펙이 필요하면 `socra-ai-product-design` 문서로 연결한다.
+- 제품/컴포넌트 스펙이 필요하면 `riiid/prism` 문서로 연결한다.
 - worklog를 지식화했으면 양쪽에 역링크를 남긴다.
 
 ## 공통 스킬

@@ -10,7 +10,7 @@
 | 레포 | 역할 |
 |------|------|
 | jumi-worklog | 공동 기록 허브 — 공통 스킬 + 날짜별 워크로그 (`logs/YYYY/MM/`) |
-| socra-ai-product-design | 제품 채널 — 디자인시스템/컴포넌트 → 전체 화면 |
+| riiid/prism | Prism package repo — 디자인 시스템, 컴포넌트 계약, 토큰, Storybook, release workflow |
 | socra-ai-workflow-guide | 위키 채널 — AI 워크플로우·프로세스·시행착오 |
 
 ---
@@ -76,7 +76,7 @@
 - [ ] **폰트 Pretendard Figma 적용** (주미님, ↑ 액션 아이템 1) — 결정·문서 완료, Figma Variables만 대기
 - [ ] **color 다크 모드 모드 중복(theme-dark/Dark) 정리** (↑ 액션 아이템 2)
 - [ ] Foundation에 Error states · Motion · Breakpoints 추가 (주미님)
-- [ ] PR #3 머지 — `socra-ai-product-design` Rule 18 + 폰트 Pretendard 통일 브랜치, CI 통과 후 머지 판단
+- [ ] PR #3 머지 — `riiid/prism` Rule 18 + 폰트 Pretendard 통일 브랜치, CI 통과 후 머지 판단
 - [ ] (구조) workflow-guide 사이드바에 guides/·playbooks/·worklog.html 링크 연결 — Codex 영역
 
 ---
@@ -97,9 +97,9 @@
 |------|------------|
 | 에이전트 분담은 맥락 소유권 기준 | Claude/Codex 능력차 아님 — 충돌 회피 + Figma MCP 연결만 실질 차이. 코드=Codex, Figma·워크로그=Claude |
 | **폰트 Pretendard 패밀리로 통일** (KR·EN=Pretendard, JP=Pretendard JP, 코드=Noto Sans Mono) | 5/29 Geist+M PLUS 2 혼용은 패밀리가 갈려 한·일·영 톤이 분리됨. orioncactus/pretendard 한 패밀리로 일관성↑·관리 단순. Geist 제거 |
-| Figma=SOT, Git이 뒤따른다 (재확인) | 폰트 결정을 Figma 반영 전 Git에 "확정"으로 박은 게 원칙 위반 → 문서 상태를 'Figma 반영 대기'로 정정 |
+| `riiid/prism` package contract가 현재 SOT | Figma는 visual evidence와 적용 상태 확인에 사용한다. package/component/token/Storybook 계약은 `riiid/prism`의 README, AGENTS, contract 문서를 우선한다 |
 | 워크로그 경로 `logs/YYYY/MM/`로 통일 | write-worklog는 루트, CI는 logs/만 검증 → 6일치가 검증 사각지대에 쌓임. 스킬·AGENTS 경로 수정으로 재발 차단 |
-| Figma-first → Storybook 검증 모델 채택 | 컴포넌트 구현 전 Figma 추출 필수, 임의 스타일링 금지. Storybook shell은 컴포넌트 CSS와 분리해 격리 렌더 |
+| Package-first + Storybook 검증 모델 채택 | `riiid/prism` package contract를 우선하고, Figma evidence는 보조 근거로 사용. Storybook shell은 컴포넌트 CSS와 분리해 격리 렌더 |
 | rules.md Rule 18 Auto Layout 필수 | 다국어 텍스트 길이(KR/JA/EN) 변화에 레이아웃이 깨지지 않게 |
 | write-worklog에 SHA 무결성 검증(Step 2.5) 추가 | 세션 간 히스토리 충돌로 5/29 rules.md 17규칙이 고아 커밋으로 유실됐다가 복구된 사고 재방지 |
 | write-worklog에 worklog.html 자동 동기화(Step 4.6) 추가 | jumi-worklog private이라 GitHub Pages 뷰어와 수동 동기화 필요 → 자동화 |
@@ -143,7 +143,7 @@
 
 ## 현재 진행 상황
 
-### socra-ai-product-design
+### riiid/prism
 - 파운데이션 문서 4종 완료 (color, typography, spacing, shadow)
 - docs/ux-principles.md 완료 + a11y 체크리스트 (WCAG 2.1 AA, 터치타겟, 스크린리더)
 - design-system/components.md — 35개 컴포넌트 전면 싱크 완료
@@ -160,7 +160,7 @@
 - v0.10 (Codex가 지속 버전업 중)
 - 4채널 운영 모델 + Figma-Git sync 가이드 체계 구축 (Codex) — guides/(4) + playbooks/(2)
 - GitHub 인프라 — 가이드 검증 CI, PR·이슈 템플릿 3종, 추천 라벨
-- Figma-first 규칙 강화 — 컴포넌트 구현 전 Figma 추출 필수, 임의 스타일링 금지, Storybook shell 경계 명확화
+- Historical Figma-first 교훈 정리 — 현재 계약은 `riiid/prism` package-first 기준으로 판단, Figma evidence는 보조 근거로 사용
 - figma-mcp-traps.html — 함정 9개 (T8 폰트, T9 Variables 포함)
 - worklog.html — 5/30·5/31 엔트리 반영 + **각 엔트리에 Notion 페이지 링크 연동**
 - ⚠️ guides/·playbooks/·worklog.html이 사이드바 네비에 미연결 (도달 불가) — Codex 정리 예정

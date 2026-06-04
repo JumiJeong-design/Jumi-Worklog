@@ -7,7 +7,7 @@
 ## Repos / Channels
 
 - `jumi-worklog`:
-- `socra-ai-product-design`:
+- `riiid/prism`:
 - `socra-ai-workflow-guide`:
 - Figma:
 
