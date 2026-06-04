@@ -1,7 +1,7 @@
 # 현재 상태 스냅샷
 
 > 세션 시작 시 자동 로드되는 파일. 세션 종료 전 반드시 업데이트.
-> Last updated: 2026-06-01
+> Last updated: 2026-06-04
 
 ---
 
@@ -78,6 +78,8 @@
 - [ ] Foundation에 Error states · Motion · Breakpoints 추가 (주미님)
 - [ ] PR #3 머지 — `riiid/prism` Rule 18 + 폰트 Pretendard 통일 브랜치, CI 통과 후 머지 판단
 - [ ] (구조) workflow-guide 사이드바에 guides/·playbooks/·worklog.html 링크 연결 — Codex 영역
+- [ ] **riiid/prism Button** — Figma component vs Storybook QA surface 어디를 수정할지 결정 (package 변경 금지 전제)
+- [ ] `pnpm visual` Chromatic 업로드 승인 여부 결정
 
 ---
 
@@ -154,15 +156,22 @@
 - docs/product-context.md · model-registry.md · agent-rules.md 완료
 - Model Profile: 브랜드 아이콘 이미지 fill 완료 (5모델 × 3사이즈)
 - **Storybook 착수 (Codex, main)** — Storybook 전용 shell 스타일을 앱/컴포넌트 CSS에서 분리, Button 스토리 + token fallback로 격리 렌더. `.md` 문서만 있던 레포에 실제 코드 시작
+- **Button Figma/Storybook 루프 검증 완료** (2026-06-04) — package 변경 금지 원칙 확인, Figma component와 package contract 일치 확인, stale evidence 문서 정리
 - Figma 리디자인 대기 중
 
-### socra-ai-workflow-guide
-- v0.10 (Codex가 지속 버전업 중)
-- 4채널 운영 모델 + Figma-Git sync 가이드 체계 구축 (Codex) — guides/(4) + playbooks/(2)
-- GitHub 인프라 — 가이드 검증 CI, PR·이슈 템플릿 3종, 추천 라벨
-- Historical Figma-first 교훈 정리 — 현재 계약은 `riiid/prism` package-first 기준으로 판단, Figma evidence는 보조 근거로 사용
+### socra-ai-workflow-wiki (구 socra-ai-workflow-guide)
+- **v0.15** (2026-06-04) — 사이트 구조 전면 개편
+  - `ai-workflow-guide.html` → 5개 그룹 페이지로 분리 (guide-basics/setup/build/ops/extensions)
+  - wiki 문서 → guide-wiki.html, guide-playbooks.html
+  - 빌드 스크립트: scripts/build-guide.py, scripts/build-wiki.py
+  - 페이지 간 prev/next 네비게이션
+  - wiki 문서 전체 한국어 번역 (영어 섹션 제거)
+- scrollspy (현재 섹션 사이드바 하이라이트) + 검색 하이라이트 + 페이지 내 결과 이동 네비게이터
+- wiki.html 뷰어 — 마크다운 문서를 사이트 디자인으로 렌더링
+- 디자이너-개발자 용어 가이드 추가
+- worklog 뷰어 개선: Plan/Log 탭, 캘린더 점, 인터랙티브 체크박스(localStorage)
 - figma-mcp-traps.html — 함정 9개 (T8 폰트, T9 Variables 포함)
-- worklog.html — 5/30·5/31 엔트리 반영 + **각 엔트리에 Notion 페이지 링크 연동**
+- 각 worklog 엔트리에 Notion 페이지 링크 연동
 - ⚠️ guides/·playbooks/·worklog.html이 사이드바 네비에 미연결 (도달 불가) — Codex 정리 예정
 
 ### jumi-worklog
@@ -172,15 +181,17 @@
 - 워크로그 계층 `logs/YYYY/MM/`로 통일 — 루트 6개 이전 + 5/29 복원 + 스킬/AGENTS 경로 수정
 - **Notion 동기화 — 작업 로그 DB(DAX 로그)에 5/31·5/30 페이지 업로드 + 뷰어 Notion 링크 연동** (5/21~5/29 기존 페이지 전부 링크됨)
 - ops-plan.md 전면 재작성 완료 (글로벌 서비스 아키텍처)
-- 2026-05-31 워크로그까지 작성 완료
+- **2026-06-04 워크로그 완료** — prism Button 루프 + wiki 구조 개편 + 현황 점검 세션
 
 ---
 
 ## 다음 작업 예정
 
 1. **(주미님)** 폰트 Figma 적용 + theme 모드 중복 정리 → ↑ 주미님 액션 아이템 참고
-2. **새 세션**: REST API 전환 테스트 → 5페이지 node ID 전체 확인 → Variables dark mode audit → SessionStart hook 업그레이드
-3. PR #3 CI 통과 확인 → 머지 판단 (Rule 18 + 폰트 Pretendard 통일)
-4. Codex Storybook 진행 — Button 외 컴포넌트 스토리 확장 + 기술 스택 확정 → Code Connect
-5. Figma Foundation에 Error states / Motion / Breakpoints 추가 (주미님)
-6. 브랜드 컬러 확정 (주미님) → 리디자인 시작
+2. **riiid/prism Button**: Figma component vs Storybook QA surface 결정 → package 변경 없이 처리할 범위 확정
+3. **새 세션**: REST API 전환 테스트 → 5페이지 node ID 전체 확인 → Variables dark mode audit → SessionStart hook 업그레이드
+4. PR #3 CI 통과 확인 → 머지 판단 (Rule 18 + 폰트 Pretendard 통일)
+5. Codex Storybook 진행 — Button 외 컴포넌트 스토리 확장 + 기술 스택 확정 → Code Connect
+6. Figma Foundation에 Error states / Motion / Breakpoints 추가 (주미님)
+7. 브랜드 컬러 확정 (주미님) → 리디자인 시작
+8. (wiki) 사이드바에 guides/·playbooks/·worklog.html 링크 연결 (Codex)
