@@ -8,7 +8,7 @@
 
 - `jumi-worklog`:
 - `riiid/prism`:
-- `socra-ai-workflow-guide`:
+- `socra-ai-workflow-wiki`:
 - Figma:
 
 ## Decisions

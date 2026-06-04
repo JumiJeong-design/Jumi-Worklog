@@ -29,5 +29,5 @@
 
 ## Promote To Wiki?
 
-- [ ] Yes, candidate for `socra-ai-workflow-guide`
+- [ ] Yes, candidate for `socra-ai-workflow-wiki`
 - [ ] No, keep as worklog only
