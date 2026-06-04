@@ -24,6 +24,7 @@
 | 스킬 | 트리거 문구 | 하는 일 |
 |------|------------|---------|
 | `write-worklog` | "워크로그 써줘", "오늘 정리해줘" | 오늘 작업 요약 → md push → CONTEXT 갱신 → 뷰어 동기화 → Notion 업로드 |
+| `session-snapshot` | "지금까지 뭐했어?", "중간 정리" | 세션 중간 작업 현황 요약 — 파일 저장 없이 채팅 출력만 |
 | `sync-entry` | "동기화 확인해줘", "뷰어랑 맞아?" | jumi-worklog md와 worklog.html 뷰어 내용 비교 → 누락·불일치 보고 |
 | `prep-meeting` | "미팅 준비해줘", "이번주 요약해줘" | 최근 7일 워크로그 읽어 업무 요약 + 미팅 아젠다 생성 |
 | `bump-version` | "버전 올려줘", "배포할게" | socra-ai-workflow-wiki 버전 4개 파일 동시 갱신 |
@@ -37,8 +38,10 @@
 |----|------|---------|
 | SessionStart | 세션 시작 | 이 CONTEXT.md를 자동 로드 (맥락 자동 파악) |
 | Stop | 세션 종료 | 오늘 워크로그가 없으면 종료 차단 (기록 누락 방지) |
+| PreToolUse (Bash) | git push 실행 전 | main으로 직접 push 시 경고 출력 |
 
 > ⚠️ 훅은 로컬 `~/.claude/settings.json`에만 있어 레포·뷰어에 안 보임. 새 머신 세팅 시 재설정 필요.
+> PreToolUse 훅은 아직 미설정 — 로컬에서 `/update-config` 로 추가 필요.
 
 ---
 
@@ -80,6 +83,7 @@
 - [ ] (구조) workflow-wiki 사이드바에 guides/·playbooks/·worklog.html 링크 연결 — Codex 영역
 - [ ] **riiid/prism Button** — Figma component vs Storybook QA surface 어디를 수정할지 결정 (package 변경 금지 전제)
 - [ ] `pnpm visual` Chromatic 업로드 승인 여부 결정
+- [ ] **PreToolUse 훅 (main push 경고)** — 로컬 `~/.claude/settings.json`에 추가 필요
 
 ---
 
@@ -156,7 +160,7 @@
 - ⚠️ 사이드바에 guides/·playbooks/·worklog.html 미연결 — Codex 정리 예정
 
 ### jumi-worklog
-- 스킬 5개 — write-worklog / **sync-entry(신규)** / prep-meeting / bump-version / record-trap
+- 스킬 6개 — write-worklog / **session-snapshot(신규)** / **sync-entry(신규)** / prep-meeting / bump-version / record-trap
 - write-worklog 스킬 개선: 3개 레포 커밋 전수 조회, 회고 필수화, 서브탭 구조 안내
 - **2026-06-04 워크로그 완료**
 
