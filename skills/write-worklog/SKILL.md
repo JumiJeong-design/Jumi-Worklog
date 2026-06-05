@@ -241,6 +241,8 @@ worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIE
    - tags나 notion이 없으면 이 단계는 생략해도 된다.
    - **ENTRIES 배열은 건드리지 않는다** — `entry-YYYY-MM-DD` 블록 추가만으로 캘린더·목록에 자동 반영된다.
 5. `mcp__github__create_or_update_file`로 저장한다.
+6. 저장 후 `socra-ai-workflow-wiki`도 커밋/푸시 또는 GitHub API 업데이트가 완료됐는지 확인한다.
+7. 공개 URL `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`을 직접 받아서 새 날짜/수정 문구가 실제로 보이는지 확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재확인한다.
 
 | 파라미터 | 값 |
 |---------|-----|
@@ -278,6 +280,7 @@ worklog 저장 완료.
 ├── GitHub: logs/YYYY/MM/YYYY-MM-DD.md → JumiJeong-design/jumi-worklog
 ├── CONTEXT.md 갱신 완료
 ├── worklog.html 뷰어 동기화 완료 → socra-ai-workflow-wiki
+├── 공개 URL 확인 완료 → https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html
 └── Notion: YYYY-MM-DD 업무 로그 업데이트
 ```
 
@@ -292,6 +295,7 @@ worklog 저장 완료.
 - 사용자 요청 코드블록: 원문 그대로 (오타·수정 금지)
 - 작업 번호는 1부터 순서대로
 - **worklog.html 동기화(Step 4.6)는 빠뜨리지 않는다**
+- **워크로그 수정은 공개 URL 확인까지가 완료다** — MD/GitHub push만으로 완료 처리하지 않는다
 - **커밋 SHA는 main 도달 가능성을 검증하고 기재한다(Step 2.5)**
 - **Step 2에서 3개 레포 커밋을 GitHub에서 직접 조회한다** — 대화 컨텍스트만 보면 다른 세션 작업을 놓친다
 - 레포 정비·대량 수정 시 반드시 origin/main 최신 상태를 먼저 읽고 작업한다

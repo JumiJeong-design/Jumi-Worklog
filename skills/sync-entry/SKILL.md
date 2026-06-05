@@ -60,7 +60,7 @@ disable-model-invocation: false
 - (없음)
 ```
 
-수정 여부를 확인한 뒤, 사용자가 원하면 worklog.html 엔트리를 원본 md 기준으로 업데이트한다.
+수정 여부를 확인한 뒤, 사용자가 원하면 worklog.html 엔트리를 원본 md 기준으로 업데이트한다. 뷰어를 수정한 경우 커밋/푸시 후 공개 URL `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`에서 수정 문구가 실제로 보이는지 확인해야 완료다.
 
 ---
 
@@ -69,6 +69,7 @@ disable-model-invocation: false
 - 날짜 미지정 시 오늘 날짜로 실행
 - 뷰어 수정 시 엔트리 블록(`entry-YYYY-MM-DD`)만 교체, 나머지 구조는 건드리지 않는다
 - 원본 md를 뷰어에 맞춰 변경하지 않는다 — 원본이 항상 기준
+- 원본 md 또는 뷰어를 수정하면 두 저장소 반영 여부와 공개 URL 렌더 결과를 함께 확인한다
 
 ## Trigger phrases
 

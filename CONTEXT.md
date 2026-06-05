@@ -17,6 +17,7 @@
 | **상속받은 코드도 올바르다고 가정하지 않는다** | 이전 세션에서 만든 구조니까 맞겠지 | 기존 코드도 설계 검토 대상이다. 개발 지식이 충분하면 냄새를 먼저 잡아야 한다 |
 | **회고 섹션은 생략하지 않는다** | 워크로그 마지막에 회고가 없어도 그냥 저장 | 형식 규칙에 없어 보여도 템플릿에 있으면 반드시 포함 |
 | **상태 확인은 CONTEXT.md만 믿지 않는다** | CONTEXT.md가 미완이라 표기됐으니 미완이겠지 | Figma MCP·git log로 실제 소스를 교차 확인한 뒤 보고. 문서는 항상 뒤처질 수 있다 |
+| **워크로그 수정은 공개 URL 확인까지가 완료다** | MD만 수정하거나 worklog.html만 push하고 종료 | 원본 MD + `site/worklog.html` 동시 갱신 → 두 레포 커밋/푸시 → `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`에서 실제 문구 확인 |
 
 ---
 

@@ -43,6 +43,7 @@
 - 커밋, 회고, 다음 액션, 보조 기록은 별도 탭으로 만들지 말고 `###` 이하에 둔다
 - 새 `##`를 추가하기 전에는 "이 항목이 사용자가 독립 탭으로 전환해 볼 만큼 큰 작업 흐름인가?"를 먼저 판단한다
 - 후속 체크리스트는 이전 작업 탭 안에 묻어두지 말고 해당 날짜의 `Next` 또는 다음 날짜 로그로 이월한다
+- 워크로그를 수정하면 원본 MD만 고치고 끝내지 않는다. 반드시 `socra-ai-workflow-wiki/site/worklog.html`도 같은 내용으로 갱신하고, 두 레포를 커밋/푸시한 뒤 공개 URL `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`에서 실제 문구가 보이는지 확인한다.
 
 ## 커뮤니케이션
 
