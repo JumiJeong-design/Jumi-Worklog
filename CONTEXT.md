@@ -16,6 +16,7 @@
 | **데이터를 추가할 때 N군데 수정이 필요하면 설계 냄새다** | 엔트리 블록 추가 + ENTRIES 배열 추가 = 두 군데 | 단일 소스로 통합하거나 자동 파생되도록 먼저 리팩터 |
 | **상속받은 코드도 올바르다고 가정하지 않는다** | 이전 세션에서 만든 구조니까 맞겠지 | 기존 코드도 설계 검토 대상이다. 개발 지식이 충분하면 냄새를 먼저 잡아야 한다 |
 | **회고 섹션은 생략하지 않는다** | 워크로그 마지막에 회고가 없어도 그냥 저장 | 형식 규칙에 없어 보여도 템플릿에 있으면 반드시 포함 |
+| **상태 확인은 CONTEXT.md만 믿지 않는다** | CONTEXT.md가 미완이라 표기됐으니 미완이겠지 | Figma MCP·git log로 실제 소스를 교차 확인한 뒤 보고. 문서는 항상 뒤처질 수 있다 |
 
 ---
 
@@ -59,29 +60,12 @@
 
 ---
 
-## ⭐ 주미님 액션 아이템 (블로커 — Figma에서 직접)
+## ⭐ 주미님 액션 아이템
 
-> Claude가 MCP로 시도했으나 **연결된 Figma가 로컬 폰트를 못 봐서** 막힌 작업. 주미님이 Figma에서 처리해야 진행됨.
-
-### 1. 폰트 Pretendard 패밀리를 Figma에 적용
-- **상태:** 결정은 5/31 완료(Pretendard 통일), Git 문서도 반영. **Figma Variables만 미적용.**
-- **막힌 이유:** MCP가 연결된 Figma는 **Google Fonts(1723개)만** 보임 → 로컬 전용 폰트인 Pretendard가 안 보임.
-- **주미님 할 일:**
-  1. macOS `Font Book`에 **Pretendard** + **Pretendard JP**(별도 패키지) 설치 확인
-  2. Figma 데스크탑 **완전 종료(Cmd+Q) 후 재실행**
-  3. 뜨면 Claude에게 알리기 → 변수 4개 교체(아래) 또는 직접 교체
-- **교체 대상 (컬렉션 `typography`, 모드 `5:0`):**
-  | Variable ID | 이름 | 현재값 | → 바꿀 값 |
-  |---|---|---|---|
-  | `VariableID:5:3` | font/family/base | Noto Sans KR | **Pretendard** |
-  | `VariableID:5:4` | font/family/latin | Geist | **Pretendard** |
-  | `VariableID:7:2` | font/family/japanese | M PLUS 2 | **Pretendard JP** |
-  | `VariableID:5:5` | font/family/mono | Noto Sans Mono | 유지 (단 Figma에 미설치 상태 — 확인 필요) |
-
-### 2. color 컬렉션 다크 모드 모드 확인
-- **상태:** 완료.
-- 현재 Figma MCP 기준 `color` 컬렉션은 **2개 모드**: `Light(2:0)` / `Dark(728:0)`.
-- 과거 `theme-dark` / `Dark` 중복 메모는 현 상태에서 재현되지 않음. REST API audit 때 다른 결과가 나오면 별도 이슈로 다시 연다.
+### ✅ 완료 (2026-06-05, Figma MCP 교차검증)
+1. **폰트 Pretendard Figma 적용** — `var(--font-family-base)` = **Pretendard** 확인 (텍스트 노드 `575:875` get_variable_defs). heading/body 모두 base family 적용됨.
+2. **color 다크 모드 중복(theme-dark/Dark) 정리** — `color` 컬렉션 **2개 모드**(`Light(2:0)` / `Dark(728:0)`)만 잔존, metadata에 `theme-dark` 0회. 중복 해소 확인.
+3. **브랜드 컬러 방향 확정** — B&W 기반 + 카테고리별 컬러 포인트 확장. 모델 컬러는 SVG 로고 내장값 사용(별도 토큰 X).
 
 ---
 
@@ -90,8 +74,8 @@
 - [ ] Figma 디자인 전체 리디자인 (주미님 직접) → 완료 후 코드 sync
 - [ ] 코드 기반 컴포넌트 라이브러리 기술 스택 확정 → 확정 후 Code Connect (Codex가 Storybook 착수 — 진행 중)
 - [ ] FIGMA_TOKEN 등록 완료 + 네트워크 정책 `api.figma.com` 추가 완료 → **새 세션에서 REST API 전환 테스트 필요**
-- [ ] 브랜드 컬러 확정 (리디자인 전제조건)
-- [ ] **폰트 Pretendard Figma 적용** (주미님, ↑ 액션 아이템 1)
+- [ ] 브랜드 컬러 구체값 확정 (방향은 B&W+카테고리 포인트로 확정, 구체 hex·카테고리 매핑 미정)
+- [x] **폰트 Pretendard Figma 적용** — `var(--font-family-base)` = Pretendard 확인 (MCP 교차검증)
 - [x] **color 다크 모드 모드 중복(theme-dark/Dark) 정리** — 현재 Figma `color` collection은 Light/Dark 2 modes로 확인됨
 - [x] Socra Design system test — opacity/alpha semantic token audit 및 layer opacity cleanup
 - [ ] Socra Design system test — Foundation/Icons/Components/Pages 전체 token/style sync audit
