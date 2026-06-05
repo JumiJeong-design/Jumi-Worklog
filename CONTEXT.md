@@ -122,6 +122,7 @@
 | Socra category color set을 active Foundation에서 제거 | 고민 taxonomy와 화면 사용처가 확정되기 전까지 semantic처럼 노출하면 판단 노이즈가 커짐 |
 | dark mode opacity는 role semantic token으로 운영 | black/white alpha 1:1 반전은 surface·state·overlay 의도를 망가뜨릴 수 있음 |
 | Markdown table은 head/column/body cell 구조를 분리 | markdown table을 실제 읽을 수 있게 만들려면 header와 column/cell 역할이 시각적으로 달라야 함 |
+| component guide wrapper는 한 component에 먼저 시범 적용 | 흩어진 guide card는 다시 혼란을 만들 수 있으므로 작은 단위로 검증해야 함 |
 | component guide는 wrapper docs 구조로 작성 | 흩어진 guide card는 원본 컴포넌트 주변을 어지럽히고 실제 preview와 설명의 관계를 흐림 |
 | ENTRIES 배열 → DOM 자동 파생으로 전환 | entry/plan 블록 추가 시 두 군데 수정 필요 = 설계 냄새. 단일 소스로 통합 |
 | write-worklog Step 2에서 3개 레포 커밋 전수 조회 | 대화 컨텍스트만 보면 다른 세션 작업을 놓친다 — 2026-06-04 wiki 작업 누락 사례 |
@@ -176,7 +177,7 @@
 - **design-system/rules.md — 18규칙** [PR #3 브랜치, main 미머지]
 - Storybook 착수 (Codex, main) — Button 스토리 + token fallback 격리 렌더
 - **Button Figma/Storybook 루프 검증 완료** (2026-06-04)
-- **Socra Foundation cleanup 완료** (2026-06-05): category colors 제거, `Shadow / Elevation` 병합, Markdown Rendering/Table 정리, 후속 계획 push (`6ee8c65`, `b69a034`)
+- **Socra Foundation cleanup 완료** (2026-06-05): category colors 제거, `Shadow / Elevation` 병합, Markdown Rendering/Table 정리, opacity/alpha token 방향 결정, 후속 계획 push (`6ee8c65`, `b69a034`)
 
 ### socra-ai-workflow-wiki
 - **v0.15** — 5개 그룹 페이지 분리, scrollspy, 검색 하이라이트, wiki.html 뷰어
