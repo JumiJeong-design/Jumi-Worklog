@@ -28,6 +28,7 @@
 | `write-worklog` | `워크로그 써줘`, `오늘 정리해줘`, `/write-worklog` | `skills/write-worklog/SKILL.md` |
 | `session-snapshot` | `지금까지 뭐했어?`, `중간 정리`, `/session-snapshot` | `skills/session-snapshot/SKILL.md` |
 | `sync-entry` | `동기화 확인해줘`, `뷰어랑 맞아?`, `/sync-entry` | `skills/sync-entry/SKILL.md` |
+| `handoff-check` | `handoff 확인해줘`, `클로드 코드에서 이어받을 수 있어?`, `/handoff-check` | `skills/handoff-check/SKILL.md` |
 | `bump-version` | `버전 올려줘`, `배포할게`, `/bump-version` | `skills/bump-version/SKILL.md` |
 | `prep-meeting` | `미팅 준비해줘`, `이번주 요약해줘`, `/prep-meeting` | `skills/prep-meeting/SKILL.md` |
 | `record-trap` | `이거 기억해줘`, `규칙 추가해줘`, `/record-trap` | `skills/record-trap/SKILL.md` |
