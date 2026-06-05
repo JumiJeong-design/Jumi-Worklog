@@ -1,7 +1,7 @@
 # 현재 상태 스냅샷
 
 > 세션 시작 시 자동 로드되는 파일. 세션 종료 전 반드시 업데이트.
-> Last updated: 2026-06-05
+> Last updated: 2026-06-06
 
 ---
 
@@ -166,6 +166,7 @@
 - Storybook 착수 (Codex, main) — Button 스토리 + token fallback 격리 렌더
 - **Button Figma/Storybook 루프 검증 완료** (2026-06-04)
 - **Socra Foundation cleanup 완료** (2026-06-05): category colors 제거, `Shadow / Elevation` 병합, Markdown Rendering/Table 정리, semantic alpha/state token 반영, 후속 계획 push (`6ee8c65`, `b69a034`, `8f3a427`)
+- **Foundation/Components sync audit 표 작성 완료** (2026-06-05): `docs/plans/2026-06-06-socra-design-system-followup.md`의 `### 2026-06-05 Foundation / Components Sync Audit Table` 기준으로 6월 6일 수정 작업을 이어간다. 같은 표를 다시 만들지 않고, false positive 제거 후 source-of-truth가 명확한 항목만 수정한다.
 
 ### socra-ai-workflow-wiki
 - **v0.15** — 5개 그룹 페이지 분리, scrollspy, 검색 하이라이트, wiki.html 뷰어
@@ -182,17 +183,20 @@
 
 ## 다음 작업 예정
 
-오늘 바로 이어갈 Socra DS 작업은 1~4번만으로 충분하다. 5번 이후는 블로커/별도 레포/후속 흐름이다.
+6월 6일 다음 작업은 역할을 분리해서 진행한다.
 
-1. **Socra DS**: Foundation/Icons/Components/Page design test/Image reference 전체 token/style sync audit (opacity 범위는 완료)
-2. **Socra DS**: Markdown table head/column/cell 구조 점검
-3. **Socra DS**: Lucide icon stroke `1.7` vs `1.8` 비교 샘플 후 결정
-4. **Socra DS**: component guide wrapper 구조는 적용 대상 component를 정한 뒤 1개만 시범 적용
-5. **(주미님)** 폰트 Figma 적용 + Pretendard JP 확인
-6. **riiid/prism Button**: Figma component vs Storybook QA surface 결정
-7. **새 세션**: REST API 전환 테스트 → Variables audit 보조 수단 확인
-8. PR #3 CI 통과 확인 → 머지 판단
-9. Codex Storybook — Button 외 컴포넌트 스토리 확장 + Code Connect
-10. Figma Foundation에 Error states / Motion / Breakpoints 추가
-11. 브랜드 컬러 확정 → 리디자인 시작
-12. (wiki) 사이드바 links 연결
+### Codex/Claude Code가 이어서 할 작업
+
+1. **Socra DS**: 6월 5일 sync audit 표 기준으로 Foundation/Components 수정. source-of-truth가 명확한 항목만 반영하고, count 기반 bulk edit은 금지.
+2. **Socra DS**: Markdown table head/column/body cell 구조를 현재 Figma component 구조와 대조해 수정 가능 항목과 사용자 판단 항목을 분리.
+3. **Socra DS**: Button/icon stroke/Text Field처럼 package-sensitive 항목은 package contract와 승인 범위를 먼저 확인한 뒤 수정 여부 결정.
+4. **워크로그**: 작업을 하면 즉시 해당 체크리스트를 `[x]`로 갱신하고, 공개 `worklog.html` 배포 후 월 단위 검증까지 완료.
+
+### 주미님 확인
+
+1. **Chromatic Storybook matrix 육안 QA**: 사용자 Chromatic 세션에서 Button `InteractiveAction`, matrix stories, light/dark 상태 확인.
+2. **Component guide wrapper 구조**: 실제 component 1개에만 wrapper를 시범 적용할 대상과 배치 결정.
+3. **Pretendard JP Figma runtime availability**: Figma font picker/runtime에서 실제 노출 여부 확인.
+4. **Markdown Table 2-column / 4-column 방향**: 현재 3-column preview와 Header/Body primitive 이후 variant 또는 instance 방향 결정.
+5. **기존 모바일 source frame 확인**: source frame을 정한 뒤 web responsive 확장 판단.
+6. **next-batch component 후보 최종 결정**: `ActionBar`, `Chat History Panel`, `ThumbnailItem`, `GNB` 등 승인 범위 결정.
