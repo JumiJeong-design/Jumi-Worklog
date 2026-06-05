@@ -17,7 +17,7 @@ disable-model-invocation: false
 |------|------|------|
 | `design-system/rules.md` | 컴포넌트·디자인 작업 원칙 (주미님 잔소리/실수 방지 규칙) | `riiid/prism` |
 | `docs/agent-rules.md` | AI 에이전트가 따라야 할 행동 규칙 | `riiid/prism` |
-| 오늘 worklog `## 함정 모음` | 날짜별 함정 기록 | `jumi-worklog` |
+| 오늘 worklog `### 함정 모음` | 날짜별 함정 기록 | `jumi-worklog` |
 
 상황에 따라 1~3개 모두 또는 일부만 업데이트한다.
 
@@ -75,7 +75,7 @@ disable-model-invocation: false
 - 없으면 섹션 신규 생성 후 추가
 
 **worklog 업데이트 시:**
-- 오늘 파일 `## 함정 모음` 섹션에 추가
+- 오늘 파일 `### 함정 모음` 섹션에 추가
 - 파일이 없으면 `write-worklog` 스킬을 대신 실행
 
 모두 `mcp__github__create_or_update_file`로 업데이트. SHA 필수.

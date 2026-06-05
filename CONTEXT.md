@@ -112,7 +112,7 @@
 | component guide는 wrapper docs 구조로 작성 | 흩어진 guide card는 원본 컴포넌트 주변을 어지럽히고 실제 preview와 설명의 관계를 흐림 |
 | ENTRIES 배열 → DOM 자동 파생으로 전환 | entry/plan 블록 추가 시 두 군데 수정 필요 = 설계 냄새. 단일 소스로 통합 |
 | write-worklog Step 2에서 3개 레포 커밋 전수 조회 | 대화 컨텍스트만 보면 다른 세션 작업을 놓친다 — 2026-06-04 wiki 작업 누락 사례 |
-| worklog 뷰어 H2 → 서브탭 자동 생성 | 작업 영역이 여러 개일 때 평문 나열은 읽기 불편 — `##` 섹션만 잘 나눠도 자동 적용 |
+| worklog 뷰어 H2 → 서브탭 자동 생성 | `##`는 탭으로 전환할 만큼 큰 작업 흐름에만 사용. 커밋·회고·다음 액션은 `###` 이하로 둬 탭 과밀을 피함 |
 | 에이전트 분담은 맥락 소유권 기준 | Claude/Codex 능력차 아님 — 충돌 회피 + Figma MCP 연결만 실질 차이. 코드=Codex, Figma·워크로그=Claude |
 | **폰트 Pretendard 패밀리로 통일** | orioncactus/pretendard 한 패밀리로 일관성↑·관리 단순. Geist 제거 |
 | `riiid/prism` package contract가 현재 SOT | Figma는 visual evidence와 적용 상태 확인에 사용. package/component/token/Storybook 계약 우선 |
@@ -167,13 +167,13 @@
 
 ### socra-ai-workflow-wiki
 - **v0.15** — 5개 그룹 페이지 분리, scrollspy, 검색 하이라이트, wiki.html 뷰어
-- worklog 뷰어: Plan/Log 탭, 캘린더 점, 인터랙티브 체크박스, **H2 → 서브탭 자동 생성**
+- worklog 뷰어: Plan/Log 탭, 캘린더 점, 인터랙티브 체크박스, **큰 작업 흐름 H2 → 서브탭 자동 생성**
 - ENTRIES 배열 → DOM 자동 파생으로 전환 (entry/plan 블록만 추가하면 자동 반영)
 - ⚠️ 사이드바에 guides/·playbooks/·worklog.html 미연결 — Codex 정리 예정
 
 ### jumi-worklog
 - 스킬 6개 — write-worklog / **session-snapshot(신규)** / **sync-entry(신규)** / prep-meeting / bump-version / record-trap
-- write-worklog 스킬 개선: 3개 레포 커밋 전수 조회, 회고 필수화, 서브탭 구조 안내
+- write-worklog 스킬 개선: 3개 레포 커밋 전수 조회, 회고 필수화, H2 탭 과밀 방지 기준 추가
 - **2026-06-04, 2026-06-05 워크로그 완료**
 
 ---
