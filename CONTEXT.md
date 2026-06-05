@@ -91,8 +91,8 @@
 - [ ] FIGMA_TOKEN 등록 완료 + 네트워크 정책 `api.figma.com` 추가 완료 → **새 세션에서 REST API 전환 테스트 필요**
 - [ ] 브랜드 컬러 확정 (리디자인 전제조건)
 - [ ] **폰트 Pretendard Figma 적용** (주미님, ↑ 액션 아이템 1)
-- [ ] **color 다크 모드 모드 중복(theme-dark/Dark) 정리** (↑ 액션 아이템 2)
-- [ ] Socra Design system test — opacity/alpha semantic token audit 및 layer opacity cleanup
+- [x] **color 다크 모드 모드 중복(theme-dark/Dark) 정리** — 현재 Figma `color` collection은 Light/Dark 2 modes로 확인됨
+- [x] Socra Design system test — opacity/alpha semantic token audit 및 layer opacity cleanup
 - [ ] Socra Design system test — Foundation/Icons/Components/Pages 전체 token/style sync audit
 - [ ] Socra Design system test — component guide wrapper 구조 시범 적용
 - [ ] Socra Design system test — Markdown table head/column/cell 구조 점검
@@ -119,6 +119,7 @@
 
 | 결정 | 이유 한 줄 |
 |------|------------|
+| Component state는 layer opacity가 아니라 semantic token으로 표현 | 다크모드 전환에서 disabled/pressed/scrim 의도를 각각 제어해야 함 |
 | Socra category color set을 active Foundation에서 제거 | 고민 taxonomy와 화면 사용처가 확정되기 전까지 semantic처럼 노출하면 판단 노이즈가 커짐 |
 | dark mode opacity는 role semantic token으로 운영 | black/white alpha 1:1 반전은 surface·state·overlay 의도를 망가뜨릴 수 있음 |
 | Markdown table은 head/column/body cell 구조를 분리 | markdown table을 실제 읽을 수 있게 만들려면 header와 column/cell 역할이 시각적으로 달라야 함 |
@@ -142,21 +143,21 @@
 
 ## Figma 파일 페이지 구조
 
-파일 키: `DcYgJjGAfObOIM4IyrQjgj` | MCP Plugin API는 lazy loading으로 2개만 반환 → REST API 필요
+파일 키: `DcYgJjGAfObOIM4IyrQjgj`
 
 | 페이지 | node ID | 내용 |
 |--------|---------|------|
 | Components | `0:1` | 컴포넌트 35개 |
 | Foundation | `70:218` | Color(light/dark) · Typography · Spacing · Shadow/Elevation · Markdown · Error states 예정 |
 | Icons | `74:10109` | Lucide 전체 + In Use 24개 |
-| Pages | 미확인 | 화면 디자인 (준비 중) |
-| Image reference | 미확인 | 참조 이미지 모음 |
+| Page design test | `76:10172` | 화면 디자인 테스트 |
+| Image reference | `76:10169` | 참조 이미지 모음 |
 
 ### Figma Variable 컬렉션 (2026-05-31 조사)
 
 | 컬렉션 | ID | 모드 | 변수 수 |
 |--------|-----|------|--------|
-| color | `2:2` | Light(2:0) · theme-dark(2:1) · Dark(118:0) ⚠️중복 | 52 |
+| color | `2:2` | Light(2:0) · Dark(728:0) | 108 |
 | typography | `5:2` | default(5:0) | 26 |
 | spacing | `8:2` | default(8:0) | 20 |
 | radius | `9:2` | default(9:0) | 9 |
@@ -177,7 +178,7 @@
 - **design-system/rules.md — 18규칙** [PR #3 브랜치, main 미머지]
 - Storybook 착수 (Codex, main) — Button 스토리 + token fallback 격리 렌더
 - **Button Figma/Storybook 루프 검증 완료** (2026-06-04)
-- **Socra Foundation cleanup 완료** (2026-06-05): category colors 제거, `Shadow / Elevation` 병합, Markdown Rendering/Table 정리, opacity/alpha token 방향 결정, 후속 계획 push (`6ee8c65`, `b69a034`)
+- **Socra Foundation cleanup 완료** (2026-06-05): category colors 제거, `Shadow / Elevation` 병합, Markdown Rendering/Table 정리, semantic alpha/state token 반영, 후속 계획 push (`6ee8c65`, `b69a034`, `8f3a427`)
 
 ### socra-ai-workflow-wiki
 - **v0.15** — 5개 그룹 페이지 분리, scrollspy, 검색 하이라이트, wiki.html 뷰어
@@ -194,17 +195,15 @@
 
 ## 다음 작업 예정
 
-1. **Socra DS**: opacity/alpha semantic token audit — layer opacity 직접 사용처와 허용 예외 분리
-2. **Socra DS**: Foundation/Icons/Components/Pages 전체 token/style sync audit
-3. **Socra DS**: Markdown table head/column/cell 구조 점검
-4. **Socra DS**: component guide wrapper 구조를 우선 component 1개에 시범 적용
-5. **Socra DS**: `theme-dark`와 `Dark` mode 중복 정리
-6. **Socra DS**: Lucide icon stroke `1.7` vs `1.8` 비교 후 결정
-7. **(주미님)** 폰트 Figma 적용 + Pretendard JP 확인
-8. **riiid/prism Button**: Figma component vs Storybook QA surface 결정
-9. **새 세션**: REST API 전환 테스트 → 5페이지 node ID 확인 → Variables dark mode audit
-10. PR #3 CI 통과 확인 → 머지 판단
-11. Codex Storybook — Button 외 컴포넌트 스토리 확장 + Code Connect
-12. Figma Foundation에 Error states / Motion / Breakpoints 추가
-13. 브랜드 컬러 확정 → 리디자인 시작
-14. (wiki) 사이드바 links 연결
+1. **Socra DS**: Foundation/Icons/Components/Pages 전체 token/style sync audit (opacity 범위는 완료)
+2. **Socra DS**: Markdown table head/column/cell 구조 점검
+3. **Socra DS**: component guide wrapper 구조를 우선 component 1개에 시범 적용
+4. **Socra DS**: Lucide icon stroke `1.7` vs `1.8` 비교 후 결정
+5. **(주미님)** 폰트 Figma 적용 + Pretendard JP 확인
+6. **riiid/prism Button**: Figma component vs Storybook QA surface 결정
+7. **새 세션**: REST API 전환 테스트 → Variables audit 보조 수단 확인
+8. PR #3 CI 통과 확인 → 머지 판단
+9. Codex Storybook — Button 외 컴포넌트 스토리 확장 + Code Connect
+10. Figma Foundation에 Error states / Motion / Breakpoints 추가
+11. 브랜드 컬러 확정 → 리디자인 시작
+12. (wiki) 사이드바 links 연결
