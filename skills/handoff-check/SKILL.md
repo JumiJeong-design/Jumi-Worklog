@@ -10,6 +10,16 @@ disable-model-invocation: false
 
 핵심은 채팅 기억이 아니라 repo 문서 기준이다. 다음 에이전트가 문서만 읽고 현재 상태와 다음 액션을 이해할 수 있어야 한다.
 
+## Default Scope
+
+토큰과 작업 범위를 줄이기 위해 기본은 작게 시작한다.
+
+- 먼저 분석만 필요한지, 수정까지 필요한지 구분한다.
+- 한 번에 한 레포를 기본으로 확인한다.
+- 공개 URL 검증은 worklog 또는 public viewer를 변경했을 때만 수행한다.
+- AI wiki/skill 승격 검토는 하루 끝이나 사용자가 명시적으로 요청했을 때만 수행한다.
+- 새 채팅 시작 시에는 `CLAUDE.md`, `CONTEXT.md`, 오늘 worklog를 먼저 보고, 필요한 문서만 추가로 연다.
+
 ## Step 1 — Entry Documents 확인
 
 작업 repo에서 아래 파일을 확인한다.
