@@ -1,7 +1,7 @@
 # 현재 상태 스냅샷
 
 > 세션 시작 시 자동 로드되는 파일. 세션 종료 전 반드시 업데이트.
-> Last updated: 2026-06-06
+> Last updated: 2026-06-05
 
 ---
 
@@ -48,6 +48,7 @@
 | `prep-meeting` | "미팅 준비해줘", "이번주 요약해줘" | 최근 7일 워크로그 읽어 업무 요약 + 미팅 아젠다 생성 |
 | `bump-version` | "버전 올려줘", "배포할게" | socra-ai-workflow-wiki 버전 4개 파일 동시 갱신 |
 | `record-trap` | "이거 기억해줘", "규칙 추가해줘" | 함정/규칙을 rules.md·agent-rules.md에 기록 |
+| `save-ideation` | "아이데이션 저장해줘", "피그잼에 저장해줘" | FigJam에 날짜 스탬프 아이데이션 카드 저장 — 자동 감지 후 제안 |
 
 > Figma MCP 슬래시 스킬(6개)은 워크로그 뷰어 ⚡스킬 탭 참고.
 
@@ -71,6 +72,10 @@
 2. **color 다크 모드 중복(theme-dark/Dark) 정리** — `color` 컬렉션 **2개 모드**(`Light(2:0)` / `Dark(728:0)`)만 잔존, metadata에 `theme-dark` 0회. 중복 해소 확인.
 3. **브랜드 컬러 방향 확정** — B&W 기반 + 카테고리별 컬러 포인트 확장. 모델 컬러는 SVG 로고 내장값 사용(별도 토큰 X).
 
+### 🔜 다음 세션 (6월 6일)
+4. **캐릭터 이미지 생성**: Midjourney 또는 ChatGPT(DALL-E 3)에 준비된 프롬프트 붙여넣어 여우·정령 각 3 variation 생성 (프롬프트는 채팅에 준비 완료)
+5. **Phase 0 픽**: 생성된 이미지 비교 후 최종 캐릭터 결정
+
 ---
 
 ## 작업 보드
@@ -91,6 +96,8 @@
 - [x] **riiid/prism Button** — QA surface 결정 완료: package contract 기준 유지, Figma evidence를 package에 맞게 정렬 (`8b83f66` revert + `4096d75`)
 - [ ] `pnpm visual` Chromatic 업로드 승인 여부 결정
 - [x] **PreToolUse 훅 (main push·force push 차단)** — 설치 완료 (`hooks/pre-push-guard.sh` + `~/.claude/settings.json` 등록)
+- [ ] **Socra 브랜드 캐릭터 Phase 0** — Midjourney/ChatGPT로 여우·정령 이미지 생성 후 비교·픽 (프롬프트 준비 완료)
+- [ ] **Socra 브랜드 캐릭터 Phase 1** — 형상·실루엣 정의
 
 ---
 
@@ -108,6 +115,8 @@
 
 | 결정 | 이유 한 줄 |
 |------|------------|
+| Socra 캐릭터는 단일 마스코트 아닌 Pokemon 스타일 패밀리 시스템 | 모델별 서브캐릭터(Claude=산호, GPT=초록, Gemini=파랑, Grok=은색)로 멀티모델 메타포 자연 표현 |
+| 여우·정령 두 후보 동시 테스트 | Phase 0에서 AI 이미지 생성 후 시각 비교로 최종 픽 |
 | Component state는 layer opacity가 아니라 semantic token으로 표현 | 다크모드 전환에서 disabled/pressed/scrim 의도를 각각 제어해야 함 |
 | Socra category color set을 active Foundation에서 제거 | 고민 taxonomy와 화면 사용처가 확정되기 전까지 semantic처럼 노출하면 판단 노이즈가 커짐 |
 | dark mode opacity는 role semantic token으로 운영 | black/white alpha 1:1 반전은 surface·state·overlay 의도를 망가뜨릴 수 있음 |
@@ -132,7 +141,7 @@
 
 ## Figma 파일 페이지 구조
 
-파일 키: `DcYgJjGAfObOIM4IyrQjgj`
+### Socra Design System (파일 키: `DcYgJjGAfObOIM4IyrQjgj`)
 
 | 페이지 | node ID | 내용 |
 |--------|---------|------|
@@ -141,6 +150,20 @@
 | Icons | `74:10109` | Lucide 전체 + In Use 24개 |
 | Page design test | `76:10172` | 화면 디자인 테스트 |
 | Image reference | `76:10169` | 참조 이미지 모음 |
+
+### Socra 브랜드 캐릭터 아이데이션 (파일 키: `8CWsofQlE65slaKh7COrbe`)
+
+FigJam 보드 — 브랜드 캐릭터 아이데이션 전용. Phase 0 진행 중.
+
+| 콘텐츠 | 상태 |
+|--------|------|
+| 4-branch 마인드맵 | ✅ 완료 |
+| 탈락·생존 결정 카드 (セッション1·2) | ✅ 완료 |
+| Phase 0-6 로드맵 카드 | ✅ 완료 |
+| Variation 구조 카드 | ✅ 완료 |
+| 캐릭터 의미 카드 (여우·정령) | ✅ 완료 |
+| AI 이미지 생성 프롬프트 | ✅ 채팅에 준비 완료 |
+| 실제 이미지 생성 + 비교 | 🔜 6월 6일 |
 
 ### Figma Variable 컬렉션 (2026-05-31 조사)
 
@@ -170,6 +193,11 @@
 - **Socra Foundation cleanup 완료** (2026-06-05): category colors 제거, `Shadow / Elevation` 병합, Markdown Rendering/Table 정리, semantic alpha/state token 반영, 후속 계획 push (`6ee8c65`, `b69a034`, `8f3a427`)
 - **Foundation/Components sync audit 표 작성 완료** (2026-06-05): `docs/plans/2026-06-06-socra-design-system-followup.md`의 `### 2026-06-05 Foundation / Components Sync Audit Table` 기준으로 6월 6일 수정 작업을 이어간다. 같은 표를 다시 만들지 않고, false positive 제거 후 source-of-truth가 명확한 항목만 수정한다.
 
+### Socra 브랜드 캐릭터 (FigJam: `8CWsofQlE65slaKh7COrbe`)
+- **Phase 0 진행 중** — 여우·정령 후보 2개 확정, AI 이미지 프롬프트 준비 완료
+- Variation 시스템 방향 확정: 대표 캐릭터 1개 + 모델별 서브캐릭터 (Pokemon 스타일)
+- `save-ideation` 스킬 완성 — 이후 세션에서 자동 저장 루틴 운용 가능
+
 ### socra-ai-workflow-wiki
 - **v0.15** — 5개 그룹 페이지 분리, scrollspy, 검색 하이라이트, wiki.html 뷰어
 - worklog 뷰어: Plan/Log 탭, 캘린더 점, 인터랙티브 체크박스, **큰 작업 흐름 H2 → 서브탭 자동 생성**
@@ -177,7 +205,7 @@
 - ⚠️ 사이드바에 guides/·playbooks/·worklog.html 미연결 — Codex 정리 예정
 
 ### jumi-worklog
-- 스킬 6개 — write-worklog / **session-snapshot(신규)** / **sync-entry(신규)** / prep-meeting / bump-version / record-trap
+- 스킬 7개 — write-worklog / session-snapshot / sync-entry / prep-meeting / bump-version / record-trap / **save-ideation(신규)**
 - write-worklog 스킬 개선: 3개 레포 커밋 전수 조회, 회고 필수화, H2 탭 과밀 방지 기준 추가
 - **2026-06-04, 2026-06-05 워크로그 완료**
 
@@ -202,3 +230,5 @@
 4. **Markdown Table 2-column / 4-column 방향**: 현재 3-column preview와 Header/Body primitive 이후 variant 또는 instance 방향 결정.
 5. **기존 모바일 source frame 확인**: source frame을 정한 뒤 web responsive 확장 판단.
 6. **next-batch component 후보 최종 결정**: `ActionBar`, `Chat History Panel`, `ThumbnailItem`, `GNB` 등 승인 범위 결정.
+7. **캐릭터 이미지 생성**: Midjourney/ChatGPT로 여우·정령 프롬프트 실행 (프롬프트 채팅에 준비 완료)
+8. **Phase 0 픽**: 이미지 비교 후 최종 캐릭터 결정 → Phase 1(형상·실루엣) 진입
