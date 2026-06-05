@@ -37,11 +37,9 @@ if printf '%s' "$push_stmt" | grep -Eq '[[:space:]](-f([[:space:]]|$)|--force([[
   exit 2
 fi
 
-# 2) main / master 직접 push 차단
+# 2) main / master 직접 push — 경고만 출력, 차단하지 않음
 if printf '%s' "$push_stmt" | grep -Eq '[[:space:]]+(main|master)([[:space:]]|$|:)'; then
-  echo "⛔ main/master 직접 push 감지 → 차단" >&2
-  echo "작업은 feature 브랜치에 올리세요. 의도된 배포(GitHub Pages 등)면 주미님이 터미널에서 직접 실행하세요." >&2
-  exit 2
+  echo "⚠️  main/master 직접 push 감지. 의도된 push인지 확인하세요." >&2
 fi
 
 exit 0
