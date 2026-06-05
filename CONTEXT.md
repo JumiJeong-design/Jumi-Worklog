@@ -78,13 +78,14 @@
   | `VariableID:7:2` | font/family/japanese | M PLUS 2 | **Pretendard JP** |
   | `VariableID:5:5` | font/family/mono | Noto Sans Mono | 유지 (단 Figma에 미설치 상태 — 확인 필요) |
 
-### 2. color 컬렉션 다크 모드 모드 중복 정리
-- `color` 컬렉션에 모드가 **3개**: `Light(2:0)` / `theme-dark(2:1)` / `Dark(118:0)`
-- **theme-dark와 Dark가 중복** — 어느 쪽에 값이 채워져 있고 컴포넌트가 어디에 바인딩됐는지 확인 후 하나로 합쳐야 함
+### 2. color 컬렉션 다크 모드 모드 확인
+- **상태:** 완료.
+- 현재 Figma MCP 기준 `color` 컬렉션은 **2개 모드**: `Light(2:0)` / `Dark(728:0)`.
+- 과거 `theme-dark` / `Dark` 중복 메모는 현 상태에서 재현되지 않음. REST API audit 때 다른 결과가 나오면 별도 이슈로 다시 연다.
 
 ---
 
-## 미해결 항목
+## 작업 보드
 
 - [ ] Figma 디자인 전체 리디자인 (주미님 직접) → 완료 후 코드 sync
 - [ ] 코드 기반 컴포넌트 라이브러리 기술 스택 확정 → 확정 후 Code Connect (Codex가 Storybook 착수 — 진행 중)
@@ -195,10 +196,12 @@
 
 ## 다음 작업 예정
 
-1. **Socra DS**: Foundation/Icons/Components/Pages 전체 token/style sync audit (opacity 범위는 완료)
+오늘 바로 이어갈 Socra DS 작업은 1~4번만으로 충분하다. 5번 이후는 블로커/별도 레포/후속 흐름이다.
+
+1. **Socra DS**: Foundation/Icons/Components/Page design test/Image reference 전체 token/style sync audit (opacity 범위는 완료)
 2. **Socra DS**: Markdown table head/column/cell 구조 점검
-3. **Socra DS**: component guide wrapper 구조를 우선 component 1개에 시범 적용
-4. **Socra DS**: Lucide icon stroke `1.7` vs `1.8` 비교 후 결정
+3. **Socra DS**: Lucide icon stroke `1.7` vs `1.8` 비교 샘플 후 결정
+4. **Socra DS**: component guide wrapper 구조는 적용 대상 component를 정한 뒤 1개만 시범 적용
 5. **(주미님)** 폰트 Figma 적용 + Pretendard JP 확인
 6. **riiid/prism Button**: Figma component vs Storybook QA surface 결정
 7. **새 세션**: REST API 전환 테스트 → Variables audit 보조 수단 확인
