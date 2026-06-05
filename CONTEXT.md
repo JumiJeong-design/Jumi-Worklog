@@ -56,7 +56,7 @@
 | PreToolUse (Bash) | git push 실행 전 | main으로 직접 push 시 경고 출력 |
 
 > ⚠️ 훅은 로컬 `~/.claude/settings.json`에만 있어 레포·뷰어에 안 보임. 새 머신 세팅 시 재설정 필요.
-> PreToolUse 훅은 아직 미설정 — 로컬에서 `/update-config` 로 추가 필요.
+> PreToolUse 훅: 스크립트·설정·가이드 준비 완료 → `hooks/` (pre-push-guard.sh). **로컬 설치만 남음** (`hooks/README.md` 참고).
 
 ---
 
@@ -86,7 +86,7 @@
 - [ ] (구조) workflow-wiki 사이드바에 guides/·playbooks/·worklog.html 링크 연결 — Codex 영역
 - [ ] **riiid/prism Button** — Figma component vs Storybook QA surface 어디를 수정할지 결정 (package 변경 금지 전제)
 - [ ] `pnpm visual` Chromatic 업로드 승인 여부 결정
-- [ ] **PreToolUse 훅 (main push 경고)** — 로컬 `~/.claude/settings.json`에 추가 필요
+- [ ] **PreToolUse 훅 (main push·force push 차단)** — 스크립트 준비 완료(`hooks/`), 로컬 `~/.claude/settings.json` 설치만 남음
 
 ---
 

@@ -1,0 +1,17 @@
+{
+  "//": "이 조각을 로컬 ~/.claude/settings.json 의 hooks 안에 병합하세요.",
+  "//command": "아래 command 의 절대경로를 본인 머신의 jumi-worklog 경로로 바꾸세요.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/ABSOLUTE/PATH/TO/jumi-worklog/hooks/pre-push-guard.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
