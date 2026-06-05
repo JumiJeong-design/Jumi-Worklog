@@ -86,7 +86,7 @@
 - [ ] (구조) workflow-wiki 사이드바에 guides/·playbooks/·worklog.html 링크 연결 — Codex 영역
 - [ ] **riiid/prism Button** — Figma component vs Storybook QA surface 어디를 수정할지 결정 (package 변경 금지 전제)
 - [ ] `pnpm visual` Chromatic 업로드 승인 여부 결정
-- [ ] **PreToolUse 훅 (main push·force push 차단)** — 스크립트 준비 완료(`hooks/`), 로컬 `~/.claude/settings.json` 설치만 남음
+- [x] **PreToolUse 훅 (main push·force push 차단)** — 설치 완료 (`hooks/pre-push-guard.sh` + `~/.claude/settings.json` 등록)
 
 ---
 
