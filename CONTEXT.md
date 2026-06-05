@@ -82,9 +82,9 @@
 - [ ] Socra Design system test — component guide wrapper 구조 시범 적용
 - [ ] Socra Design system test — Markdown table head/column/cell 구조 점검
 - [ ] Foundation에 Error states · Motion · Breakpoints 추가 (주미님)
-- [ ] PR #3 머지 — `riiid/prism` Rule 18 + 폰트 Pretendard 통일 브랜치, CI 통과 후 머지 판단
+- [x] PR #3 — `riiid/prism` CLOSED (머지 없이 종료 판단. Rule 18·Pretendard 내용은 직접 커밋으로 반영됨)
 - [ ] (구조) workflow-wiki 사이드바에 guides/·playbooks/·worklog.html 링크 연결 — Codex 영역
-- [ ] **riiid/prism Button** — Figma component vs Storybook QA surface 어디를 수정할지 결정 (package 변경 금지 전제)
+- [x] **riiid/prism Button** — QA surface 결정 완료: package contract 기준 유지, Figma evidence를 package에 맞게 정렬 (`8b83f66` revert + `4096d75`)
 - [ ] `pnpm visual` Chromatic 업로드 승인 여부 결정
 - [x] **PreToolUse 훅 (main push·force push 차단)** — 설치 완료 (`hooks/pre-push-guard.sh` + `~/.claude/settings.json` 등록)
 
