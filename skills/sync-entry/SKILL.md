@@ -39,6 +39,12 @@ disable-model-invocation: false
 | 회고 섹션 | 원본과 뷰어 모두에 `### 회고 및 인사이트`가 있는지 확인 |
 | plan 블록 | `plan-YYYY-MM-DD` 블록이 있는지, 체크리스트가 원본과 일치하는지 |
 
+추가로 날짜 하나만 보지 말고, 사용자가 보는 월 전체를 확인한다:
+
+- 공개 HTML을 저장한 뒤 `node scripts/verify-public-worklog-month.mjs --html <downloaded worklog.html> --month YYYY-MM --forbid-plan --allow-unchecked entry-YYYY-MM-DD`를 실행한다.
+- `--allow-unchecked`에는 내일 `Next`처럼 의도적으로 남기는 entry만 넣는다.
+- 오늘 완료한 항목이 `[ ]`로 남거나, stale `plan-YYYY-MM-DD` 블록이 남으면 동기화 정상으로 보고하지 않는다.
+
 ---
 
 ## Step 3 — 결과 보고 및 수정  [Confirm]
@@ -60,7 +66,7 @@ disable-model-invocation: false
 - (없음)
 ```
 
-수정 여부를 확인한 뒤, 사용자가 원하면 worklog.html 엔트리를 원본 md 기준으로 업데이트한다. 뷰어를 수정한 경우 커밋/푸시 후 공개 URL `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`에서 수정 문구가 실제로 보이는지 확인해야 완료다.
+수정 여부를 확인한 뒤, 사용자가 원하면 worklog.html 엔트리를 원본 md 기준으로 업데이트한다. 뷰어를 수정한 경우 커밋/푸시 후 공개 URL `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`에서 수정 문구가 실제로 보이는지 확인하고, 월 단위 체크박스 검증까지 통과해야 완료다.
 
 ---
 
@@ -70,6 +76,7 @@ disable-model-invocation: false
 - 뷰어 수정 시 엔트리 블록(`entry-YYYY-MM-DD`)만 교체, 나머지 구조는 건드리지 않는다
 - 원본 md를 뷰어에 맞춰 변경하지 않는다 — 원본이 항상 기준
 - 원본 md 또는 뷰어를 수정하면 두 저장소 반영 여부와 공개 URL 렌더 결과를 함께 확인한다
+- 공개 viewer에만 남은 `plan-*` 블록이나 오래된 unchecked 항목은 사용자가 실제 화면에서 보는 문제이므로 반드시 월 단위로 잡는다
 
 ## Trigger phrases
 

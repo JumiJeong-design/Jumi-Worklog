@@ -18,6 +18,7 @@
 | **회고 섹션은 생략하지 않는다** | 워크로그 마지막에 회고가 없어도 그냥 저장 | 형식 규칙에 없어 보여도 템플릿에 있으면 반드시 포함 |
 | **상태 확인은 CONTEXT.md만 믿지 않는다** | CONTEXT.md가 미완이라 표기됐으니 미완이겠지 | Figma MCP·git log로 실제 소스를 교차 확인한 뒤 보고. 문서는 항상 뒤처질 수 있다 |
 | **워크로그 수정은 공개 URL 확인까지가 완료다** | MD만 수정하거나 worklog.html만 push하고 종료 | 원본 MD + `site/worklog.html` 동시 갱신 → 두 레포 커밋/푸시 → `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`에서 실제 문구 확인 |
+| **공개 worklog는 월 단위 체크박스 상태까지 검증한다** | 오늘 파일만 보고 완료라고 판단 → 공개 viewer에 public-only plan/old entry 미체크가 남음 | `scripts/verify-public-worklog-month.mjs`로 공개 HTML의 해당 월 entry/plan 블록을 검사. 오늘 완료는 `[x]`, 내일 `Next`만 `[ ]`, stale `plan-*` 블록은 제거 |
 
 ---
 

@@ -243,6 +243,10 @@ worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIE
 5. `mcp__github__create_or_update_file`로 저장한다.
 6. 저장 후 `socra-ai-workflow-wiki`도 커밋/푸시 또는 GitHub API 업데이트가 완료됐는지 확인한다.
 7. 공개 URL `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`을 직접 받아서 새 날짜/수정 문구가 실제로 보이는지 확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재확인한다.
+8. 문구 확인만으로 완료하지 않는다. 공개 HTML을 저장한 뒤 월 단위 체크박스 검증을 실행한다.
+   - 예: `node scripts/verify-public-worklog-month.mjs --html /tmp/worklog-public.html --month YYYY-MM --forbid-plan --allow-unchecked entry-YYYY-MM-DD`
+   - `--allow-unchecked`에는 내일 `Next`처럼 의도적으로 남기는 entry만 넣는다.
+   - 오늘 완료한 항목이 `[ ]`로 남거나, stale `plan-YYYY-MM-DD` 블록이 남으면 완료 처리하지 않는다.
 
 | 파라미터 | 값 |
 |---------|-----|
@@ -281,6 +285,7 @@ worklog 저장 완료.
 ├── CONTEXT.md 갱신 완료
 ├── worklog.html 뷰어 동기화 완료 → socra-ai-workflow-wiki
 ├── 공개 URL 확인 완료 → https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html
+├── 공개 HTML 월별 체크박스 검증 완료 → 오늘 `[x]`, 내일 `Next`만 `[ ]`
 └── Notion: YYYY-MM-DD 업무 로그 업데이트
 ```
 
