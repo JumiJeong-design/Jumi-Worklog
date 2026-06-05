@@ -41,9 +41,9 @@ disable-model-invocation: false
 
 추가로 날짜 하나만 보지 말고, 사용자가 보는 월 전체를 확인한다:
 
-- 공개 HTML을 저장한 뒤 `node scripts/verify-public-worklog-month.mjs --html <downloaded worklog.html> --month YYYY-MM --forbid-plan --allow-unchecked entry-YYYY-MM-DD`를 실행한다.
+- 공개 HTML을 저장한 뒤 `node scripts/verify-public-worklog-month.mjs --html <downloaded worklog.html> --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD`를 실행한다.
 - `--allow-unchecked`에는 내일 `Next`처럼 의도적으로 남기는 entry만 넣는다.
-- 오늘 완료한 항목이 `[ ]`로 남거나, stale `plan-YYYY-MM-DD` 블록이 남으면 동기화 정상으로 보고하지 않는다.
+- 오늘 완료한 항목이 `[ ]`로 남거나, 허용하지 않은 `plan-YYYY-MM-DD` 블록이 남으면 동기화 정상으로 보고하지 않는다.
 
 ---
 
@@ -76,7 +76,7 @@ disable-model-invocation: false
 - 뷰어 수정 시 엔트리 블록(`entry-YYYY-MM-DD`)만 교체, 나머지 구조는 건드리지 않는다
 - 원본 md를 뷰어에 맞춰 변경하지 않는다 — 원본이 항상 기준
 - 원본 md 또는 뷰어를 수정하면 두 저장소 반영 여부와 공개 URL 렌더 결과를 함께 확인한다
-- 공개 viewer에만 남은 `plan-*` 블록이나 오래된 unchecked 항목은 사용자가 실제 화면에서 보는 문제이므로 반드시 월 단위로 잡는다
+- 공개 viewer에만 남은 허용되지 않은 `plan-*` 블록이나 오래된 unchecked 항목은 사용자가 실제 화면에서 보는 문제이므로 반드시 월 단위로 잡는다
 
 ## Trigger phrases
 

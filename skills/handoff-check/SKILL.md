@@ -61,7 +61,7 @@ disable-model-invocation: false
 예시:
 
 ```bash
-node scripts/verify-public-worklog-month.mjs --html <downloaded-worklog.html> --month YYYY-MM --forbid-plan --allow-unchecked entry-YYYY-MM-DD
+node scripts/verify-public-worklog-month.mjs --html <downloaded-worklog.html> --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD
 ```
 
 ## Step 4 — Wiki 승격 후보 확인

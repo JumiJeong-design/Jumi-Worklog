@@ -18,7 +18,7 @@
 | **회고 섹션은 생략하지 않는다** | 워크로그 마지막에 회고가 없어도 그냥 저장 | 형식 규칙에 없어 보여도 템플릿에 있으면 반드시 포함 |
 | **상태 확인은 CONTEXT.md만 믿지 않는다** | CONTEXT.md가 미완이라 표기됐으니 미완이겠지 | Figma MCP·git log로 실제 소스를 교차 확인한 뒤 보고. 문서는 항상 뒤처질 수 있다 |
 | **워크로그 수정은 공개 URL 확인까지가 완료다** | MD만 수정하거나 worklog.html만 push하고 종료 | 원본 MD + `site/worklog.html` 동시 갱신 → 두 레포 커밋/푸시 → `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`에서 실제 문구 확인 |
-| **공개 worklog는 월 단위 체크박스 상태까지 검증한다** | 오늘 파일만 보고 완료라고 판단 → 공개 viewer에 public-only plan/old entry 미체크가 남음 | `scripts/verify-public-worklog-month.mjs`로 공개 HTML의 해당 월 entry/plan 블록을 검사. 오늘 완료는 `[x]`, 내일 `Next`만 `[ ]`, stale `plan-*` 블록은 제거 |
+| **공개 worklog는 월 단위 체크박스 상태까지 검증한다** | 오늘 파일만 보고 완료라고 판단 → 공개 viewer에 public-only plan/old entry 미체크가 남음 | `scripts/verify-public-worklog-month.mjs`로 공개 HTML의 해당 월 entry/plan 블록을 검사. 정상 `plan-*` 블록은 Plan/Log 탭과 캘린더 두 색 점의 데이터이므로 삭제하지 않고, 허용되지 않은 plan 블록이나 오래된 unchecked만 정리 |
 | **기본은 작게 시작한다** | 분석, 수정, 배포, 위키/스킬 승격을 한 턴에 모두 수행해 토큰과 범위가 커짐 | 먼저 분석/수정 여부를 구분하고, 한 턴 한 레포를 기본값으로 둔다. 공개 검증은 public 문서 변경 시에만, 위키/스킬 승격은 하루 끝이나 명시 요청 시에만 수행한다 |
 
 ---

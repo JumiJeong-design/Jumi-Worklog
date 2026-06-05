@@ -13,9 +13,10 @@ const htmlPath = valueAfter("--html");
 const month = valueAfter("--month");
 const allowUnchecked = new Set((valueAfter("--allow-unchecked") || "").split(",").map((v) => v.trim()).filter(Boolean));
 const forbidPlan = args.includes("--forbid-plan");
+const allowPlan = new Set((valueAfter("--allow-plan") || "").split(",").map((v) => v.trim()).filter(Boolean));
 
 if (!htmlPath || !month || !/^\d{4}-\d{2}$/.test(month)) {
-  console.error("Usage: node scripts/verify-public-worklog-month.mjs --html <site/worklog.html> --month YYYY-MM [--allow-unchecked entry-YYYY-MM-DD,...] [--forbid-plan]");
+  console.error("Usage: node scripts/verify-public-worklog-month.mjs --html <site/worklog.html> --month YYYY-MM [--allow-unchecked entry-YYYY-MM-DD,...] [--forbid-plan] [--allow-plan plan-YYYY-MM-DD,...]");
   process.exit(2);
 }
 
@@ -34,7 +35,7 @@ for (const match of html.matchAll(scriptRe)) {
   const unchecked = (body.match(/\[ \]/g) || []).length;
   rows.push({ id, unchecked });
 
-  if (planMatch && forbidPlan) {
+  if (planMatch && forbidPlan && !allowPlan.has(id)) {
     failures.push(`${id}: plan block is forbidden for ${month}; move follow-up items into entry Next instead`);
   }
 
