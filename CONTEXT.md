@@ -1,7 +1,7 @@
 # 현재 상태 스냅샷
 
 > 세션 시작 시 자동 로드되는 파일. 세션 종료 전 반드시 업데이트.
-> Last updated: 2026-06-05
+> Last updated: 2026-06-06
 
 ---
 
@@ -188,10 +188,12 @@ FigJam 보드 — 브랜드 캐릭터 아이데이션 전용. Phase 0 진행 중
 - 파운데이션 문서 4종 완료 (color, typography, spacing, shadow)
 - design-system/components.md — 35개 컴포넌트 전면 싱크 완료
 - **design-system/rules.md — 18규칙** [PR #3 브랜치, main 미머지]
-- Storybook 착수 (Codex, main) — Button 스토리 + token fallback 격리 렌더
-- **Button Figma/Storybook 루프 검증 완료** (2026-06-04)
-- **Socra Foundation cleanup 완료** (2026-06-05): category colors 제거, `Shadow / Elevation` 병합, Markdown Rendering/Table 정리, semantic alpha/state token 반영, 후속 계획 push (`6ee8c65`, `b69a034`, `8f3a427`)
-- **Foundation/Components sync audit 표 작성 완료** (2026-06-05): `docs/plans/2026-06-06-socra-design-system-followup.md`의 `### 2026-06-05 Foundation / Components Sync Audit Table` 기준으로 6월 6일 수정 작업을 이어간다. 같은 표를 다시 만들지 않고, false positive 제거 후 source-of-truth가 명확한 항목만 수정한다.
+- **Socra Foundation cleanup 완료** (2026-06-05)
+- **Foundation/Components sync audit 표 작성 완료** (2026-06-05)
+- **Figma Workstream 2 바인딩 마무리 완료** (2026-06-06): Shadow/Elevation(34), Icon strokeWeight(79), Markdown(47), Opacity/Alpha(33), Bottom Nav orphan Frame(16), Spacing(32)
+- **Storybook MDX docs 완료** (2026-06-06): Button + 12개 컴포넌트 — Chip/Checkbox/Radio/Toggle/TabItem/Toast/Spinner/UserProfile/ModelProfile/HistoryItem/HeaderNavBar/ChatInputBar
+- **Chromatic CI** (2026-06-06): GitHub Actions `chromatic.yml` — push: main, `claude/**` + PR
+- branch: `claude/continuation-T3mv1`
 
 ### Socra 브랜드 캐릭터 (FigJam: `8CWsofQlE65slaKh7COrbe`)
 - **Phase 0 진행 중** — 여우·정령 후보 2개 확정, AI 이미지 프롬프트 준비 완료
@@ -207,20 +209,22 @@ FigJam 보드 — 브랜드 캐릭터 아이데이션 전용. Phase 0 진행 중
 ### jumi-worklog
 - 스킬 7개 — write-worklog / session-snapshot / sync-entry / prep-meeting / bump-version / record-trap / **save-ideation(신규)**
 - write-worklog 스킬 개선: 3개 레포 커밋 전수 조회, 회고 필수화, H2 탭 과밀 방지 기준 추가
-- **2026-06-04, 2026-06-05 워크로그 완료**
+- **2026-06-04, 2026-06-05, 2026-06-06 워크로그 완료**
 
 ---
 
 ## 다음 작업 예정
 
-6월 6일 다음 작업은 역할을 분리해서 진행한다.
+### 미결 — 주미님 확인 필요
 
-### Codex/Claude Code가 이어서 할 작업
+1. **Figma next-batch 컴포넌트 후보 결정** — ActionBar, GNB, ThumbnailItem 포함 여부
+2. **기존 모바일 source frame 확인** → web responsive 확장 판단
+3. **Socra 브랜드 캐릭터 Phase 0** — Midjourney/ChatGPT로 여우·정령 이미지 생성 → Phase 0 캐릭터 픽
 
-1. **Socra DS**: 6월 5일 sync audit 표 기준으로 Foundation/Components 수정. source-of-truth가 명확한 항목만 반영하고, count 기반 bulk edit은 금지.
-2. **Socra DS**: Markdown table head/column/body cell 구조를 현재 Figma component 구조와 대조해 수정 가능 항목과 사용자 판단 항목을 분리.
-3. **Socra DS**: Button/icon stroke/Text Field처럼 package-sensitive 항목은 package contract와 승인 범위를 먼저 확인한 뒤 수정 여부 결정.
-4. **워크로그**: 작업을 하면 즉시 해당 체크리스트를 `[x]`로 갱신하고, 공개 `worklog.html` 배포 후 월 단위 검증까지 완료.
+### 이어서 할 작업 (Claude Code)
+
+1. **Socra DS**: 6월 5일 sync audit 표 기준으로 Foundation/Components 수정
+2. Storybook MDX docs: `riiid/prism` PR 생성 또는 main 머지 논의
 
 ### 주미님 확인
 
