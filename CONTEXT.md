@@ -1,7 +1,7 @@
 # 현재 상태 스냅샷
 
 > 세션 시작 시 자동 로드되는 파일. 세션 종료 전 반드시 업데이트.
-> Last updated: 2026-06-06
+> Last updated: 2026-06-07
 
 ---
 
@@ -193,6 +193,8 @@ FigJam 보드 — 브랜드 캐릭터 아이데이션 전용. Phase 0 진행 중
 - **Figma Workstream 2 바인딩 마무리 완료** (2026-06-06): Shadow/Elevation(34), Icon strokeWeight(79), Markdown(47), Opacity/Alpha(33), Bottom Nav orphan Frame(16), Spacing(32)
 - **Storybook MDX docs 완료** (2026-06-06): Button + 12개 컴포넌트 — Chip/Checkbox/Radio/Toggle/TabItem/Toast/Spinner/UserProfile/ModelProfile/HistoryItem/HeaderNavBar/ChatInputBar
 - **Chromatic CI** (2026-06-06): GitHub Actions `chromatic.yml` — push: main, `claude/**` + PR
+- **Rule 27 (Atomic Composition) 추가** (2026-06-07): `834d63e`
+- **Figma 원자 단위 컴포넌트 리팩터링 완료** (2026-06-07): _TextBubble, _Dot, ThinkingIndicator, BottomNav/Tab, Chat History Panel(COMPONENT 승격), BottomSheet/MenuItem, BottomSheet/ActionRow, ContextMenu/Item, Settings/Row, Settings/SectionHeader, Date Divider, Message Context Menu, Message Bubble Status=thinking
 - branch: `claude/continuation-T3mv1`
 
 ### Socra 브랜드 캐릭터 (FigJam: `8CWsofQlE65slaKh7COrbe`)
@@ -209,7 +211,7 @@ FigJam 보드 — 브랜드 캐릭터 아이데이션 전용. Phase 0 진행 중
 ### jumi-worklog
 - 스킬 7개 — write-worklog / session-snapshot / sync-entry / prep-meeting / bump-version / record-trap / **save-ideation(신규)**
 - write-worklog 스킬 개선: 3개 레포 커밋 전수 조회, 회고 필수화, H2 탭 과밀 방지 기준 추가
-- **2026-06-04, 2026-06-05, 2026-06-06 워크로그 완료**
+- **2026-06-04, 2026-06-05, 2026-06-06, 2026-06-07 워크로그 완료**
 
 ---
 
@@ -217,9 +219,11 @@ FigJam 보드 — 브랜드 캐릭터 아이데이션 전용. Phase 0 진행 중
 
 ### 미결 — 주미님 확인 필요
 
-1. **Figma next-batch 컴포넌트 후보 결정** — ActionBar, GNB, ThumbnailItem 포함 여부
+1. **Figma next-batch 컴포넌트 후보 결정** — ActionBar 확정, GNB·ThumbnailItem 보류 중
 2. **기존 모바일 source frame 확인** → web responsive 확장 판단
-3. **Socra 브랜드 캐릭터 Phase 0** — Midjourney/ChatGPT로 여우·정령 이미지 생성 → Phase 0 캐릭터 픽
+3. **Socra 브랜드 캐릭터 Phase 0** — Midjourney/ChatGPT로 여우·정령 이미지 생성 → Phase 0 캐릭터 픽 (→ 6/8 월요일)
+4. **Settings 화면 frame 조립** — Settings/Row, SectionHeader atoms 완료. 실제 Settings 페이지 배치 미완.
+5. **Date Divider 배치** — 컴포넌트 완료, conversation thread frame에 실제 적용 미완.
 
 ### 이어서 할 작업 (Claude Code)
 
