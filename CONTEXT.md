@@ -1,7 +1,7 @@
 # 현재 상태 스냅샷
 
 > 세션 시작 시 자동 로드되는 파일. 세션 종료 전 반드시 업데이트.
-> Last updated: 2026-06-06
+> Last updated: 2026-06-08
 
 ---
 
@@ -98,6 +98,8 @@
 - [x] **PreToolUse 훅 (main push·force push 차단)** — 설치 완료 (`hooks/pre-push-guard.sh` + `~/.claude/settings.json` 등록)
 - [ ] **Socra 브랜드 캐릭터 Phase 0** — Midjourney/ChatGPT로 여우·정령 이미지 생성 후 비교·픽 (프롬프트 준비 완료)
 - [ ] **Socra 브랜드 캐릭터 Phase 1** — 형상·실루엣 정의
+- [x] **PrismSpirit concept sandbox** — 기존 repo와 분리된 React/Vite 프로토타입 제작 + 공개 Vercel 링크 배포
+- [ ] **PrismSpirit 최종 방향 결정** — pixel UI symbol 컨셉을 design-system component로 이관할지 판단
 
 ---
 
@@ -115,6 +117,9 @@
 
 | 결정 | 이유 한 줄 |
 |------|------------|
+| PrismSpirit 컨셉은 기존 design-system과 분리된 standalone sandbox에서 검증 | 아직 캐릭터 방향 탐색 단계이므로 package 코드에 결합하지 않고 빠르게 시각 피드백을 반복 |
+| PrismSpirit는 blob이 아니라 동일 크기 pixel unit으로 형상화 | 사용자가 원한 것은 여러 덩어리 캐릭터가 아니라 pixel/text-art처럼 작은 단위가 모여 하나가 되는 UI symbol |
+| PrismSpirit ear/accessory는 Adornment 한 축으로 통합 | 귀·안경·헤드폰·양갈래·외계인/토끼귀를 같은 silhouette option으로 비교해야 컨셉 패널이 단순해짐 |
 | Socra 캐릭터는 단일 마스코트 아닌 Pokemon 스타일 패밀리 시스템 | 모델별 서브캐릭터(Claude=산호, GPT=초록, Gemini=파랑, Grok=은색)로 멀티모델 메타포 자연 표현 |
 | 여우·정령 두 후보 동시 테스트 | Phase 0에서 AI 이미지 생성 후 시각 비교로 최종 픽 |
 | Component state는 layer opacity가 아니라 semantic token으로 표현 | 다크모드 전환에서 disabled/pressed/scrim 의도를 각각 제어해야 함 |
@@ -199,6 +204,8 @@ FigJam 보드 — 브랜드 캐릭터 아이데이션 전용. Phase 0 진행 중
 - **Phase 0 진행 중** — 여우·정령 후보 2개 확정, AI 이미지 프롬프트 준비 완료
 - Variation 시스템 방향 확정: 대표 캐릭터 1개 + 모델별 서브캐릭터 (Pokemon 스타일)
 - `save-ideation` 스킬 완성 — 이후 세션에서 자동 저장 루틴 운용 가능
+- **PrismSpirit concept sandbox** (2026-06-08): 기존 repo와 분리해 React/Vite standalone으로 pixel UI-symbol 캐릭터를 테스트. 공개 링크: https://prism-spirit-concept.vercel.app
+- PrismSpirit 현 상태: 동일 크기 pixel field, Adornment auto(round/cat/fox/pigtails/headphones/glasses/alien/bunny), soft aura, mono/aqua/berry/sunrise variants, optional feet.
 
 ### socra-ai-workflow-wiki
 - **v0.15** — 5개 그룹 페이지 분리, scrollspy, 검색 하이라이트, wiki.html 뷰어
@@ -220,6 +227,7 @@ FigJam 보드 — 브랜드 캐릭터 아이데이션 전용. Phase 0 진행 중
 1. **Figma next-batch 컴포넌트 후보 결정** — ActionBar, GNB, ThumbnailItem 포함 여부
 2. **기존 모바일 source frame 확인** → web responsive 확장 판단
 3. **Socra 브랜드 캐릭터 Phase 0** — Midjourney/ChatGPT로 여우·정령 이미지 생성 → Phase 0 캐릭터 픽
+4. **PrismSpirit 방향 판단** — standalone concept을 계속 다듬을지, design-system repo의 실제 component로 이관할지 결정
 
 ### 이어서 할 작업 (Claude Code)
 
