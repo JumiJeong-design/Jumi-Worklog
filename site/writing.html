@@ -425,7 +425,7 @@
 <body>
   <div class="topbar">
     <div class="topbar-title" id="topbar-title">Writing Dashboard</div>
-    <button class="edit-action" type="button" onclick="showDashboard()">인덱스로</button>
+    <button class="edit-action topbar-index-action" type="button" onclick="showDashboard()">목록으로</button>
   </div>
   <div class="layout app-shell">
     <aside class="sidebar" id="sidebar">
@@ -671,7 +671,7 @@
       </section>
       <section class="viewer" id="doc-viewer">
         <div class="doc-toolbar">
-          <button class="edit-action" type="button" onclick="showDashboard()">← 인덱스로</button>
+          <button class="edit-action" type="button" onclick="showDashboard()">← 목록으로</button>
           <a class="edit-action" id="doc-edit-link" href="#" target="_blank" rel="noopener">GitHub에서 편집</a>
         </div>
         <div class="doc-state" id="doc-state">글감을 선택하세요.</div>
@@ -712,6 +712,7 @@
     });
   }
   function showDashboard() {
+    document.body.classList.remove('viewer-open');
     dashboard.classList.remove('hidden');
     viewer.classList.remove('active');
     topbarTitle.textContent = 'Writing Dashboard';
@@ -719,6 +720,7 @@
     if (location.hash.startsWith('#doc=')) history.replaceState(null, '', location.pathname);
   }
   async function openDoc(href, options = {}) {
+    document.body.classList.add('viewer-open');
     dashboard.classList.add('hidden');
     viewer.classList.add('active');
     docContent.innerHTML = '';

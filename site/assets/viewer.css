@@ -130,6 +130,8 @@ button { font: inherit; }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.topbar-index-action { display: none; }
+body.viewer-open .topbar-index-action { display: inline-flex; }
 
 .main {
   flex: 1;
