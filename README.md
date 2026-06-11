@@ -1,5 +1,7 @@
 # jumi-worklog
 
+**📋 워크로그 뷰어 → https://jumijeong-design.github.io/Jumi-Worklog/site/worklog.html**
+
 주미님과 AI 도구(Claude Code, Codex)의 **공동 기록 허브**입니다. 이 repo는 날짜별 작업 기록, 세션 맥락, 결정 전 고민, 시행착오를 보존하는 공동 채널입니다.
 
 ## What Belongs Here
