@@ -9,7 +9,7 @@ disable-model-invocation: false
 오늘 작업 세션을 **요약 → 문서화 → GitHub push → CONTEXT.md 갱신 → worklog.html 뷰어 동기화 → Notion 업로드** 순서로 자동 완료한다.
 대화 컨텍스트에서 작업 내용을 직접 추출하므로, 사용자가 별도로 내용을 타이핑할 필요가 없다.
 
-> **핵심:** worklog는 두 곳에 저장된다 — ① `jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`(원본 마크다운, private) ② `socra-ai-workflow-wiki/worklog.html`(공개 뷰어, 엔트리 하드코딩). 뷰어는 private 레포를 실시간으로 못 읽으므로, 이 스킬이 push 시점에 **둘 다** 갱신해야 한다. Step 4.6을 건너뛰면 뷰어에 오늘 날짜가 안 보인다.
+> **핵심:** worklog는 두 곳에 저장된다 — ① `jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`(원본 마크다운, private) ② `Jumi-Worklog/site/worklog.html`(공개 뷰어, 엔트리 하드코딩). 뷰어는 private 레포를 실시간으로 못 읽으므로, 이 스킬이 push 시점에 **둘 다** 갱신해야 한다. Step 4.6을 건너뛰면 뷰어에 오늘 날짜가 안 보인다.
 
 ---
 
@@ -18,7 +18,7 @@ disable-model-invocation: false
 - GitHub MCP (`mcp__github__*`) — 파일 읽기·쓰기에 사용
 - Notion MCP (`mcp__a2cd6401__notion-*`) — Notion DB 업로드에 사용 (미연결 시 GitHub만 push)
 - 오늘 날짜 확인 필요 (`currentDate` 시스템 컨텍스트 또는 대화에서 추출)
-- 대상 레포 2개: `jumijeong-design/jumi-worklog`(원본), `jumijeong-design/socra-ai-workflow-wiki`(뷰어)
+- 대상 레포 2개: `jumijeong-design/jumi-worklog`(원본), `jumijeong-design/Jumi-Worklog`(뷰어)
 
 ---
 
@@ -217,13 +217,13 @@ disable-model-invocation: false
 
 ## Step 4.6 — worklog.html 뷰어 동기화  [Write]
 
-공개 뷰어 `socra-ai-workflow-wiki/site/worklog.html`에 오늘 엔트리를 추가한다.
+공개 뷰어 `Jumi-Worklog/site/worklog.html`에 오늘 엔트리를 추가한다.
 **이 단계를 건너뛰면 뷰어 페이지에 오늘 날짜가 안 보인다.** (private 레포라 실시간 fetch 불가 → 수동 동기화 필수)
 
 worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIES 목록은 DOM에서 자동 파생되므로 별도로 건드리지 않는다.
 
 **Do:**
-1. `mcp__github__get_file_contents`로 `socra-ai-workflow-wiki/site/worklog.html`의 현재 내용과 SHA를 읽는다.
+1. `mcp__github__get_file_contents`로 `Jumi-Worklog/site/worklog.html`의 현재 내용과 SHA를 읽는다.
 2. 오늘 엔트리가 이미 있는지(`id="entry-YYYY-MM-DD"`) 확인. 있으면 해당 블록 교체, 없으면 신규 추가.
 3. **엔트리 블록 삽입:** 가장 최신 엔트리 블록 **바로 위**에 새 블록을 넣는다.
    ```
@@ -242,7 +242,7 @@ worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIE
    - **ENTRIES 배열은 건드리지 않는다** — `entry-YYYY-MM-DD` 블록 추가만으로 캘린더·목록에 자동 반영된다.
 5. `mcp__github__create_or_update_file`로 저장한다.
 6. 저장 후 `socra-ai-workflow-wiki`도 커밋/푸시 또는 GitHub API 업데이트가 완료됐는지 확인한다.
-7. 공개 URL `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`을 직접 받아서 새 날짜/수정 문구가 실제로 보이는지 확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재확인한다.
+7. 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/site/worklog.html`을 직접 받아서 새 날짜/수정 문구가 실제로 보이는지 확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재확인한다.
 8. 문구 확인만으로 완료하지 않는다. 공개 HTML을 저장한 뒤 월 단위 체크박스 검증을 실행한다.
    - 예: `node scripts/verify-public-worklog-month.mjs --html /tmp/worklog-public.html --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD`
    - `--allow-unchecked`에는 내일 `Next`처럼 의도적으로 남기는 entry만 넣는다.
@@ -284,7 +284,7 @@ worklog 저장 완료.
 ├── GitHub: logs/YYYY/MM/YYYY-MM-DD.md → JumiJeong-design/jumi-worklog
 ├── CONTEXT.md 갱신 완료
 ├── worklog.html 뷰어 동기화 완료 → socra-ai-workflow-wiki
-├── 공개 URL 확인 완료 → https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html
+├── 공개 URL 확인 완료 → https://jumijeong-design.github.io/Jumi-Worklog/site/worklog.html
 ├── 공개 HTML 월별 체크박스 검증 완료 → 오늘 `[x]`, 내일 `Next`만 `[ ]`
 └── Notion: YYYY-MM-DD 업무 로그 업데이트
 ```

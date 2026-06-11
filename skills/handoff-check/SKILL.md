@@ -53,7 +53,7 @@ disable-model-invocation: false
 
 워크로그가 바뀌었으면 공개 뷰어까지 동기화한다.
 
-- `socra-ai-workflow-wiki/site/worklog.html` 갱신
+- `Jumi-Worklog/site/worklog.html` 갱신
 - 원본 worklog repo와 public viewer repo 모두 commit/push
 - 공개 URL fetch 후 문구 확인
 - 월 단위 체크박스 검증 실행

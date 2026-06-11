@@ -6,7 +6,7 @@ disable-model-invocation: false
 
 # sync-entry
 
-`jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`(원본)과 `socra-ai-workflow-wiki/site/worklog.html`의 `entry-YYYY-MM-DD` 블록(뷰어)을 비교해 내용 불일치나 누락 섹션을 찾는다.
+`jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`(원본)과 `Jumi-Worklog/site/worklog.html`의 `entry-YYYY-MM-DD` 블록(뷰어)을 비교해 내용 불일치나 누락 섹션을 찾는다.
 
 > **배경 (2026-06-04 실제 사례):** prism 작업은 worklog.html에 반영됐으나 socra-ai-workflow-wiki 구조 개편 작업은 원본 md에는 있고 뷰어에는 없었다. 두 곳이 수동으로 관리되다 보니 세션 경계에서 불일치가 쉽게 생긴다.
 
@@ -22,7 +22,7 @@ disable-model-invocation: false
 ## Step 1 — 양쪽 내용 읽기  [Research]
 
 1. `mcp__github__get_file_contents`로 `jumijeong-design/jumi-worklog`의 `logs/YYYY/MM/YYYY-MM-DD.md`를 읽는다.
-2. `mcp__github__get_file_contents`로 `jumijeong-design/socra-ai-workflow-wiki`의 `site/worklog.html`을 읽는다.
+2. `mcp__github__get_file_contents`로 `jumijeong-design/Jumi-Worklog site/worklog.html`을 읽는다.
 3. worklog.html에서 `id="entry-YYYY-MM-DD"` 블록을 추출한다.
 
 ---
@@ -66,7 +66,7 @@ disable-model-invocation: false
 - (없음)
 ```
 
-수정 여부를 확인한 뒤, 사용자가 원하면 worklog.html 엔트리를 원본 md 기준으로 업데이트한다. 뷰어를 수정한 경우 커밋/푸시 후 공개 URL `https://jumijeong-design.github.io/socra-ai-workflow-wiki/site/worklog.html`에서 수정 문구가 실제로 보이는지 확인하고, 월 단위 체크박스 검증까지 통과해야 완료다.
+수정 여부를 확인한 뒤, 사용자가 원하면 worklog.html 엔트리를 원본 md 기준으로 업데이트한다. 뷰어를 수정한 경우 커밋/푸시 후 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/site/worklog.html`에서 수정 문구가 실제로 보이는지 확인하고, 월 단위 체크박스 검증까지 통과해야 완료다.
 
 ---
 
