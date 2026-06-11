@@ -873,10 +873,10 @@ body{
 
 ## 확정 로드맵 (Page design test, 순서대로)
 
-- [ ] 글래스모피즘 (라이트 소프트 프로스트) — 글래스 토큰 신설(`surface/glass-subtle`/`glass`/`glass-strong`, `stroke/glass`, 변수+동명 페인트 스타일 동시) → Header Nav Bar·Chat Input Bar·BottomNav·History Panel 적용 + 배경 그라데이션 워시. Message Bubble은 불투명 유지
-- [ ] KR/JP 텍스트 변수화 + 폰트 토큰 복구 ★반드시 같이★ — 스트링 변수 컬렉션(KR/JP 모드) 신설 + 한국어화 때 끊긴 텍스트 스타일/`fontFamily` 바인딩 복구
-- [ ] 가입/탈퇴 플로우 — 화면 설계 먼저 → 확인 → 빌드. 기존 Button·Text Field·Checkbox·Modal 재사용
-- [ ] 다크 모드 컬러 반전 버그 — 전 화면 raw hex/비반전 토큰 스캔 → 시맨틱 토큰 교체
+- [x] 글래스모피즘 (라이트 소프트 프로스트) — Chat Input Bar·Header Nav Bar·Bottom Bar 컴포넌트 신설. surface/glass-* 토큰 + Effect/glass named style 적용. Header/Chat History Panel은 사용자 직접 완료.
+- [x] KR/JP 텍스트 변수화 + 폰트 토큰 복구 — strings 컬렉션(KR/JP/EN 3-mode) 신설, fontFamily 바인딩 219개 복구, textStyleId 44개 복구. 6/11 EN 모드까지 완성.
+- [ ] 가입/탈퇴 플로우 — 화면 설계 먼저 → 확인 → 빌드. 기존 Button·Text Field·Checkbox·Modal 재사용 → **6/12로 이월**
+- [x] 다크 모드 컬러 반전 버그 — 전 화면 raw hex/비반전 토큰 스캔 → 시맨틱 토큰 교체 완료.
 
 ## 이어서 할 백로그 (트래커)
 
