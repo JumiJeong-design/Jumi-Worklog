@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jumi Writing Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
   <style>
     :root {
       --bg: #f7f6f2;
@@ -419,12 +420,25 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="./assets/viewer.css" />
 </head>
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <p class="brand">Writing Dashboard</p>
-      <a href="./worklog.html" style="display:inline-flex;align-items:center;gap:4px;margin-bottom:16px;font-size:12px;color:#62615c;text-decoration:none;padding:3px 8px;border:1px solid #d9d5ca;border-radius:5px;" onmouseover="this.style.background='#e9e7df'" onmouseout="this.style.background='transparent'">← 워크로그</a>
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+  <div class="topbar">
+    <button class="menu-btn" type="button" onclick="openSidebar()">☰</button>
+    <div class="topbar-title" id="topbar-title">Writing Dashboard</div>
+    <button class="edit-action" type="button" onclick="showDashboard()">목록</button>
+  </div>
+  <div class="layout app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-name">Writing Dashboard</div>
+        <div class="brand-meta">Medium 글감 뷰어</div>
+        <div class="sidebar-actions">
+          <a class="sidebar-link" href="./worklog.html">← 워크로그</a>
+          <a class="sidebar-link" href="./storybook-docs.html">Storybook</a>
+        </div>
+      </div>
       <div class="nav-label">Sections</div>
       <div class="nav-group">
         <a class="nav-link" href="#overview">개요</a>
@@ -443,8 +457,10 @@
     </aside>
 
     <main class="main">
+      <div class="reader">
+      <section class="dashboard" id="dashboard">
       <section id="overview">
-        <div class="topbar">
+        <div class="page-head">
           <div>
             <h1>Medium 글감과 Notion 원본을 한눈에 보는 페이지</h1>
             <p class="subtitle">Markdown 원본은 그대로 두고, 발행 후보와 후속 리서치 출처를 빠르게 훑기 위한 읽기용 화면입니다.</p>
@@ -654,15 +670,83 @@
       <footer class="footer">
         이 페이지는 읽기용 대시보드입니다. 원본 편집은 각 Markdown 파일에서 계속 관리합니다.
       </footer>
+      </section>
+      <section class="viewer" id="doc-viewer">
+        <div class="doc-toolbar">
+          <button class="edit-action" type="button" onclick="showDashboard()">← 글감 목록</button>
+          <a class="edit-action" id="doc-edit-link" href="#" target="_blank" rel="noopener">GitHub에서 편집</a>
+        </div>
+        <div class="doc-state" id="doc-state">글감을 선택하세요.</div>
+        <article class="md" id="doc-content"></article>
+      </section>
+      </div>
     </main>
   </div>
   <script>
   const WRITING_EDIT_BASE = 'https://github.com/JumiJeong-design/Jumi-Worklog/edit/main/';
+  const dashboard = document.getElementById('dashboard');
+  const viewer = document.getElementById('doc-viewer');
+  const docContent = document.getElementById('doc-content');
+  const docState = document.getElementById('doc-state');
+  const docEditLink = document.getElementById('doc-edit-link');
+  const topbarTitle = document.getElementById('topbar-title');
+
+  function writingSourcePath(href) {
+    return href.replace(/^\.\/writing\//, 'writing/');
+  }
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  function showDashboard() {
+    dashboard.classList.remove('hidden');
+    viewer.classList.remove('active');
+    topbarTitle.textContent = 'Writing Dashboard';
+    document.querySelectorAll('.nav-link.active,.tag.active,.chip.active').forEach(el => el.classList.remove('active'));
+    if (location.hash.startsWith('#doc=')) history.replaceState(null, '', location.pathname);
+    closeSidebar();
+  }
+  async function openDoc(href, options = {}) {
+    dashboard.classList.add('hidden');
+    viewer.classList.add('active');
+    docContent.innerHTML = '';
+    docState.textContent = '문서를 불러오는 중...';
+    docEditLink.href = WRITING_EDIT_BASE + encodeURI(writingSourcePath(href));
+    document.querySelectorAll('.nav-link.active,.tag.active,.chip.active').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll(`a[href="${href}"]`).forEach(el => el.classList.add('active'));
+    closeSidebar();
+    try {
+      const response = await fetch(href);
+      if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+      const markdown = await response.text();
+      const title = markdown.match(/^#\s+(.+)$/m)?.[1] || href.split('/').pop();
+      topbarTitle.textContent = title;
+      docState.textContent = '';
+      docContent.innerHTML = marked.parse(markdown);
+      window.scrollTo(0, 0);
+      if (!options.skipHash) history.replaceState(null, '', `#doc=${encodeURIComponent(href)}`);
+    } catch (error) {
+      docState.textContent = '문서를 불러오지 못했습니다. 원본 링크로 다시 열어주세요.';
+      docContent.innerHTML = `<p><a href="${href}">${href}</a></p>`;
+    }
+  }
   document.querySelectorAll('a[href^="./writing/"][href$=".md"]').forEach(link => {
     if (link.dataset.editReady) return;
     link.dataset.editReady = 'true';
     link.title = '클릭하면 문서를 열고, 상단 편집 허브에서 원본을 수정할 수 있습니다.';
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      openDoc(link.getAttribute('href'));
+    });
   });
+  const initialDoc = location.hash.startsWith('#doc=') ? decodeURIComponent(location.hash.replace('#doc=', '')) : '';
+  if (initialDoc) openDoc(initialDoc, { skipHash: true });
   </script>
 </body>
 </html>
