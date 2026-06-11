@@ -420,15 +420,9 @@ tr:last-child td { border-bottom: 0; }
 .md a:hover { text-decoration: underline; }
 
 @media (max-width: 760px) {
-  .sidebar {
-    position: fixed;
-    left: 0;
-    transform: translateX(-100%);
-  }
-  .sidebar.open { transform: translateX(0); }
+  .sidebar { display: none; }
   .topbar { left: 0; }
-  .menu-btn { display: block; }
-  .topbar-title { max-width: calc(100vw - 150px); }
+  .topbar-title { max-width: calc(100vw - 132px); }
   .reader { padding: 24px 16px 60px; }
   h1 { font-size: 24px; }
   .section-head { display: block; }
