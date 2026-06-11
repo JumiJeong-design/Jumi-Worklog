@@ -27,17 +27,6 @@ body {
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
 
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 199;
-  background: rgba(0, 0, 0, .5);
-  opacity: 0;
-  transition: opacity .2s ease;
-}
-.overlay.show { display: block; opacity: 1; }
-
 .app-shell { display: flex; min-height: 100vh; }
 .sidebar {
   width: var(--sidebar-w);
@@ -132,17 +121,6 @@ button { font: inherit; }
   padding: 0 16px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-}
-.menu-btn {
-  display: none;
-  margin-right: auto;
-  padding: 5px 10px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  line-height: 1;
 }
 .topbar-title {
   margin-right: auto;

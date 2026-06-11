@@ -423,10 +423,9 @@
   <link rel="stylesheet" href="./assets/viewer.css" />
 </head>
 <body>
-  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
   <div class="topbar">
     <div class="topbar-title" id="topbar-title">Writing Dashboard</div>
-    <button class="edit-action" type="button" onclick="showDashboard()">글감 목록</button>
+    <button class="edit-action" type="button" onclick="showDashboard()">인덱스로</button>
   </div>
   <div class="layout app-shell">
     <aside class="sidebar" id="sidebar">
@@ -672,7 +671,7 @@
       </section>
       <section class="viewer" id="doc-viewer">
         <div class="doc-toolbar">
-          <button class="edit-action" type="button" onclick="showDashboard()">← 글감 목록</button>
+          <button class="edit-action" type="button" onclick="showDashboard()">← 인덱스로</button>
           <a class="edit-action" id="doc-edit-link" href="#" target="_blank" rel="noopener">GitHub에서 편집</a>
         </div>
         <div class="doc-state" id="doc-state">글감을 선택하세요.</div>
@@ -693,23 +692,12 @@
   function writingSourcePath(href) {
     return href.replace(/^\.\/writing\//, 'writing/');
   }
-  function openSidebar() {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('overlay').classList.add('show');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-    document.body.style.overflow = '';
-  }
   function showDashboard() {
     dashboard.classList.remove('hidden');
     viewer.classList.remove('active');
     topbarTitle.textContent = 'Writing Dashboard';
     document.querySelectorAll('.nav-link.active,.tag.active,.chip.active').forEach(el => el.classList.remove('active'));
     if (location.hash.startsWith('#doc=')) history.replaceState(null, '', location.pathname);
-    closeSidebar();
   }
   async function openDoc(href, options = {}) {
     dashboard.classList.add('hidden');
@@ -719,7 +707,6 @@
     docEditLink.href = WRITING_EDIT_BASE + encodeURI(writingSourcePath(href));
     document.querySelectorAll('.nav-link.active,.tag.active,.chip.active').forEach(el => el.classList.remove('active'));
     document.querySelectorAll(`a[href="${href}"]`).forEach(el => el.classList.add('active'));
-    closeSidebar();
     try {
       const response = await fetch(href);
       if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
