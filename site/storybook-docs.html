@@ -504,6 +504,25 @@ function storybookSourcePath(href) {
   }
   return 'docs/70-socra-storybook-docs/' + path;
 }
+function publicHrefFromDocLink(currentHref, rawHref) {
+  if (!rawHref || rawHref.startsWith('#') || /^[a-z]+:/i.test(rawHref) || rawHref.startsWith('//')) return rawHref;
+  const siteBase = location.pathname.replace(/[^/]*$/, '');
+  const resolved = new URL(rawHref, new URL(currentHref, location.href));
+  if (resolved.origin !== location.origin || !resolved.pathname.startsWith(siteBase)) return resolved.href;
+  return './' + decodeURIComponent(resolved.pathname.slice(siteBase.length)) + resolved.search + resolved.hash;
+}
+function normalizeRenderedLinks(currentHref) {
+  docContent.querySelectorAll('a[href]').forEach(link => {
+    const normalized = publicHrefFromDocLink(currentHref, link.getAttribute('href'));
+    link.setAttribute('href', normalized);
+    if (normalized.startsWith('./') && normalized.endsWith('.md')) {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        openDoc(normalized);
+      });
+    }
+  });
+}
 function showDashboard() {
   dashboard.classList.remove('hidden');
   viewer.classList.remove('active');
@@ -527,6 +546,7 @@ async function openDoc(href, options = {}) {
     topbarTitle.textContent = title;
     docState.textContent = '';
     docContent.innerHTML = marked.parse(markdown);
+    normalizeRenderedLinks(href);
     window.scrollTo(0, 0);
     if (!options.skipHash) history.replaceState(null, '', `#doc=${encodeURIComponent(href)}`);
   } catch (error) {

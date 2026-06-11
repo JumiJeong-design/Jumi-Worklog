@@ -4,7 +4,7 @@ Medium, 외부 공유글, 팀 공유용 글감을 모아두는 공간.
 
 ## 바로 볼 파일
 
-- [글감 대시보드](./index.html)
+- [글감 대시보드](../writing.html)
 - [글감 리스트](./글감_리스트.md)
 - [Jumi Medium Voice Guide](./VOICE_GUIDE.md)
 - [AX 5편 사례 연재](./AX_5편_사례연재/0_안내.md)
