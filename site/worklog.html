@@ -3076,7 +3076,7 @@ function checkboxSignature(date, panel) {
 function checkboxKey(date, panel, index) {
   return `cb:${date}:${panel}:${checkboxSignature(date, panel)}:${index}`;
 }
-function resetCheckboxes(date) {
+function refreshCheckboxesFromSource(date) {
   Object.keys(localStorage).forEach(key => {
     if (key.startsWith(`cb:${date}:`)) localStorage.removeItem(key);
   });
@@ -3205,7 +3205,7 @@ function renderEntry(index) {
     <div class="edit-actions">
       <a class="edit-action" href="${GITHUB_EDIT_BASE + logSourcePath(e.date)}" target="_blank" rel="noopener">로그 원본 편집</a>
       <a class="edit-action" href="${GITHUB_EDIT_BASE}site/worklog.html" target="_blank" rel="noopener">계획/뷰어 편집</a>
-      <button class="edit-action" type="button" onclick="resetCheckboxes('${e.date}')">체크 상태 초기화</button>
+      <button class="edit-action" type="button" onclick="refreshCheckboxesFromSource('${e.date}')">원본 체크로 새로고침</button>
     </div>`;
   const tabs = planHtml ? `
     <div class="entry-tabs">
