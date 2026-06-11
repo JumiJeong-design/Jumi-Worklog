@@ -423,7 +423,9 @@
   <link rel="stylesheet" href="./assets/viewer.css" />
 </head>
 <body>
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
   <div class="topbar">
+    <button class="menu-btn" type="button" onclick="openSidebar()">☰</button>
     <div class="topbar-title" id="topbar-title">Writing Dashboard</div>
     <button class="edit-action topbar-index-action" type="button" onclick="showDashboard()">홈</button>
   </div>
@@ -711,6 +713,16 @@
       }
     });
   }
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+    document.body.style.overflow = '';
+  }
   function showDashboard() {
     document.body.classList.remove('viewer-open');
     dashboard.classList.remove('hidden');
@@ -718,6 +730,7 @@
     topbarTitle.textContent = 'Writing Dashboard';
     document.querySelectorAll('.nav-link.active,.tag.active,.chip.active').forEach(el => el.classList.remove('active'));
     if (location.hash.startsWith('#doc=')) history.replaceState(null, '', location.pathname);
+    closeSidebar();
   }
   async function openDoc(href, options = {}) {
     document.body.classList.add('viewer-open');
@@ -728,6 +741,7 @@
     docEditLink.href = WRITING_EDIT_BASE + encodeURI(writingSourcePath(href));
     document.querySelectorAll('.nav-link.active,.tag.active,.chip.active').forEach(el => el.classList.remove('active'));
     document.querySelectorAll(`a[href="${href}"]`).forEach(el => el.classList.add('active'));
+    closeSidebar();
     try {
       const response = await fetch(href);
       if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
