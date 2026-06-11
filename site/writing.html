@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jumi Writing Dashboard</title>
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --panel: #ffffff;
+      --panel-soft: #f0eee7;
+      --text: #202124;
+      --muted: #62615c;
+      --line: #d9d5ca;
+      --green: #2f7d5b;
+      --green-soft: #e2f0e8;
+      --blue: #286f9b;
+      --blue-soft: #e2eef5;
+      --red: #a14d3a;
+      --red-soft: #f4e7e2;
+      --gold: #9a6a20;
+      --gold-soft: #f3ead6;
+      --ink-soft: #e9e7df;
+      --shadow: 0 10px 30px rgba(32, 33, 36, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 20px;
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.74);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand {
+      margin: 0 0 22px;
+      font-size: 18px;
+      font-weight: 760;
+    }
+
+    .nav-label {
+      margin: 22px 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: #363633;
+      font-size: 14px;
+    }
+
+    .nav-link:hover {
+      background: var(--ink-soft);
+    }
+
+    .main {
+      padding: 34px 36px 60px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 26px;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: 52px;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 740px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .meta {
+      display: grid;
+      gap: 8px;
+      min-width: 190px;
+      padding-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 28px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: #34342f;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .chip:hover {
+      border-color: #b8b2a5;
+      box-shadow: var(--shadow);
+    }
+
+    .section {
+      margin-top: 34px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .section-note {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 2px 12px rgba(32, 33, 36, 0.04);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 12px 0 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      background: var(--ink-soft);
+      color: #44413a;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .tag.green {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .tag.blue {
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .tag.red {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .tag.gold {
+      background: var(--gold-soft);
+      color: var(--gold);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--panel-soft);
+      color: #393731;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .priority {
+      width: 44px;
+      color: var(--muted);
+      font-weight: 760;
+    }
+
+    .title-cell {
+      min-width: 220px;
+      font-weight: 720;
+    }
+
+    .quote-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    blockquote {
+      margin: 0;
+      padding: 14px 16px;
+      border-left: 4px solid var(--green);
+      border-radius: 0 8px 8px 0;
+      background: var(--panel);
+      color: #34342f;
+      font-size: 15px;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .source-item {
+      display: grid;
+      grid-template-columns: minmax(170px, 0.8fr) minmax(0, 1.4fr) minmax(0, 1.5fr);
+      gap: 12px;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .source-title {
+      font-weight: 740;
+    }
+
+    .source-desc,
+    .source-use {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer {
+      margin-top: 44px;
+      padding: 18px 0 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        padding: 18px 18px 12px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .nav-label {
+        display: none;
+      }
+
+      .nav-link {
+        border: 1px solid var(--line);
+        background: var(--panel);
+      }
+
+      .main {
+        padding: 26px 18px 42px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .topbar,
+      .section-head {
+        display: block;
+      }
+
+      .meta,
+      .section-note {
+        margin-top: 12px;
+        text-align: left;
+      }
+
+      .grid,
+      .grid.two {
+        grid-template-columns: 1fr;
+      }
+
+      .source-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <p class="brand">Writing Dashboard</p>
+      <div class="nav-label">Sections</div>
+      <div class="nav-group">
+        <a class="nav-link" href="#overview">개요</a>
+        <a class="nav-link" href="#series">연재 초안</a>
+        <a class="nav-link" href="#ideas">새 글감</a>
+        <a class="nav-link" href="#notion">Notion 원본</a>
+        <a class="nav-link" href="#next">다음 편집</a>
+      </div>
+      <div class="nav-label">Source Files</div>
+      <div class="nav-group">
+        <a class="nav-link" href="./글감_리스트.md">글감 리스트 MD</a>
+        <a class="nav-link" href="./_sources/notion_source_map.md">Notion Source Map</a>
+        <a class="nav-link" href="./_sources/product_research_backlog.md">Research Backlog</a>
+        <a class="nav-link" href="./VOICE_GUIDE.md">Voice Guide</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section id="overview">
+        <div class="topbar">
+          <div>
+            <h1>Medium 글감과 Notion 원본을 한눈에 보는 페이지</h1>
+            <p class="subtitle">Markdown 원본은 그대로 두고, 발행 후보와 후속 리서치 출처를 빠르게 훑기 위한 읽기용 화면입니다.</p>
+          </div>
+          <div class="meta">
+            <span>Last updated: 2026-06-11</span>
+            <span>Source: jumi-worklog/writing</span>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <a class="chip" href="./글감_리스트.md">원본 글감 리스트</a>
+          <a class="chip" href="./_sources/notion_source_map.md">Notion 연결 보기</a>
+          <a class="chip" href="./_sources/product_research_backlog.md">상세 백로그</a>
+          <a class="chip" href="./VOICE_GUIDE.md">Medium 말투 기준</a>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <h3>바로 발행 후보</h3>
+            <p>AX 5편, Compound 3편, Wiki/Storybook/Figma sync 글감이 정리되어 있습니다.</p>
+            <div class="tag-row">
+              <span class="tag green">초안 있음</span>
+              <span class="tag">Medium</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Notion 기반 사례</h3>
+            <p>쏘냥이, 멀티모델 UI, 유저 리서치, 웹사이트 test 문서를 글감에 연결했습니다.</p>
+            <div class="tag-row">
+              <span class="tag blue">원본 링크</span>
+              <span class="tag">source map</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>후속 발굴 방식</h3>
+            <p>상위 Notion DB는 전체 본문을 긁지 않고 제목/URL/속성만 얕게 스캔한 뒤 선별합니다.</p>
+            <div class="tag-row">
+              <span class="tag gold">후속 작업</span>
+              <span class="tag">inventory</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="series">
+        <div class="section-head">
+          <h2>연재 초안</h2>
+          <p class="section-note">이미 파일로 분리된 글입니다. 먼저 VOICE_GUIDE 기준으로 첫 문단을 다시 다듬으면 됩니다.</p>
+        </div>
+        <div class="grid two">
+          <article class="card">
+            <h3>AX 5편 사례 연재</h3>
+            <p>AI workflow, Figma, Git, Storybook, Worklog 기반 사례 연재. 실제 시행착오 중심으로 정리합니다.</p>
+            <div class="tag-row">
+              <a class="tag green" href="./AX_5편_사례연재/0_안내.md">안내</a>
+              <a class="tag" href="./AX_5편_사례연재/1_왜_직접_코드화를_멈췄나.md">1편</a>
+              <a class="tag" href="./AX_5편_사례연재/2_Figma를_Git으로_Storybook으로.md">2편</a>
+              <a class="tag" href="./AX_5편_사례연재/3_기준_설계_Foundation과_Rules.md">3편</a>
+              <a class="tag" href="./AX_5편_사례연재/4_운영_설계_Worklog와_문서레벨.md">4편</a>
+              <a class="tag" href="./AX_5편_사례연재/5_마지막_디테일은_디자이너의_몫.md">5편</a>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Compound Engineering 3편</h3>
+            <p>Compound Engineering을 디자이너의 AI 협업 운영 방식으로 번역한 방법론 초안입니다.</p>
+            <div class="tag-row">
+              <a class="tag green" href="./Compound_3편_방법론연재/0_안내.md">안내</a>
+              <a class="tag" href="./Compound_3편_방법론연재/1_왜_디자이너가_Compound_Engineering을_알아야_하나.md">1편</a>
+              <a class="tag" href="./Compound_3편_방법론연재/2_AI_협업에서_Plan_Work_Review를_잡는_법.md">2편</a>
+              <a class="tag" href="./Compound_3편_방법론연재/3_취향과_판단을_시스템에_남기는_법.md">3편</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="ideas">
+        <div class="section-head">
+          <h2>새 글감 후보</h2>
+          <p class="section-note">브랜딩/캐릭터, 문서 챗봇, UT, 웹 디자인-개발 test는 Notion 원본이 연결되어 있어 바로 확장하기 좋습니다.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>순서</th>
+                <th>글감</th>
+                <th>추천 형태</th>
+                <th>메모</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="priority">1</td>
+                <td class="title-cell">AI로 브랜딩 구축 프로세스</td>
+                <td>단독 글 또는 사례 연재</td>
+                <td>쏘냥이 원본 문서 4개가 연결되어 있어 캐릭터/컬러/말투/모션 기준으로 확장 가능</td>
+              </tr>
+              <tr>
+                <td class="priority">2</td>
+                <td class="title-cell">AI로 캐릭터/모션 생성 프로세스</td>
+                <td>단독 글 또는 case</td>
+                <td>이미지 생성, 모션 생성, UI 삽입 전 검수, 개발 전달 포맷까지 사례화 가능</td>
+              </tr>
+              <tr>
+                <td class="priority">3</td>
+                <td class="title-cell">문서 기반 Q&A / 챗봇</td>
+                <td>wiki playbook + 글</td>
+                <td>Notion, wiki, worklog를 source map으로 묶고 챗봇이 답할 수 있는 경계를 정리</td>
+              </tr>
+              <tr>
+                <td class="priority">4</td>
+                <td class="title-cell">제품 단계 진단 테스트</td>
+                <td>간단 테스트 / 체크리스트</td>
+                <td>OBT, MVP, Sprint, live 단계에 따라 디자인/실험/데이터 기준을 다르게 추천</td>
+              </tr>
+              <tr>
+                <td class="priority">5</td>
+                <td class="title-cell">UT나 데이터 기반 판단 기준</td>
+                <td>단독 글 또는 guide</td>
+                <td>설문 + 콜인터뷰 PD 논의를 바탕으로 AI 제품 UT 질문 구조를 글로 전환</td>
+              </tr>
+              <tr>
+                <td class="priority">6</td>
+                <td class="title-cell">AI로 웹사이트 디자인-개발 프로세스 줄이기</td>
+                <td>case 또는 비교 글</td>
+                <td>Figma Make, Framer, Cursor를 팀 구성과 유지보수 기준으로 비교</td>
+              </tr>
+              <tr>
+                <td class="priority">7</td>
+                <td class="title-cell">코드 &lt;-&gt; 피그마 양방향 연동 결과 기록</td>
+                <td>case</td>
+                <td>Figma evidence package, source of truth, sync 성공/실패 기준으로 묶기</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" id="notion">
+        <div class="section-head">
+          <h2>Notion 원본 연결</h2>
+          <p class="section-note">원본 전체를 복사하지 않고, 글감으로 쓰기 좋은 포인트만 연결했습니다.</p>
+        </div>
+        <div class="source-list">
+          <a class="source-item" href="https://app.notion.com/p/35e5bc5f630780f6a1c7e09a6874edc0">
+            <span class="source-title">쏘냥이 만들기 26년ver</span>
+            <span class="source-desc">쏘냥이 이미지/모션 제작 가이드</span>
+            <span class="source-use">브랜딩, 캐릭터/모션, 리소스 운영 글감</span>
+          </a>
+          <a class="source-item" href="https://app.notion.com/p/31e5bc5f6307801c9400ee81c61443f5">
+            <span class="source-title">멀티 모델 UI</span>
+            <span class="source-desc">멀티모델 서비스 UI 레퍼런스와 인사이트</span>
+            <span class="source-use">모델 선택 UX, model routing, 생산성 도구 확장</span>
+          </a>
+          <a class="source-item" href="https://app.notion.com/p/3455bc5f630780399f64c9e8fb07154f">
+            <span class="source-title">유저 설문 + 콜인터뷰 PD논의</span>
+            <span class="source-desc">설문/인터뷰 질문 설계</span>
+            <span class="source-use">UT, 데이터 기반 판단, 제품 단계 진단</span>
+          </a>
+          <a class="source-item" href="https://app.notion.com/p/3195bc5f6307804782f5c7b1154e83c2">
+            <span class="source-title">웹사이트 디자인-개발 test</span>
+            <span class="source-desc">Figma Make, Framer, Cursor 테스트</span>
+            <span class="source-use">AI 디자인-개발 툴 선택 기준</span>
+          </a>
+          <a class="source-item" href="https://app.notion.com/p/3605bc5f630780d2a294c6fa4fe1fcd1">
+            <span class="source-title">쏘냥이 일관성 유지용 프롬프트</span>
+            <span class="source-desc">마스터 프롬프트와 가변 슬롯</span>
+            <span class="source-use">캐릭터 일관성, 이미지/텍스트 학습 비교</span>
+          </a>
+          <a class="source-item" href="https://app.notion.com/p/2345bc5f630780e7adadd523fc4e6141">
+            <span class="source-title">소크라 튜터 프로덕트 디자인</span>
+            <span class="source-desc">상위 디자인 문서 허브</span>
+            <span class="source-use">후속 DB 인벤토리, 제품 단계별 글감 발굴</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section" id="next">
+        <div class="section-head">
+          <h2>다음 편집 기준</h2>
+          <p class="section-note">바로 할 일은 글을 더 늘리는 것보다, 발행 후보를 고르고 주미님 Medium 톤으로 다시 쓰는 것입니다.</p>
+        </div>
+        <div class="quote-list">
+          <blockquote>AX 5편은 첫 1-2문단의 기술어 밀도를 낮춘다.</blockquote>
+          <blockquote>Notion 원본은 source map에 먼저 연결한 뒤, 외부 발행 가능한 내용만 초안으로 옮긴다.</blockquote>
+          <blockquote>상위 Notion DB는 전체 본문을 긁지 않고 제목, URL, 업무 속성, 제품 단계만 얕게 스캔한다.</blockquote>
+          <blockquote>가장 먼저 발행하기 좋은 새 글감은 쏘냥이 브랜딩/캐릭터 사례와 웹사이트 디자인-개발 test다.</blockquote>
+        </div>
+      </section>
+
+      <footer class="footer">
+        이 페이지는 읽기용 대시보드입니다. 원본 편집은 각 Markdown 파일에서 계속 관리합니다.
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

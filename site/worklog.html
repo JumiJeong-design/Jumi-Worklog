@@ -194,6 +194,7 @@ body{
   <div class="sidebar-brand">
     <div class="brand-name">Jumi Worklog</div>
     <div class="brand-meta" id="brand-meta">— entries</div>
+    <a href="writing.html" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:11px;color:var(--text-muted);text-decoration:none;padding:3px 7px;border:1px solid var(--border);border-radius:5px;transition:color .12s,border-color .12s" onmouseover="this.style.color='var(--accent)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)'">✍ 글감 뷰어</a>
   </div>
 
   <div class="view-toggle">
@@ -668,6 +669,44 @@ body{
 - [x] 3종 비교 후 방향 결정 → **캐릭터보다 UI 고도화 먼저로 결정**
 </script>
 
+<script type="text/plain" id="entry-2026-06-12">
+# 2026-06-12
+
+## 오늘 할 일 (6/11 이월)
+
+### Figma / 디자인 시스템
+
+- [ ] **red 스케일 hue 전체 정규화** — `red/100`, `red/300` (H:14 오렌지코랄) + dark 미러값 미수정. 스케일 전체 + paint style 함께 정규화
+- [ ] **가입/탈퇴 플로우 설계** — 설계 먼저 → 사용자 확인 → 빌드 순서
+- [ ] **다크 모드 컬러 반전 버그 점검** — 가입/탈퇴 이후 착수. 작업 전 노드 재확인
+- [ ] **글래스모피즘 추가 적용 영역** (사용자 직접 작업)
+  - Modal / Bottom Sheet
+  - Settings 카드
+  - Web 헤더
+  - Notification / Toast
+
+### Glassmorphism 웹 구현 후속
+
+- [ ] **피그마 Glass Effect 사용 범위 재검토** — Refraction/Dispersion/Splay 적용 컴포넌트 확인, 웹 구현 시 대체 처리 방안 정리
+- [ ] **웹 구현용 Glass 디자인 가이드라인 수립** — 피그마 디자인 시 웹 구현 가능 속성만 쓰는 규칙 문서화
+- [ ] **Figma Glass ↔ CSS 매핑 토큰 계약** — `Effect/glass` 스타일의 웹 CSS 대응 명시
+- [ ] **iOS Safari 폴백 전략 결정** — backdrop-filter 미지원 시 폴백 방식
+
+### 콘텐츠 / 기록
+
+- [ ] **AI 워크플로우 Medium 업로드** — 6/10 퇴고 완료된 3~5편
+- [ ] **Storybook QA** — 컴포넌트 디자인 일치화
+- [ ] **POC 페이지 기반 컴포넌트 추가** — 피그마 근거 → 패키지 계약 → Storybook QA 순서
+- [ ] **전체 git 최신 반영** — `.DS_Store` 제외, 공개 viewer 검증 후 push
+
+## Today
+
+## Decisions
+
+## Next
+
+</script>
+
 <script type="text/plain" id="entry-2026-06-11">
 # 2026-06-11
 
@@ -714,6 +753,12 @@ body{
   - 가입/탈퇴 플로우, 다크 모드 컬러 반전 버그, 글래스모피즘 직접 적용 영역, Storybook QA, POC 페이지 기반 컴포넌트 추가를 plan 문서에 명시.
   - POC 페이지 기반 컴포넌트 추가는 기존 누락 컴포넌트 inventory와 next-batch 후보를 POC 페이지 맥락에서 검증해 `피그마 근거 → 패키지 계약 → Storybook QA` 순서로 승격하는 작업으로 정의.
   - Bottom Bar package contract와 Figma evidence 문서 보강.
+- [x] **워크로그·위키 레포 운영 구조 정비** (Claude Code 세션)
+  - Codex가 잘못 추가한 `site/writing.html` wiki에서 회수, 버전 `v0.28` → `v0.17` 정정.
+  - `site/worklog.html` 뷰어를 wiki에서 `Jumi-Worklog`로 분리 — 업데이트 주기가 다른 두 레포 독립 운영.
+  - 두 레포 GitHub Actions Pages 배포 설정 + `.nojekyll` 추가 → CSS 로드 이슈 해결.
+  - `writing/index.html` → `site/writing.html` 이관, worklog 사이드바에 글감 뷰어 링크 추가.
+  - `6/10 로그` base64 손상 복원.
 
 ## Decisions
 
@@ -2892,7 +2937,8 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
-  '2026-06-11': { tags: ['harness', 'figma', 'prism', 'glassmorphism', 'writing', 'dark-mode'], notion: 'https://app.notion.com/p/37b5bc5f630780968b5de735c3fc82b0' },
+  '2026-06-12': { tags: ['plan', 'glassmorphism', 'figma', 'dark-mode', 'medium'] },
+  '2026-06-11': { tags: ['harness', 'figma', 'prism', 'glassmorphism', 'writing', 'dark-mode', 'repo-ops'], notion: 'https://app.notion.com/p/37b5bc5f630780968b5de735c3fc82b0' },
   '2026-06-10': { tags: ['figma', 'iphone16', '한국어화', 'dark-mode', 'tokens'] },
   '2026-06-08': { tags: ['prism-spirit', 'branding', 'concept', 'vercel'], notion: 'https://app.notion.com/p/3795bc5f6307812a8eb2d445ab0465a9' },
   '2026-06-07': { tags: ['figma', 'components', 'tokens', 'dark-mode'] },
