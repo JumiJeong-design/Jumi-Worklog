@@ -788,6 +788,16 @@ body{
 - GitHub Actions Pages 배포 + `.nojekyll` CSS 이슈 해결.
 - `writing/index.html` → `site/writing.html` 이관, worklog 사이드바 링크 추가.
 - AGENTS.md + skills URL 일괄 업데이트, 6/10 로그 base64 복원.
+
+---
+
+## Figma i18n — strings EN 모드 완성 + 유저 말풍선 레이아웃
+
+- **strings EN 모드 추가** — KR/JP/EN 3-mode 완성. 37개 변수 영어 값 설정. `KR-light test (EN mode)` 섹션(1985:3301) 신규 생성.
+- **`profile/initial` 변수 수정** — JP: "ジ" / EN: "J" (주미 이름 앞글자).
+- **오버라이드 텍스트 노드 바인딩 (마스터 경유)** — `_TextBubble`(1342:727) `chat/user-msg`·`chat/timestamp`·`chat/sent` 바인딩, 인스턴스 81개 자동 반영. 히스토리 타이틀(671:917) `page/title` 바인딩.
+- **유저 말풍선 레이아웃 수정** (247:102) — BubbleBox HUG + maxWidth:330, 우측 정렬. 27개 인스턴스 stale fixed width → `resize(1,20)` 초기화 후 HUG 복귀.
+- **`chat/user-msg` 샘플 텍스트** — KR: "결정하기 전에 뭘 고려해야 할까요?" / JP: "この決断の前に何を考慮すべきですか？" / EN: "What should I consider before making this decision?"
 </script>
 
 <script type="text/plain" id="entry-2026-06-10">
