@@ -16,3 +16,7 @@ if [ "$bad" -ne 0 ]; then
 fi
 
 echo "Worklog filenames validated."
+
+if [ -x scripts/check-context-freshness.sh ]; then
+  scripts/check-context-freshness.sh
+fi

@@ -10,6 +10,8 @@
 1. 이 레포(`JumiJeong-design/jumi-worklog`)의 최근 `logs/YYYY/MM/` 날짜 파일 1~2개를 읽어 맥락 파악
 2. 오늘 날짜 worklog 파일이 없으면 세션 종료 시 생성
 3. `skills/` 폴더에 공통 스킬 목록이 있음 — 사용자가 트리거하면 해당 SKILL.md 로드
+4. `scripts/check-context-freshness.sh`를 실행해 `CONTEXT.md`가 최신 worklog보다 오래됐는지 확인. 경고가 나오면 `CONTEXT.md`를 현재 상태로 믿지 말고 최신 worklog와 관련 repo의 git 상태를 먼저 확인
+5. 문서 구조를 정리하거나 새 문서를 만들 때는 `docs/00-document-role-map.md`의 번호 체계를 따른다
 
 ## AI 도구별 진입점
 
@@ -27,6 +29,7 @@
 - 공개 배포/공개 URL 검증은 문서나 public viewer를 실제로 변경했을 때만 수행한다.
 - AI 위키/스킬 승격 검토는 하루 끝이나 사용자가 명시적으로 요청했을 때만 수행한다.
 - 새 채팅 시작 시에는 우선 `CLAUDE.md`, `CONTEXT.md`, 오늘 worklog만 읽고 시작한다. 필요할 때만 추가 문서를 연다.
+- `CONTEXT.md`의 `Last updated`가 최신 worklog보다 오래됐으면 stale snapshot으로 보고, 자동 로드된 내용을 근거로 바로 수정하지 않는다.
 
 ## 공통 스킬 목록
 
