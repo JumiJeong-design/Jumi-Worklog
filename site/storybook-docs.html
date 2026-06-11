@@ -178,6 +178,36 @@
       font-weight: 600;
     }
     .entry-card a:hover { opacity: .88; }
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .action-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: #34342f;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .action-link:hover { border-color: #b8b2a5; box-shadow: var(--shadow); }
+    .doc-edit {
+      align-self: flex-start;
+      margin-top: 8px;
+      padding: 3px 7px;
+      border-radius: 5px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+    }
+    .doc-edit:hover { color: var(--blue); border-color: var(--blue); background: var(--blue-soft); }
   </style>
 </head>
 <body>
@@ -233,6 +263,12 @@
     <h1>Storybook Docs</h1>
     <p class="subtitle">Socra AI 프로덕트 디자인 & Storybook QA에 쓰는 문서 패키지. 디자인 작업 시작 전 압축 진입점을 먼저 읽기.</p>
     <span class="entry-badge">목표 기간: 2026-06-11 ~ 2026-06-30</span>
+    <div class="action-row">
+      <a class="action-link" href="./storybook-docs/02-june-execution-plan.md">6월 일정 보기</a>
+      <a class="action-link" href="./storybook-docs/03-june-task-breakdown.md">작업 티켓 보기</a>
+      <a class="action-link" href="./storybook-docs/advanced/06-product-designer-advanced-backlog.md">디자이너 백로그 보기</a>
+      <a class="action-link" href="https://github.com/JumiJeong-design/Jumi-Worklog/tree/main/docs/70-socra-storybook-docs" target="_blank" rel="noopener">원본 폴더 편집</a>
+    </div>
 
     <section class="section" id="entry">
       <div class="entry-card">
@@ -429,5 +465,26 @@
     </section>
   </main>
 </div>
+<script>
+const STORYBOOK_EDIT_BASE = 'https://github.com/JumiJeong-design/Jumi-Worklog/edit/main/';
+function storybookSourcePath(href) {
+  const path = href.replace(/^\.\/storybook-docs\//, '');
+  if (path === '10-socra-storybook-collaboration-context.md') {
+    return 'docs/10-socra-storybook-collaboration-context.md';
+  }
+  return 'docs/70-socra-storybook-docs/' + path;
+}
+document.querySelectorAll('.doc-card[href$=".md"]').forEach(card => {
+  const edit = document.createElement('span');
+  edit.className = 'doc-edit';
+  edit.textContent = 'GitHub에서 편집';
+  edit.onclick = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    window.open(STORYBOOK_EDIT_BASE + encodeURI(storybookSourcePath(card.getAttribute('href'))), '_blank', 'noopener');
+  };
+  card.appendChild(edit);
+});
+</script>
 </body>
 </html>
