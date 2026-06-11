@@ -147,7 +147,7 @@ body{
 .notion-link{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:12px;color:var(--accent);text-decoration:none;border:1px solid var(--border);background:var(--surface-2);padding:5px 11px;border-radius:6px;transition:border-color .12s}
 .notion-link:hover{border-color:var(--accent)}
 .edit-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.edit-action{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);background:var(--surface-2);padding:5px 10px;border-radius:6px;transition:border-color .12s,color .12s}
+.edit-action{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);background:var(--surface-2);padding:5px 10px;border-radius:6px;transition:border-color .12s,color .12s;cursor:pointer}
 .edit-action:hover{border-color:var(--accent);color:var(--accent)}
 .md h1{display:none}
 .md h2{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin:36px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
@@ -3066,6 +3066,22 @@ function pad(n) { return String(n).padStart(2, '0'); }
 function getMarkdown(date) { const el = document.getElementById('entry-' + date); return el ? el.textContent.trim() : ''; }
 function getPlan(date) { const el = document.getElementById('plan-' + date); return el ? el.textContent.trim() : ''; }
 function hasPlan(date) { return !!document.getElementById('plan-' + date); }
+function checkboxSource(date, panel) { return panel === 'plan' ? getPlan(date) : getMarkdown(date); }
+function checkboxSignature(date, panel) {
+  const text = checkboxSource(date, panel);
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) hash = ((hash << 5) - hash + text.charCodeAt(i)) | 0;
+  return Math.abs(hash).toString(36);
+}
+function checkboxKey(date, panel, index) {
+  return `cb:${date}:${panel}:${checkboxSignature(date, panel)}:${index}`;
+}
+function resetCheckboxes(date) {
+  Object.keys(localStorage).forEach(key => {
+    if (key.startsWith(`cb:${date}:`)) localStorage.removeItem(key);
+  });
+  renderEntry(currentIndex);
+}
 
 function switchTab(tab) {
   document.querySelectorAll('.entry-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
@@ -3189,6 +3205,7 @@ function renderEntry(index) {
     <div class="edit-actions">
       <a class="edit-action" href="${GITHUB_EDIT_BASE + logSourcePath(e.date)}" target="_blank" rel="noopener">로그 원본 편집</a>
       <a class="edit-action" href="${GITHUB_EDIT_BASE}site/worklog.html" target="_blank" rel="noopener">계획/뷰어 편집</a>
+      <button class="edit-action" type="button" onclick="resetCheckboxes('${e.date}')">체크 상태 초기화</button>
     </div>`;
   const tabs = planHtml ? `
     <div class="entry-tabs">
@@ -3224,10 +3241,10 @@ function initCheckboxes(date, panel) {
     : document.querySelector('.entry-tab-panel[data-panel="log"] .entry-body, .entry-body');
   if (!scope) return;
   scope.querySelectorAll('input[type="checkbox"]').forEach((cb, i) => {
-    const key = `cb:${date}:${panel}:${i}`;
+    const key = checkboxKey(date, panel, i);
     const stored = localStorage.getItem(key);
     if (stored !== null) cb.checked = stored === '1';
-    if (cb.checked) cb.closest('li')?.classList.add('cb-done');
+    cb.closest('li')?.classList.toggle('cb-done', cb.checked);
   });
 }
 
@@ -3242,7 +3259,7 @@ document.getElementById('entry-area').addEventListener('change', e => {
   const allCbs = scope ? [...scope.querySelectorAll('input[type="checkbox"]')] : [];
   const i = allCbs.indexOf(cb);
   const date = ENTRIES[currentIndex]?.date;
-  if (i >= 0 && date) localStorage.setItem(`cb:${date}:${panel}:${i}`, cb.checked ? '1' : '0');
+  if (i >= 0 && date) localStorage.setItem(checkboxKey(date, panel, i), cb.checked ? '1' : '0');
 });
 function goTo(index) {
   if (index < 0 || index >= ENTRIES.length) return;
