@@ -803,13 +803,14 @@ body{
 
 ### Figma / 디자인 시스템
 
-- [ ] **red 스케일 hue 전체 정규화** — `red/100`, `red/300` (H:14 오렌지코랄) + dark 미러값 미수정. 스케일 전체 + paint style 함께 정규화
+- [x] **red 스케일 hue 전체 정규화** — `red/100`, `red/300` (H:14 오렌지코랄) + dark 미러값까지 스케일 전체와 paint style 함께 정규화 완료
 - [ ] **가입/탈퇴 플로우 설계** — 설계 먼저 → 사용자 확인 → 빌드 순서
 - [ ] **글래스모피즘 추가 적용 영역** (사용자 직접 작업)
-  - Modal / Bottom Sheet
-  - Settings 카드
-  - Web 헤더
-  - Notification / Toast
+  - [x] Chat History Panel
+  - [ ] Modal / Bottom Sheet
+  - [ ] Settings 카드
+  - [ ] Web 헤더
+  - [ ] Notification / Toast
 
 ### Glassmorphism 웹 구현 후속
 
@@ -991,6 +992,19 @@ body{
   - `backdrop-filter` / `-webkit-backdrop-filter`
 - iOS Safari 대응은 `-webkit-backdrop-filter`를 함께 쓰고, blur가 약하거나 미지원인 환경에서는 alpha surface + stroke + shadow로 형태가 유지되도록 보는 방향으로 정리했다.
 - 관련 근거는 `packages/prism/component-contracts/header-nav-bar.md`, `packages/prism/component-contracts/chat-input-bar.md`, `packages/prism/component-contracts/bottom-bar.md`, `design-system/components/bottom-bar.md`, Storybook glass 시각 검토 파일에 남겼다.
+
+---
+
+## Figma / 디자인 시스템 추가 반영
+
+### 작업
+
+- red scale hue 전체 정규화를 완료한 항목으로 기록했다.
+  - `red/100`, `red/300`의 H:14 오렌지코랄 이슈
+  - dark mirror 값
+  - 스케일 전체와 paint style 동시 정규화
+- 글래스모피즘 추가 적용 영역 중 `Chat History Panel`은 사용자 직접 작업 완료로 체크했다.
+- Modal / Bottom Sheet, Settings 카드, Web 헤더, Notification / Toast는 남은 적용 후보로 유지했다.
 
 ---
 
@@ -1455,8 +1469,8 @@ body{
 - [ ] 가입/탈퇴 플로우 설계 → 6/12로 이월
 - [ ] Chromatic Storybook matrix 육안 QA → 6/12로 이월
 - [ ] AI 워크플로우 Medium 업로드 → 6/12로 이월
-- [ ] red 스케일 hue 전체 정규화 (red/100, red/300 오렌지코랄 + dark 미러값) → 6/12로 이월
-- [ ] 글래스모피즘 추가 적용 영역 (Modal, Settings 카드, Web 헤더, Notification) → 사용자 직접 작업
+- [x] red 스케일 hue 전체 정규화 (red/100, red/300 오렌지코랄 + dark 미러값) → 6/12 완료
+- [ ] 글래스모피즘 추가 적용 영역 — Chat History Panel은 6/12 완료, Modal/Bottom Sheet, Settings 카드, Web 헤더, Notification/Toast는 잔여
 - [ ] 피그마 Glass Effect 사용 범위 재검토 / 웹 가이드라인 / CSS 매핑 / iOS 폴백
 
 ---
