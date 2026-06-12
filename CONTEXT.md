@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-06-11
+> Last updated: 2026-06-12
 
 ---
 
@@ -41,30 +41,31 @@
 
 ---
 
-## 2026-06-11 현재 상태
+## 2026-06-12 현재 상태
 
-- `jumi-worklog`: `CONTEXT.md` 축소, `docs/00-document-role-map.md` 추가, `scripts/check-context-freshness.sh` 검증 추가. 6/11 중복 local md 초안은 삭제.
+- `jumi-worklog`: 6/12 worklog를 추가하고, 오늘 세션 기준으로 `CONTEXT.md`를 갱신 중이다. 6/11 로컬 수정은 최신 원격과 충돌해 `stash@{0}: preserve-2026-06-11-local-worklog-edit`에 보존되어 있다.
 - Socra Storybook 6월 확장 계획은 `docs/10-socra-storybook-collaboration-context.md`를 먼저 읽는다. 원문 30개 문서는 `docs/70-socra-storybook-docs/`에 보존.
 - 글쓰기/Medium 발행 준비는 `writing/글감_리스트.md`를 진입점으로 본다. AX 5편 사례 연재와 Compound Engineering 3편 방법론 연재 초안, `VOICE_GUIDE.md`, 제품/운영 실험 백로그가 `writing/` 아래에 있다.
-- `socraAI_product design`: 최신 원격 기준으로 맞춘 뒤 Notion 반영済 미추적 plan 초안 2개 삭제. 피그마 write 승인 게이트 추가, `docs/plans` 번호화, plan prefix 검증 추가. 현재 로컬 origin은 `JumiJeong-design/socra-ai-product-design`지만 앞으로 이 내용은 `riiid/prism`에 올라갈 기준으로 본다.
+- `riiid/prism`: `component-history-i18n-sync` 브랜치에 `ChatHistoryPanel` 다국어 토큰화와 Storybook 반영을 커밋/푸시했다. Draft PR은 https://github.com/riiid/prism/pull/6 이다.
+- Figma `Socra Design system test`: EN/JP mobile history와 EN/JP web home/chat의 `Chat History Panel` 텍스트 override를 토큰 기준으로 동기화했다. 최종 검사 기준 패널 내 한글 잔여 텍스트는 0개다.
 - `socra-ai-workflow-wiki`: 최신 원격 기준으로 맞춘 뒤 playbook/guide 번호화, local markdown link check와 role prefix check 추가, site html 재생성.
-- 6/11 작업 후보는 public viewer의 `plan-2026-06-11`에 있다. 후보는 승인과 다르다.
+- 6/12 작업 후보는 public viewer의 `plan-2026-06-12`에 있다. 후보는 승인과 다르다.
 - 이번 세션에서 잘못 진행한 피그마 glassmorphism 변경은 rollback 완료. 이후 피그마 시각 변경은 명시 승인 전 write 금지.
-- 하네스 최적화 변경은 아직 commit 전 상태다. 완료 보고 전 세 repo `git status -sb`와 검증 결과를 다시 확인한다.
+- `apps/storybook/src/stories/GlassEffect.stories.tsx`는 Chat History Panel 작업 범위 밖 untracked 파일이다. 출처 확인 전 PR/커밋에 포함하지 않는다.
+- 완료 보고 전 `jumi-worklog`, `socra-ai-workflow-wiki`, `riiid/prism`의 `git status -sb`와 검증 결과를 다시 확인한다.
 
 ---
 
-## 6/11 후보 작업
+## 6/13 후보 작업
 
 아래는 오늘 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다.
 
-- 메인 로드맵: 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서로 진행한다. 아직 시작하지 않았다.
-- 메인 로드맵: 다크 모드 컬러 반전 버그는 가입/탈퇴 이후 진행한다. 작업 전 노드 재확인이 필요하다.
-- 글래스모피즘은 주미님 직접 범위다: Modal / Bottom Sheet, Settings 카드, Web 헤더, Notification / Toast.
-- 백로그: AI 워크플로우 Medium 업로드.
-- 백로그: Storybook → QA, 컴포넌트 디자인 일치화.
-- 백로그: POC 페이지 기반 컴포넌트 추가. 이는 `socraAI_product design/docs/plans/10-design-system-followup-2026-06-06.md`의 누락 컴포넌트 inventory와 next-batch 후보를 기반으로 한다.
-- 하네스/compound engineering 관점 운영 최적화.
+- `CHROMATIC_PROJECT_TOKEN`이 있는 환경에서 `pnpm visual` 재실행 후 Chromatic 링크를 기록한다.
+- EN/JP mobile/web `Chat History Panel`의 긴 텍스트 `clipping + ellipsis` 처리를 디자이너 QA로 최종 확인한다.
+- `GlassEffect.stories.tsx`가 별도 foundation 작업 산출물인지 확인한다.
+- 다음 sync audit은 hardcoded fill/stroke → text style → effect style → radius/spacing/padding → icon strokeWeight 순서로 진행한다.
+- 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서로 진행한다. 아직 시작하지 않았다.
+- AI 워크플로우 Medium 업로드와 POC 페이지 기반 컴포넌트 추가는 백로그로 유지한다.
 
 ---
 
