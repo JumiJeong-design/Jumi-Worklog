@@ -789,12 +789,16 @@ body{
 - [x] **Storybook 계획/작업 티켓/디자이너 백로그 구조화** — `02-june-execution-plan.md`, `03-june-task-breakdown.md`, advanced backlog 문서 생성
 - [x] **POC 페이지 기반 컴포넌트 후보 리스트업 1차** — Storybook Docs에 컴포넌트 후보와 작업 티켓 구조화 완료. 실제 POC 재접속/구현은 후속
 - [ ] **실제 POC 기능 컴포넌트 기반 구현 후속** — POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 실제 구현 단위로 연결
-- [ ] **Storybook IA 개편안 / 기존 컴포넌트 매핑 실행 문서화** — 6/12 계획의 `storybook-ia.md`, `storybook-inventory.md`에 해당하는 실행 문서 분리
+- [x] **Storybook IA 개편안 / 기존 컴포넌트 매핑 1차 문서화** — `01-socra-storybook-expansion-plan.md`, `03-june-task-breakdown.md`, `04-storybook-guidelines.md`, 협업 컨텍스트에 반영. 실제 repo 구조 연결은 후속
 - [ ] **Storybook QA → 컴포넌트 디자인 일치화 + 인터랙티브 요소 추가** — [Chromatic Storybook](https://6a1e5942ec7ecc06429b1040-iycryfufxc.chromatic.com/?path=/docs/components-toggle--docs&globals=theme:light)에서 진행
 
 ### 작업 중 생긴 일감
 
 - [x] **전체 git 최신 반영** — Jumi-Worklog 공개 viewer 변경 검증 후 커밋/push 완료. `.DS_Store` 제외 유지
+- [x] **worklog 공개 뷰어 UX 보강** — 오늘 focus, plan/log 탭 유지, roadmap view, 모바일 drawer, link/edit action 정리
+- [x] **Storybook Docs 공개 뷰어 추가** — 원문 30개 문서를 `site/storybook-docs.html`과 `site/storybook-docs/`에서 확인 가능하게 반영
+- [x] **글감 뷰어 site 이관** — `site/writing.html`로 이관, 내부 링크 404 수정, worklog 왕복 링크 추가
+- [x] **Chat History Panel 다국어 토큰화 / Figma / Git / Storybook 동기화** — `riiid/prism` PR #6 생성
 - [ ] **AI 워크플로우 Medium 업로드** — 6/10 퇴고 완료된 3~5편
 
 ### Figma / 디자인 시스템
@@ -809,10 +813,10 @@ body{
 
 ### Glassmorphism 웹 구현 후속
 
-- [ ] **피그마 Glass Effect 사용 범위 재검토** — Refraction/Dispersion/Splay 적용 컴포넌트 확인, 웹 구현 시 대체 처리 방안 정리
-- [ ] **웹 구현용 Glass 디자인 가이드라인 수립** — 피그마 디자인 시 웹 구현 가능 속성만 쓰는 규칙 문서화
-- [ ] **Figma Glass ↔ CSS 매핑 토큰 계약** — `Effect/glass` 스타일의 웹 CSS 대응 명시
-- [ ] **iOS Safari 폴백 전략 결정** — backdrop-filter 미지원 시 폴백 방식
+- [x] **피그마 Glass Effect 사용 범위 재검토** — Refraction/Dispersion/Splay는 웹 직접 재현 대상이 아니라 대체 표현 대상으로 정리
+- [x] **웹 구현용 Glass 디자인 가이드라인 수립** — 피그마는 named style/semantic token, 웹은 blur/alpha surface/stroke/shadow로 구현 가능한 범위만 계약화
+- [x] **Figma Glass ↔ CSS 매핑 토큰 계약** — `surface/glass-*`, `stroke/glass`, `Effect/glass`, `backdrop-filter` / `-webkit-backdrop-filter` 대응 명시
+- [x] **iOS Safari 폴백 전략 결정** — `-webkit-backdrop-filter` 병행, 미지원 시 alpha surface + stroke + shadow로 형태 유지
 
 ## 대기 / 나중
 
@@ -830,16 +834,20 @@ body{
 - [ ] `CHROMATIC_PROJECT_TOKEN`이 있는 환경에서 `pnpm visual`을 재실행하고 Chromatic 링크 기록
 - [ ] 디자이너 QA에서 EN/JP mobile/web `Chat History Panel`의 `clipping + ellipsis` 처리 최종 육안 확인
 - [ ] `apps/storybook/src/stories/GlassEffect.stories.tsx` 출처 확인. Chat History Panel PR에는 포함하지 않음
+- [ ] 실제 POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 구현 단위로 연결
+- [ ] AI 워크플로우 Medium 업로드
 - [ ] 후속 sync audit: hardcoded fill/stroke, text style, effect style, radius, spacing, padding, icon strokeWeight 순서로 진행
 
 ---
 
 ### 함정 모음
 
+- **하루 작업 요약은 단일 세션 기준으로 쓰면 누락된다** — 오늘은 `jumi-worklog` 뷰어, Storybook Docs, 글감 뷰어, 6월 로드맵, Prism Chat History Panel이 섞여 있었다. 정리 전 repo별 오늘 커밋 히스토리와 공개 뷰어 plan을 같이 봐야 한다.
+- **계획 체크리스트와 작업 로그는 둘 다 갱신해야 한다** — entry 본문만 쓰면 "무엇을 했는지"는 남지만, plan 화면에서 이미 끝난 일이 계속 미완료로 보인다. 새로 발생해 완료한 일은 `plan-YYYY-MM-DD`에도 `[x]`로 남긴다.
 - **Figma 모바일 검증 범위 누락** — 처음에는 특정 패널 범위만 보고 EN/JP mobile history가 로컬라이즈됐다고 판단했지만, 실제 프레임 전체에는 한국어가 남아 있었다. 이후 프레임 전체 TEXT 노드를 덤프해 메뉴/섹션/히스토리 15개/계정명까지 다시 override했다.
-- **긴 텍스트 규칙은 버그가 아니라 계약** — EN/JP 문구가 길어질 때 메뉴/히스토리 패널 영역을 밀어내지 않고 한 줄 `clipping + ellipsis`로 처리하는 것이 디자인 규칙임을 확인했다.
-- **Storybook ellipsis 검증 selector 함정** — wrapper 노드와 실제 text node가 같은 `textContent`를 가져서 `text-overflow: clip`인 wrapper를 먼저 잡았다. 실제 ellipsis가 붙은 내부 노드를 우선 선택하도록 검증 helper를 수정했다.
-- **worklog repo 로컬 stale 상태** — `/Users/jeongjumi/Desktop/jumi-worklog`가 `origin/main`보다 43커밋 뒤처져 있었고 6/11 로컬 수정이 남아 있었다. 기존 로컬 수정은 `stash@{0}: preserve-2026-06-11-local-worklog-edit`에 보존했다.
+- **긴 텍스트 규칙은 버그가 아니라 계약** — EN/JP 문구가 길어질 때 메뉴/히스토리 패널 영역을 밀어내지 않고 한 줄 `clipping + ellipsis`로 처리하는 것이 디자인 규칙임을 확인했다. 임의 줄바꿈, 폭 확장, 폰트 축소로 해결하지 않는다.
+- **Storybook ellipsis 검증 selector 함정** — wrapper 노드와 실제 text node가 같은 `textContent`를 가져서 `text-overflow: clip`인 wrapper를 먼저 잡았다. `textOverflow === "ellipsis"`인 내부 노드를 우선 선택하도록 검증 helper를 수정했다.
+- **worklog repo 로컬 stale 상태** — `/Users/jeongjumi/Desktop/jumi-worklog`가 `origin/main`보다 43커밋 뒤처져 있었고 6/11 로컬 수정이 남아 있었다. 원격 최신화 과정에서 충돌이 발생해 6/11은 원격 최신본으로 정리하고, 기존 로컬 수정은 `stash@{0}: preserve-2026-06-11-local-worklog-edit`에 보존했다.
 
 ---
 
@@ -847,15 +855,98 @@ body{
 
 #### AI 도구 활용
 
+- 워크로그 정리는 대화 요약만으로 끝내면 빠진다. `git log --since`, 공개 viewer plan, 오늘 생성/수정된 문서를 함께 대조해야 한다.
 - Figma 직접 수정은 screenshot만으로 확인하면 놓치는 텍스트가 생긴다. 다국어 화면은 프레임 전체 TEXT 덤프와 `hasKorean` 검사로 검증해야 한다.
-- Storybook `play` 검증으로 computed style과 실제 overflow를 확인하면 디자인 규칙을 회귀 테스트로 남길 수 있다.
-- 코드 PR만 push하면 사용자가 보는 worklog repo 기준으로는 반영되지 않은 상태가 된다. worklog와 public viewer까지 같이 갱신해야 완료다.
+- Storybook `play` 검증은 단순 렌더 확인보다 강하다. 실제 computed style과 `scrollWidth > clientWidth`를 확인하면 overflow 계약을 회귀 테스트로 남길 수 있다.
+- worklog와 public viewer는 마지막에 같이 갱신되어야 한다. 코드 PR만 push하면 사용자가 보는 worklog repo 기준으로는 반영되지 않은 상태가 된다.
 
 #### 설계 결정
 
-- `ChatHistoryPanel` 문자열은 `chatHistoryPanelStringTokens.ko/en/ja` + `locale` 계약으로 관리한다.
+- 공개 워크로그 뷰어는 단순 로그 목록이 아니라 plan / log / roadmap / skills를 함께 보는 운영 화면으로 다룬다.
+- Storybook 6월 확장 문서는 원문을 `docs/70-socra-storybook-docs/`에 보존하고, 공개 확인용으로 `site/storybook-docs.html` + `site/storybook-docs/`에 노출한다.
+- Glassmorphism 웹 구현은 Figma의 시각 효과를 그대로 복제하려고 하지 않고, 웹에서 구현 가능한 `surface/glass-*`, `stroke/glass`, `Effect/glass`, `backdrop-filter`/`-webkit-backdrop-filter` 대응으로 관리한다.
+- `ChatHistoryPanel` 문자열은 Figma 화면별 override가 아니라 `chatHistoryPanelStringTokens.ko/en/ja` + `locale` 계약으로 관리한다.
 - EN/JP 긴 텍스트는 고정 패널 영역 안에서 한 줄 `clipping + ellipsis`로 처리한다.
 - `copy`와 `items`는 기본 언어 토큰에서 일부만 바꿔야 할 때 사용하는 override로 둔다.
+
+---
+
+## Jumi-Worklog — 공개 뷰어 / 운영 화면 정리
+
+### 작업
+
+- GitHub Pages 공개 URL 기준을 `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`로 정리했다.
+- README에 공개 워크로그 뷰어 URL을 반영하고 Pages 배포 트리거를 추가했다.
+- `site/worklog.html`의 UX를 계속 보강했다.
+  - 오늘 날짜가 기본으로 열리도록 focus 동작 수정
+  - 계획 날짜에서도 plan/log 탭이 유지되도록 수정
+  - 6월 실행을 한눈에 보는 roadmap view 추가
+  - 모바일 메뉴 drawer 복구 및 홈 화면에서도 메뉴 유지
+  - 문서 모드에서만 리스트 액션 노출
+  - 마크다운 링크 정규화
+  - source 변경 시 체크박스 상태 갱신
+  - 반복 업무는 standing checklist로 분리
+  - docs viewer edit link 추가
+- 6/12 plan에 완료된 작업과 새로 발생해 완료한 작업을 `[x]`로 반영했다.
+- 6/11에서 완료된 항목을 plan에 반영하고, 6/12 TODO에서 이미 끝난 다크모드 항목을 제거했다.
+- 충돌 해결 과정에서 날아간 roadmap panel과 백로그 트래커 링크를 복구했다.
+
+### 검증
+
+- `bash scripts/validate-worklogs.sh` 통과
+- `node scripts/verify-public-worklog-month.mjs ... --month 2026-06` 통과
+- 공개 URL에서 6/12 entry와 `Chat History Panel`, `clipping + ellipsis` 문구 노출 확인
+
+---
+
+## Storybook Docs / 6월 로드맵 구조화
+
+### 작업
+
+- Storybook 확장 원문 30개를 `docs/70-socra-storybook-docs/`에 보존했다.
+- 공개 확인용 `site/storybook-docs.html` 뷰어를 추가하고, 동일 문서를 `site/storybook-docs/`로 이관했다.
+- `docs/10-socra-storybook-collaboration-context.md`를 진입점으로 만들어 다음 세션이 전체 30개 문서를 다시 읽지 않아도 되게 했다.
+- 6월 실행 계획을 6/13~6/30 plan으로 확장했다.
+  - 6/13 MD 템플릿 / Story 작성 규칙
+  - 6/14 Codex 작업용 TODO 분리
+  - 6/15~6/21 Agent / Compare 핵심 컴포넌트
+  - 6/22~6/27 Long Text / Source / Chart / Pattern
+  - 6/28 FE 연동 검증 루프
+  - 6/29~6/30 피드백 반영 / 6월 정리
+- Storybook 계획/작업 티켓/디자이너 백로그를 구조화했다.
+- POC 페이지 기반 컴포넌트 후보 리스트업 1차를 완료하고, 실제 POC 재접속/구현 연결은 후속으로 남겼다.
+- Storybook IA와 기존 컴포넌트 매핑은 추천 IA / task breakdown / guideline 수준으로 1차 문서화했다.
+
+---
+
+## Glassmorphism 웹 구현 후속 정리
+
+### 작업
+
+- Figma Glass Effect 사용 범위를 재검토하고, Refraction/Dispersion/Splay 계열 효과는 웹에서 직접 재현하는 대상이 아니라 fallback/대체 표현 대상으로 분류했다.
+- 웹 구현용 Glass 디자인 기준을 정리했다.
+  - Figma에서는 named style과 semantic token을 기준으로 남긴다.
+  - 웹에서는 blur, alpha surface, stroke, shadow로 재현 가능한 범위만 계약화한다.
+- Figma `Effect/glass`와 CSS 대응을 문서/계약에 남겼다.
+  - `surface/glass-subtle`
+  - `surface/glass-strong`
+  - `stroke/glass`
+  - `Effect/glass`
+  - `backdrop-filter` / `-webkit-backdrop-filter`
+- iOS Safari 대응은 `-webkit-backdrop-filter`를 함께 쓰고, blur가 약하거나 미지원인 환경에서는 alpha surface + stroke + shadow로 형태가 유지되도록 보는 방향으로 정리했다.
+- 관련 근거는 `packages/prism/component-contracts/header-nav-bar.md`, `packages/prism/component-contracts/chat-input-bar.md`, `packages/prism/component-contracts/bottom-bar.md`, `design-system/components/bottom-bar.md`, Storybook glass 시각 검토 파일에 남겼다.
+
+---
+
+## 글감 / Medium 준비 뷰어
+
+### 작업
+
+- `writing/index.html`로 보던 글감 뷰어를 `site/writing.html`로 이관했다.
+- worklog 사이드바에 글감 뷰어 링크를 추가하고 새 탭에서 열리도록 정리했다.
+- 글감 뷰어 내부 링크 404를 수정했다.
+- 글감 뷰어 사이드바에 `← 워크로그` 링크를 추가했다.
+- AX 5편 사례 연재, Compound Engineering 3편 방법론 연재, `VOICE_GUIDE.md`, source map / backlog 문서를 공개 뷰어에서 볼 수 있게 연결했다.
 
 ---
 
@@ -871,13 +962,27 @@ body{
 ### 작업
 
 - Figma `Socra Design system test`에서 `Chat History Panel` 현재 노드(`1349:1550`)와 `History Item`(`57:46`)를 read-only 감사했다.
-- `packages/prism`에 `ChatHistoryPanel` 컴포넌트를 추가하고 `chatHistoryPanelStringTokens.ko/en/ja` + `locale` 계약으로 문자열을 토큰화했다.
-- `HistoryItem` 기본 시각을 피그마 기준으로 동기화했다: 75/51px 높이, 12px padding, default trailing icon 숨김, selected pressed surface.
+- `packages/prism`에 `ChatHistoryPanel` 컴포넌트를 추가했다.
+  - `chatHistoryPanelStringTokens.ko/en/ja`
+  - `locale?: "ko" | "en" | "ja"`
+  - `copy`, `items`, `accountInitials` override
+- `HistoryItem` 기본 시각을 피그마 기준으로 동기화했다.
+  - 75/51px 높이
+  - 12px padding
+  - default trailing icon 숨김
+  - selected 상태는 pressed surface
+- `home`, `plus`, `panel-left` 아이콘을 `PrismIcon`에 추가했다.
 - EN/JP mobile history와 EN/JP web home/chat Figma 화면의 텍스트 override를 토큰 기준으로 맞췄다.
   - mobile: `1985:3302`, `1967:2301`
   - web home/chat: `1985:3314`, `1985:3322`, `1967:2313`, `1967:2321`
   - 최종 read-only 검증 기준 패널 내 한글 잔여 텍스트 0개
-- Storybook `Components/ChatHistoryPanel` 스토리와 EN/JP 긴 모바일 QA `play` 검증을 추가했다.
+- Storybook `Components/ChatHistoryPanel` 스토리를 추가했다.
+  - KR 기본
+  - EN/JP 토큰
+  - 긴 콘텐츠
+  - 모바일 높이
+  - EN/JP 긴 모바일 QA
+- EN/JP 긴 텍스트는 `clipping + ellipsis` 규칙으로 처리하도록 코드와 Storybook `play` 검증을 추가했다.
 - 패키지 계약, design-system 근거 문서, Storybook map/usage, changeset, Prism worklog를 갱신했다.
 - Draft PR 생성: https://github.com/riiid/prism/pull/6
 
@@ -892,6 +997,7 @@ body{
 
 | repo | 커밋 / PR | 설명 |
 |------|-----------|------|
+| `Jumi-Worklog` | `61b505d` | 2026-06-12 worklog 1차 반영 |
 | `riiid/prism` | `849ad4b` | Chat History Panel 다국어 동기화 |
 | `riiid/prism` | PR #6 | Draft PR: Chat History Panel 다국어 동기화 |
 
@@ -900,6 +1006,9 @@ body{
 - 6/13에는 Chromatic 토큰 환경에서 `pnpm visual` 재실행
 - EN/JP Figma mobile/web 화면의 긴 텍스트 말줄임 처리 디자이너 QA
 - `GlassEffect.stories.tsx`가 별도 foundation 작업 산출물인지 확인
+- 실제 POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 구현 단위로 연결
+- Storybook IA / inventory를 실제 `riiid/prism` Storybook 구조와 연결하는 구현 TODO 분리
+- AI 워크플로우 Medium 업로드
 - 다음 sync audit은 hardcoded fill/stroke → text style → effect style → radius/spacing/padding → icon strokeWeight 순서로 진행
 
 </script>

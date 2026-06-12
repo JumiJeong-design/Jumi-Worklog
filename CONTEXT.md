@@ -43,13 +43,15 @@
 
 ## 2026-06-12 현재 상태
 
-- `jumi-worklog`: 6/12 worklog를 추가하고, 오늘 세션 기준으로 `CONTEXT.md`를 갱신 중이다. 6/11 로컬 수정은 최신 원격과 충돌해 `stash@{0}: preserve-2026-06-11-local-worklog-edit`에 보존되어 있다.
-- Socra Storybook 6월 확장 계획은 `docs/10-socra-storybook-collaboration-context.md`를 먼저 읽는다. 원문 30개 문서는 `docs/70-socra-storybook-docs/`에 보존.
-- 글쓰기/Medium 발행 준비는 `writing/글감_리스트.md`를 진입점으로 본다. AX 5편 사례 연재와 Compound Engineering 3편 방법론 연재 초안, `VOICE_GUIDE.md`, 제품/운영 실험 백로그가 `writing/` 아래에 있다.
+- `jumi-worklog`: 6/12 worklog와 public viewer를 오늘 커밋 전체 기준으로 보강 중이다. 6/11 로컬 수정은 최신 원격과 충돌해 `stash@{0}: preserve-2026-06-11-local-worklog-edit`에 보존되어 있다.
+- 공개 워크로그 뷰어는 `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html` 기준이다. 오늘 focus, plan/log 탭 유지, roadmap view, 모바일 drawer, edit/link action, checkbox refresh를 보강했다.
+- Socra Storybook 6월 확장 계획은 `docs/10-socra-storybook-collaboration-context.md`를 먼저 읽는다. 원문 30개 문서는 `docs/70-socra-storybook-docs/`에 보존하고, 공개 확인용으로 `site/storybook-docs.html` + `site/storybook-docs/`에 반영했다.
+- 글쓰기/Medium 발행 준비는 `writing/글감_리스트.md`를 진입점으로 본다. AX 5편 사례 연재와 Compound Engineering 3편 방법론 연재 초안, `VOICE_GUIDE.md`, 제품/운영 실험 백로그가 `writing/` 아래에 있고, 공개 확인용 `site/writing.html`에 이관했다.
+- Glassmorphism 웹 구현 후속 4개는 6/12 plan에서 완료 처리했다. 기준은 `surface/glass-*`, `stroke/glass`, `Effect/glass`, `backdrop-filter`/`-webkit-backdrop-filter`, 미지원 시 alpha surface + stroke + shadow fallback이다.
 - `riiid/prism`: `component-history-i18n-sync` 브랜치에 `ChatHistoryPanel` 다국어 토큰화와 Storybook 반영을 커밋/푸시했다. Draft PR은 https://github.com/riiid/prism/pull/6 이다.
 - Figma `Socra Design system test`: EN/JP mobile history와 EN/JP web home/chat의 `Chat History Panel` 텍스트 override를 토큰 기준으로 동기화했다. 최종 검사 기준 패널 내 한글 잔여 텍스트는 0개다.
 - `socra-ai-workflow-wiki`: 최신 원격 기준으로 맞춘 뒤 playbook/guide 번호화, local markdown link check와 role prefix check 추가, site html 재생성.
-- 6/12 작업 후보는 public viewer의 `plan-2026-06-12`에 있다. 후보는 승인과 다르다.
+- 6/12 plan의 완료 항목은 public viewer의 `plan-2026-06-12`에서 `[x]`로 표시한다. 후보는 승인과 다르다.
 - 이번 세션에서 잘못 진행한 피그마 glassmorphism 변경은 rollback 완료. 이후 피그마 시각 변경은 명시 승인 전 write 금지.
 - `apps/storybook/src/stories/GlassEffect.stories.tsx`는 Chat History Panel 작업 범위 밖 untracked 파일이다. 출처 확인 전 PR/커밋에 포함하지 않는다.
 - 완료 보고 전 `jumi-worklog`, `socra-ai-workflow-wiki`, `riiid/prism`의 `git status -sb`와 검증 결과를 다시 확인한다.
@@ -63,6 +65,8 @@
 - `CHROMATIC_PROJECT_TOKEN`이 있는 환경에서 `pnpm visual` 재실행 후 Chromatic 링크를 기록한다.
 - EN/JP mobile/web `Chat History Panel`의 긴 텍스트 `clipping + ellipsis` 처리를 디자이너 QA로 최종 확인한다.
 - `GlassEffect.stories.tsx`가 별도 foundation 작업 산출물인지 확인한다.
+- 실제 POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 구현 단위로 연결한다.
+- Storybook IA / inventory를 실제 `riiid/prism` Storybook 구조와 연결하는 구현 TODO를 분리한다.
 - 다음 sync audit은 hardcoded fill/stroke → text style → effect style → radius/spacing/padding → icon strokeWeight 순서로 진행한다.
 - 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서로 진행한다. 아직 시작하지 않았다.
 - AI 워크플로우 Medium 업로드와 POC 페이지 기반 컴포넌트 추가는 백로그로 유지한다.
