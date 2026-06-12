@@ -279,8 +279,8 @@ body{
           <div class="roadmap-meta"><span class="roadmap-badge">6/13</span><span class="roadmap-badge source">plan</span></div>
         </div>
         <div class="roadmap-card">
-          <div class="roadmap-card-name">6/14 Codex 작업용 TODO 분리</div>
-          <div class="roadmap-card-desc">구현자가 바로 집을 수 있는 implementation checklist로 분해.</div>
+          <div class="roadmap-card-name">6/14 Week 1 완료 기준 정리</div>
+          <div class="roadmap-card-desc">6/15 착수 전 확인할 완료 기준과 질문을 정리.</div>
           <div class="roadmap-meta"><span class="roadmap-badge">6/14</span><span class="roadmap-badge source">plan</span></div>
         </div>
         <div class="roadmap-card">
@@ -784,7 +784,7 @@ body{
 
 - **디자인 퀄리티 고도화 지속** — 6/10 방향 결정, 6/11 UI/UX 디자인 퀄리티 고도화 1차 실행 완료. 화면/컴포넌트 작업 때마다 계속 점검
 - **하네스 엔지니어링 관점 현 운영 코드 기반 재점검 지속** — 6/11 하네스/문서 운영 최적화는 완료. 주요 작업 후 [Compound Engineering 가이드](https://every.to/guides/compound-engineering) 기반으로 운영 코드/문서/검증 루프 점검
-- **모바일/문서 뷰어 UX 게이트 확인** — public viewer 수정 전 `AGENTS.md`의 UX 리뷰 게이트 기준으로 메뉴·홈·편집·링크 흐름 확인
+- **뷰어 UI 수정 시 UX 게이트 확인** — public viewer 화면을 바꿀 때만 `AGENTS.md` 기준으로 메뉴·홈·편집·링크 흐름 확인
 
 ## 오늘 실행 체크리스트
 
@@ -918,7 +918,7 @@ body{
   - IA 후보: `Foundations / Primitives / Chat / Product / Patterns / Screens / QA`
   - 6월 제외 범위: Debate Mode, Panel Discussion Mode, 복잡한 Dashboard Layout, 완전한 i18n/a11y/visual regression matrix
 - 6월 실행 계획을 6/13~6/30 plan으로 확장했다.
-  - 6/13~6/14 주말: MD 템플릿 / Story 작성 규칙 / Codex 작업용 TODO 내부 정리
+  - 6/13~6/14 주말: MD 템플릿 / Story 작성 규칙 / Week 1 완료 기준 정리
   - 6/15~6/21 Agent / Compare / Chart 핵심 컴포넌트. Chart는 Socra 판단/비교 UX의 핵심이라 6/17~6/18로 상향
   - 6/22~6/24 Long Text / Source 기본 구조
   - 6/25~6/27 MultiAgentComparison 패턴과 chart 포함 QA
@@ -929,13 +929,18 @@ body{
 - 이후 일정은 POC 업데이트 내역을 기획 변화로 보고 계속 팔로우한다. Storybook이 POC 제품 흐름과 다른 기준을 만들지 않게 한다.
 - 인터랙션, UI/UX 시각·요소 고도화, Git 운영 / 코드 하네스, Figma / 문서 관리는 6월 내내 상시 병행 작업으로 둔다.
 - Storybook IA와 기존 컴포넌트 매핑은 추천 IA / task breakdown / guideline 수준으로 1차 문서화했다.
+- 6/13 즉시 처리 가능한 Storybook Docs 항목을 보강했다.
+  - `component-doc-template.md` 추가
+  - `04-storybook-guidelines.md`에 6월 우선 Story 세트 명시
+  - `README.md`와 `site/storybook-docs.html`에 템플릿 / QA / handoff 링크 연결
+  - `components/*.md` 12개가 공통 섹션 구조를 따르는지 확인
 
 ### 6월 Storybook 세부 일정
 
 | 날짜 | Storybook 작업 | 디자이너 확인 포인트 |
 |------|----------------|----------------------|
 | 6/13 | MD 템플릿, Story 작성 규칙 정리 | Default / Matrix / LongContent / Theme / Locale / Edge Case 기준이 실제 QA에 충분한지 확인 |
-| 6/14 | Codex 작업용 TODO와 Week 1 완료 기준 분리 | 주말이므로 팀 요청 없이 6/15 월요일 확인 질문만 정리 |
+| 6/14 | Week 1 완료 기준 정리 | 주말이므로 팀 요청 없이 6/15 월요일 확인 질문만 정리 |
 | 6/15 | AgentProfile / AgentHeader Storybook 반영 | Agent와 Model 구분, 긴 이름, capability tag, JA 문자열 확인 |
 | 6/16 | AgentAnswerCard Storybook 반영 | default / loading / error / long text / source / chart / mobile 상태 확인 |
 | 6/17 | ChartContainer / MetricCard / ScoreBar 우선 반영 | chart가 보조 장식이 아니라 판단/비교 구조의 중심으로 작동하는지 확인 |
@@ -1104,34 +1109,18 @@ body{
 <script type="text/plain" id="plan-2026-06-13">
 # 2026-06-13 Plan
 
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-- **뷰어 UI 수정 시 UX 게이트 확인** — 문서 뷰어 화면을 바꿀 때만 메뉴·홈·편집·링크 흐름 확인
-- **AI worklog 외부 공유 후보 선별** — 의미 있는 작업 기록은 외부 공유글로 편집/발행할 수 있게 후보로 계속 모은다
-
 ## 오늘 실행 체크리스트
 
-### 로드맵에서 온 일감
-
-- [ ] **MD 템플릿 표준화** — 새로 만들기보다 기존 `docs/70-socra-storybook-docs/components/*.md` 구조를 `component-doc-template.md`로 정리
-- [ ] **Story 작성 규칙 정리** — 기존 `docs/70-socra-storybook-docs/04-storybook-guidelines.md`를 기준으로 Default / Matrix / LongContent / Theme / Locale / Edge Case 규칙 확정
-- [ ] **컴포넌트별 기존 문서 보정** — AgentProfile, AgentAnswerCard, SocraSummaryCard, ModelStanceRow 등 기존 작성 문서가 템플릿 기준을 따르는지 확인
-- [ ] **QA / handoff 참고 문서 연결** — `05-fe-handoff-checklist.md`, `qa/10-design-qa-checklist.md`, `qa/14-accessibility-checklist.md`를 6월 작업 기준에 연결
-
-### 작업 중 생긴 일감
-
+- [x] **MD 템플릿 표준화** — `component-doc-template.md` 초안 작성, 공개 docs 사본까지 반영
+- [x] **Story 작성 규칙 정리** — `04-storybook-guidelines.md`에 6월 우선 Story 세트 보강
+- [x] **컴포넌트별 기존 문서 보정 확인** — `components/*.md` 12개가 공통 섹션 구조를 따르는지 확인
+- [x] **QA / handoff 참고 문서 연결** — `README.md`에 template, handoff, QA 문서 연결 보강
+- [ ] **`GlassEffect.stories.tsx` 출처 확인** — 현재 workspace의 `socraAI_product design` 링크가 비어 있어 실제 repo 접근 후 확인 필요
+- [ ] **다음 sync audit 범위 시작** — hardcoded fill/stroke → text style → effect style → radius/spacing/padding → icon strokeWeight
+- [ ] **Storybook IA / inventory를 실제 `riiid/prism` Storybook 구조와 연결하는 구현 TODO 분리**
+- [ ] **실제 POC 기능 컴포넌트 기반 구현 후속** — POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 실제 구현 단위로 연결
 - [ ] `CHROMATIC_PROJECT_TOKEN`이 있는 환경에서 `pnpm visual` 재실행 후 Chromatic 링크 기록
 - [ ] EN/JP mobile/web `Chat History Panel`의 긴 텍스트 `clipping + ellipsis` 처리 디자이너 QA
-- [ ] `GlassEffect.stories.tsx`가 별도 foundation 작업 산출물인지 확인
-- [ ] 다음 sync audit 범위 시작: hardcoded fill/stroke → text style → effect style → radius/spacing/padding → icon strokeWeight
-- [ ] Storybook IA / inventory를 실제 `riiid/prism` Storybook 구조와 연결하는 구현 TODO 분리
-
-### 6/12 미완료 이월
-
-- [ ] **실제 POC 기능 컴포넌트 기반 구현 후속** — POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 실제 구현 단위로 연결
-- [ ] **Storybook QA → 컴포넌트 디자인 일치화 + 인터랙티브 요소 추가** — Chromatic Storybook 기준으로 디자인 차이와 인터랙션 보강 항목 확인
 - [ ] **회사 내 일본 운영 서비스 사례 팔로업** — 일본 운영 서비스 사례를 확인하고 UX/UI·BX 참고 포인트 정리
 - [ ] **글래스모피즘 추가 적용 영역** (사용자 직접 작업)
   - [ ] Modal / Bottom Sheet
@@ -1153,14 +1142,13 @@ body{
 
 - **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
 - **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-- **모바일/문서 뷰어 UX 게이트 확인** — 메뉴·홈·편집·링크 흐름 확인
+- **뷰어 UI 수정 시 UX 게이트 확인** — 문서 뷰어 화면을 바꿀 때만 메뉴·홈·편집·링크 흐름 확인
 
 ## 오늘 실행 체크리스트
 
 ### 로드맵에서 온 일감
 
-- [ ] **Codex 작업용 TODO 분리** — implementation checklist 작성
-- [ ] **Week 1 완료 기준 점검** — IA 위치, P0 컴포넌트 목록, Codex 실행 TODO 확인
+- [ ] **Week 1 완료 기준 점검** — IA 위치, P0 컴포넌트 목록, 6/15 확인 질문 정리
 
 ### 작업 중 생긴 일감
 

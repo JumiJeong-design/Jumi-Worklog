@@ -13,7 +13,10 @@
 | `03-june-task-breakdown.md` | Codex/Claude에 넘길 수 있는 작업 티켓 |
 | `04-storybook-guidelines.md` | Storybook IA, Story 작성 기준, QA 기준 |
 | `05-fe-handoff-checklist.md` | 프론트 개발자 연동 검증 체크리스트 |
+| `component-doc-template.md` | 컴포넌트 문서 공통 템플릿 |
 | `components/*.md` | 핵심 P0 컴포넌트별 스펙 |
+| `qa/10-design-qa-checklist.md` | 디자인 QA 기준 |
+| `qa/14-accessibility-checklist.md` | 접근성, 키보드, 차트 fallback 기준 |
 
 ## 핵심 방향
 
@@ -31,12 +34,8 @@ Multi-agent answer
 → FE integration loop
 ```
 
-
 | `advanced/12-responsive-web-mobile-design-rules.md` | 웹 PC / 웹 모바일 디자인 구분점과 반응형 규칙 |
 | `advanced/13-error-exception-case-guidelines.md` | 연결 끊김, 부분 실패, 출처/차트 실패 등 오류/예외 케이스 UX |
-
-
-| `qa/14-accessibility-checklist.md` | 접근성, 키보드, 스크린리더, 차트 fallback 기준 |
 | `advanced/15-analytics-event-plan.md` | 사용자 행동 분석 이벤트 설계 초안 |
 | `advanced/16-content-agent-tone-guideline.md` | 에이전트 역할/말투/캐릭터성 가이드 |
 | `advanced/17-performance-loading-budget.md` | 여러 답변/차트/마크다운 렌더링 성능 기준 |

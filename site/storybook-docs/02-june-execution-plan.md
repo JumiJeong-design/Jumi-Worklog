@@ -61,7 +61,7 @@
 | 6/12 | 기존 컴포넌트 매핑 | Claude / Codex | `storybook-inventory.md` |
 | 6/13 | MD 템플릿 작성 | Claude | `component-doc-template.md` |
 | 6/13 | Story 작성 규칙 정리 | Claude | `storybook-guidelines.md` |
-| 6/14 | Codex 작업용 TODO 분리 | Claude | implementation checklist |
+| 6/14 | Week 1 완료 기준 정리 | Claude | 6/15 확인 질문 |
 
 ### 완료 기준
 

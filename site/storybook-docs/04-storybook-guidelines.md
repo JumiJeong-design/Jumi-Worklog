@@ -51,6 +51,10 @@ Experiments
 | Locale | 텍스트 길이 영향을 받는 컴포넌트 |
 | Edge Cases | Product / Pattern / Screen |
 
+6월 우선 적용 세트는 `Docs`, `Default`, `Matrix`, `Long Content`, `Theme`, `Locale`, `Edge Cases`다.
+클릭/접기/펼치기 같은 상호작용이 제품 이해에 직접 영향을 줄 때만 `Interactive`를 추가한다.
+모든 조합을 늘리지 말고 mobile 390 / desktop 1280, light / dark, ko / en / ja의 대표 케이스만 먼저 만든다.
+
 ---
 
 ## 5. Responsive 기준
