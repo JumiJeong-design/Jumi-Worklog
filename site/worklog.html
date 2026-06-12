@@ -185,6 +185,7 @@ body{
 .md strong{font-weight:600}
 .md a{color:var(--accent);text-decoration:none}
 .md a:hover{text-decoration:underline}
+.empty-note{color:var(--text-muted);font-size:14px;border:1px dashed var(--border);border-radius:8px;padding:14px 16px;background:var(--surface-2)}
 .entry-nav{display:flex;justify-content:space-between;align-items:stretch;margin-top:48px;padding-top:24px;border-top:1px solid var(--border);gap:12px}
 .entry-nav-btn{display:flex;flex-direction:column;gap:3px;padding:12px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;cursor:pointer;min-width:140px;transition:border-color .12s;text-decoration:none;color:inherit}
 .entry-nav-btn:hover{border-color:var(--accent)}
@@ -3706,13 +3707,14 @@ function renderEntry(index) {
   const nextBtn = next ? `<a class="entry-nav-btn right" onclick="goTo(${index - 1})"><span class="nav-dir">다음 →</span><span class="nav-date-label">${formatDate(next.date)}</span></a>` : '<span></span>';
   const notionBtn = e.notion ? `<a class="notion-link" href="${e.notion}" target="_blank" rel="noopener">📝 Notion에서 보기 ↗</a>` : '';
   const logEditBtn = logMarkdown ? `<a class="edit-action" href="${GITHUB_EDIT_BASE + logSourcePath(e.date)}" target="_blank" rel="noopener">로그 원본 편집</a>` : '';
+  const logPanelHtml = logHtml || '<p class="empty-note">아직 기록 없음. 작업 후 기록이 생기면 이 탭에 남깁니다.</p>';
   const editBtns = `
     <div class="edit-actions">
       ${logEditBtn}
       <a class="edit-action" href="${GITHUB_EDIT_BASE}site/worklog.html" target="_blank" rel="noopener">계획/뷰어 편집</a>
       <button class="edit-action" type="button" onclick="refreshCheckboxesFromSource('${e.date}')">원본 체크로 새로고침</button>
     </div>`;
-  const tabs = (planHtml && logHtml) ? `
+  const tabs = planHtml ? `
     <div class="entry-tabs">
       <button class="entry-tab active" data-tab="plan" onclick="switchTab('plan')">📋 계획</button>
       <button class="entry-tab" data-tab="log" onclick="switchTab('log')">📝 기록</button>
@@ -3721,10 +3723,8 @@ function renderEntry(index) {
       <div class="entry-body md">${planHtml}</div>
     </div>
     <div class="entry-tab-panel" data-panel="log">
-      <div class="entry-body md">${logHtml}</div>
-    </div>` : planHtml
-      ? `<div class="entry-body md">${planHtml}</div>`
-      : `<div class="entry-body md">${logHtml}</div>`;
+      <div class="entry-body md">${logPanelHtml}</div>
+    </div>` : `<div class="entry-body md">${logHtml}</div>`;
   document.getElementById('entry-area').innerHTML = `
     <div class="entry">
       <div class="entry-header">
