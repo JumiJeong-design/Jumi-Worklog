@@ -131,6 +131,19 @@ body{
 .skill-steps li{font-size:11px;color:var(--text-muted);margin-bottom:4px;line-height:1.5}
 .skills-link{display:block;text-align:center;font-size:11px;color:var(--text-dim);padding:10px;text-decoration:none}
 .skills-link:hover{color:var(--accent)}
+.roadmap-panel{flex:1;overflow-y:auto;padding:10px}
+.roadmap-group{margin-bottom:14px}
+.roadmap-title{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);padding:8px 4px 6px}
+.roadmap-card{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:11px 12px;margin-bottom:8px}
+.roadmap-card.current{border-color:var(--accent);background:var(--accent-soft)}
+.roadmap-card.done{opacity:.72}
+.roadmap-card-name{font-size:12px;font-weight:700;color:var(--text);line-height:1.4}
+.roadmap-card-desc{font-size:11px;color:var(--text-muted);line-height:1.5;margin-top:4px}
+.roadmap-meta{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.roadmap-badge{font-size:10px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);padding:1px 6px;border-radius:4px}
+.roadmap-badge.source{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.roadmap-badge.done{color:#68c28a;border-color:#3c7954;background:rgba(104,194,138,.1)}
+.roadmap-badge.wait{color:#e5b45b;border-color:#785f32;background:rgba(229,180,91,.1)}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:199;opacity:0;transition:opacity .25s}
 .overlay.show{display:block;opacity:1}
 .topbar{position:fixed;top:0;left:var(--sidebar-w);right:0;height:var(--topbar-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;padding:0 16px;gap:8px;z-index:100}
@@ -146,6 +159,9 @@ body{
 .entry-tag{font-size:11px;background:var(--surface-2);color:var(--text-muted);padding:3px 9px;border-radius:20px;border:1px solid var(--border)}
 .notion-link{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:12px;color:var(--accent);text-decoration:none;border:1px solid var(--border);background:var(--surface-2);padding:5px 11px;border-radius:6px;transition:border-color .12s}
 .notion-link:hover{border-color:var(--accent)}
+.edit-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.edit-action{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);background:var(--surface-2);padding:5px 10px;border-radius:6px;transition:border-color .12s,color .12s;cursor:pointer}
+.edit-action:hover{border-color:var(--accent);color:var(--accent)}
 .md h1{display:none}
 .md h2{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);margin:36px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 .md h2:first-of-type{margin-top:0}
@@ -200,6 +216,7 @@ body{
 
   <div class="view-toggle">
     <button class="vt-btn active" data-view="cal" onclick="setView('cal')">📅 캘린더</button>
+    <button class="vt-btn" data-view="roadmap" onclick="setView('roadmap')">🗺 로드맵</button>
     <button class="vt-btn" data-view="skills" onclick="setView('skills')">⚡ 스킬</button>
   </div>
 
@@ -213,6 +230,57 @@ body{
   </div>
 
   <div class="sidebar-list with-border" id="sidebar-list"></div>
+
+  <div id="roadmap-section" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+    <div class="roadmap-panel">
+      <div class="roadmap-group">
+        <div class="roadmap-title">상시 체크</div>
+        <div class="roadmap-card current">
+          <div class="roadmap-card-name">디자인 퀄리티 고도화</div>
+          <div class="roadmap-card-desc">화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인.</div>
+          <div class="roadmap-meta"><span class="roadmap-badge source">운영 기준</span></div>
+        </div>
+        <div class="roadmap-card current">
+          <div class="roadmap-card-name">하네스/문서 운영 재점검</div>
+          <div class="roadmap-card-desc">주요 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인.</div>
+          <div class="roadmap-meta"><span class="roadmap-badge source">운영 기준</span></div>
+        </div>
+      </div>
+
+      <div class="roadmap-group">
+        <div class="roadmap-title">6/12 오늘로 끌어온 일감</div>
+        <div class="roadmap-card done">
+          <div class="roadmap-card-name">Storybook 계획/티켓/백로그 구조화</div>
+          <div class="roadmap-card-desc">6월 실행 일정, 작업 티켓, 디자이너 백로그 문서화.</div>
+          <div class="roadmap-meta"><span class="roadmap-badge done">done</span><span class="roadmap-badge source">Storybook Docs</span></div>
+        </div>
+        <div class="roadmap-card current">
+          <div class="roadmap-card-name">Storybook IA / Inventory 실행 문서화</div>
+          <div class="roadmap-card-desc">6/12 계획의 IA 개편안과 기존 컴포넌트 매핑을 실행 문서로 분리.</div>
+          <div class="roadmap-meta"><span class="roadmap-badge wait">today</span><span class="roadmap-badge source">Roadmap</span></div>
+        </div>
+        <div class="roadmap-card current">
+          <div class="roadmap-card-name">Storybook QA + 인터랙티브 요소 추가</div>
+          <div class="roadmap-card-desc">Chromatic Storybook 기준으로 디자인 일치화와 인터랙션 후보 확인.</div>
+          <div class="roadmap-meta"><span class="roadmap-badge wait">today</span><span class="roadmap-badge source">Roadmap</span></div>
+        </div>
+      </div>
+
+      <div class="roadmap-group">
+        <div class="roadmap-title">다음 구간</div>
+        <div class="roadmap-card">
+          <div class="roadmap-card-name">6/13 MD 템플릿 / Story 작성 규칙</div>
+          <div class="roadmap-card-desc">component-doc-template, storybook-guidelines 실행 기준 정리.</div>
+          <div class="roadmap-meta"><span class="roadmap-badge">planned</span></div>
+        </div>
+        <div class="roadmap-card">
+          <div class="roadmap-card-name">6/15~ Agent / Compare 핵심 컴포넌트</div>
+          <div class="roadmap-card-desc">AgentProfile, AgentAnswerCard, SocraSummaryCard, ModelStanceRow 순서로 Storybook 반영.</div>
+          <div class="roadmap-meta"><span class="roadmap-badge">planned</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div id="skills-section" style="display:none;flex-direction:column;flex:1;overflow:hidden">
     <div class="skills-panel">
@@ -670,10 +738,28 @@ body{
 - [x] 3종 비교 후 방향 결정 → **캐릭터보다 UI 고도화 먼저로 결정**
 </script>
 
-<script type="text/plain" id="entry-2026-06-12">
-# 2026-06-12
+<script type="text/plain" id="plan-2026-06-12">
+# 2026-06-12 Plan
 
-## 오늘 할 일 (6/11 이월)
+## 상시 체크 (운영 기준)
+
+- **디자인 퀄리티 고도화 지속** — 6/10 방향 결정, 6/11 UI/UX 디자인 퀄리티 고도화 1차 실행 완료. 화면/컴포넌트 작업 때마다 계속 점검
+- **하네스 엔지니어링 관점 현 운영 코드 기반 재점검 지속** — 6/11 하네스/문서 운영 최적화는 완료. 주요 작업 후 [Compound Engineering 가이드](https://every.to/guides/compound-engineering) 기반으로 운영 코드/문서/검증 루프 점검
+- **모바일/문서 뷰어 UX 게이트 확인** — public viewer 수정 전 `AGENTS.md`의 UX 리뷰 게이트 기준으로 메뉴·홈·편집·링크 흐름 확인
+
+## 오늘 실행 체크리스트
+
+### 로드맵에서 온 일감
+
+- [x] **Storybook 계획/작업 티켓/디자이너 백로그 구조화** — `02-june-execution-plan.md`, `03-june-task-breakdown.md`, advanced backlog 문서 생성
+- [x] **POC 페이지 기반 컴포넌트 후보 리스트업 1차** — Storybook Docs에 컴포넌트 후보와 작업 티켓 구조화 완료. 실제 POC 재접속/구현은 후속
+- [ ] **Storybook IA 개편안 / 기존 컴포넌트 매핑 실행 문서화** — 6/12 계획의 `storybook-ia.md`, `storybook-inventory.md`에 해당하는 실행 문서 분리
+- [ ] **Storybook QA → 컴포넌트 디자인 일치화 + 인터랙티브 요소 추가** — [Chromatic Storybook](https://6a1e5942ec7ecc06429b1040-iycryfufxc.chromatic.com/?path=/docs/components-toggle--docs&globals=theme:light)에서 진행
+
+### 작업 중 생긴 일감
+
+- [x] **전체 git 최신 반영** — Jumi-Worklog 공개 viewer 변경 검증 후 커밋/push 완료. `.DS_Store` 제외 유지
+- [ ] **AI 워크플로우 Medium 업로드** — 6/10 퇴고 완료된 3~5편
 
 ### Figma / 디자인 시스템
 
@@ -692,27 +778,16 @@ body{
 - [ ] **Figma Glass ↔ CSS 매핑 토큰 계약** — `Effect/glass` 스타일의 웹 CSS 대응 명시
 - [ ] **iOS Safari 폴백 전략 결정** — backdrop-filter 미지원 시 폴백 방식
 
-### 콘텐츠 / 기록
+## 대기 / 나중
 
-- [ ] **AI 워크플로우 Medium 업로드** — 6/10 퇴고 완료된 3~5편
-- [ ] **전체 git 최신 반영** — `.DS_Store` 제외, 공개 viewer 검증 후 push
-
-### 백로그 트래커 (이월)
-
-진행 중
-
-- [ ] **2605-06 프로덕트 디자이너 일정 산정** — 기존 AI 제작 타임라인 → 피그마&AI 융합 프로세스로 수정 후 재전달
 - [ ] **일본시장 리서치** — UX/UI·BX 리서치, 피그마 기반 탐색/리서치 *(당장 아님 — 틈틈이 진행)*
-
-시작 전
-
-- [ ] **디자인 퀄리티 고도화**
-- [ ] **POC 페이지 기반 컴포넌트 요소 추가** — [POC 페이지](https://programming-run-storm-palm.trycloudflare.com/?session=b1dc4e4d-a902-4c94-a6c7-c13b90a16855) 참조 *(임시 터널 URL — 만료 시 재발급 필요)*
-- [ ] **Storybook QA → 컴포넌트 디자인 일치화 + 인터랙티브 요소 추가** — [Chromatic Storybook](https://6a1e5942ec7ecc06429b1040-iycryfufxc.chromatic.com/?path=/docs/components-toggle--docs&globals=theme:light)에서 진행
-- [ ] **디자이너 일정 재산정** — [Notion 2605-06 일정 페이지](https://app.notion.com/p/socraai/2605-06-3655bc5f630780da805de1ef18327e1b)에 업데이트
+- [ ] **2605-06 일정 재전달 / Notion 업데이트** — [Notion 2605-06 일정 페이지](https://app.notion.com/p/socraai/2605-06-3655bc5f630780da805de1ef18327e1b)에 1차 산정 결과 업데이트
 - [ ] **디자인 브릿지 테스트** — [sodam-ai/remotebridge](https://github.com/sodam-ai/remotebridge) 기반
 - [ ] **헤르메스 테스트** *(스코프 정의 필요)*
-- [ ] **하네스 엔지니어링 관점 현 운영 코드 기반 재점검** — [Compound Engineering 가이드](https://every.to/guides/compound-engineering) 문서 기반
+</script>
+
+<script type="text/plain" id="entry-2026-06-12">
+# 2026-06-12
 
 ## Today
 
@@ -886,6 +961,34 @@ body{
 <script type="text/plain" id="plan-2026-06-11">
 # 2026-06-11 Plan
 
+## 오늘 완료
+
+- [x] UI/UX 디자인 퀄리티 고도화 1차 실행 — Figma Page design test의 컬러 계층, glassmorphism, bottom/header/input 구조, 다국어/타이포 토큰 복구
+- [x] KR/JP 폰트 토큰 복구 — fontFamily 변수 바인딩 끊긴 219개 노드 복구
+- [x] 다크 모드 컬러 반전 버그 전수 점검 — raw hex / 비반전 토큰 스캔 → 시맨틱 토큰 교체
+- [x] Gray 레이어 분리 고도화 — surface 토큰 재조정, 무채색 프리미엄 방향 확정
+- [x] Neutral 컬러 시스템 온도 조정 — barely-cool(B-R=2) 방향 전환
+- [x] 시맨틱 에러 컬러 온도 충돌 수정 — red 계열 크림즌레드 방향 조정
+- [x] 전체 컬러 팔레트 채도·명도 일관성 검수 및 조정
+- [x] 글래스모피즘 Chat Input Bar 적용 — 라이트·다크 전 채팅 화면 12 인스턴스
+- [x] 채팅 화면 콘텐츠 충전 + Scroll FAB 배치
+- [x] Bottom Bar 컴포넌트 신설 + 6개 채팅 페이지 배치
+- [x] Header Nav Bar 글래스 처리 — 7개 variant 전부 적용
+- [x] 헤더 콘텐츠 레이아웃 조정 — glass blur 가시성 확보
+- [x] Chat History Panel 글래스 적용
+- [x] textStyleId 복구 — Page design test 직접 텍스트 노드 44개, 최종 style 누락 0개
+- [x] KR/JP 스트링 변수 컬렉션 신설 + 텍스트 노드 characters 바인딩
+- [x] Socra Storybook 확장 계획 로컬 협업 컨텍스트화
+- [x] Storybook 계획서 외부 참고 링크 반영 여부 검토
+- [x] Medium / 외부 공유 글감 아카이브 정리
+- [x] 하네스/문서 운영 최적화
+- [x] Socra workflow wiki 글감 대시보드 로컬 반영
+- [x] Socra workflow wiki worklog 공개 뷰어 반영
+- [x] `socraAI_product design` 남은 로드맵 정리
+- [x] Figma i18n strings EN 모드 완성
+- [x] 유저 말풍선 레이아웃 구조 수정
+- [x] `chat/user-msg` 샘플 텍스트 업데이트
+
 ## 확정 로드맵 (Page design test, 순서대로)
 
 - [x] 글래스모피즘 (라이트 소프트 프로스트) — Chat Input Bar·Header Nav Bar·Bottom Bar 컴포넌트 신설. surface/glass-* 토큰 + Effect/glass named style 적용. Header/Chat History Panel은 사용자 직접 완료.
@@ -897,18 +1000,21 @@ body{
 
 진행 중
 
-- [ ] 2605-06 프로덕트 디자이너 일정 산정 — 기존 AI 제작으로만 구성된 업무 타임라인을 피그마&AI 융합 프로세스로 수정 후 재전달
+- [x] 2605-06 프로덕트 디자이너 일정 산정 1차 — Storybook Docs로 6월 실행 일정·작업 티켓·디자이너 백로그 구조화 완료. 재전달/Notion 업데이트는 별도 진행
+- [x] POC 페이지 기반 컴포넌트 후보 리스트업 1차 — Storybook Docs에 컴포넌트 후보와 작업 티켓 구조화 완료. 실제 POC 재접속/구현은 후속
 - [ ] 리서치 — 일본시장 서비스 UX/UI·BX 리서치, 기존 디자인 프로세스로 피그마 기반 탐색/리서치 진행 *(당장 아님 — 틈틈이 진행)*
+
+상시 체크
+
+- [ ] 디자인 퀄리티 고도화 지속 — 6/10 방향 결정, 6/11 UI/UX 디자인 퀄리티 고도화 1차 실행 완료. 화면/컴포넌트 작업 때마다 계속 점검
+- [ ] 하네스 엔지니어링 관점 → 현 운영 코드 기반 재점검 지속 — 6/11 하네스/문서 운영 최적화는 완료. 주요 작업 후 [Compound Engineering 가이드](https://every.to/guides/compound-engineering) 기반으로 운영 코드/문서/검증 루프 점검
 
 시작 전
 
-- [ ] 디자인 퀄리티 고도화 작업 진행
-- [ ] POC 페이지 기반으로 컴포넌트 요소 추가 — [POC 페이지](https://programming-run-storm-palm.trycloudflare.com/?session=b1dc4e4d-a902-4c94-a6c7-c13b90a16855) 참조 *(임시 터널 URL — 만료 시 재발급 필요)*
 - [ ] 스토리북 → QA 진행하며 컴포넌트 디자인 일치화 + 인터랙티브 요소 추가 테스트 — [Chromatic Storybook](https://6a1e5942ec7ecc06429b1040-iycryfufxc.chromatic.com/?path=/docs/components-toggle--docs&globals=theme:light)에서 진행
-- [ ] 디자이너 일정 재산정 — [Notion 2605-06 일정 페이지](https://app.notion.com/p/socraai/2605-06-3655bc5f630780da805de1ef18327e1b)에 업데이트
+- [ ] 2605-06 일정 재전달 / Notion 업데이트 — [Notion 2605-06 일정 페이지](https://app.notion.com/p/socraai/2605-06-3655bc5f630780da805de1ef18327e1b)에 1차 산정 결과 업데이트
 - [ ] 디자인 브릿지 테스트 — [sodam-ai/remotebridge](https://github.com/sodam-ai/remotebridge) 기반
 - [ ] 헤르메스 테스트 *(스코프 정의 필요)*
-- [ ] 하네스 엔지니어링 관점 → 현 운영 코드 기반 재점검 — [Compound Engineering 가이드](https://every.to/guides/compound-engineering) 문서 기반으로 점검
 </script>
 
 <script type="text/plain" id="entry-2026-06-08">
@@ -2993,6 +3099,7 @@ const ENTRY_META = {
 };
 
 const DOW_KO = ['일','월','화','수','목','금','토'];
+const GITHUB_EDIT_BASE = 'https://github.com/JumiJeong-design/Jumi-Worklog/edit/main/';
 
 // ENTRY_META + entry/plan block을 스캔해 ENTRIES 자동 생성
 const ENTRIES = (() => {
@@ -3028,6 +3135,22 @@ function pad(n) { return String(n).padStart(2, '0'); }
 function getMarkdown(date) { const el = document.getElementById('entry-' + date); return el ? el.textContent.trim() : ''; }
 function getPlan(date) { const el = document.getElementById('plan-' + date); return el ? el.textContent.trim() : ''; }
 function hasPlan(date) { return !!document.getElementById('plan-' + date); }
+function checkboxSource(date, panel) { return panel === 'plan' ? getPlan(date) : getMarkdown(date); }
+function checkboxSignature(date, panel) {
+  const text = checkboxSource(date, panel);
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) hash = ((hash << 5) - hash + text.charCodeAt(i)) | 0;
+  return Math.abs(hash).toString(36);
+}
+function checkboxKey(date, panel, index) {
+  return `cb:${date}:${panel}:${checkboxSignature(date, panel)}:${index}`;
+}
+function refreshCheckboxesFromSource(date) {
+  Object.keys(localStorage).forEach(key => {
+    if (key.startsWith(`cb:${date}:`)) localStorage.removeItem(key);
+  });
+  renderEntry(currentIndex);
+}
 
 function switchTab(tab) {
   document.querySelectorAll('.entry-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
@@ -3035,6 +3158,10 @@ function switchTab(tab) {
   if (tab === 'plan') initCheckboxes(ENTRIES[currentIndex].date, 'plan');
 }
 function formatDate(dateStr) { const [y, m, d] = dateStr.split('-'); return `${y}. ${parseInt(m)}. ${parseInt(d)}`; }
+function logSourcePath(dateStr) {
+  const [y, m] = dateStr.split('-');
+  return `logs/${y}/${m}/${dateStr}.md`;
+}
 
 function openSidebar() {
   document.getElementById('sidebar').classList.add('open');
@@ -3076,16 +3203,19 @@ function buildCalendar() {
   buildList();
 }
 function setView(mode) {
-  if (mode !== 'skills') mode = 'cal';
+  if (!['cal', 'roadmap', 'skills'].includes(mode)) mode = 'cal';
   viewMode = mode;
   document.querySelectorAll('.vt-btn').forEach(b => b.classList.toggle('active', b.dataset.view === mode));
   const cal = document.getElementById('cal-section');
   const list = document.getElementById('sidebar-list');
+  const roadmap = document.getElementById('roadmap-section');
   const skills = document.getElementById('skills-section');
   if (mode === 'skills') {
-    cal.style.display = 'none'; list.style.display = 'none'; skills.style.display = 'flex';
+    cal.style.display = 'none'; list.style.display = 'none'; roadmap.style.display = 'none'; skills.style.display = 'flex';
+  } else if (mode === 'roadmap') {
+    cal.style.display = 'none'; list.style.display = 'none'; roadmap.style.display = 'flex'; skills.style.display = 'none';
   } else {
-    cal.style.display = ''; list.style.display = ''; list.classList.add('with-border'); skills.style.display = 'none'; buildList();
+    cal.style.display = ''; list.style.display = ''; list.classList.add('with-border'); roadmap.style.display = 'none'; skills.style.display = 'none'; buildList();
   }
 }
 function toggleSkill(id) { document.getElementById('skill-' + id).classList.toggle('expanded'); }
@@ -3143,6 +3273,12 @@ function renderEntry(index) {
   const prevBtn = prev ? `<a class="entry-nav-btn" onclick="goTo(${index + 1})"><span class="nav-dir">← 이전</span><span class="nav-date-label">${formatDate(prev.date)}</span></a>` : '<span></span>';
   const nextBtn = next ? `<a class="entry-nav-btn right" onclick="goTo(${index - 1})"><span class="nav-dir">다음 →</span><span class="nav-date-label">${formatDate(next.date)}</span></a>` : '<span></span>';
   const notionBtn = e.notion ? `<a class="notion-link" href="${e.notion}" target="_blank" rel="noopener">📝 Notion에서 보기 ↗</a>` : '';
+  const editBtns = `
+    <div class="edit-actions">
+      <a class="edit-action" href="${GITHUB_EDIT_BASE + logSourcePath(e.date)}" target="_blank" rel="noopener">로그 원본 편집</a>
+      <a class="edit-action" href="${GITHUB_EDIT_BASE}site/worklog.html" target="_blank" rel="noopener">계획/뷰어 편집</a>
+      <button class="edit-action" type="button" onclick="refreshCheckboxesFromSource('${e.date}')">원본 체크로 새로고침</button>
+    </div>`;
   const tabs = planHtml ? `
     <div class="entry-tabs">
       <button class="entry-tab active" data-tab="plan" onclick="switchTab('plan')">📋 계획</button>
@@ -3160,6 +3296,7 @@ function renderEntry(index) {
         <div class="entry-title">${formatDate(e.date)} <span style="color:var(--text-muted);font-weight:400;font-size:16px">${e.dayKo}</span></div>
         <div class="entry-tags">${(e.tags || []).map(t => `<span class="entry-tag">${t}</span>`).join('')}</div>
         ${notionBtn}
+        ${editBtns}
       </div>
       ${tabs}
       <nav class="entry-nav">${prevBtn}<span class="entry-nav-spacer"></span>${nextBtn}</nav>
@@ -3176,10 +3313,10 @@ function initCheckboxes(date, panel) {
     : document.querySelector('.entry-tab-panel[data-panel="log"] .entry-body, .entry-body');
   if (!scope) return;
   scope.querySelectorAll('input[type="checkbox"]').forEach((cb, i) => {
-    const key = `cb:${date}:${panel}:${i}`;
+    const key = checkboxKey(date, panel, i);
     const stored = localStorage.getItem(key);
     if (stored !== null) cb.checked = stored === '1';
-    if (cb.checked) cb.closest('li')?.classList.add('cb-done');
+    cb.closest('li')?.classList.toggle('cb-done', cb.checked);
   });
 }
 
@@ -3194,7 +3331,7 @@ document.getElementById('entry-area').addEventListener('change', e => {
   const allCbs = scope ? [...scope.querySelectorAll('input[type="checkbox"]')] : [];
   const i = allCbs.indexOf(cb);
   const date = ENTRIES[currentIndex]?.date;
-  if (i >= 0 && date) localStorage.setItem(`cb:${date}:${panel}:${i}`, cb.checked ? '1' : '0');
+  if (i >= 0 && date) localStorage.setItem(checkboxKey(date, panel, i), cb.checked ? '1' : '0');
 });
 function goTo(index) {
   if (index < 0 || index >= ENTRIES.length) return;
