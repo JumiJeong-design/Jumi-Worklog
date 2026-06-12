@@ -25,7 +25,10 @@
 | Internationalization | ko/en/ja 실제 서비스 품질 검증 | P1 |
 | Design QA | UX/UI 완성도 검수 체계 | P0 |
 | Competitive Benchmark | 레퍼런스/경쟁사 대비 품질 비교 | P1 |
-| Product Ops | 문서/Storybook/FE 루프 운영 | P1 |
+| POC / Product Planning Sync | POC 업데이트를 기획 변화로 보고 Storybook/Figma/backlog에 반영 | P0 |
+| Git / Code Harness | Storybook 구현·검증 루틴, PR 범위, fixture, visual QA 운영 | P0 |
+| Figma / Docs Ops | Figma source-of-truth와 Storybook docs, handoff, QA 기록 동기화 | P0 |
+| Product Ops | 문서/Storybook/FE 루프 운영 | P0 |
 
 ---
 
@@ -85,7 +88,7 @@
 | Source data shape | sourceId, title, url, type, date, reliability |
 | Chart data shape | chartType, data, series, source, note |
 | State data shape | loading, partial, failed, complete |
-| FE/BE/API 협의 | 실제 응답 구조와 Storybook fixture 동기화 |
+| POC / FE 적용성 확인 | POC 제품 흐름과 실제 페이지 조립 방식에 맞춰 Storybook fixture 동기화 |
 
 ---
 
@@ -118,6 +121,8 @@
 
 ## 9. Chart / Decision Visualization 고도화
 
+Chart / Decision Visualization은 6월 후반부 보조 작업이 아니라 Socra 핵심 비교 UX의 중심 축으로 둔다.
+
 | 작업 | 설명 |
 |---|---|
 | Chart library 확정 | Recharts / shadcn charts / ECharts 중 결정. shadcn/ui radial chart는 Recharts 기반 참고로 본다 |
@@ -132,7 +137,41 @@
 
 ---
 
-## 10. Feedback / Evaluation 고도화
+## 10. POC / Product Planning Sync
+
+| 작업 | 설명 |
+|---|---|
+| POC 업데이트 팔로우 | POC 업데이트 내역을 기획 변화로 보고 Storybook scope와 7월 backlog에 반영 |
+| POC 기준 drift 방지 | Storybook이 POC 제품 흐름과 별도의 새 기준을 만들지 않도록 점검 |
+| 가설/확정 분리 | POC에 이미 있는 흐름과 아직 가설인 UI/interaction을 분리 |
+| 주간 sync note | 새 POC 업데이트가 들어왔을 때 영향을 받는 컴포넌트, 패턴, 문서를 기록 |
+
+---
+
+## 11. Git / Code Harness 고도화
+
+| 작업 | 설명 |
+|---|---|
+| 구현 단위 관리 | Storybook 작업을 PR/branch/commit 단위로 나누고 scope creep 방지 |
+| 검증 명령 정리 | check, test-storybook, visual QA, lint, typecheck 등 반복 명령 문서화 |
+| fixture 관리 | ko/en/ja, long text, partial failure, chart fallback fixture를 재사용 가능하게 관리 |
+| regression 방지 | 핵심 Story와 play 검증으로 layout/overflow/interaction 회귀 방지 |
+| FE 적용성 기록 | 실제 제품 페이지에 붙일 때 막히는 layout, state, interaction wiring 이슈 기록 |
+
+---
+
+## 12. Figma / Docs Ops
+
+| 작업 | 설명 |
+|---|---|
+| Figma source-of-truth 유지 | POC 흐름, component spec, Figma component 상태가 어긋나지 않게 관리 |
+| Storybook docs 동기화 | docs 원문, public viewer, worklog, handoff checklist가 같은 기준을 말하게 유지 |
+| QA 결과 기록 | viewport, theme, locale, chart/source/long text QA 결과를 문서에 남김 |
+| 중복 문서 정리 | 새 문서를 늘리기보다 진입점과 원본 위치를 명확히 관리 |
+
+---
+
+## 13. Feedback / Evaluation 고도화
 
 | 작업 | 설명 |
 |---|---|
@@ -144,7 +183,7 @@
 
 ---
 
-## 11. Design QA 고도화
+## 14. Design QA 고도화
 
 필수 산출물:
 

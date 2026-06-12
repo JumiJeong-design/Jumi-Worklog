@@ -280,18 +280,18 @@ body{
           <div class="roadmap-meta"><span class="roadmap-badge">6/14</span><span class="roadmap-badge source">plan</span></div>
         </div>
         <div class="roadmap-card">
-          <div class="roadmap-card-name">6/15~6/21 Agent / Compare 핵심 컴포넌트</div>
-          <div class="roadmap-card-desc">AgentProfile부터 Week 2 review까지 날짜별 계획 탭에 배정.</div>
+          <div class="roadmap-card-name">6/15~6/21 Agent / Compare / Chart 핵심 컴포넌트</div>
+          <div class="roadmap-card-desc">Agent/Answer 이후 Chart MVP를 6/17~6/18에 우선 배치하고, compare block을 chart 포함 흐름에 연결.</div>
           <div class="roadmap-meta"><span class="roadmap-badge">6/15-6/21</span><span class="roadmap-badge source">plan</span></div>
         </div>
         <div class="roadmap-card">
-          <div class="roadmap-card-name">6/22~6/27 Long Text / Source / Chart / Pattern</div>
-          <div class="roadmap-card-desc">Collapsible, Source, Chart MVP, MultiAgentComparison 패턴을 날짜별 계획 탭에 배정.</div>
+          <div class="roadmap-card-name">6/22~6/27 Long Text / Source / Pattern</div>
+          <div class="roadmap-card-desc">Long text와 Source를 정리한 뒤 chart 포함 MultiAgentComparison 패턴 QA로 연결.</div>
           <div class="roadmap-meta"><span class="roadmap-badge">6/22-6/27</span><span class="roadmap-badge source">plan</span></div>
         </div>
         <div class="roadmap-card">
-          <div class="roadmap-card-name">6/28 FE 연동 검증 루프</div>
-          <div class="roadmap-card-desc">handoff 전달, 실제 화면 적용 가능성, props/data/layout 피드백 정리.</div>
+          <div class="roadmap-card-name">6/28 FE handoff 준비</div>
+          <div class="roadmap-card-desc">주말에는 팀 요청 없이 handoff draft와 6/29 개발 확인 질문을 내부 정리.</div>
           <div class="roadmap-meta"><span class="roadmap-badge">6/28</span><span class="roadmap-badge source">plan</span></div>
         </div>
         <div class="roadmap-card">
@@ -913,14 +913,16 @@ body{
   - IA 후보: `Foundations / Primitives / Chat / Product / Patterns / Screens / QA`
   - 6월 제외 범위: Debate Mode, Panel Discussion Mode, 복잡한 Dashboard Layout, 완전한 i18n/a11y/visual regression matrix
 - 6월 실행 계획을 6/13~6/30 plan으로 확장했다.
-  - 6/13 MD 템플릿 / Story 작성 규칙
-  - 6/14 Codex 작업용 TODO 분리
-  - 6/15~6/21 Agent / Compare 핵심 컴포넌트
-  - 6/22~6/27 Long Text / Source / Chart / Pattern
-  - 6/28 FE 연동 검증 루프
+  - 6/13~6/14 주말: MD 템플릿 / Story 작성 규칙 / Codex 작업용 TODO 내부 정리
+  - 6/15~6/21 Agent / Compare / Chart 핵심 컴포넌트. Chart는 Socra 판단/비교 UX의 핵심이라 6/17~6/18로 상향
+  - 6/22~6/24 Long Text / Source 기본 구조
+  - 6/25~6/27 MultiAgentComparison 패턴과 chart 포함 QA
+  - 6/28 주말: FE handoff 준비와 내부 적용성 점검. 실제 FE 확인은 6/29 월요일
   - 6/29~6/30 피드백 반영 / 6월 정리
 - Storybook 계획/작업 티켓/디자이너 백로그를 구조화했다.
 - POC 페이지 기반 컴포넌트 후보 리스트업 1차를 완료하고, 실제 POC 재접속/구현 연결은 후속으로 남겼다.
+- 이후 일정은 POC 업데이트 내역을 기획 변화로 보고 계속 팔로우한다. Storybook이 POC 제품 흐름과 다른 기준을 만들지 않게 한다.
+- 인터랙션, UI/UX 시각·요소 고도화, Git 운영 / 코드 하네스, Figma / 문서 관리는 6월 내내 상시 병행 작업으로 둔다.
 - Storybook IA와 기존 컴포넌트 매핑은 추천 IA / task breakdown / guideline 수준으로 1차 문서화했다.
 
 ### 6월 Storybook 세부 일정
@@ -928,30 +930,37 @@ body{
 | 날짜 | Storybook 작업 | 디자이너 확인 포인트 |
 |------|----------------|----------------------|
 | 6/13 | MD 템플릿, Story 작성 규칙 정리 | Default / Matrix / LongContent / Theme / Locale / Edge Case 기준이 실제 QA에 충분한지 확인 |
-| 6/14 | Codex 작업용 TODO와 Week 1 완료 기준 분리 | P0 컴포넌트 목록과 기존 Storybook IA 이동 기준 확인 |
+| 6/14 | Codex 작업용 TODO와 Week 1 완료 기준 분리 | 주말이므로 팀 요청 없이 6/15 월요일 확인 질문만 정리 |
 | 6/15 | AgentProfile / AgentHeader Storybook 반영 | Agent와 Model 구분, 긴 이름, capability tag, JA 문자열 확인 |
 | 6/16 | AgentAnswerCard Storybook 반영 | default / loading / error / long text / source / chart / mobile 상태 확인 |
-| 6/17 | SocraSummaryCard Storybook 반영 | summary / decision / caution, 긴 요약, dark / JA 확인 |
-| 6/18 | ModelStanceRow Storybook 반영 | stance / confidence / reason, 긴 reason, mobile / locale 확인 |
-| 6/19 | ConsensusBlock / DisagreementBlock 구현 | 공통점/차이점/강한 불일치 상태가 빠르게 읽히는지 확인 |
-| 6/20 | ko/en/ja locale fixture 초안 | 긴 EN/JP 문구가 레이아웃을 밀지 않는지 확인 |
-| 6/21 | Week 2 review | Agent / Compare 핵심 컴포넌트 완료 기준과 수정 리스트 정리 |
+| 6/17 | ChartContainer / MetricCard / ScoreBar 우선 반영 | chart가 보조 장식이 아니라 판단/비교 구조의 중심으로 작동하는지 확인 |
+| 6/18 | ComparisonBarChart / Chart states 반영 | loading / empty / error / fallback table, mobile / dark / JA / long labels 확인 |
+| 6/19 | SocraSummaryCard / ModelStanceRow / ConsensusBlock / DisagreementBlock 연결 | chart 포함 비교 흐름에서 summary / stance / 공통점 / 차이점이 빠르게 읽히는지 확인 |
+| 6/20 | ko/en/ja locale fixture 초안 및 내부 QA | 주말이므로 팀 요청 없이 긴 EN/JP 문구가 레이아웃을 밀지 않는지 확인 |
+| 6/21 | Week 2 내부 review | 주말이므로 팀 요청 없이 Agent / Compare / Chart 수정 리스트를 6/22 월요일 액션으로 정리 |
 | 6/22 | CollapsibleAnswer Storybook 반영 | 긴 AI 답변 collapsed/expanded, mobile, dark, JA 확인 |
 | 6/23 | CollapsibleUserMessage / UserPromptSummary 반영 | 긴 사용자 질문이 비교 화면을 밀어내지 않는지 확인 |
-| 6/24 | Citation / SourceCard / SourceSection 기본 반영 | source 없음/긴 제목/expanded section 확인 |
-| 6/25 | ChartContainer / MetricCard / ScoreBar 반영 | loading / empty / error / mobile / dark / JA / long labels 확인 |
-| 6/26 | ComparisonBarChart / Chart states 반영 | 비교 상태, 긴 라벨, 모바일, 다크, JA 확인 |
-| 6/27 | MultiAgentComparison Pattern 반영 | agent + summary + stance + source + chart 조합이 실제 핵심 UX로 보이는지 확인 |
-| 6/28 | FE handoff / 실제 화면 적용성 1차 검증 | props / data shape / layout / token 충돌과 모바일/PC 적용성 확인 |
+| 6/24 | Citation / SourceCard / SourceSection 기본 반영 | source 없음/긴 제목/expanded section, chart와 source가 한 화면에서 경쟁하지 않는지 확인 |
+| 6/25 | MultiAgentComparison Pattern 반영 | agent + summary + stance + source + chart 조합이 실제 핵심 UX로 보이는지 확인 |
+| 6/26 | chart 포함 responsive / fallback QA | Storybook 문서 기준 대표 viewport인 mobile 390 / desktop 1280, tooltip / horizontal scroll / fallback table 확인 |
+| 6/27 | 내부 QA와 월요일 공유용 이슈 정리 | 주말이므로 팀 요청 없이 MultiAgentComparison 내부 QA 진행 |
+| 6/28 | FE handoff 준비 및 내부 적용성 점검 | 주말이므로 FE/PM/QA 요청 없이 6/29 월요일 공유할 제품 적용성 질문 정리 |
 | 6/29 | FE 피드백 반영, Theme / Viewport / Locale 대표 QA | 수정 필요 항목과 6월 내 닫을 범위 확정 |
 | 6/30 | 6월 결과 문서화, 7월 backlog 작성 | 완료/보류/7월 production 전환 항목 분리 |
 
 ### Storybook 티켓 우선순위
 
-- P0: `AgentProfile`, `AgentAnswerCard`, `SocraSummaryCard`, `ModelStanceRow`, `ConsensusBlock`, `DisagreementBlock`
+- P0: `AgentProfile`, `AgentAnswerCard`, `ChartContainer`, `MetricCard`, `ScoreBar`, `ComparisonBarChart`, `SocraSummaryCard`, `ModelStanceRow`, `ConsensusBlock`, `DisagreementBlock`, `MultiAgentComparison`
 - P1: `CollapsibleAnswer`, `CollapsibleUserMessage`, `Citation`, `SourceCard`, `SourceSection`
-- P1/P2: `ChartContainer`, `MetricCard`, `ScoreBar`, `ComparisonBarChart`, `MultiAgentComparison`
 - QA 축: mobile 390, desktop 1280, light/dark, ko/en/ja, long text, partial failure, source 없음/실패, chart empty/error/fallback table
+
+### 상시 병행 작업
+
+- POC 업데이트 내역을 기획 변화로 보고 Storybook scope, Figma, 7월 backlog에 반영한다.
+- Interaction 고도화: loading, streaming, retry, collapse/expand, source preview, chart reveal, feedback micro-interaction을 상태 이해와 연결한다.
+- UI/UX 시각·요소 고도화: 정보 계층, density, spacing, typography, chart/source/long text가 한 화면에서 경쟁하지 않는지 점검한다.
+- Git 운영 / 코드 하네스: Storybook 구현 단위, branch/PR 범위, check/test/visual QA 명령, fixture 관리, regression 방지 루틴을 정리한다.
+- Figma / 문서 관리: Figma source-of-truth, component spec, Storybook docs, handoff checklist, QA 결과를 최신 POC 기준으로 유지한다.
 
 ### 6/13 작성 템플릿 기준
 
@@ -1195,8 +1204,9 @@ body{
 
 ### 로드맵에서 온 일감
 
-- [ ] **SocraSummaryCard Storybook 반영** — summary / decision / caution 상태
-- [ ] **LongContent / Dark / JA 케이스 확인**
+- [ ] **ChartContainer / MetricCard / ScoreBar Storybook 우선 반영**
+- [ ] **Chart MVP 상태 확인** — Default, Loading, Empty, Error, Mobile, Dark, JA, LongLabels
+- [ ] **Chart가 판단/비교 구조의 중심으로 작동하는지 확인**
 
 ### 작업 중 생긴 일감
 
@@ -1215,8 +1225,9 @@ body{
 
 ### 로드맵에서 온 일감
 
-- [ ] **ModelStanceRow Storybook 반영** — stance / confidence / reason
-- [ ] **MultipleRows / LongReason / Mobile / Dark / Locale 케이스 확인**
+- [ ] **ComparisonBarChart / Chart states Storybook 반영**
+- [ ] **차트 비교 Story 확인** — loading, empty, error, fallback table, long labels
+- [ ] **mobile / dark / JA 케이스에서 chart가 깨지지 않는지 확인**
 
 ### 작업 중 생긴 일감
 
@@ -1235,8 +1246,9 @@ body{
 
 ### 로드맵에서 온 일감
 
-- [ ] **ConsensusBlock / DisagreementBlock 구현** — compare blocks 작성
-- [ ] **비교 UX에서 합의/불일치 상태가 빠르게 읽히는지 확인**
+- [ ] **SocraSummaryCard / ModelStanceRow Storybook 반영**
+- [ ] **ConsensusBlock / DisagreementBlock 구현** — chart 포함 compare blocks 작성
+- [ ] **summary / stance / 공통점 / 차이점이 chart 포함 흐름에서 빠르게 읽히는지 확인**
 
 ### 작업 중 생긴 일감
 
@@ -1255,8 +1267,9 @@ body{
 
 ### 로드맵에서 온 일감
 
-- [ ] **locale fixture 초안 작성** — ko/en/ja fixture
-- [ ] **Locale 대표 Story에서 긴 텍스트/JA 문자열 깨짐 확인**
+- [ ] **locale fixture 초안 작성 및 내부 QA** — ko/en/ja fixture
+- [ ] **주말 내부 작업** — 팀 요청 없이 긴 텍스트/JA 문자열 깨짐 확인
+- [ ] **6/22 월요일 수정 리스트 정리**
 
 ### 작업 중 생긴 일감
 
@@ -1275,8 +1288,9 @@ body{
 
 ### 로드맵에서 온 일감
 
-- [ ] **Week 2 review** — 사용자 + Claude 수정 list 작성
-- [ ] **Agent / Compare 핵심 컴포넌트 완료 기준 점검**
+- [ ] **Week 2 내부 review** — 사용자 + Claude 수정 list 작성
+- [ ] **Agent / Compare / Chart 핵심 컴포넌트 완료 기준 점검**
+- [ ] **주말 내부 작업** — 팀 요청 없이 6/22 액션으로 정리
 
 ### 작업 중 생긴 일감
 
@@ -1337,6 +1351,7 @@ body{
 
 - [ ] **Citation / SourceCard / SourceSection 기본 Storybook 반영**
 - [ ] **Source 상태 확인** — WebSource, FileSource, NoSource, LongTitle, ExpandedSection
+- [ ] **chart와 source가 한 화면에서 경쟁하지 않는지 확인**
 
 ### 작업 중 생긴 일감
 
@@ -1355,8 +1370,9 @@ body{
 
 ### 로드맵에서 온 일감
 
-- [ ] **ChartContainer / MetricCard / ScoreBar Storybook 반영**
-- [ ] **Chart MVP 상태 확인** — Default, Loading, Empty, Error, Mobile, Dark, JA, LongLabels
+- [ ] **MultiAgentComparison Pattern Storybook 반영**
+- [ ] **패턴 대표 Story 확인** — agent + summary + stance + source + chart
+- [ ] **chart가 핵심 판단/비교 구조로 읽히는지 확인**
 
 ### 작업 중 생긴 일감
 
@@ -1375,8 +1391,9 @@ body{
 
 ### 로드맵에서 온 일감
 
-- [ ] **ComparisonBarChart / Chart states Storybook 반영**
-- [ ] **차트 비교 Story 확인** — 비교 상태, 긴 라벨, 모바일, 다크, JA
+- [ ] **chart 포함 responsive / fallback QA**
+- [ ] **Storybook 대표 viewport 확인** — mobile 390 / desktop 1280
+- [ ] **tooltip / horizontal scroll / fallback table / source 영역 충돌 점검**
 
 ### 작업 중 생긴 일감
 
@@ -1395,8 +1412,9 @@ body{
 
 ### 로드맵에서 온 일감
 
-- [ ] **MultiAgentComparison Pattern Storybook 반영**
-- [ ] **패턴 대표 Story 확인** — Default, Mobile, Desktop, LongAnswers, PartialFailure, WithChart
+- [ ] **MultiAgentComparison 내부 QA**
+- [ ] **주말 내부 작업** — 팀 요청 없이 chart/source/long text 충돌 점검
+- [ ] **6/29 월요일 공유용 이슈 정리**
 
 ### 작업 중 생긴 일감
 
@@ -1415,9 +1433,10 @@ body{
 
 ### 로드맵에서 온 일감
 
-- [ ] **FE handoff 문서 전달** — handoff note 정리
-- [ ] **실제 화면 적용 가능성 1차 확인** — issue list 작성
-- [ ] **props / data shape / layout 피드백 정리** — sync checklist 작성
+- [ ] **FE handoff checklist 초안 정리**
+- [ ] **Storybook 문서 기준 대표 viewport 내부 QA** — mobile 390 / desktop 1280
+- [ ] **6/29 FE에게 공유할 제품 적용성 질문 정리**
+- [ ] **주말 내부 작업** — FE/PM/QA 요청 없음
 
 ### 작업 중 생긴 일감
 
@@ -1436,6 +1455,7 @@ body{
 
 ### 로드맵에서 온 일감
 
+- [ ] **FE 실제 화면 적용성 1차 검증** — 컴포넌트 재사용성, 페이지 조립 용이성, interaction wiring 확인
 - [ ] **FE 피드백 반영** — Storybook cleanup
 - [ ] **Theme / Viewport / Locale 대표 QA** — checked stories 정리
 
@@ -3750,18 +3770,18 @@ const ENTRY_META = {
   '2026-06-14': { tags: ['plan', 'storybook', 'codex-todo'] },
   '2026-06-15': { tags: ['plan', 'storybook', 'agent-profile'] },
   '2026-06-16': { tags: ['plan', 'storybook', 'agent-answer-card'] },
-  '2026-06-17': { tags: ['plan', 'storybook', 'summary-card'] },
-  '2026-06-18': { tags: ['plan', 'storybook', 'model-stance'] },
+  '2026-06-17': { tags: ['plan', 'storybook', 'chart-mvp'] },
+  '2026-06-18': { tags: ['plan', 'storybook', 'comparison-chart'] },
   '2026-06-19': { tags: ['plan', 'storybook', 'compare-blocks'] },
   '2026-06-20': { tags: ['plan', 'storybook', 'locale'] },
   '2026-06-21': { tags: ['plan', 'storybook', 'review'] },
   '2026-06-22': { tags: ['plan', 'storybook', 'long-text'] },
   '2026-06-23': { tags: ['plan', 'storybook', 'long-prompt'] },
   '2026-06-24': { tags: ['plan', 'storybook', 'source'] },
-  '2026-06-25': { tags: ['plan', 'storybook', 'chart'] },
-  '2026-06-26': { tags: ['plan', 'storybook', 'comparison-chart'] },
+  '2026-06-25': { tags: ['plan', 'storybook', 'pattern'] },
+  '2026-06-26': { tags: ['plan', 'storybook', 'chart-qa'] },
   '2026-06-27': { tags: ['plan', 'storybook', 'pattern'] },
-  '2026-06-28': { tags: ['plan', 'storybook', 'fe-handoff'] },
+  '2026-06-28': { tags: ['plan', 'storybook', 'handoff-prep'] },
   '2026-06-29': { tags: ['plan', 'storybook', 'qa'] },
   '2026-06-30': { tags: ['plan', 'storybook', 'summary'] },
   '2026-06-11': { tags: ['harness', 'figma', 'prism', 'glassmorphism', 'writing', 'dark-mode', 'repo-ops'], notion: 'https://app.notion.com/p/37b5bc5f630780968b5de735c3fc82b0' },

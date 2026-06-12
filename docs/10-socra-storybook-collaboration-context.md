@@ -35,6 +35,8 @@ User 질문
 
 6월 목표는 완성형 디자인 시스템이 아니라, 핵심 UX가 Storybook과 실제 프론트 구조에서 검증 가능한 상태가 되는 것이다.
 
+POC 업데이트 내역은 기획 변화로 보고 계속 팔로우한다. Storybook이 POC 제품 흐름과 다른 별도 기준을 만들지 않도록, POC에 있는 핵심 flow를 우선 source-of-truth로 둔다.
+
 ---
 
 ## 6월 범위
@@ -43,10 +45,10 @@ User 질문
 
 - Storybook IA를 `Foundations / Primitives / Chat / Product / Patterns / Screens / QA`로 확장
 - Agent / Compare 핵심: `AgentProfile`, `AgentAnswerCard`, `SocraSummaryCard`, `ModelStanceRow`
+- Chart / Decision Visualization 핵심: `ChartContainer`, `MetricCard`, `ScoreBar`, `ComparisonBarChart`
 - 비교 정리: `ConsensusBlock`, `DisagreementBlock`
 - Long text: `CollapsibleAnswer`, `CollapsibleUserMessage`
 - Source 기본: `Citation`, `SourceCard`, `SourceSection`
-- Chart MVP: `ChartContainer`, `MetricCard`, `ScoreBar`, `ComparisonBarChart`
 - Radial/gauge chart는 shadcn/ui radial chart를 참고하되, 추천도·신뢰도·진행률 같은 score형 metric 후보로만 검토
 - Pattern: `MultiAgentComparison`
 - QA 대표 케이스: mobile 390, desktop 1280, light/dark, ko/en/ja
@@ -89,12 +91,12 @@ Experiments
 
 1. `Product/Agent/AgentProfile`
 2. `Product/Agent/AgentAnswerCard`
-3. `Product/Compare/SocraSummaryCard`
-4. `Product/Compare/ModelStanceRow`
-5. `Product/Compare/ConsensusBlock`, `DisagreementBlock`
-6. `Chat/CollapsibleUserMessage`, `Product/LongText/CollapsibleAnswer`
-7. `Product/Source/Citation`, `SourceCard`, `SourceSection`
-8. `Product/Chart/ChartContainer`, `MetricCard`, `ScoreBar`, `ComparisonBarChart`
+3. `Product/Chart/ChartContainer`, `MetricCard`, `ScoreBar`, `ComparisonBarChart`
+4. `Product/Compare/SocraSummaryCard`
+5. `Product/Compare/ModelStanceRow`
+6. `Product/Compare/ConsensusBlock`, `DisagreementBlock`
+7. `Chat/CollapsibleUserMessage`, `Product/LongText/CollapsibleAnswer`
+8. `Product/Source/Citation`, `SourceCard`, `SourceSection`
 9. `Patterns/MultiAgentComparison`
 10. `QA/Theme`, `QA/Viewport`, `QA/Locale`, `QA/ErrorStates`
 
@@ -172,6 +174,14 @@ FE 확인 질문:
 | 접근성 | `docs/70-socra-storybook-docs/qa/14-accessibility-checklist.md` |
 
 컴포넌트별 문서는 `docs/70-socra-storybook-docs/components/` 폴더에 있다. 현재 공통 템플릿 성격이 강하므로, 실제 구현 시에는 repo의 기존 props/type 패턴에 맞춰 재정의한다.
+
+상시 병행 축:
+
+- POC 업데이트 팔로우
+- Interaction 고도화
+- UI/UX 시각·요소 고도화
+- Git 운영 / 코드 하네스
+- Figma / 문서 관리
 
 ---
 

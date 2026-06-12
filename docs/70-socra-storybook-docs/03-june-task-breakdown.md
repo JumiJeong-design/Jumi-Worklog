@@ -4,6 +4,23 @@
 
 ---
 
+## 실행 순서 기준
+
+6월 실행 순서는 POC 제품 업데이트를 계속 팔로우하면서 조정한다. Storybook이 POC와 별도의 새 기준을 만들지 않도록, 실제 제품 흐름에 있는 비교/판단/차트/출처/긴 텍스트를 우선 검증한다.
+
+| 순서 | 작업 |
+|---|---|
+| 1 | IA / inventory / Storybook guideline 정리 |
+| 2 | AgentProfile / AgentAnswerCard |
+| 3 | Chart MVP: ChartContainer, MetricCard, ScoreBar, ComparisonBarChart |
+| 4 | SocraSummaryCard, ModelStanceRow, ConsensusBlock, DisagreementBlock |
+| 5 | CollapsibleAnswer, CollapsibleUserMessage |
+| 6 | Citation, SourceCard, SourceSection |
+| 7 | MultiAgentComparison Pattern |
+| 8 | FE 제품 적용성 검증 |
+
+---
+
 ## TASK-01. Storybook IA 개편안 작성
 
 | 항목 | 내용 |
@@ -186,12 +203,12 @@
 
 | 항목 | 내용 |
 |---|---|
-| 목적 | MVP 필수 차트 디자인 구현 |
+| 목적 | Socra 판단/비교 UX의 핵심인 차트/점수/지표 표현을 먼저 검증 |
 | 담당 | Claude + Codex |
 | 위치 | `Product/Chart/*` |
 | 범위 | ChartContainer, MetricCard, ScoreBar, ComparisonBarChart |
 | 필수 Story | Default, Loading, Empty, Error, Mobile, Dark, JA, LongLabels |
-| 완료 기준 | Socra 판단/비교 UX에서 수치/점수/비교 차트 사용 가능 |
+| 완료 기준 | Socra 판단/비교 UX에서 수치/점수/비교 차트가 핵심 정보로 작동하고, chart fallback table까지 확인 가능 |
 
 ---
 
@@ -203,7 +220,7 @@
 | 담당 | Codex |
 | 위치 | `Patterns/MultiAgentComparison` |
 | 필수 Story | Default, Mobile, Desktop, LongAnswers, PartialFailure, WithChart |
-| 완료 기준 | Socra 핵심 비교 UX가 Storybook에서 보임 |
+| 완료 기준 | Socra 핵심 비교 UX가 Storybook에서 보이고, chart/source/long text가 한 화면에서 서로 경쟁하지 않음 |
 
 ---
 
@@ -225,7 +242,7 @@
 | 목적 | Storybook 컴포넌트가 실제 프론트 화면에 적용 가능한지 확인 |
 | 담당 | FE + Codex + 사용자 |
 | 산출물 | issue list |
-| 완료 기준 | data shape / layout / props / token 관련 주요 이슈 정리 |
+| 완료 기준 | 컴포넌트 재사용성, 페이지 조립 용이성, interaction wiring, responsive 흐름, chart/source fallback 관련 주요 이슈 정리 |
 
 ---
 
@@ -237,3 +254,27 @@
 | 담당 | Claude |
 | 산출물 | `june-summary.md`, `next-backlog.md` |
 | 완료 기준 | 완료/보류/추가 필요 항목이 구분됨 |
+
+---
+
+## TASK-21. POC 업데이트 팔로우 및 문서 동기화
+
+| 항목 | 내용 |
+|---|---|
+| 목적 | POC 업데이트 내역을 기획 변화로 보고 Storybook / Figma / 문서 / 7월 backlog에 반영 |
+| 담당 | 사용자 + Claude |
+| 입력 | POC 업데이트 내역, Figma source-of-truth, Storybook docs, 실제 repo 상태 |
+| 산출물 | scope change note, backlog update, docs sync |
+| 완료 기준 | Storybook이 POC 제품 흐름과 다른 기준을 만들지 않음 |
+
+---
+
+## TASK-22. Git 운영 / 코드 하네스 정리
+
+| 항목 | 내용 |
+|---|---|
+| 목적 | Codex가 반복 실행할 수 있는 구현·검증 루틴을 정리 |
+| 담당 | Codex |
+| 범위 | branch/PR 범위, Storybook 구현 단위, fixture 관리, check/test/visual QA 명령, regression 방지 |
+| 산출물 | implementation checklist, verification command list |
+| 완료 기준 | 각 Storybook 작업이 실제 repo 상태와 검증 명령에 연결됨 |
