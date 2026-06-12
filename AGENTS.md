@@ -7,8 +7,11 @@
 
 ## 세션 시작 시
 
-1. 이 레포(`JumiJeong-design/jumi-worklog`)의 최근 `logs/YYYY/MM/` 날짜 파일 1~2개를 읽어 맥락 파악
-2. 오늘 날짜 worklog 파일이 없으면 세션 종료 시 생성
+**"오늘 할 일", "뭐해야 해", "현재 상태" 등 어떤 질문이든 — 다른 문서보다 먼저 오늘 날짜 worklog를 읽는다.**
+
+1. `logs/YYYY/MM/YYYY-MM-DD.md` (오늘 날짜) 를 가장 먼저 읽는다. 없으면 가장 최근 날짜 파일의 `## Next` 섹션을 기준으로 삼는다.
+2. 오늘 날짜 worklog를 확인한 뒤에만 프로젝트별 `AGENTS.md`나 plan 문서를 보조로 연다.
+3. 오늘 날짜 worklog 파일이 없으면 세션 종료 시 생성한다.
 3. `skills/` 폴더에 공통 스킬 목록이 있음 — 사용자가 트리거하면 해당 SKILL.md 로드
 4. `scripts/check-context-freshness.sh`를 실행해 `CONTEXT.md`가 최신 worklog보다 오래됐는지 확인. 경고가 나오면 `CONTEXT.md`를 현재 상태로 믿지 말고 최신 worklog와 관련 repo의 git 상태를 먼저 확인
 5. 문서 구조를 정리하거나 새 문서를 만들 때는 `docs/00-document-role-map.md`의 번호 체계를 따른다
