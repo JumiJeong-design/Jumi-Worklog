@@ -85,15 +85,19 @@ body{
 .entry-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 .entry-tab-panel{display:none}
 .entry-tab-panel.active{display:block}
-/* ── Sub-tabs (log 탭 내부) ── */
-.sub-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin:0 0 20px;overflow-x:auto;scrollbar-width:none}
-.sub-tabs::-webkit-scrollbar{display:none}
-.sub-tab-btn{padding:6px 14px;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;font-family:inherit;white-space:nowrap;transition:color .12s,border-color .12s}
-.sub-tab-btn:hover{color:var(--text)}
-.sub-tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
-.sub-section{display:none}
-.sub-section.active{display:block}
-.sub-section > h2{margin-top:4px}
+/* ── Log groups (repo/source 기준) ── */
+.log-group-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:6px;margin:0 0 18px}
+.log-group-btn{min-height:34px;padding:7px 10px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;border:1px solid var(--border);border-radius:7px;background:var(--surface-2);font-family:inherit;transition:color .12s,border-color .12s,background .12s;text-align:center}
+.log-group-btn:hover{color:var(--text);border-color:var(--text-muted)}
+.log-group-btn.active{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.log-group-panel{display:none}
+.log-group-panel.active{display:block}
+.log-group-toc{position:sticky;top:calc(var(--topbar-h) + 10px);z-index:5;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin:0 0 18px;display:flex;flex-wrap:wrap;gap:6px}
+.log-group-toc-label{font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:.04em;text-transform:uppercase;margin-right:2px;align-self:center}
+.log-group-toc a{font-size:11px;color:var(--text-muted);text-decoration:none;border:1px solid var(--border);background:var(--surface-2);border-radius:999px;padding:3px 8px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-group-toc a:hover{color:var(--accent);border-color:var(--accent)}
+.repo-section{scroll-margin-top:calc(var(--topbar-h) + 74px)}
+.repo-section > h2{margin-top:4px}
 .sidebar-list{flex:1;overflow-y:auto;padding:6px 0}
 .sidebar-list.with-border{border-top:1px solid var(--border)}
 .list-item{display:flex;flex-direction:column;padding:9px 16px;cursor:pointer;border-left:2px solid transparent;transition:all .12s}
@@ -3940,40 +3944,105 @@ function buildList() {
       <span class="list-date">${formatDate(e.date)} ${e.dayKo}</span>
     </div>`).join('');
 }
-function buildSubTabs(container) {
+function sectionLabel(text) {
+  return (text || '').split(' — ')[0].split(' (')[0].trim();
+}
+function groupForSection(label) {
+  const text = label.toLowerCase();
+  if (
+    /jumi|worklog|워크로그|storybook docs|로드맵|글감|writing|medium|public viewer|공개 뷰어|notion 일정|2605-06/.test(text)
+  ) return 'worklog';
+  if (
+    /prism|figma|피그마|디자인 시스템|design system|glass|글래스|chat history|component|컴포넌트|storybook/.test(text)
+  ) return 'prism';
+  if (/workflow|wiki|위키|playbook|guide|가이드/.test(text)) return 'wiki';
+  if (/next|미해결|함정|회고|인사이트|요약|공통|커밋|pr/.test(text)) return 'common';
+  return 'other';
+}
+const LOG_GROUPS = [
+  { id: 'common', label: '공통' },
+  { id: 'worklog', label: 'Jumi-Worklog' },
+  { id: 'prism', label: 'Prism / Product' },
+  { id: 'wiki', label: 'Workflow Wiki' },
+  { id: 'other', label: '기타' },
+];
+function buildLogGroups(container) {
   const nodes = [...container.childNodes];
   const h2Idx = [];
   nodes.forEach((n, i) => { if (n.nodeType === 1 && n.tagName === 'H2') h2Idx.push(i); });
   if (h2Idx.length < 2) return;
 
-  const sections = h2Idx.map((start, i) => {
+  const groups = new Map(LOG_GROUPS.map(g => [g.id, { ...g, sections: [] }]));
+
+  if (h2Idx[0] > 0) {
+    const intro = document.createElement('div');
+    intro.className = 'repo-section';
+    const h2 = document.createElement('h2');
+    h2.textContent = '공통';
+    intro.appendChild(h2);
+    for (let j = 0; j < h2Idx[0]; j++) intro.appendChild(nodes[j].cloneNode(true));
+    groups.get('common').sections.push({ label: '공통', node: intro });
+  }
+
+  h2Idx.forEach((start, i) => {
     const end = h2Idx[i + 1] ?? nodes.length;
     const div = document.createElement('div');
-    div.className = 'sub-section' + (i === 0 ? ' active' : '');
+    div.className = 'repo-section';
     for (let j = start; j < end; j++) div.appendChild(nodes[j].cloneNode(true));
-    return div;
+    const label = sectionLabel(div.querySelector('h2')?.textContent || `섹션 ${i + 1}`);
+    const groupId = groupForSection(label);
+    groups.get(groupId).sections.push({ label, node: div });
   });
 
+  const activeGroups = LOG_GROUPS.map(g => groups.get(g.id)).filter(g => g.sections.length > 0);
+  if (activeGroups.length < 2) return;
+
   const bar = document.createElement('div');
-  bar.className = 'sub-tabs';
-  sections.forEach((sec, i) => {
-    const raw = sec.querySelector('h2')?.textContent.trim() || `섹션 ${i + 1}`;
-    const label = raw.split(' — ')[0].split(' (')[0].trim();
+  bar.className = 'log-group-tabs';
+  const panels = [];
+
+  activeGroups.forEach((group, i) => {
+    const panel = document.createElement('div');
+    panel.className = 'log-group-panel' + (i === 0 ? ' active' : '');
+    panel.dataset.group = group.id;
+
+    if (group.sections.length > 1) {
+      const toc = document.createElement('div');
+      toc.className = 'log-group-toc';
+      toc.innerHTML = '<span class="log-group-toc-label">목차</span>';
+      group.sections.forEach((section, sectionIndex) => {
+        const id = `section-${group.id}-${sectionIndex}`;
+        section.node.id = id;
+        const link = document.createElement('a');
+        link.href = `#${id}`;
+        link.textContent = section.label;
+        link.onclick = (event) => {
+          event.preventDefault();
+          section.node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        toc.appendChild(link);
+      });
+      panel.appendChild(toc);
+    }
+
+    group.sections.forEach(section => panel.appendChild(section.node));
+    panels.push(panel);
+
     const btn = document.createElement('button');
-    btn.className = 'sub-tab-btn' + (i === 0 ? ' active' : '');
-    btn.textContent = label;
+    btn.className = 'log-group-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = group.label;
     btn.onclick = () => {
-      bar.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+      bar.querySelectorAll('.log-group-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      container.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
-      sec.classList.add('active');
+      container.querySelectorAll('.log-group-panel').forEach(p => p.classList.remove('active'));
+      panel.classList.add('active');
     };
     bar.appendChild(btn);
   });
 
   container.innerHTML = '';
   container.appendChild(bar);
-  sections.forEach(s => container.appendChild(s));
+  panels.forEach(panel => container.appendChild(panel));
 }
 
 function renderEntry(index) {
@@ -4018,7 +4087,7 @@ function renderEntry(index) {
     </div>`;
   document.querySelector('.main').scrollTop = 0;
   const logBody = document.querySelector('.entry-tab-panel[data-panel="log"] .entry-body') || document.querySelector('#entry-area .entry-body');
-  if (logBody) buildSubTabs(logBody);
+  if (logBody) buildLogGroups(logBody);
   initCheckboxes(e.date, hasPlan(e.date) ? 'plan' : 'log');
 }
 
