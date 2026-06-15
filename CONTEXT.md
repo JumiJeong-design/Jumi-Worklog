@@ -44,7 +44,7 @@
 ## 2026-06-15 현재 상태
 
 - `riiid/prism`: `glass-light-dark-colors` 브랜치에 React Bits 기반 `GlassSurface`, glass semantic tokens, Header/Chat/Toast glass 동기화, Checkbox/Radio/Toggle custom control 보정, HistoryItem 한 줄 구조 보정, Storybook glass review 배경 강화, 작업 완료 후 다음 작업 허락 규칙을 커밋/푸시했다. 커밋은 `adf6454`.
-- `riiid/prism`: stroke width 후속으로 `1px` border, `1.5px` small icon thin, `1.8px` 기본 icon/control 기준을 Foundation 문서와 package tokens에 추가하고 Checkbox/Radio outline을 1.8px로 맞췄다.
+- `riiid/prism`: stroke width 후속으로 `1px` border, `1.5px` small icon thin, `1.8px` 기본 icon/control, `2.2px` strong mark 기준을 Foundation 문서와 package tokens에 추가했다. Checkbox checked mark와 Toast 타입 배지 아이콘은 2.2px, Chip/Photo XBtn small icon은 1.5px로 맞췄고, Chat Input Bar attachment row crop을 보정했다.
 - `riiid/prism` 검증: `pnpm check` 통과. `pnpm visual`은 Storybook build까지 통과했지만 `CHROMATIC_PROJECT_TOKEN` 누락으로 Chromatic 업로드 실패.
 - `jumi-worklog`: 2026-06-15 worklog 원본과 `site/worklog.html` public viewer에 Prism glass / Storybook QA 동기화 및 stroke width 후속 기록을 추가했다.
 - 다음 작업은 새 규칙대로 먼저 범위와 의도를 설명하고 주미님 허락을 받은 뒤 진행한다.
