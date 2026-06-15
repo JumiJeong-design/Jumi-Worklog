@@ -1107,7 +1107,7 @@ body{
 - [ ] `Chat History Panel` PR #6 EN/JP 긴 텍스트 말줄임 디자이너 QA — [PR](https://github.com/riiid/prism/pull/6), [Figma `1349:1550`](https://www.figma.com/design/DcYgJjGAfObOIM4IyrQjgj/Socra-Design-system-test?node-id=1349-1550)
 - [ ] 패키지 구현 전 `NavItem`부터 구현 범위를 설명하고 승인받기
 - [ ] AI 워크플로우 Medium 업로드
-- [x] 다음 sync audit은 hardcoded fill/stroke -> text style -> effect style -> radius/spacing/padding -> icon strokeWeight 순서로 진행 → 이 순서대로 완료(아래 "Figma 디자인 시스템 정합성 작업" 참조). strokeWeight는 Foundation에 토큰이 없어 제외.
+- [x] 다음 sync audit은 hardcoded fill/stroke -> text style -> effect style -> radius/spacing/padding -> icon strokeWeight 순서로 진행 → 이 순서대로 완료(아래 "Figma 디자인 시스템 정합성 작업" 참조). 이후 strokeWeight는 Foundation stroke width 기준으로 후속 정리.
 
 ---
 
@@ -1286,6 +1286,16 @@ HistoryItem 는 디자인이 저게 아니고 한줄짜리로 들어가야할듯
 - **Tailwind v4 public alias dark mode 고정** — `.dark`에서 `--prism-color-*`는 바뀌었지만 `--color-*` alias가 light 값에 고정되어 Storybook dark 샘플이 light처럼 보였다. token build에서 alias도 mode scope마다 재선언하도록 수정했다.
 - **Figma false positive** — History Item disabled trailing square는 Figma에는 있었지만 실제 사용 의도가 불명확했다. 사용자가 Figma에서 제거하기로 해서 패키지에서도 제거했다.
 
+### Stroke width 후속
+
+- Foundation 기준을 `1px` border, `1.5px` small icon thin, `1.8px` 기본 icon/control로 정리했다.
+- `design-system/foundation/stroke-width.md`, `design-system/rules.md`, `design-system/components.md`, `design-system/tokens/tokens.json`, `packages/prism/token-contract.md`에 기준을 반영했다.
+- `PrismIcon` 기본 stroke를 `1.8` 상수로 유지하고, 12~16px small icon에는 `1.5` thin 값을 명시했다.
+- Checkbox/Radio outline과 Checkbox indeterminate dash를 `--stroke-width-control` 1.8px 기준으로 올렸다.
+- Chat Input Bar 기본 glass border는 `--stroke-width-border` 1px 기준으로 정리했다.
+- `--stroke-width-*` CSS 변수가 public manifest에 빠지지 않도록 token build 산출물도 보정했다.
+- 검증: `pnpm check` 통과. `pnpm visual`은 Storybook build까지 통과했고 Chromatic 업로드는 `CHROMATIC_PROJECT_TOKEN` 누락으로 실패.
+
 ### 회고 및 인사이트
 
 #### AI 도구 활용
@@ -1349,7 +1359,8 @@ HistoryItem 는 디자인이 저게 아니고 한줄짜리로 들어가야할듯
 
 ### 작업 중 생긴 일감
 
-- [x] 다음 sync audit 범위 시작 — hardcoded fill/stroke → text style → effect style → radius/spacing/padding → icon strokeWeight 순서로 완료. strokeWeight는 Foundation 토큰 부재로 제외.
+- [x] 다음 sync audit 범위 시작 — hardcoded fill/stroke → text style → effect style → radius/spacing/padding → icon strokeWeight 순서로 완료.
+- [x] strokeWeight Foundation 후속 — `1px` border, `1.5px` small icon thin, `1.8px` 기본 icon/control 기준으로 문서/토큰/Checkbox/Radio 패키지 반영.
 - [ ] `CHROMATIC_PROJECT_TOKEN`이 있는 환경에서 `pnpm visual` 재실행 후 Chromatic 링크 기록
 - [ ] `Chat History Panel` PR #6 EN/JP 긴 텍스트 말줄임 디자이너 QA — [PR](https://github.com/riiid/prism/pull/6), [Figma `1349:1550`](https://www.figma.com/design/DcYgJjGAfObOIM4IyrQjgj/Socra-Design-system-test?node-id=1349-1550)
 - [ ] 패키지 구현 전 `NavItem`부터 구현 범위를 설명하고 승인받는다
