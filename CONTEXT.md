@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-06-12
+> Last updated: 2026-06-15
 
 ---
 
@@ -41,7 +41,14 @@
 
 ---
 
-## 2026-06-12 현재 상태
+## 2026-06-15 현재 상태
+
+- `riiid/prism`: `glass-light-dark-colors` 브랜치에 React Bits 기반 `GlassSurface`, glass semantic tokens, Header/Chat/Toast glass 동기화, Checkbox/Radio/Toggle custom control 보정, HistoryItem 한 줄 구조 보정, Storybook glass review 배경 강화, 작업 완료 후 다음 작업 허락 규칙을 커밋/푸시했다. 커밋은 `adf6454`.
+- `riiid/prism` 검증: `pnpm check` 통과. `pnpm visual`은 Storybook build까지 통과했지만 `CHROMATIC_PROJECT_TOKEN` 누락으로 Chromatic 업로드 실패.
+- `jumi-worklog`: 2026-06-15 worklog 원본과 `site/worklog.html` public viewer에 Prism glass / Storybook QA 동기화 기록을 추가했다.
+- 다음 작업은 새 규칙대로 먼저 범위와 의도를 설명하고 주미님 허락을 받은 뒤 진행한다.
+
+## 2026-06-12 상태 스냅샷
 
 - `jumi-worklog`: 6/12 worklog와 public viewer를 오늘 커밋 전체 기준으로 보강 중이다. 6/11 로컬 수정은 최신 원격과 충돌해 `stash@{0}: preserve-2026-06-11-local-worklog-edit`에 보존되어 있다.
 - 공개 워크로그 뷰어는 `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html` 기준이다. 오늘 focus, plan/log 탭 유지, roadmap view, 모바일 drawer, edit/link action, checkbox refresh를 보강했다.
@@ -59,16 +66,16 @@
 
 ---
 
-## 6/13 후보 작업
+## 다음 후보 작업
 
-아래는 오늘 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다.
+아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다.
 
 - `CHROMATIC_PROJECT_TOKEN`이 있는 환경에서 `pnpm visual` 재실행 후 Chromatic 링크를 기록한다.
 - EN/JP mobile/web `Chat History Panel`의 긴 텍스트 `clipping + ellipsis` 처리를 디자이너 QA로 최종 확인한다.
 - `GlassEffect.stories.tsx`가 별도 foundation 작업 산출물인지 확인한다.
 - 실제 POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 구현 단위로 연결한다.
 - Storybook IA / inventory를 실제 `riiid/prism` Storybook 구조와 연결하는 구현 TODO를 분리한다.
-- 다음 sync audit은 hardcoded fill/stroke → text style → effect style → radius/spacing/padding → icon strokeWeight 순서로 진행한다.
+- Prism 다음 구현 후보는 `NavItem` 패키지 구현 → `ChatHistoryPanel` 패키지 구현 → `Components/ChatHistoryPanel` Storybook → `Screens/HomeHistory` 순서다. 시작 전 범위 설명과 허락이 필요하다.
 - 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서로 진행한다. 아직 시작하지 않았다.
 - AI 워크플로우 Medium 업로드와 POC 페이지 기반 컴포넌트 추가는 백로그로 유지한다.
 
