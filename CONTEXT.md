@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-06-15
+> Last updated: 2026-06-16
 
 ---
 
@@ -41,6 +41,13 @@
 
 ---
 
+## 2026-06-16 현재 상태
+
+- `riiid/prism`: PR [#7](https://github.com/riiid/prism/pull/7) `glass-light-dark-colors` → `main` **머지 완료** (`a296620`, 2026-06-16 03:21:46). Glass 표면/컨트롤 색상 동기화, stroke-width 기준 동기화, Storybook autodocs 복구, Checkbox/ChatHistoryPanel glass 보정 등 30개 커밋 반영.
+- Chromatic: Build 58 업로드 성공(Storybook Publish, 47 stories published) + UI Review `정주미` 승인(34건 visual/a11y 변경 baseline 채택). `CHROMATIC_PROJECT_TOKEN` 재실행 항목과 Storybook 매트릭스 육안 QA 항목 모두 이 승인으로 완료 처리.
+- 이전 세션에서 "남은 항목"으로 기록했던 PR 머지·Chromatic 업로드·Storybook QA 3개는 실제로는 완료돼 있었으나 worklog/CONTEXT.md/prism plan 문서에 반영되지 않았던 것을 발견하고 정정함.
+- 남은 후속 작업: Chat History Panel PR #6 EN/JP 말줄임 QA, NavItem 패키지 구현 승인, 글래스모피즘 Modal/Bottom Sheet·Settings·Web 헤더 적용.
+
 ## 2026-06-15 현재 상태
 
 - `riiid/prism`: `glass-light-dark-colors` 브랜치에 React Bits 기반 `GlassSurface`, glass semantic tokens, Header/Chat/Toast glass 동기화, Checkbox/Radio/Toggle custom control 보정, HistoryItem 한 줄 구조 보정, Storybook glass review 배경 강화, 작업 완료 후 다음 작업 허락 규칙을 커밋/푸시했다. 커밋은 `adf6454`.
@@ -71,7 +78,6 @@
 
 아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다.
 
-- `CHROMATIC_PROJECT_TOKEN`이 있는 환경에서 `pnpm visual` 재실행 후 Chromatic 링크를 기록한다.
 - EN/JP mobile/web `Chat History Panel`의 긴 텍스트 `clipping + ellipsis` 처리를 디자이너 QA로 최종 확인한다.
 - `GlassEffect.stories.tsx`가 별도 foundation 작업 산출물인지 확인한다.
 - 실제 POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 구현 단위로 연결한다.
