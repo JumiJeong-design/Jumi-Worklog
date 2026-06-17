@@ -46,8 +46,11 @@
 - `riiid/prism`: PR [#8](https://github.com/riiid/prism/pull/8) `review-pasted-text-content` -> `main` 생성. Figma 실대조 기준으로 Checkbox / Toggle / Toast / History Item gray off-ramp를 palette reference로 복구하고, chromatic ramp, status muted dark tint, Storybook QA/Viewport/Locale 표면을 함께 반영했다.
 - `riiid/prism`: 검증 `pnpm token:build`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm pack:check`, `pnpm storybook:build`, `pnpm demo:build` 통과. Gradient old gray 교정은 Figma-side 후속으로 남김.
 - `riiid/prism`: Text Field Figma component(`52:49`)에 `Type=box/line` variant 축을 추가했다. 패키지 `TextField` 구현과 Storybook 반영은 승인 후 별도 진행.
-- `jumi-worklog`: 2026-06-17 worklog 원본과 `site/worklog.html` public viewer에 Text Field 작업 및 PR #8 기록을 반영했다.
-- 남은 후속 작업: Figma-side gradient old gray master 9개 바인딩, Model Profile 브랜드 아이콘 색 결정, focus ring accent 토큰 도입 여부 결정, Text Field package/Storybook 연결.
+- `riiid/prism`: Markdown Rendering(`1169:2`, `918:2`) 고도화를 Figma에 반영했다. `chat/h1~h4` 공유 텍스트 스타일, heading rhythm, inline code, blockquote, divider, link preview, table visual을 전역 승인 기준으로 변경했다.
+- Markdown 패키지화는 진행 중이다. 완료된 것은 `markdown.*` 타입/간격 토큰 신설과 `pnpm token:build`까지다. 현재 `review-markdown-figma-storybook` 브랜치에 `component.tokens.json`, `build.ts`, `theme.css`, `public.manifest.json`, `docs/plans/10-design-system-followup-2026-06.md`가 미커밋 변경으로 남아 있다.
+- 승인된 Markdown 구현 방향: 코어는 의존성 없는 Markdown block components, `@riiid/prism/markdown` 서브패스는 `react-markdown` + `remark-gfm` opt-in renderer. 파싱은 위임하고 AST->Prism block 매핑만 소유한다.
+- `jumi-worklog`: 2026-06-17 worklog 원본과 `site/worklog.html` public viewer에 Text Field 작업, PR #8, Markdown Rendering 후속 기록을 반영했다.
+- 남은 후속 작업: Figma-side gradient old gray master 9개 바인딩, Model Profile 브랜드 아이콘 색 결정, focus ring accent 토큰 도입 여부 결정, Text Field package/Storybook 연결, Markdown blocks/renderer/contract/Storybook playground 구현.
 
 ## 2026-06-16 현재 상태
 
@@ -87,6 +90,7 @@
 아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다.
 
 - EN/JP mobile/web `Chat History Panel`의 긴 텍스트 `clipping + ellipsis` 처리를 디자이너 QA로 최종 확인한다.
+- Markdown Rendering 후속: `packages/prism/src/markdown/blocks.tsx` 구현, `@riiid/prism/markdown` 서브패스 추가, `component-contracts/markdown.md` 작성, Storybook 입력형 playground 추가.
 - `GlassEffect.stories.tsx`가 별도 foundation 작업 산출물인지 확인한다.
 - 실제 POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 구현 단위로 연결한다.
 - Storybook IA / inventory를 실제 `riiid/prism` Storybook 구조와 연결하는 구현 TODO를 분리한다.

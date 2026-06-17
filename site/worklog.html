@@ -1540,6 +1540,49 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 - [ ] Figma-side gradient old gray 교정 — master 9개 gradient stop의 `#0E0F12` / `#191A1D`를 cool neutral 변수에 바인딩. 상세 worklist는 prism `.context/gradient-fix-worklist.md`.
 - [ ] Model Profile 브랜드 아이콘 색은 코드가 실제 브랜드색에 더 가까워 Figma 쪽 수정 방향으로 별도 결정.
 - [ ] focus ring accent 토큰 도입 여부 결정.
+
+---
+
+## Prism Markdown Rendering 고도화 (riiid/prism)
+
+`Markdown Rendering` 프레임(`1169:2`)과 `Markdown Blocks / Components`(`918:2`)를 기준으로 read-only 감사 -> 변경안/영향 범위/rollback 보고 -> 주미님 전역 승인 -> Figma write 순서로 진행했다. 상세 기록은 prism repo의 `docs/plans/10-design-system-followup-2026-06.md`(`## 2026-06-17 상태 — Markdown Rendering 고도화`).
+
+- `chat/h1~h4` 공유 텍스트 스타일을 전역 조정했다.
+  - `chat/h1`: SemiBold 24 -> Bold 28, line-height 130%
+  - `chat/h2`: SemiBold 22 유지, line-height 135%
+  - `chat/h3`: Medium 19 -> SemiBold 18
+  - `chat/h4`: Medium 17 -> SemiBold 16
+- heading padding을 위 여백 > 아래 여백 구조로 바꿔 제목과 다음 본문이 묶여 보이도록 정리했다.
+- 텍스트 외 블록도 함께 고도화했다.
+  - Inline code: `red/500` -> `neutral/700`
+  - Blockquote: `neutral/50` 패널 배경, radius 8, 균등 padding
+  - Divider: 리터럴 `---` 숨김, 선만 렌더
+  - Link Preview: 파비콘 placeholder, 제목, muted domain 구조의 카드형
+  - Table: 모서리 clip, header/body row 구분선 보강
+- 색상은 기존 Figma 변수에 rebind했고 하드코딩 값은 추가하지 않았다.
+- before/after screenshot으로 타입 위계, inline code, blockquote, divider, link preview, table 변화를 확인했다.
+
+### 패키지 진행 상태
+
+- 승인된 구현 방향: 코어는 의존성 없는 Markdown block components, `@riiid/prism/markdown` 서브패스는 `react-markdown` + `remark-gfm` opt-in renderer.
+- 파싱은 라이브러리에 위임하고, Prism은 AST -> Prism block 매핑과 디자인 토큰 계약만 소유한다.
+- `packages/prism/src/tokens/component.tokens.json`에 `markdown.*` 타입/간격 토큰을 추가했다.
+- `packages/prism/src/tokens/build.ts` public manifest 정규식에 `markdown`을 등록했다.
+- `pnpm token:build`를 실행해 `theme.css`와 `public.manifest.json`에 `--markdown-*` 변수를 생성했다.
+- 현재 `review-markdown-figma-storybook` 브랜치의 미커밋 변경분:
+  - `docs/plans/10-design-system-followup-2026-06.md`
+  - `packages/prism/src/tokens/build.ts`
+  - `packages/prism/src/tokens/component.tokens.json`
+  - `packages/prism/src/tokens/public.manifest.json`
+  - `packages/prism/src/tokens/theme.css`
+
+### 미해결 / 다음
+
+- [ ] `packages/prism/src/markdown/blocks.tsx`에 의존성 없는 프레젠테이션 블록 구현
+- [ ] `react-markdown` + `remark-gfm`을 `@riiid/prism/markdown` 서브패스에만 연결
+- [ ] `component-contracts/markdown.md` 신설
+- [ ] Storybook textarea playground와 전체 블록 matrix 스토리 추가
+- [ ] `pnpm token:build`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm storybook:build`, 필요 시 `pnpm visual` 검증
 </script>
 
 <script type="text/plain" id="plan-2026-06-18">
@@ -4097,7 +4140,7 @@ const ENTRY_META = {
   '2026-06-12': { tags: ['prism', 'storybook', 'figma', 'i18n', 'chat-history'] },
   '2026-06-15': { tags: ['plan', 'storybook', 'handoff', 'figma-source', 'glass-effect', 'prism', 'figma-sync'] },
   '2026-06-16': { tags: ['prism', 'glass', 'storybook', 'dark-mode', 'checkbox', 'chat-history'] },
-  '2026-06-17': { tags: ['prism', 'figma', 'text-field', 'token-sync', 'storybook', 'pr-8'] },
+  '2026-06-17': { tags: ['prism', 'figma', 'text-field', 'token-sync', 'storybook', 'pr-8', 'markdown'] },
   '2026-06-18': { tags: ['plan', 'storybook', 'comparison-chart'] },
   '2026-06-19': { tags: ['plan', 'storybook', 'compare-blocks'] },
   '2026-06-20': { tags: ['plan', 'storybook', 'locale'] },
