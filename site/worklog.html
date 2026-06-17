@@ -1651,6 +1651,41 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 ### 작업 중 생긴 일감
 
 - 작업 중 생긴 일감이 생기면 이 섹션에 추가
+
+## 실행 순서 / 도구 분담 (riiid/prism 기준)
+
+> 코드·토큰·Storybook은 전부 `riiid/prism`. Figma 선행분(차트 디자인, gradient old gray, 간편가입 화면)은 별도 표면이라 prism 착수 전 처리.
+> 분담 원칙: 파일 충돌 방지 — Claude Code는 `.storybook/`·i18n 계열, Codex는 `src/markdown/`·독립 컴포넌트/토큰. 생성물(`token:build`, `theme.css`)은 한쪽만 커밋하고 동기화.
+
+### 1차 (병렬)
+
+**Track A — Claude Code (Storybook 인프라 / i18n)**
+
+- [ ] P0-1 베리언트 칩 → 언어 적용 안 되는 원인 검토·수정
+- [ ] P0-2 Storybook 언어·테마·반응형 변경 툴바(decorator) 추가
+- [ ] 화면 단위(스크린) Storybook 업로드 테스트
+
+**Track B — Codex (독립 컴포넌트 / 토큰)**
+
+- [ ] Markdown 렌더링: `src/markdown/blocks.tsx` → `@riiid/prism/markdown` 서브패스 → `component-contracts/markdown.md` → 스토리 matrix → 검증
+- [ ] 그라데이션 스위치 가능한 체계 (토큰 쪽)
+
+### 2차 (1차 머지 후, 병렬)
+
+- [ ] **Claude Code**: 차트 Storybook 반영 (ChartContainer / MetricCard / ScoreBar) + MVP 상태 (JA는 Track A 툴바 의존)
+- [ ] **Codex**: 글래스모피즘 적용 (Modal / Bottom Sheet / Settings 카드 / Web 헤더)
+
+### 결정·승인 대기 (자동 진행 X)
+
+- [ ] Text Field box radius / disabled 구분 → 디자이너 확인 → 승인 후 연결
+- [ ] PR #8 focus ring accent 토큰 도입 여부
+- [ ] gradient 규정 변동 대응 정책
+
+### Figma 선행 (직접/수동)
+
+- [ ] 채팅 영역 내 차트 디자인 추가
+- [ ] PR #8 gradient old gray 교정 (master 9개 stop 변수 바인딩)
+- [ ] 간편 가입 화면 디자인
 </script>
 
 <script type="text/plain" id="plan-2026-06-19">
