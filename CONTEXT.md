@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-06-16
+> Last updated: 2026-06-17
 
 ---
 
@@ -40,6 +40,14 @@
 | `socra-ai-workflow-wiki` | 반복 가능한 AI workflow 지식과 public viewer | 운영 교훈만 승격. 제품/컴포넌트 계약을 중복하지 않는다. |
 
 ---
+
+## 2026-06-17 현재 상태
+
+- `riiid/prism`: PR [#8](https://github.com/riiid/prism/pull/8) `review-pasted-text-content` -> `main` 생성. Figma 실대조 기준으로 Checkbox / Toggle / Toast / History Item gray off-ramp를 palette reference로 복구하고, chromatic ramp, status muted dark tint, Storybook QA/Viewport/Locale 표면을 함께 반영했다.
+- `riiid/prism`: 검증 `pnpm token:build`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm pack:check`, `pnpm storybook:build`, `pnpm demo:build` 통과. Gradient old gray 교정은 Figma-side 후속으로 남김.
+- `riiid/prism`: Text Field Figma component(`52:49`)에 `Type=box/line` variant 축을 추가했다. 패키지 `TextField` 구현과 Storybook 반영은 승인 후 별도 진행.
+- `jumi-worklog`: 2026-06-17 worklog 원본과 `site/worklog.html` public viewer에 Text Field 작업 및 PR #8 기록을 반영했다.
+- 남은 후속 작업: Figma-side gradient old gray master 9개 바인딩, Model Profile 브랜드 아이콘 색 결정, focus ring accent 토큰 도입 여부 결정, Text Field package/Storybook 연결.
 
 ## 2026-06-16 현재 상태
 
