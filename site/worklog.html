@@ -1497,7 +1497,10 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 
 ### 작업 중 생긴 일감
 
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
+- [x] **Text Field `Type=box/line` 피그마 반영** — `52:49`에 box 소프트 채움형 / line 밑줄형 Variant 축 추가, filled clear(×) 추가, 문서·스냅샷 기록
+- [x] **Prism 토큰 / Storybook 정합성 PR #8 정리** — gray off-ramp, chromatic ramp, status muted dark, responsive/locale QA 표면 반영 후 PR 생성
+- [x] **Markdown Rendering 피그마 고도화** — heading 위계, inline code, blockquote, divider, link preview, table 스타일 개선
+- [x] **Markdown 패키지 토큰 기반 작업 시작** — `markdown.*` component token 추가, token build로 CSS 변수/public manifest 생성
 </script>
 
 <script type="text/plain" id="entry-2026-06-17">
@@ -1594,6 +1597,34 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 - **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
 
 ## 오늘 실행 체크리스트
+
+### 6/17에서 이관한 미해결 항목
+
+#### Storybook / Chart
+
+- [ ] ChartContainer / MetricCard / ScoreBar Storybook 우선 반영
+- [ ] Chart MVP 상태 확인 — Default, Loading, Empty, Error, Mobile, Dark, JA, LongLabels
+- [ ] Chart가 판단/비교 구조의 중심으로 작동하는지 확인
+
+#### Text Field
+
+- [ ] box `radius 24`가 키 작은(48px) 입력에서 과도하게 둥근지 디자이너 확인 -> 필요시 `radius/2xl(16)` 토큰 신규(토큰 계약 변경, 승인 필요)
+- [ ] disabled가 default와 배경 동일(`neutral/50`), opacity 0.6로만 구분 — 더 뚜렷한 구분 필요 여부 확인
+- [ ] 피그마 반영분을 패키지(`component-contracts/text-field.md` + `TextField` 구현)·스토리북으로 잇기(승인 후)
+
+#### Prism 토큰 / Storybook 정합성 PR #8
+
+- [ ] Figma-side gradient old gray 교정 — master 9개 gradient stop의 `#0E0F12` / `#191A1D`를 cool neutral 변수에 바인딩
+- [ ] Model Profile 브랜드 아이콘 색은 코드가 실제 브랜드색에 더 가까워 Figma 쪽 수정 방향으로 별도 결정
+- [ ] focus ring accent 토큰 도입 여부 결정
+
+#### Markdown Rendering
+
+- [ ] `packages/prism/src/markdown/blocks.tsx`에 의존성 없는 프레젠테이션 블록 구현
+- [ ] `react-markdown` + `remark-gfm`을 `@riiid/prism/markdown` 서브패스에만 연결
+- [ ] `component-contracts/markdown.md` 신설
+- [ ] Storybook textarea playground와 전체 블록 matrix 스토리 추가
+- [ ] `pnpm token:build`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm storybook:build`, 필요 시 `pnpm visual` 검증
 
 ### 로드맵에서 온 일감
 
