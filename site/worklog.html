@@ -1624,23 +1624,23 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 
 #### Text Field
 
-- [ ] box `radius 24`가 키 작은(48px) 입력에서 과도하게 둥근지 디자이너 확인 -> 필요시 `radius/2xl(16)` 토큰 신규(토큰 계약 변경, 승인 필요)
-- [ ] disabled가 default와 배경 동일(`neutral/50`), opacity 0.6로만 구분 — 더 뚜렷한 구분 필요 여부 확인
-- [ ] 피그마 반영분을 패키지(`component-contracts/text-field.md` + `TextField` 구현)·스토리북으로 잇기(승인 후)
+- [x] box `radius 24`가 키 작은(48px) 입력에서 과도하게 둥근지 디자이너 확인 -> 필요시 `radius/2xl(16)` 토큰 신규 — **완료: `radius/2xl(16)` 결정 + Figma `52:49` box 11개 InputContainer 재바인딩(pill→라운드 사각형)**
+- [x] disabled가 default와 배경 동일(`neutral/50`), opacity 0.6로만 구분 — 더 뚜렷한 구분 필요 여부 확인 — **완료: 패키지 `state.disabled` 패턴 결정 + Figma box disabled 2개 fill `neutral/100`·테두리 `neutral/200`·opacity 1 적용**
+- [ ] 피그마 반영분을 패키지(`component-contracts/text-field.md` + `TextField` 구현)·스토리북으로 잇기(승인 후) — 계약 초안·토큰맵 검토 완료, **구현은 필요 시 진행(보류)**
 
 #### Prism 토큰 / Storybook 정합성 PR #8
 
 - [ ] Figma-side gradient old gray 교정 — master 9개 gradient stop의 `#0E0F12` / `#191A1D`를 cool neutral 변수에 바인딩
 - [ ] Model Profile 브랜드 아이콘 색은 코드가 실제 브랜드색에 더 가까워 Figma 쪽 수정 방향으로 별도 결정
-- [ ] focus ring accent 토큰 도입 여부 결정
+- [x] focus ring accent 토큰 도입 여부 결정 — **완료: 무채색 유지(변경 없음). 라이브 미리보기로 현재 gray.500/300 충분 확인, 액센트는 브랜드색 확정 후로 보류**
 
-#### Markdown Rendering
+#### Markdown Rendering (Codex 트랙, PR #11 머지 완료)
 
-- [ ] `packages/prism/src/markdown/blocks.tsx`에 의존성 없는 프레젠테이션 블록 구현
-- [ ] `react-markdown` + `remark-gfm`을 `@riiid/prism/markdown` 서브패스에만 연결
-- [ ] `component-contracts/markdown.md` 신설
-- [ ] Storybook textarea playground와 전체 블록 matrix 스토리 추가
-- [ ] `pnpm token:build`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm storybook:build`, 필요 시 `pnpm visual` 검증
+- [x] `packages/prism/src/markdown/blocks.tsx`에 의존성 없는 프레젠테이션 블록 구현
+- [x] `react-markdown` + `remark-gfm`을 `@riiid/prism/markdown` 서브패스에만 연결
+- [x] `component-contracts/markdown.md` 신설
+- [x] Storybook textarea playground와 전체 블록 matrix 스토리 추가
+- [x] `pnpm token:build`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm storybook:build`, 필요 시 `pnpm visual` 검증
 
 ### 로드맵에서 온 일감
 
@@ -1686,6 +1686,50 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 - [ ] 채팅 영역 내 차트 디자인 추가
 - [ ] PR #8 gradient old gray 교정 (master 9개 stop 변수 바인딩)
 - [ ] 간편 가입 화면 디자인
+</script>
+
+<script type="text/plain" id="entry-2026-06-18">
+# 2026-06-18
+
+## Storybook 인프라 / i18n 1차 검증 (Track A, riiid/prism)
+
+전날 #8 머지로 이미 반영돼 있던 Track A 1차를 라이브로 검증. 별도 코드 변경 없이 동작 확인. 상세는 prism repo `docs/plans/10-design-system-followup-2026-06.md`.
+
+- **베리언트 칩 언어 전환** — `Components/Chip` Matrix/Default가 전역 Locale 툴바(ko/en/ja)에 모두 반응 확인(`AI 고민/금융/법률` ↔ EN ↔ JA). "언어 적용 안 됨"은 코드 버그가 아니라 #8로 이미 해소된 상태였음.
+- **언어·테마·반응형 툴바** — `preview.tsx` theme/locale globalType + `main.ts` viewport addon 존재, theme dark/light html 클래스 적용 확인.
+- **화면 단위 스크린** — `QA/Viewport`(ChatScreenResponsive), `QA/Locale`(Surface) 렌더 정상(인덱스 80 published).
+- 검증 도구: Storybook dev + Playwright(시스템 Chrome) 헤드리스.
+
+## Text Field Figma 적용 (riiid/prism, use_figma)
+
+read-only 감사 → 변경안/영향/rollback → 주미님 결정 → 피그마 write. Text Field는 패키지 제외 상태라 디자인 파일만 변경(코드 영향 없음).
+
+- **box radius**: 11개 `InputContainer` 코너를 `radius/3xl(24)` → `radius/2xl(16)` 재바인딩. 48px 입력의 pill 형태 → 부드러운 라운드 사각형. line 타입 무관.
+- **disabled 구분**: box disabled 2개(`52:16`·`52:38`) — fill `neutral/50`→`neutral/100`, 테두리 `neutral/200`(1px) 추가, opacity 0.6→1. default와 또렷이 구분.
+- 전부 변수 바인딩(하드코딩 없음). rollback 절차 plan 문서 기록.
+
+## focus ring 결정
+
+- 무채색 focus를 다크/화이트 라인으로 강화할지 검토 → 라이브 미리보기(Playwright, 칩 1개 실제 focus-visible)로 비교. 결과: **현재 `focus.ring`(light gray.500 / dark gray.300) 유지(변경 없음)**. 포커스는 키보드 시 한 요소에만 잠깐 떠 현재도 충분. 액센트는 브랜드색 확정 후 재검토.
+
+## Text Field 패키지 연결 검토 (구현 보류)
+
+- Figma 전체 box state 토큰맵 + 공개 API(`type/label/value/disabled/error/leadingIcon/onClear`, state는 파생) + DOM/ARIA 계약 초안 도출. 새 코드 토큰은 `radius.2xl(16)`만 필요(나머지 기존 시맨틱 매핑).
+- 주미님: 구현 보류, 필요해질 때 스토리북에 올리며 진행. 선행: 제외 해제 승인 + main 기준 깨끗한 브랜치.
+
+## Markdown 렌더링 + gradient 토큰 (Codex 트랙, PR #11 머지)
+
+- `@riiid/prism/markdown` 서브패스(blocks.tsx + react-markdown/remark-gfm), `component-contracts/markdown.md`, Storybook Default/Playground/Matrix/ThemeReview, gradient switch 토큰까지 머지 완료.
+
+## PR 정리
+
+- 머지: #9(병렬규칙)·#10(ChatInputBar/GlassReview)·#8(토큰 Figma 동기화)·#4(Tooltip)·#11(Markdown/gradient)·#12(핸드오프 worklog). 닫음: #6(→#7 흡수). 보류: #5(0.2.0 배포 — 솔로/내부라 불필요).
+
+### 미해결 / 다음
+
+- [ ] Text Field 패키지 연결 구현 — 필요 시 스토리북에 올리며(제외 해제 승인 + 깨끗한 브랜치).
+- [ ] Chart(ChartContainer/MetricCard/ScoreBar) — Figma 차트 디자인 선행 후 Storybook 반영.
+- [ ] Figma-side gradient old gray 교정, Model Profile 브랜드 아이콘 — 별도 Figma 작업.
 </script>
 
 <script type="text/plain" id="plan-2026-06-19">
