@@ -1723,6 +1723,15 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 
 - 머지: #9(병렬규칙)·#10(ChatInputBar/GlassReview)·#8(토큰 Figma 동기화)·#4(Tooltip)·#11(Markdown/gradient)·#12(핸드오프 worklog). 닫음: #6(→#7 흡수). 보류: #5(0.2.0 배포 — 솔로/내부라 불필요).
 
+## 의견 시각화 / 차트 컨셉 (Figma 이데이션)
+
+> 주미님 의견 시각화 계획(퀵/딥체크 결과 UI) 기반. 코드 프로토타입 + Figma 컴포넌트화. riiid/prism 패키지·스토리북은 미접촉(이데이션).
+
+- 코드 프로토타입 `prototypes/opinion-viz-motion.html`(prism) — 퀵 Pick Bubble(모델이 원탁에서 의견 던짐 → 모여 토론 → 흩어지며 결론, 합의 강도별 끝맺음), 딥 Consensus 도우(중앙 결론 + 비중=호 길이), 고위험(경고·액션 우선 + 차분한 모션 + 변호사 CTA), 다크모드/reduced-motion.
+- "AI 탁상공론" 브랜딩 모션 컨셉 + 아이데이션 문서 `prototypes/opinion-viz-ideation.md`(합의 강도=1위 % 규칙 정정, 가짜 데이터라도 라벨-데이터 일관성).
+- Figma `Socra Design system test` 새 페이지 `🧪 Opinion Viz (ideation)` — prism Variables/`gradient/*` 스타일 바인딩, 모델색만 raw: `ConsensusDonut`/`PickBubble`(원탁+모델 아바타)/`ScoreBar`(라벨·값·바·설명 TEXT 속성)/`ModelAvatarGroup`(Model Profile 재사용, 겹친 아바타+"+N"+라벨) 컴포넌트, 딥체크 결과 화면 조립.
+- 운영 관점(파킹): 바차트(ScoreBar/ComparisonBarChart)=토대·fallback, 버블/도우=hero enhancement, 데이터 계약 1개 공유. 확정 전이라 production 상태(loading/empty/error/fallback/long/JA) 미설계.
+
 ### 미해결 / 다음
 
 > 오늘 미완 항목은 **6/19 plan "6/18 이월" 섹션으로 이관**, 내일 이어서 진행.
@@ -1731,6 +1740,7 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 - [ ] PR #13 Chromatic UI Review에서 의도한 변경 확인 후 승인 여부 결정.
 - [ ] Chart(ChartContainer/MetricCard/ScoreBar) — Figma 차트 디자인 선행 후 Storybook 반영.
 - [ ] Figma-side gradient old gray 교정 — 감사 완료, 6/19 write 예정. Model Profile 아이콘은 "불필요" 결정 종료.
+- [ ] 의견 시각화/차트 컨셉 후속 — ModelAvatarGroup 배치, 나머지 상태 프레임(경합/분산/고위험/쟁점분산), production 상태(loading/empty/error/fallback/long/JA), 메인↔보조 데이터 계약, (승인 후) prism 반영.
 </script>
 
 <script type="text/plain" id="plan-2026-06-19">
@@ -1755,7 +1765,8 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 - [ ] **컴포넌트 그라데이션 스위치 — 컴포넌트/Figma 적용** (토큰 체계는 PR #11 완료). Figma 컴포넌트가 `color.gradient.*` 스위치를 실제로 소비하도록.
 - [ ] 글래스모피즘 추가 적용 — Modal / Bottom Sheet, Settings 카드, Web 헤더
 - [ ] 간편 가입 화면 추가
-- [ ] Figma 채팅 영역 내 차트 디자인 추가
+- [x] Figma 채팅 영역 내 차트 디자인 추가 — 6/18 의견 시각화 컨셉(Pick Bubble·Consensus 도우·ScoreBar·ModelAvatarGroup) Figma 컴포넌트화 + 딥체크 결과 화면 조립 완료(이데이션, prism 미접촉)
+- [ ] 의견 시각화 후속 — ModelAvatarGroup 배치 확정 · 나머지 상태 프레임(경합/분산/고위험/쟁점분산) · 메인(버블·도우)↔보조(ComparisonBarChart) 데이터 계약·역할 정리 · (승인 후) prism 패키지·스토리북 반영
 - [ ] ChartContainer / MetricCard / ScoreBar Storybook 우선 반영 (위 compare blocks 로드맵과 연계)
 - [ ] Chart MVP 상태 확인 — Default / Loading / Empty / Error / Mobile / Dark / JA / LongLabels
 - [ ] Chart가 판단/비교 구조의 중심으로 작동하는지 확인
