@@ -1630,7 +1630,7 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 
 #### Prism 토큰 / Storybook 정합성 PR #8
 
-- [ ] Figma-side gradient old gray 교정 — master 9개 gradient stop의 `#0E0F12` / `#191A1D`를 cool neutral 변수에 바인딩
+- [ ] Figma-side gradient old gray 교정 — master gradient stop의 `#0E0F12` / `#191A1D`를 cool neutral 변수에 바인딩. **read-only 감사 완료(6/18, entry 참조). 교정(Figma write)은 6/19 이관.**
 - [x] Model Profile 브랜드 아이콘 색 — 결정: 별도 작업 불필요. 모델 브랜드색은 각 사 고유/공식색이라 DS가 임의 지정할 사안이 아니고 코드가 이미 실제 브랜드색에 근접. Figma 미세 차이는 우선순위 낮아 보류
 - [x] focus ring accent 토큰 도입 여부 결정 — **완료: 무채색 유지(변경 없음). 라이브 미리보기로 현재 gray.500/300 충분 확인, 액센트는 브랜드색 확정 후로 보류**
 
@@ -1710,16 +1710,27 @@ read-only 감사 → 변경안/영향/rollback → 주미님 결정 → 피그�
 - 최신 Build: https://www.chromatic.com/build?appId=6a1e5942ec7ecc06429b1040&number=60
 - 상태: PR #13 `Package / check` 성공, `Storybook Publish` 성공. `UI Tests` / `UI Review`는 의도한 시각 변경 승인 대기.
 
+## gradient old gray read-only 감사 (#13 후속)
+
+read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없음**(MCP read-only).
+
+- BottomBar 세트 `1844:96` 다크 변형 4개(`1894:13`·`1925:3244`·`1925:3228`·`1925:3263`)의 FadeGradient+InputWrapper gradient rect 8개(`1894:38`·`1894:18`, `1925:3245`·`3246`·`3229`·`3230`·`3264`·`3265`)가 raw `#0E0F12`(rgba 14,15,18; opacity 0.1/0.5/0.9) — 변수 미바인딩 확정. HomeIndicator solid 4개도 같은 raw.
+- Page_details `2412:10707`(plan의 `#191A1D` 대상)은 현재 `alpha/white-alpha/*` + `neutral/white` 변수 바인딩된 흰색 스크림 → 대상 아님(워크리스트 노드 stale).
+- 목표값(Figma 1:1 동기화 토큰): `neutral/900 = #0E0E17`, `neutral/800 = #191922`. 변경안=8개 stop을 `neutral/900` 바인딩(opacity 유지), 영향=마스터→인스턴스 자동 상속·코드 영향 없음, rollback=raw 복원. 전체 sweep은 REST 토큰 필요.
+- 교정(write)은 **6/19 plan으로 이관** — 승인 게이트 후.
+
 ## PR 정리
 
 - 머지: #9(병렬규칙)·#10(ChatInputBar/GlassReview)·#8(토큰 Figma 동기화)·#4(Tooltip)·#11(Markdown/gradient)·#12(핸드오프 worklog). 닫음: #6(→#7 흡수). 보류: #5(0.2.0 배포 — 솔로/내부라 불필요).
 
 ### 미해결 / 다음
 
+> 오늘 미완 항목은 **6/19 plan "6/18 이월" 섹션으로 이관**, 내일 이어서 진행.
+
 - [ ] Text Field 패키지 연결 구현 — 필요 시 스토리북에 올리며(제외 해제 승인 + 깨끗한 브랜치).
 - [ ] PR #13 Chromatic UI Review에서 의도한 변경 확인 후 승인 여부 결정.
 - [ ] Chart(ChartContainer/MetricCard/ScoreBar) — Figma 차트 디자인 선행 후 Storybook 반영.
-- [ ] Figma-side gradient old gray 교정, Model Profile 브랜드 아이콘 — 별도 Figma 작업.
+- [ ] Figma-side gradient old gray 교정 — 감사 완료, 6/19 write 예정. Model Profile 아이콘은 "불필요" 결정 종료.
 </script>
 
 <script type="text/plain" id="plan-2026-06-19">
@@ -1737,6 +1748,18 @@ read-only 감사 → 변경안/영향/rollback → 주미님 결정 → 피그�
 - [ ] **SocraSummaryCard / ModelStanceRow Storybook 반영**
 - [ ] **ConsensusBlock / DisagreementBlock 구현** — chart 포함 compare blocks 작성
 - [ ] **summary / stance / 공통점 / 차이점이 chart 포함 흐름에서 빠르게 읽히는지 확인**
+
+### 6/18 이월 (미완 이관)
+
+- [ ] **gradient old gray 교정 (Figma write)** — read-only 감사 완료(6/18). BottomBar 다크 변형 4개(`1894:13`·`1925:3244`·`1925:3228`·`1925:3263`)의 gradient rect 8개(`1894:38`·`1894:18`, `1925:3245`·`3246`·`3229`·`3230`·`3264`·`3265`)가 raw `#0E0F12`(opacity 0.1/0.5/0.9) → `neutral/900`(cool `#0E0E17`) 바인딩, opacity 유지. HomeIndicator solid 4개 포함 여부 결정. Page_details `2412:10707`은 이미 white-alpha 변수 바인딩이라 대상 아님(stale). 전체 sweep은 Figma REST 토큰 필요. **승인 게이트 후 write.**
+- [ ] **컴포넌트 그라데이션 스위치 — 컴포넌트/Figma 적용** (토큰 체계는 PR #11 완료). Figma 컴포넌트가 `color.gradient.*` 스위치를 실제로 소비하도록.
+- [ ] 글래스모피즘 추가 적용 — Modal / Bottom Sheet, Settings 카드, Web 헤더
+- [ ] 간편 가입 화면 추가
+- [ ] Figma 채팅 영역 내 차트 디자인 추가
+- [ ] ChartContainer / MetricCard / ScoreBar Storybook 우선 반영 (위 compare blocks 로드맵과 연계)
+- [ ] Chart MVP 상태 확인 — Default / Loading / Empty / Error / Mobile / Dark / JA / LongLabels
+- [ ] Chart가 판단/비교 구조의 중심으로 작동하는지 확인
+- [ ] Text Field 피그마 반영분을 패키지(`text-field.md` + `TextField`)·스토리북으로 잇기 (승인 후)
 
 ### 작업 중 생긴 일감
 
