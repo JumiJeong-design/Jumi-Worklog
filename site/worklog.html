@@ -1667,6 +1667,184 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 - Figma 선행(직접/수동): 채팅 영역 차트 디자인, gradient old gray 교정(master 9개 stop 변수 바인딩), 간편 가입 화면 디자인.
 </script>
 
+<script type="text/plain" id="entry-2026-06-22">
+# 2026-06-22 Worklog
+
+## Today (계획 — public viewer plan 이관)
+
+공개 `worklog.html`에 있던 `plan-2026-06-22`을 원문 MD에도 보존한다. 오늘 항목은 긴 답변 접기/펼치기 Storybook 반영과 `Page design_chart` 모바일 화면 후속 확인 중심이다.
+
+## 상시 체크 (운영 기준)
+
+- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
+- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
+
+## 오늘 실행 체크리스트
+
+### 로드맵에서 온 일감
+
+- [ ] **CollapsibleAnswer Storybook 반영** — 긴 AI 답변 접기/펼치기
+- [ ] **Long answer 대표 Story 확인** — Short, LongCollapsed, LongExpanded, Mobile, Dark, JA
+
+### Page design_chart 후속
+
+- [ ] 주미님이 피그마에서 직접 디자인을 조정한 뒤 다시 동기화한다.
+- [ ] 화면 ③ 라운드2 카드 3·4(가족 부양 / 저축·종신) 본문을 실제 카피로 교체한다.
+- [ ] 필요 시 동일 프레임에 color variable Dark mode를 적용한다.
+- [ ] 반복되는 가설 카드/칩은 별도 승인 후 로컬 컴포넌트화한다.
+
+기록된 plan/worklog 항목은 피그마 write 승인으로 보지 않는다. 이후 공통 컴포넌트화, 다크 모드 적용, 카피 교체처럼 시각·구조 변경이 필요한 작업은 read-only 감사와 승인 범위를 다시 확인한 뒤 진행한다.
+
+### 작업 중 생긴 일감
+
+- 작업 중 생긴 일감이 생기면 이 섹션에 추가
+</script>
+
+<script type="text/plain" id="entry-2026-06-21">
+# 2026-06-21 Worklog
+
+## Today (계획 — public viewer plan 이관)
+
+공개 `worklog.html`에만 있던 `plan-2026-06-21`을 원문 MD에도 보존한다. 오늘 항목은 Week 2 내부 review와 6/22 액션 정리 중심이다.
+
+## 상시 체크 (운영 기준)
+
+- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
+- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
+
+## 오늘 실행 체크리스트
+
+### 로드맵에서 온 일감
+
+- [ ] **Week 2 내부 review** — 사용자 + Claude 수정 list 작성
+- [ ] **Agent / Compare / Chart 핵심 컴포넌트 완료 기준 점검**
+- [ ] **주말 내부 작업** — 팀 요청 없이 6/22 액션으로 정리
+
+### 작업 중 생긴 일감
+
+- 작업 중 생긴 일감이 생기면 이 섹션에 추가
+</script>
+
+<script type="text/plain" id="entry-2026-06-20">
+# 2026-06-20 Worklog
+
+## Today (계획 — public viewer plan 이관)
+
+공개 `worklog.html`에만 있던 `plan-2026-06-20`을 원문 MD에도 보존한다. 오늘 항목은 주말 내부 QA와 6/22 수정 리스트 정리 중심이다.
+
+## 상시 체크 (운영 기준)
+
+- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
+- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
+
+## 오늘 실행 체크리스트
+
+### 로드맵에서 온 일감
+
+- [ ] **locale fixture 초안 작성 및 내부 QA** — ko/en/ja fixture
+- [ ] **주말 내부 작업** — 팀 요청 없이 긴 텍스트/JA 문자열 깨짐 확인
+- [ ] **6/22 월요일 수정 리스트 정리**
+
+### 작업 중 생긴 일감
+
+- 작업 중 생긴 일감이 생기면 이 섹션에 추가
+</script>
+
+<script type="text/plain" id="entry-2026-06-19">
+# 2026-06-19 Worklog
+
+## 그라데이션 scrim 토큰화 (Figma, Claude Code 트랙)
+
+Bottom Bar 컴포넌트 세트(`1844:96`)의 fade scrim 그라데이션을 Figma 변수로 토큰화. 6/18 worklog "Figma-side gradient old gray 교정"의 6/19 이관 항목.
+
+### read-only 재감사 — plan 워크리스트 3건 정정
+
+- **정정 1 — "색 변경"이 아니라 "토큰화"**: 다크 scrim `#0E0F12`는 옛 웜그레이가 아니라 `semantic/surface/base`의 **Dark값과 정확히 일치**(라이트 scrim `#F3F4F6`도 surface/base Light값과 일치). `neutral/900`(`#0E0E17`)은 잉크색이라 거기 바인딩하면 배경과 어긋남 → 색은 그대로 두고 토큰 바인딩만 수행.
+- **정정 2 — Page_details `2412:10707`는 false positive**: 이미 `alpha/white-alpha`에 바인딩된 흰색 그라데이션(06-17 이후 노드ID 드리프트) → 제외.
+- **정정 3 — 라이트 변형도 포함**: Bottom Bar는 Dark/Light 변형이 각각 scrim을 하드코딩. 다크 8 + 라이트 8 = **scrim 16개(32 stop) 전부** 토큰화.
+
+### 적용 (`use_figma`)
+
+- 신규 변수 6개(`color` 컬렉션, Light/Dark 고정 동일값, scope `FRAME_FILL`/`SHAPE_FILL`):
+  - `alpha/surface-dark-alpha/{10,50,90}` = `#0E0F12` @ 10/50/90%
+  - `alpha/surface-light-alpha/{10,50,90}` = `#F3F4F6` @ 10/50/90%
+  - `VariableID:2784:113~118`
+- 16개 scrim stop을 alpha별(`/10`,`/50`,`/90`)로 바인딩. 기존 `white-alpha` scrim 패턴과 대칭.
+
+### 검증
+
+- after 스크린샷 = before **바이트 동일**(시각 변화 0, fade 보존).
+- Components 페이지 raw 그라데이션 재감사 → **중성 raw 0개**(완료), 남은 9개는 컬러/브랜드 그라데이션(`#08B962` 등, 별도 케이스별 판단).
+- 영향: **Figma 전용**(패키지·`theme.css`·Codex 트랙 영향 0). rollback = 16개 stop 바인딩 해제 + 변수 6개 삭제.
+
+## 페이지-퍼스트 검증 + 신규 컴포넌트 트랙 분담 (riiid/prism, Claude Code 트랙)
+
+피그마 `design_details`(`2700:10658`) 화면을 패키지+스토리북으로 합성하는 page-first 검증 착수. 개별 컴포넌트 디테일을 갈기 전에 "화면 전체가 mobile/web × light/dark에서 맞물리는지"를 먼저 본다(원래 "페이지 단위 → 스토리북 테스트 먼저" 요청 반영).
+
+### 신규 컴포넌트 8개 식별 + 분담
+
+- `design_details`에 필요한 신규(패키지 미존재) 컴포넌트 8개: Message Bubble, Answer Card, Callout, Date Divider, Settings/Row, Settings/SectionHeader, Bottom Bar(계약 `bottom-bar.md`만 존재), Bottom Navigation. 8개 모두 Figma **instance로 존재** → 신규 Figma 승인 불필요(포팅 대상). 단 Codex backlog "Settings card(신규 승인 필요)"와 Settings/Row 동일 여부는 착수 전 확인.
+- 분담: **Claude 멀티 에이전트 3그룹** — A(답변 surface: Message Bubble/Answer Card/Callout/Date Divider), B(모바일 chrome: Bottom Bar/Bottom Navigation), C(Settings: Row/SectionHeader). 각자 worktree/브랜치, `src/components`·각 contract·스토리 소유.
+- **markdown은 Codex 트랙 영역 유지**(`src/markdown`, `@riiid/prism/markdown`). 이번 세션 기준 Codex 잔여는 게이트 대기(Figma 승인 의존) + 통합(push/PR)뿐이라, 신규 8개는 Claude 트랙으로 정리.
+- 인터페이스 계약: 컨테이너(Message Bubble/Answer Card/Callout)는 본문을 **`children` 슬롯**으로 받고 markdown 렌더러를 import하지 않는다. 근거 = `markdown.md` "루트 `@riiid/prism`에 react-markdown 노출 금지". → 두 트랙 런타임 의존 0, 독립 머지 가능.
+
+### chat 페이지 셸 스토리 (오케스트레이터=Claude 직접)
+
+- `apps/storybook/src/stories/ChatPage.stories.tsx` 신설 — `Pages/Chat` Web(1440)/Mobile(393). 기존 승인 컴포넌트(ChatHistoryPanel/HeaderNavBar/ChatInputBar/ModelProfile/PrismIcon) 실사용 + 신규 4개는 `*Placeholder`(토큰만 사용, 교체 지점 `TODO(feat/answer-surface)` 주석). `Viewport.stories`의 inline-fake 패턴 준수, device chrome은 repo 컨벤션대로 생략.
+- `apps/storybook/.storybook/viewportPresets.ts` — Figma 프레임 정확값 `mobile393`(393×852)·`web1440`(1440×1024) preset 추가.
+- 라이트/다크는 상단 Theme 툴바 토글로 전환.
+- **충돌 안전**: `.storybook/viewportPresets.ts` + 새 story 파일만 수정. `src/components`·`src/index.ts`·`components.test.tsx` 미접촉 → A/B/C 에이전트와 무충돌.
+
+### 검증
+
+- `pnpm typecheck`(storybook) **통과**, `pnpm build`(storybook) **성공**.
+
+### 남은 작업
+
+- A/B/C 에이전트 컴포넌트 머지 → `*Placeholder`를 실제 컴포넌트로 swap + 통합.
+- home 페이지 셸, 라이트/다크 4분할 매트릭스 타일 스토리(후속).
+
+## 기타
+
+- **CHANGELOG `1.0.0` 고아 블록 삭제** — `packages/prism/CHANGELOG.md`를 타이틀만 남김. 미배포(태그·npm 없음)라 안전.
+- **트랙 분담 확정** — Figma write/audit = Claude(이 세션 Socra Full seat, `use_figma` 라이브 검증), 코드/토큰/`theme.css` 생성물 = Codex.
+
+## 기록
+
+- `docs/plans/10-design-system-followup-2026-06.md` 그라데이션 항목 `[x]` + "2026-06-19 실제 결과/정정" 블록 반영.
+
+## Page design_chart 모바일 화면 3종 기록 (Figma)
+
+피그마 `Page design_chart`에 모바일 393w 화면 3종을 생성했다. 주신 다크 스크린샷 3종을 기준으로 하되, 기존 라이트 컴포넌트와 foundation token만 사용했고 새 컴포넌트·새 토큰·새 스타일은 만들지 않았다.
+
+### 생성 프레임
+
+- 이혼·재산 상담: `2820:1188`, x=700, h=1731
+- 해외 여행지 추천: `2826:113`, x=1200, h=1631
+- 일본 노후 은퇴 준비: `2829:113`, x=1700, h=4792
+
+### 재사용/조립
+
+- 재사용 컴포넌트: `StatusBar / iOS`, `Header Nav Bar`, `Message Bubble`, `Answer Card`, `Bottom Bar`.
+- 토큰 조립 영역: 투표 결과/가설 세그먼트 막대, 범례, 요약·추가질문 카드, 가설 카드, 모델별 한 줄 의견 리스트.
+- 색은 기존 blue/orange/green/red/cyan/purple 500 계열과 브랜드 컬러를 변수 바인딩으로 사용하고, 타이포·주요 간격·라운드는 기존 텍스트 스타일과 spacing/radius 토큰을 사용했다.
+
+### 검증/리스크
+
+- 섹션별 screenshot으로 카드 모델 아이콘 스왑, 브랜드 컬러, 막대 비율(70:30, 34/25/25/8/8, 28/25/25/22, 30/30/20/20), 범례·칩·리스트·2라운드 흐름 렌더를 확인했다.
+- 의도된 차이: 라이트 테마라 원본 다크 스크린샷과 톤이 다르고, Answer Card 액션바는 기존 컴포넌트 계약상 4개 아이콘을 유지했다.
+- 검수 필요: 화면 ③ 라운드2 카드 3·4(가족 부양 / 저축·종신)는 원본 본문이 잘려 있어 임시 보완 카피가 들어갔다.
+
+### 다음주
+
+- [ ] 주미님이 피그마에서 직접 디자인을 조정한 뒤 다시 동기화한다.
+- [ ] 화면 ③ 라운드2 카드 3·4 본문을 실제 카피로 교체한다.
+- [ ] 필요 시 동일 프레임에 color variable Dark mode를 적용한다.
+- [ ] 반복되는 가설 카드/칩은 별도 승인 후 로컬 컴포넌트화한다.
+
+기록된 plan/worklog 항목은 피그마 write 승인으로 보지 않는다. 이후 공통 컴포넌트화, 다크 모드 적용, 카피 교체처럼 시각·구조 변경이 필요한 작업은 read-only 감사와 승인 범위를 다시 확인한 뒤 진행한다.
+</script>
+
 <script type="text/plain" id="entry-2026-06-18">
 # 2026-06-18
 
