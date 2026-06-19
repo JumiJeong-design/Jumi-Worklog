@@ -1670,84 +1670,31 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 <script type="text/plain" id="entry-2026-06-22">
 # 2026-06-22 Worklog
 
-## Today (계획 — public viewer plan 이관)
+## Page design_chart 모바일 화면 3종 기록 (Figma)
 
-공개 `worklog.html`에 있던 `plan-2026-06-22`을 원문 MD에도 보존한다. 오늘 항목은 긴 답변 접기/펼치기 Storybook 반영과 `Page design_chart` 모바일 화면 후속 확인 중심이다.
+피그마 `Page design_chart`에 모바일 393w 화면 3종을 생성했다. 주신 다크 스크린샷 3종을 기준으로 하되, 기존 라이트 컴포넌트와 foundation token만 사용했고 새 컴포넌트·새 토큰·새 스타일은 만들지 않았다.
 
-## 상시 체크 (운영 기준)
+### 생성 프레임
 
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
+- 이혼·재산 상담: `2820:1188`, x=700, h=1731
+- 해외 여행지 추천: `2826:113`, x=1200, h=1631
+- 일본 노후 은퇴 준비: `2829:113`, x=1700, h=4792
 
-## 오늘 실행 체크리스트
+### 재사용/조립
 
-### 로드맵에서 온 일감
+- 재사용 컴포넌트: `StatusBar / iOS`, `Header Nav Bar`, `Message Bubble`, `Answer Card`, `Bottom Bar`.
+- 토큰 조립 영역: 투표 결과/가설 세그먼트 막대, 범례, 요약·추가질문 카드, 가설 카드, 모델별 한 줄 의견 리스트.
+- 색은 기존 blue/orange/green/red/cyan/purple 500 계열과 브랜드 컬러를 변수 바인딩으로 사용하고, 타이포·주요 간격·라운드는 기존 텍스트 스타일과 spacing/radius 토큰을 사용했다.
 
-- [ ] **CollapsibleAnswer Storybook 반영** — 긴 AI 답변 접기/펼치기
-- [ ] **Long answer 대표 Story 확인** — Short, LongCollapsed, LongExpanded, Mobile, Dark, JA
+### 검증/리스크
 
-### Page design_chart 후속
+- 섹션별 screenshot으로 카드 모델 아이콘 스왑, 브랜드 컬러, 막대 비율(70:30, 34/25/25/8/8, 28/25/25/22, 30/30/20/20), 범례·칩·리스트·2라운드 흐름 렌더를 확인했다.
+- 의도된 차이: 라이트 테마라 원본 다크 스크린샷과 톤이 다르고, Answer Card 액션바는 기존 컴포넌트 계약상 4개 아이콘을 유지했다.
+- 검수 필요: 화면 ③ 라운드2 카드 3·4(가족 부양 / 저축·종신)는 원본 본문이 잘려 있어 임시 보완 카피가 들어갔다.
 
-- [ ] 주미님이 피그마에서 직접 디자인을 조정한 뒤 다시 동기화한다.
-- [ ] 화면 ③ 라운드2 카드 3·4(가족 부양 / 저축·종신) 본문을 실제 카피로 교체한다.
-- [ ] 필요 시 동일 프레임에 color variable Dark mode를 적용한다.
-- [ ] 반복되는 가설 카드/칩은 별도 승인 후 로컬 컴포넌트화한다.
+## 계획 분리
 
-기록된 plan/worklog 항목은 피그마 write 승인으로 보지 않는다. 이후 공통 컴포넌트화, 다크 모드 적용, 카피 교체처럼 시각·구조 변경이 필요한 작업은 read-only 감사와 승인 범위를 다시 확인한 뒤 진행한다.
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="entry-2026-06-21">
-# 2026-06-21 Worklog
-
-## Today (계획 — public viewer plan 이관)
-
-공개 `worklog.html`에만 있던 `plan-2026-06-21`을 원문 MD에도 보존한다. 오늘 항목은 Week 2 내부 review와 6/22 액션 정리 중심이다.
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **Week 2 내부 review** — 사용자 + Claude 수정 list 작성
-- [ ] **Agent / Compare / Chart 핵심 컴포넌트 완료 기준 점검**
-- [ ] **주말 내부 작업** — 팀 요청 없이 6/22 액션으로 정리
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="entry-2026-06-20">
-# 2026-06-20 Worklog
-
-## Today (계획 — public viewer plan 이관)
-
-공개 `worklog.html`에만 있던 `plan-2026-06-20`을 원문 MD에도 보존한다. 오늘 항목은 주말 내부 QA와 6/22 수정 리스트 정리 중심이다.
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **locale fixture 초안 작성 및 내부 QA** — ko/en/ja fixture
-- [ ] **주말 내부 작업** — 팀 요청 없이 긴 텍스트/JA 문자열 깨짐 확인
-- [ ] **6/22 월요일 수정 리스트 정리**
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
+20일·21일에 public viewer plan으로만 남아 있던 할 일은 22일 계획(`plan-2026-06-22`)으로 이관했다. 할 일은 plan에만 두고, 이 worklog entry에는 완료 기록과 리스크만 남긴다.
 </script>
 
 <script type="text/plain" id="entry-2026-06-19">
@@ -1955,48 +1902,6 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 - 작업 중 생긴 일감이 생기면 이 섹션에 추가
 </script>
 
-<script type="text/plain" id="plan-2026-06-20">
-# 2026-06-20 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **locale fixture 초안 작성 및 내부 QA** — ko/en/ja fixture
-- [ ] **주말 내부 작업** — 팀 요청 없이 긴 텍스트/JA 문자열 깨짐 확인
-- [ ] **6/22 월요일 수정 리스트 정리**
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="plan-2026-06-21">
-# 2026-06-21 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **Week 2 내부 review** — 사용자 + Claude 수정 list 작성
-- [ ] **Agent / Compare / Chart 핵심 컴포넌트 완료 기준 점검**
-- [ ] **주말 내부 작업** — 팀 요청 없이 6/22 액션으로 정리
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
 <script type="text/plain" id="plan-2026-06-22">
 # 2026-06-22 Plan
 
@@ -2007,10 +1912,31 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 
 ## 오늘 실행 체크리스트
 
+### 6/20 이월
+
+- [ ] **locale fixture 초안 작성 및 내부 QA** — ko/en/ja fixture
+- [ ] **주말 내부 작업** — 팀 요청 없이 긴 텍스트/JA 문자열 깨짐 확인
+- [ ] **6/22 월요일 수정 리스트 정리**
+
+### 6/21 이월
+
+- [ ] **Week 2 내부 review** — 사용자 + Claude 수정 list 작성
+- [ ] **Agent / Compare / Chart 핵심 컴포넌트 완료 기준 점검**
+- [ ] **주말 내부 작업** — 팀 요청 없이 6/22 액션으로 정리
+
 ### 로드맵에서 온 일감
 
 - [ ] **CollapsibleAnswer Storybook 반영** — 긴 AI 답변 접기/펼치기
 - [ ] **Long answer 대표 Story 확인** — Short, LongCollapsed, LongExpanded, Mobile, Dark, JA
+
+### Page design_chart 후속
+
+- [ ] 주미님이 피그마에서 직접 디자인을 조정한 뒤 다시 동기화한다.
+- [ ] 화면 ③ 라운드2 카드 3·4(가족 부양 / 저축·종신) 본문을 실제 카피로 교체한다.
+- [ ] 필요 시 동일 프레임에 color variable Dark mode를 적용한다.
+- [ ] 반복되는 가설 카드/칩은 별도 승인 후 로컬 컴포넌트화한다.
+
+기록된 plan/worklog 항목은 피그마 write 승인으로 보지 않는다. 이후 공통 컴포넌트화, 다크 모드 적용, 카피 교체처럼 시각·구조 변경이 필요한 작업은 read-only 감사와 승인 범위를 다시 확인한 뒤 진행한다.
 
 ### 작업 중 생긴 일감
 
@@ -4471,9 +4397,7 @@ const ENTRY_META = {
   '2026-06-17': { tags: ['prism', 'figma', 'text-field', 'token-sync', 'storybook', 'pr-8', 'markdown'] },
   '2026-06-18': { tags: ['plan', 'storybook', 'comparison-chart'] },
   '2026-06-19': { tags: ['plan', 'storybook', 'compare-blocks'] },
-  '2026-06-20': { tags: ['plan', 'storybook', 'locale'] },
-  '2026-06-21': { tags: ['plan', 'storybook', 'review'] },
-  '2026-06-22': { tags: ['plan', 'storybook', 'long-text'] },
+  '2026-06-22': { tags: ['plan', 'storybook', 'long-text', 'locale', 'review', 'figma'] },
   '2026-06-23': { tags: ['plan', 'storybook', 'long-prompt'] },
   '2026-06-24': { tags: ['plan', 'storybook', 'source'] },
   '2026-06-25': { tags: ['plan', 'storybook', 'pattern'] },
