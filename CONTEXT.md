@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-06-17
+> Last updated: 2026-06-23
 
 ---
 
@@ -38,6 +38,24 @@
 | `jumi-worklog` | 날짜별 raw worklog, 세션 스냅샷, 공통 스킬 | 원본 기록. 중복 초안은 커밋하지 않는다. |
 | `riiid/prism` / `socraAI_product design` | Prism package, 디자인 시스템 계약, token, Storybook, release | 최종 반영 대상은 `https://github.com/riiid/prism`. 로컬 `socraAI_product design` 원격 상태는 작업 전 재확인한다. |
 | `socra-ai-workflow-wiki` | 반복 가능한 AI workflow 지식과 public viewer | 운영 교훈만 승격. 제품/컴포넌트 계약을 중복하지 않는다. |
+
+---
+
+## 2026-06-23 현재 상태
+
+- 최신 worklog 파일은 `logs/2026/06/2026-06-23.md`다. 현재는 작업하며 채우는 기록으로, 상세 할 일은 public viewer의 계획 탭을 함께 확인한다.
+- 6/23 참고 링크: 의견 시각화 모션 프로토타입 `https://jumijeong-design.github.io/Jumi-Worklog/opinion-viz-motion.html`.
+- 가입/로그인 지역별 인증 요구사항 후보: 한국 = 카카오·전화, 일본 = 라인 + 구글·애플, 외국사 전화번호 약관 제약. 반영 여부는 계획 탭 기준으로 확인한다.
+
+---
+
+## 2026-06-22 현재 상태
+
+- `socra-ai-workflow-wiki`: v0.18로 Storybook QA Harness 플레이북을 추가하고, 병렬 에이전트 작업, source/generated 산출물 owner, page-first 화면 검증 기준을 운영 플레이북으로 승격했다.
+- `socra-ai-workflow-wiki`: v0.19로 `workflow-visualization.html`을 운영 기본값 중심으로 보강했다. 신규 플로우를 기본값으로 노출하고 레거시/신규 비교는 접힌 보조 섹션으로 낮췄으며, `화면 조합 검증`, `Prism contract 보강`, `Storybook story 추가`, `Wiki playbook 승격` 회수 경로를 명시했다.
+- wiki/site 콘텐츠를 사용자에게 보이는 형태로 변경하면 `bump-version`, changelog, 캐시 버전, worklog 기록, commit/push까지가 완료 기준이다. 내용만 바꾸고 버전 갱신을 뒤로 미루지 않는다.
+- `riiid/prism`: 6/22 기준 PR #14 통합이 완료됐고, Chromatic Build #66으로 시각 QA 잔여를 확인한다. 자세한 작업 내역은 `logs/2026/06/2026-06-22.md`를 우선한다.
+- worklog public viewer 변경 시에는 `jumi-worklog/scripts/verify-public-worklog-month.mjs --html site/worklog.html --month YYYY-MM --forbid-plan --allow-unchecked entry-YYYY-MM-DD`까지 확인한다.
 
 ---
 
