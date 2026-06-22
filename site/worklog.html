@@ -4938,7 +4938,8 @@ function renderEntry(index) {
     </div>`;
   document.querySelector('.main').scrollTop = 0;
   const logBody = document.querySelector('.entry-tab-panel[data-panel="log"] .entry-body') || document.querySelector('#entry-area .entry-body');
-  if (logBody) buildLogGroups(logBody);
+  // buildLogGroups 비활성: 로그 H2 섹션을 그룹 서브탭으로 쪼개면 일부 내용이 비활성 탭에 숨어 "왜 안 보임"·빈 [공통] 탭을 유발 → 기록 로그는 평면으로 전체 표시
+  // if (logBody) buildLogGroups(logBody);
   initCheckboxes(e.date, defaultTab);
 }
 
