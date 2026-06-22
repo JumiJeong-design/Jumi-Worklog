@@ -2055,6 +2055,11 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 ## 가입/로그인 플로우
 - 지역별 인증 분기 반영 (한국 카카오·전화 / 일본 라인)
 
+## 6/22에서 이관 (의미 있는 미완)
+- [ ] **locale fixture 초안 + 내부 QA** — ko/en/ja
+- [ ] **Page design_chart 후속** — 피그마 직접 조정·동기화 / 화면③ 라운드2 카드 카피 교체 / color variable Dark mode 적용
+- [ ] **Settings 결정** — 카드 backlog 별도 이슈 여부 / divider 색(border-control vs Figma mixed) / Settings Page 필요 여부
+
 (상세 — 검토 6항목·프로토타입 링크 등은 기록 탭 참조)
 </script>
 
@@ -2070,15 +2075,15 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 
 ### 6/20 이월
 
-- [ ] **locale fixture 초안 작성 및 내부 QA** — ko/en/ja fixture
-- [ ] **주말 내부 작업** — 팀 요청 없이 긴 텍스트/JA 문자열 깨짐 확인
-- [ ] **6/22 월요일 수정 리스트 정리**
+- ~~**locale fixture 초안 작성 및 내부 QA** — ko/en/ja fixture~~ (→ 6/23 이관)
+- ~~**주말 내부 작업** — 팀 요청 없이 긴 텍스트/JA 문자열 깨짐 확인~~ (불필요·정리)
+- ~~**6/22 월요일 수정 리스트 정리**~~ (불필요·정리)
 
 ### 6/21 이월
 
-- [ ] **Week 2 내부 review** — 사용자 + Claude 수정 list 작성
-- [ ] **Agent / Compare / Chart 핵심 컴포넌트 완료 기준 점검**
-- [ ] **주말 내부 작업** — 팀 요청 없이 6/22 액션으로 정리
+- ~~**Week 2 내부 review** — 사용자 + Claude 수정 list 작성~~ (불필요·정리)
+- ~~**Agent / Compare / Chart 핵심 컴포넌트 완료 기준 점검**~~ (백로그 이관 · 컴포넌트 후보)
+- ~~**주말 내부 작업** — 팀 요청 없이 6/22 액션으로 정리~~ (불필요·정리)
 
 ### 로드맵에서 온 일감
 
@@ -2087,10 +2092,10 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 
 ### Page design_chart 후속
 
-- [ ] 주미님이 피그마에서 직접 디자인을 조정한 뒤 다시 동기화한다.
-- [ ] 화면 ③ 라운드2 카드 3·4(가족 부양 / 저축·종신) 본문을 실제 카피로 교체한다.
-- [ ] 필요 시 동일 프레임에 color variable Dark mode를 적용한다.
-- [ ] 반복되는 가설 카드/칩은 별도 승인 후 로컬 컴포넌트화한다.
+- ~~주미님이 피그마에서 직접 디자인을 조정한 뒤 다시 동기화한다.~~ (→ 6/23 이관)
+- ~~화면 ③ 라운드2 카드 3·4(가족 부양 / 저축·종신) 본문을 실제 카피로 교체한다.~~ (→ 6/23 이관)
+- ~~필요 시 동일 프레임에 color variable Dark mode를 적용한다.~~ (→ 6/23 이관)
+- ~~반복되는 가설 카드/칩은 별도 승인 후 로컬 컴포넌트화한다.~~ (백로그 이관 · 컴포넌트)
 
 기록된 plan/worklog 항목은 피그마 write 승인으로 보지 않는다. 이후 공통 컴포넌트화, 다크 모드 적용, 카피 교체처럼 시각·구조 변경이 필요한 작업은 read-only 감사와 승인 범위를 다시 확인한 뒤 진행한다.
 
@@ -2098,7 +2103,7 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 
 - [x] **공유 token 산출물 단일 소유자 정리 + 통합** — `theme.css`·`public.manifest.json`·`component.tokens.json` + 신규 컴포넌트/스토리 커밋(병렬 규칙: 생성물 단일 소유).
 - [x] **BottomNavigation 선택 pill 색 조정/배경색 검토** — active pill alpha 10%가 복잡한 배경 위에서 선택 상태로 충분히 읽히는지 `ComplexBackdrop`로 재검토(주미님 요청).
-- [ ] **Settings 결정** — 카드 backlog가 Row/SectionHeader와 별도 신규 이슈인지 / divider 색(`border-control` 단일 vs Figma mixed) / Settings Page 필요 여부.
+- ~~**Settings 결정** — 카드 backlog가 Row/SectionHeader와 별도 신규 이슈인지 / divider 색(`border-control` 단일 vs Figma mixed) / Settings Page 필요 여부.~~ (→ 6/23 이관)
 - [x] **page-first 통합 잔업** — A/B/C 컴포넌트 머지 후 ChatPage `*Placeholder`를 실제 컴포넌트로 swap + home 셸/라이트·다크 4분할 매트릭스 타일 스토리.
 
 ### 작업 중 생긴 일감
