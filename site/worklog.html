@@ -4541,6 +4541,7 @@ const ENTRY_META = {
   '2026-06-18': { tags: ['plan', 'storybook', 'comparison-chart'] },
   '2026-06-19': { tags: ['plan', 'storybook', 'compare-blocks'] },
   '2026-06-22': { tags: ['plan', 'worklog', 'harness', 'ops-loop', 'figma', 'storybook'] },
+  '2026-06-23': { tags: ['plan', 'pr-14', 'chromatic', 'storybook-ia'] },
   '2026-06-11': { tags: ['harness', 'figma', 'prism', 'glassmorphism', 'writing', 'dark-mode', 'repo-ops'], notion: 'https://app.notion.com/p/37b5bc5f630780968b5de735c3fc82b0' },
   '2026-06-10': { tags: ['figma', 'iphone16', '한국어화', 'dark-mode', 'tokens'] },
   '2026-06-08': { tags: ['prism-spirit', 'branding', 'concept', 'vercel'], notion: 'https://app.notion.com/p/3795bc5f6307812a8eb2d445ab0465a9' },
@@ -4601,7 +4602,12 @@ function initialEntryIndex() {
 let currentIndex = initialEntryIndex();
 const [initialYear, initialMonth] = (ENTRIES[currentIndex]?.date || todayStr).split('-').map(Number);
 let calYear = initialYear, calMonth = initialMonth - 1;
-function getMarkdown(date) { const el = document.getElementById('entry-' + date); return el ? el.textContent.trim() : ''; }
+const RAW_BASE = 'https://raw.githubusercontent.com/JumiJeong-design/Jumi-Worklog/main/';
+const LOG_CACHE = {};
+function getMarkdown(date) {
+  if (LOG_CACHE[date] != null) return LOG_CACHE[date].trim();
+  const el = document.getElementById('entry-' + date); return el ? el.textContent.trim() : '';
+}
 function getDirectionMarkdown() { const el = document.getElementById('direction-board'); return el ? el.textContent.trim() : ''; }
 function getBacklogMarkdown() { const el = document.getElementById('backlog-board'); return el ? el.textContent.trim() : ''; }
 function getPlan(date) { const el = document.getElementById('plan-' + date); return el ? el.textContent.trim() : ''; }
@@ -4981,6 +4987,17 @@ document.addEventListener('keydown', (e) => {
 });
 buildCalendar();
 renderEntry(currentIndex);
+// logs/*.md를 직접 읽어 자동 반영(embed는 fallback). 앞으로 logs만 고치면 뷰어에 반영됨.
+(async () => {
+  await Promise.all(ENTRIES.map(async (e) => {
+    try {
+      const r = await fetch(RAW_BASE + logSourcePath(e.date), { cache: 'no-store' });
+      if (r.ok) LOG_CACHE[e.date] = await r.text();
+    } catch (_) { /* 오프라인/실패 시 embed fallback */ }
+  }));
+  buildCalendar();
+  renderEntry(currentIndex);
+})();
 </script>
 </body>
 </html>
