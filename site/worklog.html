@@ -1749,14 +1749,82 @@ Bottom Bar 컴포넌트 세트(`1844:96`)의 fade scrim 그라데이션을 Figma
 - A/B/C 에이전트 컴포넌트 머지 → `*Placeholder`를 실제 컴포넌트로 swap + 통합.
 - home 페이지 셸, 라이트/다크 4분할 매트릭스 타일 스토리(후속).
 
-## 기타
+## riiid/prism Settings Row / SectionHeader 포팅
 
-- **CHANGELOG `1.0.0` 고아 블록 삭제** — `packages/prism/CHANGELOG.md`를 타이틀만 남김. 미배포(태그·npm 없음)라 안전.
-- **트랙 분담 확정** — Figma write/audit = Claude(이 세션 Socra Full seat, `use_figma` 라이브 검증), 코드/토큰/`theme.css` 생성물 = Codex.
+Settings 범위는 완성 페이지가 아니라, Figma `Settings/Row`와 `Settings/SectionHeader` 컴포넌트를 패키지와 Storybook QA 뷰로 옮기는 작업으로 마무리했다.
 
-## 기록
+### 구현
 
-- `docs/plans/10-design-system-followup-2026-06.md` 그라데이션 항목 `[x]` + "2026-06-19 실제 결과/정정" 블록 반영.
+- `SettingsRow` 구현 완료 — `nav`, `nav+value`, `toggle` 타입과 `top`, `middle`, `bottom`, `single` position 축을 반영했다.
+- `SettingsSectionHeader` 구현 완료 — Settings 섹션 헤더를 독립 컴포넌트로 추가했다.
+- `toggleProps`가 row의 `size`, `disabled`, accessible name 계약을 덮어쓰지 못하도록 타입과 적용 순서를 정리했다.
+- Storybook QA 뷰를 추가했다.
+  - `Components/SettingsRow` — `TypeMatrix`, `ThemeReview`, `LongContent`
+  - `Components/SettingsSectionHeader` — `ThemeReview`, `LongContent`
+
+### 검증
+
+- `pnpm --filter @riiid/prism typecheck` 통과.
+- `pnpm --filter @riiid/prism test` 통과.
+- `pnpm --filter @riiid/prism-storybook typecheck` 통과.
+- Storybook dev 서버(`127.0.0.1:6117`)에서 headless Chrome 캡처로 `SettingsRow` TypeMatrix/ThemeReview/LongContent와 `SettingsSectionHeader` ThemeReview/LongContent를 확인했고, 겹침·배경 이탈은 없었다.
+- `git diff --check` 통과.
+
+### 볼 수 있는 뷰 / 남은 결정
+
+- 지금 볼 수 있는 것은 Settings 페이지가 아니라 `SettingsRow`와 `SettingsSectionHeader` 컴포넌트 QA 뷰다.
+- 완성된 `Settings Page` 디자인/페이지 스토리는 아직 없다. 필요하면 Figma 기준 화면을 먼저 확정한 뒤 별도 승인 작업으로 진행한다.
+- 6/22 후보로 넘긴 항목:
+  - token 산출물 단일 소유자 정리
+  - Settings 카드 backlog가 Row/SectionHeader와 별도 신규 이슈인지 확인
+  - Settings Row divider 색을 패키지 `border-control` 단일 토큰으로 유지할지, Figma mixed divider 값에 맞출지 결정
+  - Settings Page 필요 여부 결정
+
+## riiid/prism 답변 surface 컴포넌트 포팅 (그룹 A)
+
+Figma `design_details` 답변 화면의 `Message Bubble`(`247:183`), `Answer Card`(`200:412`), `Callout`(`1198:1533`), `Date Divider`(`1357:1913`)를 패키지 + Storybook QA 뷰로 포팅했다.
+
+### 구현
+
+- `MessageBubble`/`AnswerCard`/`Callout`/`DateDivider` 추가. 본문은 전부 `children` 슬롯이라 markdown 렌더러를 import하지 않는다(Codex `src/markdown` 트랙과 런타임 의존 0).
+- Callout 톤 fg/border만 신규 토큰(`callout.{tone}.fg`·`callout.{tone}.border` 8개)으로 추가하고 `build.ts` public manifest prefix에 `callout` 등록. 나머지 3개는 기존 시맨틱 토큰으로 매핑.
+- `callout.error.fg`가 muted 위 AA 미달(`red.600`≈4.07)이라 `red.700`(≈4.98)으로 1 shade 보정 → 4개 톤 대비 쌍(라이트/다크) 전부 AA 통과(공유 `token:build`/`lint` blocker 해제).
+- ActionBar는 별도 공개 컴포넌트로 열지 않고 `actions` 슬롯으로 받음. 아이콘(`copy`/`share-2`/`thumbs-up`/`thumbs-down`)만 `PrismIcon`에 추가.
+
+### 검증
+
+- `pnpm typecheck`·`pnpm test`(2 files / 43 tests)·`pnpm storybook:build` 통과.
+
+### 주미님 확인
+
+- Answer Card 모델명 accent(Figma `orange/500`)는 "흑백 톤 + 아바타 컬러 포인트" 원칙에 맞춰 `text-fg` 중립으로 두었다. 상태 배지 톤 텍스트는 muted 위 AA 미만(3.14/4.07) — 배지까지 AA가 필요하면 톤-on-muted fg를 공유 토큰으로 승격.
+- Callout error fg를 Figma 픽셀 일치(`red.600`)로 되돌릴지 확인 필요.
+
+## riiid/prism Bottom Bar / Bottom Navigation 포팅 (그룹 B)
+
+Figma `Bottom Bar`(`1844:96`)와 `Bottom Navigation`(`398:610`, home instance `2700:10679`)를 패키지 + Storybook QA 뷰로 포팅했다.
+
+### 구현
+
+- `BottomBar` — `context`(home/chat/keyboard = 80/130/164), `chatInputProps`(ChatInputBar 재사용), Scroll FAB. FadeZone/HomeIndicator는 `aria-hidden`.
+- `BottomNavigation` — 투명 390×68 `nav` shell + 좌우 28px inset + 334×61 capsule surface(`bg-surface-glass`/`border-stroke-glass`/`shadow-sm`), `role="tab"` + roving tabindex + Arrow/Home/End 키보드. 기본 4탭(chat/history/compare/settings).
+- 컴포넌트 토큰 `bottom-bar.*`·`bottom-navigation.*` 정의 추가, Icon glyph `history`/`cpu`/`settings` 추가.
+
+### 캡슐 + 선택 pill 보정 (오늘 핵심)
+
+- 각진 풀폭 GlassSurface → capsule(radius `9999px`) + 좌우 inset 28px + surface height 61px로 재실측 보정.
+- **선택 pill이 글래스 위에서 불투명 면처럼 보이는 문제** 수정: 전역 `pressed/surface`(라이트 `#E6E9EF` / 다크 `#191922`, 사실상 단색)를 직접 쓰던 것을 중단하고, Figma home instance의 light black 10% / dark white 10%를 `bottom-navigation.active.bg` 전용 alpha 토큰으로 분리.
+- TabItem/Chip이 공유하는 전역 `pressed/surface`는 그대로 둬서 다른 컴포넌트 영향 0.
+- glass surface가 실제 앱 콘텐츠 위에서 버티는지 보려고 `ComplexBackdrop` 스토리(라이트/다크, 카드·텍스트·컬러 블록 배경) 추가.
+
+### 검증
+
+- `pnpm token:build` 재실행으로 `theme.css`에 `--bottom-navigation-active-bg`(light `rgba(0,0,0,0.1)` / dark `rgba(255,255,255,0.1)`)가 생성됐고, 정적 Storybook 번들(`iframe-*.css`)에도 light `#0000001a` / dark `#ffffff1a`로 반영됐다(라이브 링크에 투명 alpha pill 적용).
+- `pnpm typecheck`(3 projects)·`pnpm test`(43)·`pnpm build`·`pnpm storybook:build` 전부 통과.
+
+### 남은 결정 (6/22 이월)
+
+- active pill alpha 10%가 복잡한 배경 위에서 선택 상태로 충분히 읽히는지, 전체 색 톤과 함께 재조정이 필요한지 검토(주미님 요청). `ComplexBackdrop`로 라이트/다크 대비를 다시 보고 Figma home instance(`2700:10679`) 기준 alpha 또는 전용 fg/대비 토큰을 재논의.
 
 ## Page design_chart 모바일 화면 3종 기록 (Figma)
 
@@ -1783,6 +1851,28 @@ Bottom Bar 컴포넌트 세트(`1844:96`)의 fade scrim 그라데이션을 Figma
 ### 후속 계획
 
 후속 할 일은 `2026-06-22 Plan`으로 이관했다. 기록된 plan/worklog 항목은 피그마 write 승인으로 보지 않는다. 이후 공통 컴포넌트화, 다크 모드 적용, 카피 교체처럼 시각·구조 변경이 필요한 작업은 read-only 감사와 승인 범위를 다시 확인한 뒤 진행한다.
+
+## 기타
+
+- **CHANGELOG `1.0.0` 고아 블록 삭제** — `packages/prism/CHANGELOG.md`를 타이틀만 남김. 미배포(태그·npm 없음)라 안전.
+- **트랙 분담 확정** — Figma write/audit = Claude(이 세션 Socra Full seat, `use_figma` 라이브 검증), 코드/토큰/`theme.css` 생성물 = Codex.
+
+## 기록
+
+- `docs/plans/10-design-system-followup-2026-06.md` 그라데이션 항목 `[x]` + "2026-06-19 실제 결과/정정" 블록 반영.
+- 공개 뷰어 `plan-2026-06-19` 체크 정리 — gradient scrim 토큰화 `[x]`, 작업 중 생긴 일감에 페이지-퍼스트(ChatPage 셸)·Settings Row/SectionHeader 포팅·CHANGELOG 고아 블록 삭제 `[x]` 추가.
+- 6/19에서 생긴 잔업은 `plan-2026-06-22` "6/19 이월" 섹션으로 이관(Settings 결정 4건 + page-first 통합 잔업).
+- 신규 컴포넌트 트랙 그룹 A(답변 surface 4종)·그룹 B(Bottom Bar/Bottom Navigation) 포팅 완료를 plan(`docs/plans/10-design-system-followup-2026-06.md`)·worklog에 반영. BottomNavigation 선택 pill을 `bottom-navigation.active.bg` alpha 토큰으로 분리한 뒤 `pnpm token:build` 재실행이 막혀 있던 것을 해제해 생성물·정적 Storybook까지 재검증 완료.
+- BottomNavigation active pill 색 조정/배경색 검토(주미님 요청)는 `plan-2026-06-22` "6/19 이월"에 후속 항목으로 추가.
+- 피그마 `Page design_chart` 모바일 393w 화면 3종 생성 기록 추가. 후속(공통 컴포넌트화·다크 모드 적용·카피 교체)은 `plan-2026-06-22`로 이관.
+
+### 인사이트
+
+- **plan은 "할 일"이지 "한 일"이 아니다** — gradient 항목은 plan에 raw `#0E0F12` → `neutral/900` 바인딩으로 적혀 있었지만, read-only 재감사 결과 그 색이 이미 `semantic/surface/base`와 일치했다. 색을 바꾸지 않고 `surface-alpha` 토큰화만 수행. count(raw 개수)만 보고 일괄 바인딩했으면 배경이 어긋날 뻔했다.
+- **페이지-퍼스트 검증** — 신규 컴포넌트 8개를 개별로 갈기 전에 `design_details` 화면을 셸 스토리로 먼저 합성해 mobile/web × light/dark 맞물림을 본 순서가 디테일 회귀를 줄였다.
+- **Settings 범위 경계** — Figma에 승인된 "Settings Page" 컴포넌트는 없고 Row/SectionHeader instance만 존재. 페이지를 임의로 만들지 않고 컴포넌트 QA 뷰까지만 마감했고, 페이지 필요 여부는 6/22 결정 항목으로 분리했다.
+- **글래스 위 "선택"은 단색이 아니라 alpha** — BottomNavigation 선택 pill이 글래스 위에서 불투명 면처럼 보인 원인은 전역 `pressed/surface`가 사실상 단색(라이트 `#E6E9EF`/다크 `#191922`)이었기 때문. 전역 토큰을 바로 alpha로 바꾸면 같은 토큰을 쓰는 TabItem/Chip까지 번지므로, BottomNavigation 전용 `active.bg` alpha 토큰으로 분리해 영향 범위를 격리하는 쪽이 안전했다.
+- **소스 반영 ≠ 생성물 반영** — 토큰 정의(`component.tokens.json`)와 컴포넌트는 이미 새 alpha 토큰을 가리키고 있었지만, `pnpm token:build`가 막혀 `theme.css`/정적 Storybook이 옛 값이라 라이브 링크엔 안 보였다. 생성물(`theme.css`)은 단일 소유라 한 트랙이 `token:build`로 재생성해야 반영된다 — "소스에 적용"과 "생성물·라이브에 반영"을 분리해 확인해야 헛검증을 피한다.
 </script>
 
 <script type="text/plain" id="entry-2026-06-18">
@@ -1879,7 +1969,7 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 
 ### 6/18 이월 (미완 이관)
 
-- [ ] **gradient old gray 교정 (Figma write)** — read-only 감사 완료(6/18). BottomBar 다크 변형 4개(`1894:13`·`1925:3244`·`1925:3228`·`1925:3263`)의 gradient rect 8개(`1894:38`·`1894:18`, `1925:3245`·`3246`·`3229`·`3230`·`3264`·`3265`)가 raw `#0E0F12`(opacity 0.1/0.5/0.9) → `neutral/900`(cool `#0E0E17`) 바인딩, opacity 유지. HomeIndicator solid 4개 포함 여부 결정. Page_details `2412:10707`은 이미 white-alpha 변수 바인딩이라 대상 아님(stale). 전체 sweep은 Figma REST 토큰 필요. **승인 게이트 후 write.**
+- [x] **gradient old gray 교정 (Figma write)** — 완료(6/19): "색 변경"이 아니라 `surface-alpha` 토큰화로 수행. raw `#0E0F12`/`#F3F4F6`가 이미 `semantic/surface/base` Dark/Light값과 일치해 `neutral/900` 바인딩은 미실행, 라이트 변형 포함 Bottom Bar scrim 16개(32 stop)를 `alpha/surface-*-alpha` 변수로 토큰화(시각 변화 0). 상세는 entry 참고.
 - [ ] **컴포넌트 그라데이션 스위치 — 컴포넌트/Figma 적용** (토큰 체계는 PR #11 완료). Figma 컴포넌트가 `color.gradient.*` 스위치를 실제로 소비하도록.
 - [ ] 글래스모피즘 추가 적용 — Modal / Bottom Sheet, Settings 카드, Web 헤더
 - [ ] 간편 가입 화면 추가
@@ -1892,7 +1982,11 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 
 ### 작업 중 생긴 일감
 
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
+- [x] 페이지-퍼스트 검증 + `Pages/Chat` 셸 스토리(ChatPage) 작성
+- [x] 신규 컴포넌트 포팅 — 그룹 A(Message Bubble/Answer Card/Callout/Date Divider), 그룹 B(Bottom Bar/Bottom Navigation), 그룹 C(Settings Row/SectionHeader)
+- [x] BottomNavigation 선택 pill을 `bottom-navigation.active.bg` alpha 토큰으로 분리 + `pnpm token:build` 재실행으로 생성물·정적 Storybook 재검증
+- [x] CHANGELOG `1.0.0` 고아 블록 삭제
+- [x] Figma `Page design_chart` 모바일 393w 화면 3종 생성
 </script>
 
 <script type="text/plain" id="plan-2026-06-22">
@@ -1930,6 +2024,13 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 - [ ] 반복되는 가설 카드/칩은 별도 승인 후 로컬 컴포넌트화한다.
 
 기록된 plan/worklog 항목은 피그마 write 승인으로 보지 않는다. 이후 공통 컴포넌트화, 다크 모드 적용, 카피 교체처럼 시각·구조 변경이 필요한 작업은 read-only 감사와 승인 범위를 다시 확인한 뒤 진행한다.
+
+### 6/19 이월 (riiid/prism)
+
+- [ ] **공유 token 산출물 단일 소유자 정리 + 통합** — `theme.css`·`public.manifest.json`·`component.tokens.json` + 신규 컴포넌트/스토리 커밋(병렬 규칙: 생성물 단일 소유).
+- [ ] **BottomNavigation 선택 pill 색 조정/배경색 검토** — active pill alpha 10%가 복잡한 배경 위에서 선택 상태로 충분히 읽히는지 `ComplexBackdrop`로 재검토(주미님 요청).
+- [ ] **Settings 결정** — 카드 backlog가 Row/SectionHeader와 별도 신규 이슈인지 / divider 색(`border-control` 단일 vs Figma mixed) / Settings Page 필요 여부.
+- [ ] **page-first 통합 잔업** — A/B/C 컴포넌트 머지 후 ChatPage `*Placeholder`를 실제 컴포넌트로 swap + home 셸/라이트·다크 4분할 매트릭스 타일 스토리.
 
 ### 작업 중 생긴 일감
 
