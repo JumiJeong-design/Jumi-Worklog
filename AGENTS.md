@@ -7,7 +7,7 @@
 
 ## 세션 시작 시
 
-1. 이 레포(`JumiJeong-design/jumi-worklog`)의 최근 `logs/YYYY/MM/` 날짜 파일 1~2개를 읽어 맥락 파악
+1. 이 레포(`JumiJeong-design/Jumi-Worklog`)의 최근 `logs/YYYY/MM/` 날짜 파일 1~2개를 읽어 맥락 파악
 2. 오늘 날짜 worklog 파일이 없으면 세션 종료 시 생성
 3. `skills/` 폴더에 공통 스킬 목록이 있음 — 사용자가 트리거하면 해당 SKILL.md 로드
 4. `scripts/check-context-freshness.sh`를 실행해 `CONTEXT.md`가 최신 worklog보다 오래됐는지 확인. 경고가 나오면 `CONTEXT.md`를 현재 상태로 믿지 말고 최신 worklog와 관련 repo의 git 상태를 먼저 확인
@@ -30,6 +30,9 @@
 - AI 위키/스킬 승격 검토는 하루 끝이나 사용자가 명시적으로 요청했을 때만 수행한다.
 - 새 채팅 시작 시에는 우선 `CLAUDE.md`, `CONTEXT.md`, 오늘 worklog만 읽고 시작한다. 필요할 때만 추가 문서를 연다.
 - `CONTEXT.md`의 `Last updated`가 최신 worklog보다 오래됐으면 stale snapshot으로 보고, 자동 로드된 내용을 근거로 바로 수정하지 않는다.
+- `오늘 할 일`, `이어받자`, `진행하자`처럼 상태 확인이 필요한 요청은 먼저 최신 worklog → `scripts/check-context-freshness.sh` → 관련 repo `git status -sb` 순서로 확인한 뒤 실행 범위를 잡는다.
+- plan/worklog/backlog 문구는 후보와 기록이지 실행 승인이나 실제 완료 증거가 아니다. write 작업 전에는 source-of-truth 파일, GitHub 상태, 필요 시 Figma 실제 상태를 직접 확인한다.
+- 완료 보고에서 "완료"라고 부르려면 source 변경, 생성물/뷰어 fallback, 공개 또는 시각 표면, plan/log 기록이 서로 맞아야 한다. 해당 작업에 없는 축은 "해당 없음"으로 명시하고 넘어간다.
 
 ## 병렬 작업 규칙 — Codex × Claude Code 동시 진행
 
@@ -45,10 +48,10 @@
 | `write-worklog` | `워크로그 써줘`, `오늘 정리해줘`, `/write-worklog` | `skills/write-worklog/SKILL.md` |
 | `session-snapshot` | `지금까지 뭐했어?`, `중간 정리`, `/session-snapshot` | `skills/session-snapshot/SKILL.md` |
 | `sync-entry` | `동기화 확인해줘`, `뷰어랑 맞아?`, `/sync-entry` | `skills/sync-entry/SKILL.md` |
-| `handoff-check` | `handoff 확인해줘`, `클로드 코드에서 이어받을 수 있어?`, `/handoff-check` | `skills/handoff-check/SKILL.md` |
+| `handoff-check` | `handoff 확인해줘`, `클로드 코드에서 이어받을 수 있어?`, `오늘 할 일`, `이어받자`, `진행하자`, `/handoff-check` | `skills/handoff-check/SKILL.md` |
 | `bump-version` | `버전 올려줘`, `배포할게`, `/bump-version` | `skills/bump-version/SKILL.md` |
 | `prep-meeting` | `미팅 준비해줘`, `이번주 요약해줘`, `/prep-meeting` | `skills/prep-meeting/SKILL.md` |
-| `record-trap` | `이거 기억해줘`, `규칙 추가해줘`, `/record-trap` | `skills/record-trap/SKILL.md` |
+| `record-trap` | `이거 기억해줘`, `규칙 추가해줘`, `재발 방지`, `/record-trap` | `skills/record-trap/SKILL.md` |
 
 ## 디자이너 에이전트 / UX 리뷰 게이트
 
@@ -81,7 +84,7 @@
 - 커밋, 회고, 다음 액션, 보조 기록은 별도 탭으로 만들지 말고 `###` 이하에 둔다
 - 새 `##`를 추가하기 전에는 "이 항목이 사용자가 독립 탭으로 전환해 볼 만큼 큰 작업 흐름인가?"를 먼저 판단한다
 - 후속 체크리스트는 이전 작업 탭 안에 묻어두지 말고 해당 날짜의 `Next` 또는 다음 날짜 로그로 이월한다
-- 워크로그를 수정하면 원본 MD만 고치고 끝내지 않는다. 반드시 `Jumi-Worklog/site/worklog.html`도 같은 내용으로 갱신하고, 커밋/푸시한 뒤 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`에서 실제 문구가 보이는지 확인한다.
+- 워크로그를 수정하면 원본 MD만 고치고 끝내지 않는다. 반드시 같은 repo의 `site/worklog.html`도 같은 내용으로 갱신하고, 커밋/푸시한 뒤 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`에서 실제 문구가 보이는지 확인한다.
 - 공개 URL 확인은 문구 존재만 보면 안 된다. 사용자가 보는 월 전체를 기준으로 `scripts/verify-public-worklog-month.mjs --html <worklog.html> --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD`처럼 실행해 날짜별 unchecked 수와 허용되지 않은 plan 블록을 확인한다. Plan/Log 탭과 캘린더 두 색 점은 `plan-*` 블록에 의존하므로 정상 plan 블록을 삭제하지 않는다.
 
 ## 커뮤니케이션

@@ -1,6 +1,6 @@
 ---
 name: write-worklog
-description: "오늘 작업 세션을 요약→문서화→GitHub push→CONTEXT.md 갱신→worklog.html 뷰어 동기화→Notion 업로드 순서로 자동 완료한다. jumi-worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)로 정리. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
+description: "오늘 작업 세션을 요약→문서화→GitHub push→CONTEXT.md 갱신→worklog.html 뷰어 동기화→Notion 업로드 순서로 자동 완료한다. Jumi-Worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)로 정리. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
 disable-model-invocation: false
 ---
 
@@ -9,7 +9,7 @@ disable-model-invocation: false
 오늘 작업 세션을 **요약 → 문서화 → GitHub push → CONTEXT.md 갱신 → worklog.html 뷰어 동기화 → Notion 업로드** 순서로 자동 완료한다.
 대화 컨텍스트에서 작업 내용을 직접 추출하므로, 사용자가 별도로 내용을 타이핑할 필요가 없다.
 
-> **핵심:** worklog는 두 곳에 저장된다 — ① `jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`(원본 마크다운, private) ② `Jumi-Worklog/site/worklog.html`(공개 뷰어, 엔트리 하드코딩). 뷰어는 private 레포를 실시간으로 못 읽으므로, 이 스킬이 push 시점에 **둘 다** 갱신해야 한다. Step 4.6을 건너뛰면 뷰어에 오늘 날짜가 안 보인다.
+> **핵심:** worklog는 같은 `JumiJeong-design/Jumi-Worklog` repo 안에서 두 파일로 관리된다 — ① `logs/YYYY/MM/YYYY-MM-DD.md`(원본 마크다운) ② `site/worklog.html`(공개 뷰어, 엔트리 fallback). 뷰어는 raw logs를 fetch하지만 실패 시 HTML에 박힌 fallback을 쓰므로, 이 스킬이 push 시점에 **둘 다** 갱신해야 한다. Step 4.6을 건너뛰면 뷰어 fallback과 편집 링크가 어긋난다.
 
 ---
 
@@ -18,7 +18,7 @@ disable-model-invocation: false
 - GitHub MCP (`mcp__github__*`) — 파일 읽기·쓰기에 사용
 - Notion MCP (`mcp__a2cd6401__notion-*`) — Notion DB 업로드에 사용 (미연결 시 GitHub만 push)
 - 오늘 날짜 확인 필요 (`currentDate` 시스템 컨텍스트 또는 대화에서 추출)
-- 대상 레포 2개: `jumijeong-design/jumi-worklog`(원본), `jumijeong-design/Jumi-Worklog`(뷰어)
+- 대상 레포: `JumiJeong-design/Jumi-Worklog` (`logs/` 원본과 `site/worklog.html` 공개 뷰어 파일을 같은 repo에서 관리)
 
 ---
 
@@ -92,7 +92,7 @@ disable-model-invocation: false
 
 **Do:**
 1. 오늘 날짜를 확인한다 (`currentDate` 시스템 컨텍스트 또는 대화에서 추출).
-2. `mcp__github__get_file_contents`로 `jumijeong-design/jumi-worklog` 레포의 `logs/YYYY/MM/` 경로를 읽어 최근 날짜 파일 목록을 확인한다. (`YYYY`와 `MM`은 오늘 날짜 기준)
+2. `mcp__github__get_file_contents`로 `JumiJeong-design/Jumi-Worklog` 레포의 `logs/YYYY/MM/` 경로를 읽어 최근 날짜 파일 목록을 확인한다. (`YYYY`와 `MM`은 오늘 날짜 기준)
 3. 최근 1~2개 worklog 파일을 읽는다 (미해결 항목 이월, 맥락 파악 목적).
 4. 오늘 날짜 파일(`logs/YYYY/MM/YYYY-MM-DD.md`)이 이미 존재하는지 확인한다.
    - 존재하면: SHA와 기존 내용을 읽어 이어쓰기 준비
@@ -111,7 +111,7 @@ disable-model-invocation: false
 
 **Do:**
 1. `mcp__github__list_commits`로 오늘 날짜 기준 커밋을 **3개 레포 모두** 조회한다 (`since: YYYY-MM-DDT00:00:00Z`):
-   - `jumijeong-design/jumi-worklog`
+   - `JumiJeong-design/Jumi-Worklog`
    - `jumijeong-design/socra-ai-workflow-wiki`
    - `riiid/prism`
 2. 조회된 커밋 목록과 대화 컨텍스트를 합쳐서 아래 항목을 추출한다.
@@ -177,7 +177,7 @@ disable-model-invocation: false
 | 파라미터 | 값 |
 |---------|-----|
 | owner | `jumijeong-design` |
-| repo | `jumi-worklog` |
+| repo | `Jumi-Worklog` |
 | path | `logs/YYYY/MM/YYYY-MM-DD.md` |
 | branch | `main` |
 | message | `feat: YYYY-MM-DD worklog 추가` |
@@ -189,7 +189,7 @@ disable-model-invocation: false
 
 ## Step 4.5 — CONTEXT.md 갱신  [Write]
 
-워크로그 push 직후 `jumi-worklog/CONTEXT.md`를 업데이트한다. 다음 세션 자동 로드 시 항상 최신 상태가 반영되도록 한다.
+워크로그 push 직후 `Jumi-Worklog/CONTEXT.md`를 업데이트한다. 다음 세션 자동 로드 시 항상 최신 상태가 반영되도록 한다.
 
 **Do:**
 1. `mcp__github__get_file_contents`로 `CONTEXT.md`의 현재 내용과 SHA를 읽는다.
@@ -205,7 +205,7 @@ disable-model-invocation: false
 | 파라미터 | 값 |
 |---------|-----|
 | owner | `jumijeong-design` |
-| repo | `jumi-worklog` |
+| repo | `Jumi-Worklog` |
 | path | `CONTEXT.md` |
 | branch | `main` |
 | message | `chore: CONTEXT.md 업데이트 — YYYY-MM-DD 세션 반영` |
@@ -217,13 +217,13 @@ disable-model-invocation: false
 
 ## Step 4.6 — worklog.html 뷰어 동기화  [Write]
 
-공개 뷰어 `Jumi-Worklog/site/worklog.html`에 오늘 엔트리를 추가한다.
-**이 단계를 건너뛰면 뷰어 페이지에 오늘 날짜가 안 보인다.** (private 레포라 실시간 fetch 불가 → 수동 동기화 필수)
+공개 뷰어 파일 `site/worklog.html`에 오늘 엔트리 fallback을 추가한다.
+**이 단계를 건너뛰면 공개 뷰어가 raw log fetch 실패 시 오래된 내용을 보여준다.**
 
 worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIES 목록은 DOM에서 자동 파생되므로 별도로 건드리지 않는다.
 
 **Do:**
-1. `mcp__github__get_file_contents`로 `Jumi-Worklog/site/worklog.html`의 현재 내용과 SHA를 읽는다.
+1. `mcp__github__get_file_contents`로 `JumiJeong-design/Jumi-Worklog`의 `site/worklog.html` 현재 내용과 SHA를 읽는다.
 2. 오늘 엔트리가 이미 있는지(`id="entry-YYYY-MM-DD"`) 확인. 있으면 해당 블록 교체, 없으면 신규 추가.
 3. **엔트리 블록 삽입:** 가장 최신 엔트리 블록 **바로 위**에 새 블록을 넣는다.
    ```
@@ -241,8 +241,8 @@ worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIE
    - tags나 notion이 없으면 이 단계는 생략해도 된다.
    - **ENTRIES 배열은 건드리지 않는다** — `entry-YYYY-MM-DD` 블록 추가만으로 캘린더·목록에 자동 반영된다.
 5. `mcp__github__create_or_update_file`로 저장한다.
-6. 저장 후 `socra-ai-workflow-wiki`도 커밋/푸시 또는 GitHub API 업데이트가 완료됐는지 확인한다.
-7. 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/site/worklog.html`을 직접 받아서 새 날짜/수정 문구가 실제로 보이는지 확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재확인한다.
+6. 저장 후 `JumiJeong-design/Jumi-Worklog` main에 `logs/` 원본과 `site/worklog.html` 변경이 모두 반영됐는지 확인한다.
+7. 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`을 직접 받아서 새 날짜/수정 문구가 실제로 보이는지 확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재확인한다.
 8. 문구 확인만으로 완료하지 않는다. 공개 HTML을 저장한 뒤 월 단위 체크박스 검증을 실행한다.
    - 예: `node scripts/verify-public-worklog-month.mjs --html /tmp/worklog-public.html --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD`
    - `--allow-unchecked`에는 내일 `Next`처럼 의도적으로 남기는 entry만 넣는다.
@@ -251,7 +251,7 @@ worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIE
 | 파라미터 | 값 |
 |---------|-----|
 | owner | `jumijeong-design` |
-| repo | `socra-ai-workflow-wiki` |
+| repo | `Jumi-Worklog` |
 | path | `site/worklog.html` |
 | branch | `main` |
 | message | `feat: YYYY-MM-DD worklog 엔트리 추가` |
@@ -281,10 +281,10 @@ Notion MCP(`mcp__a2cd6401__notion-*`)로 디자인팀 DB에 오늘 작업 로그
 성공 시 출력:
 ```
 worklog 저장 완료.
-├── GitHub: logs/YYYY/MM/YYYY-MM-DD.md → JumiJeong-design/jumi-worklog
+├── GitHub: logs/YYYY/MM/YYYY-MM-DD.md → JumiJeong-design/Jumi-Worklog
 ├── CONTEXT.md 갱신 완료
-├── worklog.html 뷰어 동기화 완료 → socra-ai-workflow-wiki
-├── 공개 URL 확인 완료 → https://jumijeong-design.github.io/Jumi-Worklog/site/worklog.html
+├── worklog.html 뷰어 동기화 완료 → JumiJeong-design/Jumi-Worklog `site/worklog.html`
+├── 공개 URL 확인 완료 → https://jumijeong-design.github.io/Jumi-Worklog/worklog.html
 ├── 공개 HTML 월별 체크박스 검증 완료 → 오늘 `[x]`, 내일 `Next`만 `[ ]`
 └── Notion: YYYY-MM-DD 업무 로그 업데이트
 ```

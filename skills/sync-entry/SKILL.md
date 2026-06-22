@@ -1,14 +1,14 @@
 ---
 name: sync-entry
-description: "jumi-worklog의 마크다운 원본과 worklog.html 뷰어 엔트리 내용을 비교해 누락·불일치를 찾는다. '동기화 확인해줘', '뷰어랑 맞아?', '/sync-entry' 시 실행."
+description: "Jumi-Worklog의 마크다운 원본과 worklog.html 뷰어 엔트리 내용을 비교해 누락·불일치를 찾는다. '동기화 확인해줘', '뷰어랑 맞아?', '/sync-entry' 시 실행."
 disable-model-invocation: false
 ---
 
 # sync-entry
 
-`jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`(원본)과 `Jumi-Worklog/site/worklog.html`의 `entry-YYYY-MM-DD` 블록(뷰어)을 비교해 내용 불일치나 누락 섹션을 찾는다.
+`JumiJeong-design/Jumi-Worklog` repo 안의 `logs/YYYY/MM/YYYY-MM-DD.md`(원본)과 `site/worklog.html`의 `entry-YYYY-MM-DD` 블록(뷰어 fallback)을 비교해 내용 불일치나 누락 섹션을 찾는다.
 
-> **배경 (2026-06-04 실제 사례):** prism 작업은 worklog.html에 반영됐으나 socra-ai-workflow-wiki 구조 개편 작업은 원본 md에는 있고 뷰어에는 없었다. 두 곳이 수동으로 관리되다 보니 세션 경계에서 불일치가 쉽게 생긴다.
+> **배경 (2026-06-04 실제 사례):** prism 작업은 worklog.html에 반영됐으나 다른 작업은 원본 md에는 있고 뷰어 fallback에는 없었다. 원본과 공개 뷰어 fallback이 함께 관리되다 보니 세션 경계에서 불일치가 쉽게 생긴다.
 
 ---
 
@@ -21,8 +21,8 @@ disable-model-invocation: false
 
 ## Step 1 — 양쪽 내용 읽기  [Research]
 
-1. `mcp__github__get_file_contents`로 `jumijeong-design/jumi-worklog`의 `logs/YYYY/MM/YYYY-MM-DD.md`를 읽는다.
-2. `mcp__github__get_file_contents`로 `jumijeong-design/Jumi-Worklog site/worklog.html`을 읽는다.
+1. `mcp__github__get_file_contents`로 `JumiJeong-design/Jumi-Worklog`의 `logs/YYYY/MM/YYYY-MM-DD.md`를 읽는다.
+2. `mcp__github__get_file_contents`로 `JumiJeong-design/Jumi-Worklog`의 `site/worklog.html`을 읽는다.
 3. worklog.html에서 `id="entry-YYYY-MM-DD"` 블록을 추출한다.
 
 ---
@@ -66,7 +66,7 @@ disable-model-invocation: false
 - (없음)
 ```
 
-수정 여부를 확인한 뒤, 사용자가 원하면 worklog.html 엔트리를 원본 md 기준으로 업데이트한다. 뷰어를 수정한 경우 커밋/푸시 후 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/site/worklog.html`에서 수정 문구가 실제로 보이는지 확인하고, 월 단위 체크박스 검증까지 통과해야 완료다.
+수정 여부를 확인한 뒤, 사용자가 원하면 worklog.html 엔트리를 원본 md 기준으로 업데이트한다. 뷰어를 수정한 경우 커밋/푸시 후 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`에서 수정 문구가 실제로 보이는지 확인하고, 월 단위 체크박스 검증까지 통과해야 완료다.
 
 ---
 
@@ -75,7 +75,7 @@ disable-model-invocation: false
 - 날짜 미지정 시 오늘 날짜로 실행
 - 뷰어 수정 시 엔트리 블록(`entry-YYYY-MM-DD`)만 교체, 나머지 구조는 건드리지 않는다
 - 원본 md를 뷰어에 맞춰 변경하지 않는다 — 원본이 항상 기준
-- 원본 md 또는 뷰어를 수정하면 두 저장소 반영 여부와 공개 URL 렌더 결과를 함께 확인한다
+- 원본 md 또는 뷰어를 수정하면 같은 repo 안의 `logs/` 원본과 `site/worklog.html` 반영 여부, 공개 URL 렌더 결과를 함께 확인한다
 - 공개 viewer에만 남은 허용되지 않은 `plan-*` 블록이나 오래된 unchecked 항목은 사용자가 실제 화면에서 보는 문제이므로 반드시 월 단위로 잡는다
 
 ## Trigger phrases

@@ -26,7 +26,7 @@ disable-model-invocation: false
 ## Step 2 — worklog 읽기  [Research]
 
 **Do:**
-1. `mcp__github__get_file_contents`로 `jumijeong-design/jumi-worklog` 루트를 읽어 파일 목록 확인.
+1. `mcp__github__get_file_contents`로 `JumiJeong-design/Jumi-Worklog`의 `logs/YYYY/MM/` 경로를 읽어 파일 목록 확인.
 2. Step 1에서 지정한 기간의 worklog 파일을 전부 읽는다 (기본 최근 7일 = 최대 7개 파일).
 3. 각 파일에서 아래 항목을 추출한다:
 

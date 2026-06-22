@@ -1,13 +1,13 @@
 ---
 name: record-trap
-description: "실수나 함정 발견 시 design-system/rules.md와 docs/agent-rules.md를 동시에 업데이트하고, 오늘 worklog 함정 모음에도 기록한다. '이거 기억해줘', '규칙 추가해줘', '재발 방지', '/record-trap' 시 실행."
+description: "실수나 함정 발견 시 Prism 규칙, Jumi-Worklog 운영 규칙/스킬, 오늘 worklog 함정 모음 중 알맞은 곳으로 라우팅해 기록한다. '이거 기억해줘', '규칙 추가해줘', '재발 방지', '/record-trap' 시 실행."
 disable-model-invocation: false
 ---
 
 # record-trap
 
-실수·함정 발생 시 두 곳에 동시 기록해서 재발을 방지한다.
-한 곳에만 쓰면 다음 세션에서 Claude나 Codex가 놓칠 수 있다.
+실수·함정 발생 시 성격에 맞는 정본 문서와 오늘 worklog에 기록해서 재발을 방지한다.
+한 곳에만 쓰면 다음 세션에서 Claude나 Codex가 놓칠 수 있으므로, Prism 규칙과 Jumi-Worklog 운영 규칙을 구분해 라우팅한다.
 
 ---
 
@@ -17,7 +17,11 @@ disable-model-invocation: false
 |------|------|------|
 | `design-system/rules.md` | 컴포넌트·디자인 작업 원칙 (주미님 잔소리/실수 방지 규칙) | `riiid/prism` |
 | `docs/agent-rules.md` | AI 에이전트가 따라야 할 행동 규칙 | `riiid/prism` |
-| 오늘 worklog `### 함정 모음` | 날짜별 함정 기록 | `jumi-worklog` |
+| `AGENTS.md` | Jumi-Worklog 공통 운영 규칙, 세션 시작/완료 정의 | `JumiJeong-design/Jumi-Worklog` |
+| `skills/handoff-check/SKILL.md` | 상태 확인, 이어받기, 다음 세션 준비 게이트 | `JumiJeong-design/Jumi-Worklog` |
+| `skills/write-worklog/SKILL.md` | worklog 작성, CONTEXT, 공개 뷰어 동기화 | `JumiJeong-design/Jumi-Worklog` |
+| `skills/sync-entry/SKILL.md` | 원문 로그와 공개 뷰어 fallback 동기화 검증 | `JumiJeong-design/Jumi-Worklog` |
+| 오늘 worklog `### 함정 모음` | 날짜별 함정 기록 | `JumiJeong-design/Jumi-Worklog` |
 
 상황에 따라 1~3개 모두 또는 일부만 업데이트한다.
 
@@ -49,6 +53,9 @@ disable-model-invocation: false
 |-----------|-----------|
 | Figma·컴포넌트·디자인 시스템 작업 실수 | `design-system/rules.md` + worklog |
 | AI에게 지시할 때의 실수·오해 | `docs/agent-rules.md` + worklog |
+| 세션 시작, stale context, plan/실제 상태 혼동 | `AGENTS.md` + `handoff-check` + worklog |
+| worklog 원문/공개 뷰어/URL/월 검증 문제 | `write-worklog` 또는 `sync-entry` + worklog |
+| 여러 운영 스킬에 걸치는 문제 | `AGENTS.md`에 원칙, 해당 skill에 실행 절차 |
 | 둘 다 해당 | 세 곳 모두 |
 | 단순 메모만 필요 | worklog만 |
 
@@ -59,7 +66,7 @@ disable-model-invocation: false
 `mcp__github__get_file_contents`로 업데이트할 파일의 현재 내용과 SHA를 읽는다.
 
 - `riiid/prism` → `design-system/rules.md`, `docs/agent-rules.md`
-- `jumijeong-design/jumi-worklog` → 오늘 날짜 worklog 파일 (`YYYY-MM-DD.md`)
+- `JumiJeong-design/Jumi-Worklog` → `AGENTS.md`, 관련 `skills/*/SKILL.md`, 오늘 날짜 worklog 파일 (`logs/YYYY/MM/YYYY-MM-DD.md`)
 
 ---
 
@@ -78,6 +85,11 @@ disable-model-invocation: false
 - 오늘 파일 `### 함정 모음` 섹션에 추가
 - 파일이 없으면 `write-worklog` 스킬을 대신 실행
 
+**Jumi-Worklog AGENTS/skills 업데이트 시:**
+- `AGENTS.md`에는 반복 운영 원칙과 완료 정의만 둔다.
+- `skills/*/SKILL.md`에는 해당 스킬이 실제로 수행할 단계, URL, repo/path, 검증 명령만 둔다.
+- 공개 URL, repo명, 검증 명령은 `README.md`/`AGENTS.md`와 충돌하지 않게 맞춘다.
+
 모두 `mcp__github__create_or_update_file`로 업데이트. SHA 필수.
 
 완료 후 출력:
@@ -85,6 +97,7 @@ disable-model-invocation: false
 함정 기록 완료.
 - design-system/rules.md: Rule N 추가 (또는 skip)
 - docs/agent-rules.md: 항목 추가 (또는 skip)
+- Jumi-Worklog AGENTS/skills: 항목 추가 (또는 skip)
 - worklog: 함정 모음 업데이트 (또는 skip)
 ```
 

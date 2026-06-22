@@ -14,7 +14,7 @@ write-worklog 전에 "뭐가 빠졌나?" 확인하거나, 잠깐 자리를 비�
 ## Step 1 — 오늘 커밋 조회  [Research]
 
 `mcp__github__list_commits`로 오늘 날짜 기준 3개 레포 커밋을 조회한다 (`since: YYYY-MM-DDT00:00:00Z`):
-- `jumijeong-design/jumi-worklog`
+- `JumiJeong-design/Jumi-Worklog`
 - `jumijeong-design/socra-ai-workflow-wiki`
 - `riiid/prism`
 
@@ -48,7 +48,7 @@ write-worklog 전에 "뭐가 빠졌나?" 확인하거나, 잠깐 자리를 비�
 - 블로커
 
 ### 오늘 커밋 수
-- jumi-worklog: N개
+- Jumi-Worklog: N개
 - socra-ai-workflow-wiki: N개
 - riiid/prism: N개
 ```

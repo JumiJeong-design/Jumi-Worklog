@@ -1,6 +1,6 @@
 ---
 name: handoff-check
-description: "다른 AI 도구나 새 세션에서 이어받을 수 있는 상태인지 확인하고, 필요한 handoff 문서/워크로그/공개 뷰어를 갱신한다. '클로드 코드에서 이어받을 수 있어?', 'handoff 확인해줘', '/handoff-check' 시 실행."
+description: "다른 AI 도구나 새 세션에서 이어받을 수 있는 상태인지 확인하고, 필요한 handoff 문서/워크로그/공개 뷰어를 갱신한다. '클로드 코드에서 이어받을 수 있어?', 'handoff 확인해줘', '오늘 할 일', '이어받자', '진행하자', '/handoff-check' 시 실행."
 disable-model-invocation: false
 ---
 
@@ -18,7 +18,17 @@ disable-model-invocation: false
 - 한 번에 한 레포를 기본으로 확인한다.
 - 공개 URL 검증은 worklog 또는 public viewer를 변경했을 때만 수행한다.
 - AI wiki/skill 승격 검토는 하루 끝이나 사용자가 명시적으로 요청했을 때만 수행한다.
-- 새 채팅 시작 시에는 `CLAUDE.md`, `CONTEXT.md`, 오늘 worklog를 먼저 보고, 필요한 문서만 추가로 연다.
+- 새 채팅 시작이나 "오늘 할 일/이어받자/진행하자" 요청 시에는 최신 worklog, context freshness, 관련 repo git 상태를 먼저 보고, 필요한 문서만 추가로 연다.
+
+## Step 0 — 상태 확인 게이트
+
+실행이나 수정 전에 현재 상태의 출처를 먼저 고정한다.
+
+1. `Jumi-Worklog/logs/YYYY/MM/`에서 오늘 또는 최신 worklog를 확인한다.
+2. `scripts/check-context-freshness.sh`를 실행한다. `CONTEXT.md`가 stale이면 참고용으로만 보고 최신 worklog와 관련 repo 상태를 우선한다.
+3. 실제 작업 repo에서 `git status -sb`, 최근 커밋, 필요 시 PR/CI 상태를 확인한다.
+4. 공개 plan이나 worklog 문구는 후보/기록으로만 본다. 실제 완료나 승인 근거로 쓰기 전 source-of-truth 파일, GitHub 상태, Figma 상태를 직접 확인한다.
+5. 사용자가 "진행하자"처럼 넓게 말해도 상태 확인 게이트 전에는 write 작업으로 넘어가지 않는다.
 
 ## Step 1 — Entry Documents 확인
 
@@ -36,7 +46,7 @@ disable-model-invocation: false
 
 ## Step 2 — Worklog / Context 확인
 
-`jumi-worklog`에서 아래 파일을 확인한다.
+`JumiJeong-design/Jumi-Worklog`에서 아래 파일을 확인한다.
 
 - `CONTEXT.md`
 - `logs/YYYY/MM/YYYY-MM-DD.md`
@@ -53,8 +63,8 @@ disable-model-invocation: false
 
 워크로그가 바뀌었으면 공개 뷰어까지 동기화한다.
 
-- `Jumi-Worklog/site/worklog.html` 갱신
-- 원본 worklog repo와 public viewer repo 모두 commit/push
+- 같은 repo의 `site/worklog.html` 갱신
+- `JumiJeong-design/Jumi-Worklog` main에 원본 `logs/`와 `site/worklog.html` 모두 commit/push
 - 공개 URL fetch 후 문구 확인
 - 월 단위 체크박스 검증 실행
 
@@ -83,3 +93,7 @@ node scripts/verify-public-worklog-month.mjs --html <downloaded-worklog.html> --
 - worklog 체크박스가 실제 완료 상태와 맞다.
 - 공개 worklog URL에서 같은 내용이 보인다.
 - wiki 승격 후보가 있으면 추가하거나, 추가하지 않는 이유를 기록했다.
+
+## Trigger phrases
+
+`/handoff-check`, `handoff 확인해줘`, `클로드 코드에서 이어받을 수 있어?`, `오늘 할 일`, `이어받자`, `진행하자`, `다음 세션 준비`
