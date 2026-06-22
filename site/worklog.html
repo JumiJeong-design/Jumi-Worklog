@@ -205,6 +205,113 @@ body{
   .kbd-hint{display:none}
   .entry{padding:24px 16px 60px}
 }
+
+
+/* Context rail for board-style pages */
+#context-section {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+  gap: 14px;
+  padding: 18px 20px;
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+.context-kicker {
+  color: rgba(255,255,255,.46);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.context-title {
+  color: rgba(255,255,255,.92);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+.context-desc {
+  margin: -6px 0 4px;
+  color: rgba(255,255,255,.58);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.context-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.context-link {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 13px;
+  background: rgba(255,255,255,.045);
+  color: rgba(255,255,255,.80);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.35;
+  padding: 11px 12px;
+  text-align: left;
+}
+.context-link:hover {
+  border-color: rgba(145,153,255,.45);
+  background: rgba(145,153,255,.11);
+  color: rgba(255,255,255,.95);
+}
+.context-note {
+  margin-top: 4px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 15px;
+  background: rgba(255,255,255,.035);
+  color: rgba(255,255,255,.54);
+  font-size: 12px;
+  line-height: 1.55;
+  padding: 13px 14px;
+}
+#sidebar.context-rail {
+  background: linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,.006));
+}
+@media (min-width: 900px) {
+  #sidebar.context-rail {
+    width: 320px;
+    min-width: 320px;
+    flex-basis: 320px;
+  }
+  #sidebar.context-rail .view-toggle {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* Secondary utility entry: tools/skills are not primary information architecture. */
+.sidebar-utility {
+  margin-top: auto;
+  padding: 14px 20px 18px;
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+.utility-btn {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 13px;
+  background: rgba(255,255,255,.035);
+  color: rgba(255,255,255,.58);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 11px 12px;
+  text-align: left;
+}
+.utility-btn:hover,
+.utility-btn.active {
+  border-color: rgba(255,255,255,.18);
+  background: rgba(255,255,255,.075);
+  color: rgba(255,255,255,.88);
+}
+
 </style>
 </head>
 <body>
@@ -215,14 +322,12 @@ body{
   <div class="sidebar-brand">
     <div class="brand-name">Jumi Worklog</div>
     <div class="brand-meta" id="brand-meta">— entries</div>
-    <a href="writing.html" target="_blank" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:11px;color:var(--text-muted);text-decoration:none;padding:3px 7px;border:1px solid var(--border);border-radius:5px;transition:color .12s,border-color .12s" onmouseover="this.style.color='var(--accent)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)'">✍ 글감 뷰어</a>
-    <a href="storybook-docs.html" target="_blank" style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:11px;color:var(--text-muted);text-decoration:none;padding:3px 7px;border:1px solid var(--border);border-radius:5px;transition:color .12s,border-color .12s" onmouseover="this.style.color='var(--accent)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)'">📖 Storybook Docs</a>
   </div>
 
   <div class="view-toggle">
-    <button class="vt-btn active" data-view="cal" onclick="setView('cal')">📅 캘린더</button>
-    <button class="vt-btn" data-view="roadmap" onclick="setView('roadmap')">🗺 로드맵</button>
-    <button class="vt-btn" data-view="skills" onclick="setView('skills')">⚡ 스킬</button>
+    <button class="vt-btn active" data-view="cal" onclick="setView('cal')">📝 기록</button>
+    <button class="vt-btn" data-view="roadmap" onclick="setView('roadmap')">🧭 운영판</button>
+    <button class="vt-btn" data-view="backlog" onclick="setView('backlog')">🧺 백로그</button>
   </div>
 
   <div id="cal-section">
@@ -236,79 +341,11 @@ body{
 
   <div class="sidebar-list with-border" id="sidebar-list"></div>
 
-  <div id="roadmap-section" style="display:none;flex-direction:column;flex:1;overflow:hidden">
-    <div class="roadmap-panel">
-      <div class="roadmap-group">
-        <div class="roadmap-title">상시 체크</div>
-        <div class="roadmap-card current">
-          <div class="roadmap-card-name">디자인 퀄리티 고도화</div>
-          <div class="roadmap-card-desc">화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge source">운영 기준</span></div>
-        </div>
-        <div class="roadmap-card current">
-          <div class="roadmap-card-name">하네스/문서 운영 재점검</div>
-          <div class="roadmap-card-desc">주요 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge source">운영 기준</span></div>
-        </div>
-      </div>
+  <div id="context-section" aria-label="현재 문서 목차"></div>
 
-      <div class="roadmap-group">
-        <div class="roadmap-title">6/12 오늘로 끌어온 일감</div>
-        <div class="roadmap-card done">
-          <div class="roadmap-card-name">Storybook 계획/티켓/백로그 구조화</div>
-          <div class="roadmap-card-desc">6월 실행 일정, 작업 티켓, 디자이너 백로그 문서화.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge done">done</span><span class="roadmap-badge source">Storybook Docs</span></div>
-        </div>
-        <div class="roadmap-card current">
-          <div class="roadmap-card-name">Storybook IA / Inventory 실행 문서화</div>
-          <div class="roadmap-card-desc">6/12 계획의 IA 개편안과 기존 컴포넌트 매핑을 실행 문서로 분리.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge wait">today</span><span class="roadmap-badge source">Roadmap</span></div>
-        </div>
-        <div class="roadmap-card current">
-          <div class="roadmap-card-name">Storybook QA + 인터랙티브 요소 추가</div>
-          <div class="roadmap-card-desc">Chromatic Storybook 기준으로 디자인 일치화와 인터랙션 후보 확인.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge wait">today</span><span class="roadmap-badge source">Roadmap</span></div>
-        </div>
-      </div>
 
-      <div class="roadmap-group">
-        <div class="roadmap-title">날짜 배정된 실행</div>
-        <div class="roadmap-card">
-          <div class="roadmap-card-name">6/15 6/13·6/14 이관 + Agent / Compare / Chart 착수</div>
-          <div class="roadmap-card-desc">MD 템플릿, Story 작성 규칙, Week 1 기준을 6/15로 합친 뒤 Agent/Answer/Chart 흐름으로 진행.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge">6/15</span><span class="roadmap-badge source">plan</span></div>
-        </div>
-        <div class="roadmap-card">
-          <div class="roadmap-card-name">6/22~6/27 Long Text / Source / Pattern</div>
-          <div class="roadmap-card-desc">Long text와 Source를 정리한 뒤 chart 포함 MultiAgentComparison 패턴 QA로 연결.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge">6/22-6/27</span><span class="roadmap-badge source">plan</span></div>
-        </div>
-        <div class="roadmap-card">
-          <div class="roadmap-card-name">6/28 FE handoff 준비</div>
-          <div class="roadmap-card-desc">주말에는 팀 요청 없이 handoff draft와 6/29 개발 확인 질문을 내부 정리.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge">6/28</span><span class="roadmap-badge source">plan</span></div>
-        </div>
-        <div class="roadmap-card">
-          <div class="roadmap-card-name">6/29~6/30 피드백 반영 / 6월 정리</div>
-          <div class="roadmap-card-desc">FE 피드백, 대표 QA, 6월 결과 문서화, 7월 backlog 작성.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge">6/29-6/30</span><span class="roadmap-badge source">plan</span></div>
-        </div>
-      </div>
-
-      <div class="roadmap-group">
-        <div class="roadmap-title">날짜 미배정 / 스코프 필요</div>
-        <div class="roadmap-card">
-          <div class="roadmap-card-name">일본시장 리서치</div>
-          <div class="roadmap-card-desc">틈틈이 진행. 실제 착수 날짜가 정해질 때 캘린더로 끌어오기.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge">backlog</span></div>
-        </div>
-        <div class="roadmap-card">
-          <div class="roadmap-card-name">디자인 브릿지 / 헤르메스 테스트</div>
-          <div class="roadmap-card-desc">스코프 정의 후 날짜 배정.</div>
-          <div class="roadmap-meta"><span class="roadmap-badge">scope needed</span></div>
-        </div>
-      </div>
-    </div>
+  <div class="sidebar-utility">
+    <button class="utility-btn" data-view="skills" onclick="setView('skills')">⚙️ 도구 / 스킬</button>
   </div>
 
   <div id="skills-section" style="display:none;flex-direction:column;flex:1;overflow:hidden">
@@ -1693,7 +1730,23 @@ theme.css 기본(클래스 없음)이 dark이므로 light 선택 시 `.dark` 제
 ## 계획 분리
 
 20일·21일에 public viewer plan으로만 남아 있던 할 일은 22일 계획(`plan-2026-06-22`)으로 이관했다. 할 일은 plan에만 두고, 이 worklog entry에는 완료 기록과 리스크만 남긴다.
+
+## 이후 계획 재정렬
+
+기획이 아직 미정인 상태이므로 6/23 이후 날짜별 컴포넌트 구현 일정은 확정 계획에서 내리고, 후보 백로그로 남긴다. 이후 계획은 "무엇을 만들지"보다 "기획·디자인·프론트 루프가 반복 가능하게 유지되는지"를 기준으로 운영한다.
+
+### 중요한 일감
+
+- **하네스 관점** — Storybook을 결과물 갤러리가 아니라 Theme / Viewport / Locale / Long Content / Empty / Error / Fallback 상태를 반복 확인하는 검증 장치로 유지한다. `token:build`, `typecheck`, `test`, `storybook:build`, Chromatic 시각 QA의 실행 기준과 소유자를 작업 단위마다 분리한다.
+- **운영 루프 관점** — 프론트 적용, 디자인 탐색, 기획 탐색이 서로 다른 속도로 움직이는 것을 인정하고 각 루프의 입력과 산출물을 분리한다.
+- **프론트 루프** — FE에게 컴포넌트 구현 지시가 아니라 data shape, interaction wiring, responsive/fallback 조건, source/chart 실패 상태 질문을 전달한다.
+- **디자인 탐색 루프** — Figma source-of-truth가 확정된 것과 탐색 중인 것을 분리한다. read-only 감사, 변경안, 영향 범위, rollback, 승인 후 반영 순서를 유지한다.
+- **기획 탐색 루프** — POC 변경, 사용자 시나리오, multi-agent 비교 방식, source/trust 표현, chart 판단 구조를 결정 로그로 남긴다.
+- **백로그 관점** — `CollapsibleAnswer`, `CollapsibleUserMessage`, `Citation`, `SourceCard`, `SourceSection`, `ChartContainer`, `MetricCard`, `ScoreBar`, `ComparisonBarChart`, `MultiAgentComparison`은 날짜 확정 일감이 아니라 후보 백로그로 보관한다.
+- **문서/워크로그 관점** — worklog는 plan / log / roadmap / skills 운영 인덱스로 유지하고, 긴 결정사항은 wiki 또는 notes로 분리한다. 이후 plan은 체크리스트보다 미결정 / 결정 / 이월 상태가 드러나게 작성한다.
+- **리스크 관점** — 기획 확정 전에 props, variant, component namespace를 고정하지 않는다. 범용 surface와 slot 구조를 우선하고, 구체 컴포넌트 계약은 Figma / POC / FE 적용성이 맞물릴 때 당겨온다.
 </script>
+
 
 <script type="text/plain" id="entry-2026-06-19">
 # 2026-06-19 Worklog
@@ -2031,173 +2084,6 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 - [ ] **BottomNavigation 선택 pill 색 조정/배경색 검토** — active pill alpha 10%가 복잡한 배경 위에서 선택 상태로 충분히 읽히는지 `ComplexBackdrop`로 재검토(주미님 요청).
 - [ ] **Settings 결정** — 카드 backlog가 Row/SectionHeader와 별도 신규 이슈인지 / divider 색(`border-control` 단일 vs Figma mixed) / Settings Page 필요 여부.
 - [ ] **page-first 통합 잔업** — A/B/C 컴포넌트 머지 후 ChatPage `*Placeholder`를 실제 컴포넌트로 swap + home 셸/라이트·다크 4분할 매트릭스 타일 스토리.
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="plan-2026-06-23">
-# 2026-06-23 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **CollapsibleUserMessage / UserPromptSummary Storybook 반영**
-- [ ] **Long prompt 대표 Story 확인** — ShortPrompt, LongPromptCollapsed, LongPromptExpanded, WithSummary
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="plan-2026-06-24">
-# 2026-06-24 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **Citation / SourceCard / SourceSection 기본 Storybook 반영**
-- [ ] **Source 상태 확인** — WebSource, FileSource, NoSource, LongTitle, ExpandedSection
-- [ ] **chart와 source가 한 화면에서 경쟁하지 않는지 확인**
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="plan-2026-06-25">
-# 2026-06-25 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **MultiAgentComparison Pattern Storybook 반영**
-- [ ] **패턴 대표 Story 확인** — agent + summary + stance + source + chart
-- [ ] **chart가 핵심 판단/비교 구조로 읽히는지 확인**
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="plan-2026-06-26">
-# 2026-06-26 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **chart 포함 responsive / fallback QA**
-- [ ] **Storybook 대표 viewport 확인** — mobile 390 / desktop 1280
-- [ ] **tooltip / horizontal scroll / fallback table / source 영역 충돌 점검**
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="plan-2026-06-27">
-# 2026-06-27 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **MultiAgentComparison 내부 QA**
-- [ ] **주말 내부 작업** — 팀 요청 없이 chart/source/long text 충돌 점검
-- [ ] **6/29 월요일 공유용 이슈 정리**
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="plan-2026-06-28">
-# 2026-06-28 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **FE handoff checklist 초안 정리**
-- [ ] **Storybook 문서 기준 대표 viewport 내부 QA** — mobile 390 / desktop 1280
-- [ ] **6/29 FE에게 공유할 제품 적용성 질문 정리**
-- [ ] **주말 내부 작업** — FE/PM/QA 요청 없음
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="plan-2026-06-29">
-# 2026-06-29 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **FE 실제 화면 적용성 1차 검증** — 컴포넌트 재사용성, 페이지 조립 용이성, interaction wiring 확인
-- [ ] **FE 피드백 반영** — Storybook cleanup
-- [ ] **Theme / Viewport / Locale 대표 QA** — checked stories 정리
-
-### 작업 중 생긴 일감
-
-- 작업 중 생긴 일감이 생기면 이 섹션에 추가
-</script>
-
-<script type="text/plain" id="plan-2026-06-30">
-# 2026-06-30 Plan
-
-## 상시 체크 (운영 기준)
-
-- **디자인 퀄리티 고도화 지속** — 화면/컴포넌트 작업 때마다 시각 계층, 모바일 UX, 토큰 일관성 확인
-- **하네스/문서 운영 재점검** — 작업 후 코드·문서·검증 루프가 끊기지 않았는지 확인
-
-## 오늘 실행 체크리스트
-
-### 로드맵에서 온 일감
-
-- [ ] **6월 결과 문서화** — `june-summary.md`
-- [ ] **7월 backlog 작성** — `next-backlog.md`
 
 ### 작업 중 생긴 일감
 
@@ -4472,6 +4358,169 @@ Recent History Items — 여기도 안바뀌어
 6. 자동화 워크플로우: `/ship` 커맨드, Notion 업무 로그 자동 저장 시도
 </script>
 
+
+<script type="text/plain" id="direction-board">
+# 2026. 6. 22 이후 운영판
+
+이 화면은 날짜별 실행 일정이 아니라, **AI로 디자인 루프를 돌리기 위한 운영판**이다. 지금 필요한 것은 “다음 주에 어떤 컴포넌트를 만들까”가 아니라, AI/Figma 탐색 결과를 누가, 어디서, 어떤 기준으로 판정하고 Git/Storybook으로 승격할지 정하는 일이다.
+
+## 한 줄 결론
+
+**Figma와 AI는 탐색 공간, Git은 개발자 계약, Storybook은 개발자 소비면이자 반복 검증 화면, Worklog는 판단 로그다.**
+
+## LNB 역할
+
+LNB는 긴 내용을 담는 곳이 아니라 이동 장치로만 둔다. `도구/스킬`은 운영 콘텐츠와 같은 1차 위계가 아니라 LNB 하단 보조 유틸리티로 둔다.
+
+| LNB | 역할 |
+| --- | --- |
+| 기록 | 날짜별 워크로그와 그날의 판단 근거 확인 |
+| 운영판 | AI 디자인 루프, 역할 분리, Storybook 정보구조 확인 |
+| 백로그 | 아직 일정화하지 않는 결정 대기 항목 확인 |
+| 보조 도구 | LNB 하단에서 스킬과 실행 보조 도구 확인 |
+
+## 역할 분리
+
+| 주체 / 접점 | 하는 일 | 보는 곳 | 산출물 |
+| --- | --- | --- | --- |
+| AI | 대안 생성, 누락 상태 찾기, 정보구조 초안 만들기 | Figma, Worklog, Storybook 초안 | 탐색안, 질문 목록, 상태 매트릭스 |
+| 디자이너 | 화면 탐색, Component Set 정리, Variant/상태 판단 | Figma | 승인 후보, 디자인 기준, 예외 케이스 |
+| 기획자 | 제품 질문 정의, 유저 플로우 판단, 승격/보류 결정 | Worklog, Storybook Pages/Flows, Figma 탐색안 | 결정 기준, 우선순위, 보류 이유 |
+| 개발자 | 실제 계약과 구현 소비 | Git, Storybook | API, props, exports, 상태별 examples |
+| Worklog | 왜 그렇게 판단했는지 보관 | 워크로그 | 판단 로그, 다음 질문, 백로그 |
+
+## 기획자 개입 지점
+
+### 1. AI/Figma 탐색 전에 개입
+
+기획자는 “무엇을 만들까”보다 “어떤 질문을 탐색할까”를 먼저 정한다. 예를 들어 `source/trust가 핵심 경험인가`, `vote/chart가 사용자의 결정을 돕는가`, `follow-up question이 추천인가 CTA인가`를 정해야 AI 탐색이 의미를 가진다.
+
+### 2. 페이지와 플로우에서 강하게 개입
+
+기획자는 단일 컴포넌트보다 `Pages`와 `Flows / Prototype`에서 더 많이 개입한다. 질문 입력 → 로딩 → 여러 모델 답변 → 비교/투표 → 후속 질문처럼 사용자의 행동이 이어지는 흐름은 제품 판단 영역이다.
+
+### 3. 승격/보류 판단에 개입
+
+탐색안을 `패키지 컴포넌트`로 올릴지, `페이지 예시`로만 둘지, `백로그`로 남길지는 기획/디자인/개발이 같이 봐야 한다. 기획자는 여기서 제품 필요성, 우선순위, 사용자 흐름의 확정도를 판단한다.
+
+### 4. 완료 기준을 잡는다
+
+개발자에게 넘기기 전 “이게 끝났다고 볼 조건”을 정한다. 예를 들어 source가 없을 때도 답변이 신뢰 가능한지, chart가 실패해도 판단이 가능한지, follow-up을 누르면 어떤 다음 상태로 가야 하는지를 정한다.
+
+## Storybook 정보구조 방향
+
+Storybook은 개발자가 실제로 보는 접점이므로, 컴포넌트와 페이지와 플로우가 섞이면 안 된다.
+
+### Foundations
+
+색, 타이포, spacing, radius, shadow, icon, token 같은 기반 규칙이다. Figma 변수와 Git 토큰이 어긋나면 이 층을 먼저 정리한다.
+
+### Components / Common
+
+Button, Text Field, Checkbox, Radio, Toggle, Badge, Toast, Chip, Spinner, Tooltip처럼 제품 맥락과 무관하게 재사용되는 기본 컴포넌트다. 개발자는 여기서 import 경로, props, 접근성, keyboard/focus, token 사용 기준을 본다.
+
+### Components / Chat
+
+Message Bubble, Answer Card, Chat Input Bar, Model Profile, Bottom Bar, Callout처럼 채팅 표면에서만 의미가 강한 컴포넌트다. 공통 컴포넌트처럼 보여도 데이터 shape, loading/error/fallback, 대화 흐름과 연결되므로 별도 층으로 둔다.
+
+### Components / Layout
+
+Header Nav Bar, Bottom Sheet, Modal/Dialog, Dropdown Menu, Context Menu, Bottom Navigation, Settings Row처럼 화면 골격을 만드는 컴포넌트다. 단일 컴포넌트 story와 페이지 조합 예시를 분리한다.
+
+### Pages
+
+페이지는 컴포넌트 계약이 아니라 조합 결과다. Chat, History, Settings 같은 화면은 “실제 화면에서 조합하면 이렇게 보인다”를 확인하는 곳이다. 개발자 API 문서와 같은 층에 두지 않는다.
+
+### Flows / Prototype
+
+인터랙션 행동이 깊어지면 페이지와도 달라진다. 입력, 선택, 로딩 전환, 실패 fallback, 다음 질문처럼 사용자가 움직이는 흐름은 유저 플로우/프로토타입으로 분리한다.
+
+## 인터랙션 깊이 구분
+
+| 깊이 | 의미 | 주로 보는 사람 |
+| --- | --- | --- |
+| Level 0 | 단일 컴포넌트 상태 | 개발자, 디자이너 |
+| Level 1 | 조합 컴포넌트 상태 | 개발자, 디자이너 |
+| Level 2 | 페이지 스냅샷 | 디자이너, 기획자 |
+| Level 3 | 인터랙션 시나리오 | 기획자, 디자이너, 개발자 |
+| Level 4 | 유저 플로우 / 프로토타입 | 기획자, 디자이너 |
+
+## AI 디자인 루프
+
+1. 기획자가 탐색 질문을 정한다.
+2. Figma에서 기존 Component Set과 탐색 프레임을 확인한다.
+3. AI에게 대안, 누락 상태, 정보구조 후보를 만들게 한다.
+4. 결과를 `Common`, `Chat`, `Layout`, `Page`, `Flow` 중 어디에 속하는지 분류한다.
+5. 반복 등장하고 상태가 안정된 것만 Git 패키지 계약 후보로 승격한다.
+6. Storybook에 개발자 소비면과 반복 검증 화면을 만든다.
+7. 피드백과 보류 이유를 Worklog와 백로그에 남긴다.
+
+## 당장 큰 일감
+
+### Storybook 정보구조 재정리
+
+`Foundations`, `Components / Common`, `Components / Chat`, `Components / Layout`, `Pages`, `Flows / Prototype`로 나눌 수 있는지 본다. 목적은 예쁘게 분류하는 것이 아니라 개발자와 기획자, 디자이너가 서로 다른 층을 헷갈리지 않게 하는 것이다.
+
+### Figma 관리 구조 감사
+
+Figma의 `Foundation`, `Icons`, `Components`를 기준으로 이미 Component Set인 것과 탐색 프레임인 것을 분리한다. 특히 `UI Components common`, `History`, `Chat`, `UI Layout`, `Reference / Exception`이 Storybook의 어느 층으로 이어질지 본다.
+
+### 기획 결정 로그 만들기
+
+Source/trust, vote/chart, follow-up question, multi-agent comparison은 아직 컴포넌트 일정이 아니라 제품 판단 질문이다. 각 항목마다 필요한 이유, 사용자 흐름, 보류 이유, 다음 확인 조건을 남긴다.
+</script>
+
+<script type="text/plain" id="backlog-board">
+# 백로그 / 결정 대기
+
+이 백로그는 “언젠가 만들 컴포넌트 목록”이 아니다. 아직 날짜에 박지 않고, 다음 루프에서 무엇을 판단해야 하는지 남기는 곳이다.
+
+## 백로그 원칙
+
+- 컴포넌트 이름보다 제품 질문을 먼저 적는다.
+- Figma 탐색안은 승인 전까지 후보로 둔다.
+- 개발자가 바로 볼 항목은 Git/Storybook으로 승격된 뒤에 정리한다.
+- 페이지와 플로우에서 나온 요구를 바로 공통 컴포넌트 계약으로 올리지 않는다.
+
+## 결정 대기 항목
+
+### Storybook 정보구조 재정리
+
+- 질문: 현재 Storybook을 `Foundations`, `Components / Common`, `Components / Chat`, `Components / Layout`, `Pages`, `Flows / Prototype`로 나눌 수 있는가?
+- 먼저 볼 것: 기존 stories, Figma Components 페이지 구조, 개발자가 자주 보는 API/Docs 위치
+- 완료 조건: 개발자 소비면과 제품/기획 검토면이 섞이지 않는 구조 초안
+
+### Answer stack 내구성
+
+- 질문: 여러 모델 답변이 쌓일 때 긴 답변, 로딩, 실패, 모바일 스크롤, 액션바, 다국어가 버티는가?
+- 먼저 볼 것: Answer Card, Message Bubble, Model Profile, Bottom Bar 조합
+- 완료 조건: 단일 컴포넌트 계약이 아니라 조합 상태 검증 기준 정리
+
+### Source / trust decision
+
+- 질문: 출처, 인용, 신뢰 표시가 제품에서 어느 정도 필요한가?
+- 먼저 볼 것: source가 없을 때, 실패할 때, 긴 제목일 때, chart/vote와 같이 있을 때
+- 완료 조건: SourceCard 구현 여부가 아니라 신뢰 표현 방식 결정
+
+### Vote / chart fallback
+
+- 질문: 투표 결과나 차트가 핵심 경험인가, 아니면 텍스트/카드 fallback으로 충분한가?
+- 먼저 볼 것: 데이터 구조, 산식, chart 실패 상태, 모바일 표현
+- 완료 조건: ChartContainer 같은 컴포넌트명 확정 전 fallback 기준 정리
+
+### Follow-up question loop
+
+- 질문: 후속 질문이 추천 질문인가, CTA인가, agent 재질문 트리거인가?
+- 먼저 볼 것: 질문 입력 이후 다음 상태, 선택/취소/재질문 흐름
+- 완료 조건: 단일 UI 컴포넌트가 아니라 유저 플로우 기준 정리
+
+### 기획자 개입 체크포인트
+
+- 질문: 각 탐색안에서 기획자가 어떤 결정을 해야 하는가?
+- 먼저 볼 것: 탐색 질문, 페이지/플로우, 승격/보류 기준, 완료 조건
+- 완료 조건: 기획 결정 없이 컴포넌트 계약이 먼저 생기지 않게 하는 체크포인트
+</script>
+
 <script>
 marked.use({
   gfm: true,
@@ -4491,15 +4540,7 @@ const ENTRY_META = {
   '2026-06-17': { tags: ['prism', 'figma', 'text-field', 'token-sync', 'storybook', 'pr-8', 'markdown'] },
   '2026-06-18': { tags: ['plan', 'storybook', 'comparison-chart'] },
   '2026-06-19': { tags: ['plan', 'storybook', 'compare-blocks'] },
-  '2026-06-22': { tags: ['plan', 'storybook', 'long-text', 'locale', 'review', 'figma'] },
-  '2026-06-23': { tags: ['plan', 'storybook', 'long-prompt'] },
-  '2026-06-24': { tags: ['plan', 'storybook', 'source'] },
-  '2026-06-25': { tags: ['plan', 'storybook', 'pattern'] },
-  '2026-06-26': { tags: ['plan', 'storybook', 'chart-qa'] },
-  '2026-06-27': { tags: ['plan', 'storybook', 'pattern'] },
-  '2026-06-28': { tags: ['plan', 'storybook', 'handoff-prep'] },
-  '2026-06-29': { tags: ['plan', 'storybook', 'qa'] },
-  '2026-06-30': { tags: ['plan', 'storybook', 'summary'] },
+  '2026-06-22': { tags: ['plan', 'worklog', 'harness', 'ops-loop', 'figma', 'storybook'] },
   '2026-06-11': { tags: ['harness', 'figma', 'prism', 'glassmorphism', 'writing', 'dark-mode', 'repo-ops'], notion: 'https://app.notion.com/p/37b5bc5f630780968b5de735c3fc82b0' },
   '2026-06-10': { tags: ['figma', 'iphone16', '한국어화', 'dark-mode', 'tokens'] },
   '2026-06-08': { tags: ['prism-spirit', 'branding', 'concept', 'vercel'], notion: 'https://app.notion.com/p/3795bc5f6307812a8eb2d445ab0465a9' },
@@ -4561,6 +4602,8 @@ let currentIndex = initialEntryIndex();
 const [initialYear, initialMonth] = (ENTRIES[currentIndex]?.date || todayStr).split('-').map(Number);
 let calYear = initialYear, calMonth = initialMonth - 1;
 function getMarkdown(date) { const el = document.getElementById('entry-' + date); return el ? el.textContent.trim() : ''; }
+function getDirectionMarkdown() { const el = document.getElementById('direction-board'); return el ? el.textContent.trim() : ''; }
+function getBacklogMarkdown() { const el = document.getElementById('backlog-board'); return el ? el.textContent.trim() : ''; }
 function getPlan(date) { const el = document.getElementById('plan-' + date); return el ? el.textContent.trim() : ''; }
 function hasPlan(date) { return !!document.getElementById('plan-' + date); }
 function checkboxSource(date, panel) { return panel === 'plan' ? getPlan(date) : getMarkdown(date); }
@@ -4630,20 +4673,85 @@ function buildCalendar() {
   document.getElementById('cal-grid').innerHTML = html;
   buildList();
 }
+const CONTEXT_VIEWS = {
+  roadmap: {
+    kicker: '운영판',
+    title: '본문 목차',
+    desc: '긴 판단은 오른쪽 본문에서 보고, 여기서는 빠르게 이동만 합니다.',
+    items: ['한 줄 결론', '역할 분리', '기획자 개입 지점', 'Storybook 정보구조 방향', '인터랙션 깊이 구분', 'AI 디자인 루프', '당장 큰 일감'],
+    note: 'LNB는 내용을 담는 칸이 아니라 현재 문서의 지도 역할만 합니다.'
+  },
+  backlog: {
+    kicker: '백로그',
+    title: '결정 대기 목차',
+    desc: '아직 일정화하지 않은 질문을 모아둔 영역입니다.',
+    items: ['백로그 원칙', '결정 대기 항목', 'Storybook 정보구조 재정리', 'Answer stack 내구성', 'Source / trust decision', 'Vote / chart fallback', 'Follow-up question loop', '기획자 개입 체크포인트'],
+    note: '컴포넌트 이름보다 다음 판단 질문을 먼저 봅니다.'
+  }
+};
+function renderContext(mode) {
+  const section = document.getElementById('context-section');
+  if (!section) return;
+  const config = CONTEXT_VIEWS[mode];
+  if (!config) {
+    section.style.display = 'none';
+    section.innerHTML = '';
+    return;
+  }
+  section.style.display = 'flex';
+  section.innerHTML = `
+    <div class="context-kicker">${config.kicker}</div>
+    <div class="context-title">${config.title}</div>
+    <p class="context-desc">${config.desc}</p>
+    <div class="context-nav">
+      ${config.items.map(item => `<button class="context-link" type="button" data-heading="${item}">${item}</button>`).join('')}
+    </div>
+    <div class="context-note">${config.note}</div>`;
+  section.querySelectorAll('.context-link').forEach(btn => {
+    btn.onclick = () => scrollBoardHeading(btn.dataset.heading || '');
+  });
+}
+function scrollBoardHeading(text) {
+  const headings = [...document.querySelectorAll('.direction-doc h2, .direction-doc h3')];
+  const target = headings.find(h => h.textContent.trim() === text) || headings.find(h => h.textContent.includes(text));
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function setView(mode) {
-  if (!['cal', 'roadmap', 'skills'].includes(mode)) mode = 'cal';
+  if (!['cal', 'roadmap', 'backlog', 'skills'].includes(mode)) mode = 'cal';
   viewMode = mode;
-  document.querySelectorAll('.vt-btn').forEach(b => b.classList.toggle('active', b.dataset.view === mode));
+  const isBoardMode = mode === 'roadmap' || mode === 'backlog';
+  document.body.classList.toggle('board-mode', isBoardMode);
+  document.getElementById('sidebar')?.classList.toggle('context-rail', isBoardMode);
+  document.querySelectorAll('.vt-btn, .utility-btn').forEach(b => b.classList.toggle('active', b.dataset.view === mode));
   const cal = document.getElementById('cal-section');
   const list = document.getElementById('sidebar-list');
-  const roadmap = document.getElementById('roadmap-section');
   const skills = document.getElementById('skills-section');
   if (mode === 'skills') {
-    cal.style.display = 'none'; list.style.display = 'none'; roadmap.style.display = 'none'; skills.style.display = 'flex';
+    cal.style.display = 'none';
+    list.style.display = 'none';
+    skills.style.display = 'flex';
+    renderContext(null);
   } else if (mode === 'roadmap') {
-    cal.style.display = 'none'; list.style.display = 'none'; roadmap.style.display = 'flex'; skills.style.display = 'none';
+    cal.style.display = 'none';
+    list.style.display = 'none';
+    skills.style.display = 'none';
+    renderDirection();
+    renderContext('roadmap');
+  } else if (mode === 'backlog') {
+    cal.style.display = 'none';
+    list.style.display = 'none';
+    skills.style.display = 'none';
+    renderBacklog();
+    renderContext('backlog');
   } else {
-    cal.style.display = ''; list.style.display = ''; list.classList.add('with-border'); roadmap.style.display = 'none'; skills.style.display = 'none'; buildList();
+    cal.style.display = '';
+    list.style.display = '';
+    list.classList.add('with-border');
+    skills.style.display = 'none';
+    renderContext(null);
+    buildList();
+    renderEntry(currentIndex);
   }
 }
 function toggleSkill(id) { document.getElementById('skill-' + id).classList.toggle('expanded'); }
@@ -4757,6 +4865,30 @@ function buildLogGroups(container) {
   panels.forEach(panel => container.appendChild(panel));
 }
 
+function renderBoard(markdown, title, subtitle, tags) {
+  const body = markdown ? marked.parse(markdown) : '<p>아직 기록이 없습니다.</p>';
+  const tagHtml = tags.map(tag => `<span>${tag}</span>`).join('');
+  const area = document.getElementById('entry-area');
+  area.innerHTML = `
+    <article class="entry">
+      <div class="entry-head">
+        <div>
+          <h2>${title}</h2>
+          <p class="entry-date">${subtitle}</p>
+        </div>
+        <div class="entry-tags">${tagHtml}</div>
+      </div>
+      <div class="md direction-doc">${body}</div>
+    </article>`;
+  document.querySelector('.main')?.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function renderDirection() {
+  renderBoard(getDirectionMarkdown(), '🧭 운영판', 'AI 디자인 루프 · Storybook 정보구조 · 기획/개발 접점', ['figma', 'storybook', 'ai-loop', 'planner', 'dev-loop']);
+}
+function renderBacklog() {
+  renderBoard(getBacklogMarkdown(), '🧺 백로그', '결정 대기 · 후보 질문 · 승격 조건', ['decision', 'backlog', 'product', 'storybook']);
+}
+
 function renderEntry(index) {
   const e = ENTRIES[index];
   const logMarkdown = getMarkdown(e.date);
@@ -4769,6 +4901,7 @@ function renderEntry(index) {
   const notionBtn = e.notion ? `<a class="notion-link" href="${e.notion}" target="_blank" rel="noopener">📝 Notion에서 보기 ↗</a>` : '';
   const logEditBtn = logMarkdown ? `<a class="edit-action" href="${GITHUB_EDIT_BASE + logSourcePath(e.date)}" target="_blank" rel="noopener">로그 원본 편집</a>` : '';
   const logPanelHtml = logHtml || '<p class="empty-note">아직 기록 없음. 작업 후 기록이 생기면 이 탭에 남깁니다.</p>';
+  const defaultTab = e.date === '2026-06-22' ? 'log' : (planHtml ? 'plan' : 'log');
   const editBtns = `
     <div class="edit-actions">
       ${logEditBtn}
@@ -4777,13 +4910,13 @@ function renderEntry(index) {
     </div>`;
   const tabs = planHtml ? `
     <div class="entry-tabs">
-      <button class="entry-tab active" data-tab="plan" onclick="switchTab('plan')">📋 계획</button>
-      <button class="entry-tab" data-tab="log" onclick="switchTab('log')">📝 기록</button>
+      <button class="entry-tab${defaultTab === 'plan' ? ' active' : ''}" data-tab="plan" onclick="switchTab('plan')">📋 계획</button>
+      <button class="entry-tab${defaultTab === 'log' ? ' active' : ''}" data-tab="log" onclick="switchTab('log')">📝 기록</button>
     </div>
-    <div class="entry-tab-panel active" data-panel="plan">
+    <div class="entry-tab-panel${defaultTab === 'plan' ? ' active' : ''}" data-panel="plan">
       <div class="entry-body md">${planHtml}</div>
     </div>
-    <div class="entry-tab-panel" data-panel="log">
+    <div class="entry-tab-panel${defaultTab === 'log' ? ' active' : ''}" data-panel="log">
       <div class="entry-body md">${logPanelHtml}</div>
     </div>` : `<div class="entry-body md">${logHtml}</div>`;
   document.getElementById('entry-area').innerHTML = `
@@ -4800,7 +4933,7 @@ function renderEntry(index) {
   document.querySelector('.main').scrollTop = 0;
   const logBody = document.querySelector('.entry-tab-panel[data-panel="log"] .entry-body') || document.querySelector('#entry-area .entry-body');
   if (logBody) buildLogGroups(logBody);
-  initCheckboxes(e.date, hasPlan(e.date) ? 'plan' : 'log');
+  initCheckboxes(e.date, defaultTab);
 }
 
 function initCheckboxes(date, panel) {
