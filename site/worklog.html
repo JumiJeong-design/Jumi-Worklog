@@ -2046,21 +2046,23 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 # 2026-06-23 계획
 
 ## prism PR #14 마무리
-- Chromatic Build #66 시각 승인 → PR #14 머지
-- Storybook 전반 QA 계속
+- [ ] Chromatic Build #66 시각 승인 → PR #14 머지
+- [ ] Storybook 전반 QA 계속
+- [ ] (보류) 그룹 B neutral 미세차 · disabled · AnswerCard AA · Home/Settings i18n · docs/plans 기록
 
 ## worklog 운영판 / IA
-- 운영판 추상 내용 정리, Storybook IA 정합, '운영판' 이름 결정
+- [ ] 운영판/백로그 추상 에세이 정리 (불필요 내용 제거)
+- [ ] Storybook IA 정합 — 실제 story title 재배치 여부 결정
+- [ ] '운영판' 이름 결정 (운영 / 디자인 루프 등)
 
-## 가입/로그인 플로우
-- 지역별 인증 분기 반영 (한국 카카오·전화 / 일본 라인)
+## 가입/로그인 플로우 (지역별 인증)
+- [ ] first-screen locale 분기 — 한국=카카오, 일본=라인 / 보조 "다른 방법"에 전체 수단
+- [ ] 외국사 전화번호 약관 제약 반영
 
-## 6/22에서 이관 (의미 있는 미완)
-- [ ] **locale fixture 초안 + 내부 QA** — ko/en/ja
-- [ ] **Page design_chart 후속** — 피그마 직접 조정·동기화 / 화면③ 라운드2 카드 카피 교체 / color variable Dark mode 적용
-- [ ] **Settings 결정** — 카드 backlog 별도 이슈 여부 / divider 색(border-control vs Figma mixed) / Settings Page 필요 여부
-
-(상세 — 검토 6항목·프로토타입 링크 등은 기록 탭 참조)
+## 6/22에서 이관
+- [ ] locale fixture 초안 + 내부 QA (ko/en/ja)
+- [ ] Page design_chart 후속 — 피그마 조정·동기화 / 카피 교체 / Dark mode
+- [ ] Settings 결정 — divider 색 / Settings Page 필요 여부
 </script>
 
 <script type="text/plain" id="plan-2026-06-22">
@@ -4821,17 +4823,12 @@ function buildLogGroups(container) {
 
   const groups = new Map(LOG_GROUPS.map(g => [g.id, { ...g, sections: [] }]));
 
+  // 첫 H2 앞 내용(보통 H1 제목)은 그룹이 아니라 상단에 그대로 둔다 (빈 '공통' 탭 방지)
+  let introNode = null;
   if (h2Idx[0] > 0) {
-    const intro = document.createElement('div');
-    intro.className = 'repo-section';
-    for (let j = 0; j < h2Idx[0]; j++) intro.appendChild(nodes[j].cloneNode(true));
-    // 내용이 있을 때만 공통 섹션 생성 (빈 [공통] 탭 방지)
-    if (intro.textContent.trim()) {
-      const h2 = document.createElement('h2');
-      h2.textContent = '공통';
-      intro.insertBefore(h2, intro.firstChild);
-      groups.get('common').sections.push({ label: '공통', node: intro });
-    }
+    introNode = document.createElement('div');
+    introNode.className = 'repo-section';
+    for (let j = 0; j < h2Idx[0]; j++) introNode.appendChild(nodes[j].cloneNode(true));
   }
 
   h2Idx.forEach((start, i) => {
@@ -4844,7 +4841,11 @@ function buildLogGroups(container) {
     groups.get(groupId).sections.push({ label, node: div });
   });
 
-  const activeGroups = LOG_GROUPS.map(g => groups.get(g.id)).filter(g => g.sections.length > 0);
+  const activeGroups = LOG_GROUPS.map(g => groups.get(g.id)).filter(g => {
+    const body = g.sections.reduce((n, s) => n + (s.node.textContent || '').replace(/\s+/g, '').length, 0);
+    const labels = g.sections.reduce((n, s) => n + (s.label || '').replace(/\s+/g, '').length, 0);
+    return body > labels + 2; // 헤딩만 있는 빈 그룹(예: 공통) 제외
+  });
   if (activeGroups.length < 2) return;
 
   const bar = document.createElement('div');
@@ -4891,6 +4892,7 @@ function buildLogGroups(container) {
   });
 
   container.innerHTML = '';
+  if (introNode && introNode.textContent.trim()) container.appendChild(introNode);
   container.appendChild(bar);
   panels.forEach(panel => container.appendChild(panel));
 }
