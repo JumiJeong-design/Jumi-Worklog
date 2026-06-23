@@ -2045,6 +2045,76 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 - [x] Figma `Page design_chart` 모바일 393w 화면 3종 생성
 </script>
 
+<script type="text/plain" id="entry-2026-06-23">
+# 2026-06-23 기록
+
+작업하며 채움 - **할 일은 계획 탭** 참조.
+
+## 문서 작업 정리
+
+### 요청 범위
+
+```text
+텍스트/문서 작업만. 코드·Figma·Chromatic은 건드리지 않음.
+산출물은 jumi-worklog 리포에만 남기고, riiid/prism은 수정하지 않음.
+```
+
+### 가입/로그인 플로우 텍스트 초안
+
+- 한국 첫 화면은 `카카오로 시작하기`를 1순위로 두고, 같은 화면의 보조 수단으로 `전화번호로 시작하기`를 둔다.
+- 일본 첫 화면은 `LINE으로 시작하기`를 1순위로 둔다. `Google로 계속하기`, `Apple로 계속하기`는 보조 수단으로 노출한다.
+- `다른 방법`을 열면 지역별 첫 화면에 숨긴 수단까지 포함해 전체 지원 수단을 보여준다. 전체 목록 후보는 카카오, LINE, Google, Apple, 전화번호다.
+- 전화번호 인증은 국가·통신/SMS 대행사·개인정보 처리/약관 조건 확인이 필요한 항목으로 분리한다. 특히 외국사 서비스에서 전화번호를 기본 수단으로 전면 배치할 수 있는지, 어떤 고지/동의 문구가 필요한지는 Figma 제작 전에 별도 확인한다.
+- Figma 화면 제작은 주미님 결정 대기 상태로 둔다. 오늘 정리 범위는 텍스트 기준 초안까지다.
+
+### PR #14 머지 전 리스크
+
+- 최신 기록 기준 PR #14는 두 트랙이 합쳐진 20 commits 통합 PR이다. CI green과 Chromatic Build #66 기록은 있지만, 오늘 Codex 범위에서는 실제 화면을 열어 확인하지 않는다.
+- 머지 전 리스크는 시각 승인 미완료, UserProfile 다크 아바타/카드 어색함 가능성, 393 viewport globals가 Chromatic 썸네일에 그대로 반영되는지 미확인, Settings divider와 Settings Page 방향 미결, ko/en/ja locale fixture의 긴 문구/일본어 줄바꿈 범위 미확정이다.
+- 시각 QA에서 어색함이 나오면 전체 PR을 흔들기보다 문제 커밋 또는 범위를 좁혀 롤백/후속 수정 판단을 한다.
+
+### Chromatic에서 볼 항목
+
+- 신규 컴포넌트 8종: Answer Card, Message Bubble, Callout, Date Divider, Settings Row, Settings Section Header, Bottom Bar, Bottom Navigation.
+- 주요 화면 조합: Chat, Home, Settings, UserProfile.
+- 다크 모드 표면: Chat 패널 raised 배경, neutral 텍스트 램프, 카드/아바타 배경, divider 대비.
+- 모바일 기준: 393 viewport가 Storybook/Chromatic에서 의도대로 잡히는지, 긴 문구가 카드·버튼·탭 안에서 밀리지 않는지 확인한다.
+- locale 기준: ko/en/ja 전환 시 사이드바, 헤더, 말풍선, 답변 markdown, Callout, guide, placeholder 문구가 누락 없이 전환되는지 본다.
+
+### locale fixture ko/en/ja QA 범위
+
+- QA 범위는 fixture 코드 수정이 아니라 확인 축 정의까지다.
+- ko는 기준 언어로 누락 키, 어색한 용어, 버튼/상태 라벨의 의미 일관성을 본다.
+- en은 한국어보다 길어지는 CTA·상태 문구·설명 문장이 레이아웃을 밀지 않는지 본다.
+- ja는 일본어 줄바꿈, 긴 고유명사/상태 라벨, 문장 톤이 한 화면에서 읽히는지 본다.
+- 공통 축은 light/dark, mobile 393, web, long content, empty/error/fallback 상태다. 실제 fixture 데이터 수정과 내부 QA 실행은 별도 작업으로 보류한다.
+
+## Socra 디자인 시스템 / 차트 디자인 정합
+
+### 요청 범위
+
+```text
+Figma `Socra-Design-test` node `2211:9469`의 4개 차트 디자인이 기존 피그마 파운데이션/컴포넌트 기반이 아니므로, 기존 foundation/component 기준으로 고도화한다.
+Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판단하고, 차트 디자인 정합도 함께 진행한다.
+```
+
+### 완료
+
+- `Page design_chart`와 `Opinion Viz (ideation)`를 기준으로 4개 차트 구조를 감사했다. 신규 토큰 없이 기존 foundation gradient, 색, 텍스트 스타일을 재사용하는 기준으로 정리했다.
+- `ModelChip` 로컬 컴포넌트를 만들고 일본노후 화면의 손코딩 모델 pill 79개를 인스턴스로 교체했다. 가설 카드 자체는 별도 컴포넌트로 만들지 않고 칩 인스턴스 조립 프레임으로 유지했다.
+- 도넛은 `ConsensusDonut`을 정본으로 확정했다. 분포 샘플 4종을 만들고, test 화면의 raw 무지개 ring을 `ConsensusDonut` 인스턴스로 교체했으며 중앙 라벨 override 버그를 수정했다.
+- 투표막대는 실제 렌더 기준으로 드리프트가 없음을 확인했다. 반복 원자인 `LegendItem`을 컴포넌트화하고 범례 15개를 인스턴스로 교체했다.
+- 생성 컴포넌트와 갤러리 scaffold의 하드코딩을 교정했다. `ModelChip`은 `caption/2`, `LegendItem`은 `body/sm-r` 텍스트 스타일에 연결했고, 도넛 샘플 갤러리도 semantic surface/text 변수로 바인딩했다.
+- 도넛 arc는 기존 `gradient/blue`, `gradient/purple`, `gradient/cyan`, `gradient/pink`, `gradient/orange` 스타일에 연결했다. 4개 화면 재감사 결과 unbound solid 0, unstyled text 0, gradient-no-style 0으로 정리됐다.
+- 아이데이션 페이지 토큰/스타일 전수 감사에서 미바인딩 29건을 3건으로 줄였다. 남은 3건은 PickBubble 아바타 이니셜 글리프라 의도적으로 유지했다. Group 4 teal은 주미님 선택대로 `cyan/500`에 바인딩했다.
+- `Message Bubble/ModelLabel`을 `Model` variant 5종(Claude, GPT, Gemini, Grok, Perplexity) 컴포넌트 세트로 정리했다.
+- 해외 여행지 화면의 투표 결과/추천 질문 영역은 `QuestionItem`, `VoteBar`, `RecommendedQuestions`, `VoteResult` Figma master로 올리고 실제 프레임을 인스턴스로 치환했다. 패키지 포팅과 Storybook 승격은 ideation 승격 확정 뒤로 둔다.
+
+## 참고
+- 의견 시각화 모션 프로토타입: https://jumijeong-design.github.io/Jumi-Worklog/opinion-viz-motion.html
+- 가입/로그인 지역별 인증 요구사항: 한국 = 카카오·전화 / 일본 = 라인 + 구글·애플 / 외국사 전화번호 약관 제약 (반영 to-do는 계획 탭).
+</script>
+
 <script type="text/plain" id="plan-2026-06-23">
 # 2026-06-23 계획
 
@@ -2054,20 +2124,32 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 - [x] 외국사 전화번호 약관 제약 반영 포인트를 Figma 제작 전 확인 항목으로 분리한다.
 - [x] PR #14 머지 전 리스크와 Chromatic에서 볼 항목을 텍스트 체크리스트로 정리한다.
 - [x] locale fixture ko/en/ja QA 범위를 텍스트로 정리한다. fixture 코드는 수정하지 않는다.
+- [x] Page design_chart 4개 차트 read-only 감사 및 기존 foundation/component 기준 정합 방향 확정.
+- [x] `ModelChip` 로컬 컴포넌트 생성 및 일본노후 모델칩 79개 인스턴스 교체.
+- [x] `ConsensusDonut` 정본화: 분포 샘플 4종, test 화면 raw ring 인스턴스 교체, 중앙 라벨 override 버그 수정.
+- [x] `LegendItem` 컴포넌트화 및 범례 15개 인스턴스 교체.
+- [x] 차트 4화면 토큰/텍스트/gradient 전수 감사 완료: unbound solid 0, unstyled text 0, gradient-no-style 0.
+- [x] 아이데이션 페이지 토큰/스타일 감사 및 교정: 미바인딩 29→3, Group 4 teal→`cyan/500` 바인딩.
+- [x] `Message Bubble/ModelLabel` 5종 `Model` variant 세트화.
+- [x] `QuestionItem` / `VoteBar` / `RecommendedQuestions` / `VoteResult` Figma master 생성 및 해외 여행지 프레임 인스턴스 치환.
 
 ## [보류]
 - [ ] PR #14 Chromatic Build #66 실제 화면 확인과 시각 승인: 오늘 Codex 범위에서는 화면 확인하지 않음.
 - [ ] PR #14 머지 실행: 시각 승인과 리스크 판단 이후 진행.
-- [ ] Page design_chart 후속 Figma 작업: 주미님이 피그마에서 직접 조정한 뒤 재동기화, 화면 ③ 라운드2 카드 3·4 실제 카피 교체, 필요 시 Dark mode 적용.
 - [ ] locale fixture ko/en/ja 코드 수정과 내부 QA 실행: 오늘은 QA 범위 텍스트만 정리.
+- ~~Page design_chart 후속 Figma 작업: 주미님이 피그마에서 직접 조정한 뒤 재동기화~~ (disable: 오늘 컴포넌트/토큰 정합으로 대체. 화면 ③ 라운드2 카드 3·4 실제 카피 교체와 Dark mode 적용은 별도 요청 전까지 보류)
+- [ ] `ModelChip` 시각 고도화: 모델명/% 2-tone 위계 등. 현재는 1:1 충실 우선.
+- [ ] `LegendItem` dot 이미지→토큰 보정: 기존 master 수정이라 별도 확인 후 진행.
+- [ ] `ChipGroup` collapsible(1줄+`+N`): 주미님 디자인 결정 대기.
+- [ ] 패키지 포팅 + Storybook 승격: ideation → Components 승격 확정 후 진행.
 
 ## [판단필요]
 - [ ] 가입/로그인 first-screen 노출 방식 확정: 한국 카카오·전화, 일본 LINE 우선 + Google·Apple 보조, "다른 방법" 전체 수단.
 - [ ] 전화번호 인증을 한국/일본에서 어떤 수준으로 노출할지, 외국사 약관/정책 확인 담당을 정한다.
 - [ ] PR #14 시각 QA 결과에 따라 머지 / 보류 / 부분 롤백 중 하나를 결정한다.
-- [ ] Settings divider 색 기준을 정한다: `border-control` 단일 기준으로 갈지, Figma mixed 상태를 유지할지.
-- [ ] Settings Page를 별도 화면으로 잡을지, Row/SectionHeader만 유지할지 정한다.
-- [ ] Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지, 탐색 프레임으로만 둘지 정한다.
+- [x] Settings divider 색 기준: Figma `semantic/border-default`와 패키지 `border-control`이 정확히 일치하므로 `border-control` 단일 기준 유지.
+- [x] Settings Page 방향: 신규 컴포넌트 없이 `User Profile` + `Settings/Row` + `SectionHeader` 합성 화면으로 유지.
+- [x] Page design_chart 반복 가설 카드/칩 판단: 칩은 `ModelChip`으로 컴포넌트화, 가설 카드는 칩 인스턴스 조립 프레임으로 유지.
 </script>
 
 <script type="text/plain" id="plan-2026-06-22">
@@ -4588,7 +4670,7 @@ const ENTRY_META = {
   '2026-06-18': { tags: ['plan', 'storybook', 'comparison-chart'] },
   '2026-06-19': { tags: ['plan', 'storybook', 'compare-blocks'] },
   '2026-06-22': { tags: ['plan', 'worklog', 'harness', 'ops-loop', 'figma', 'storybook'] },
-  '2026-06-23': { tags: ['plan', 'pr-14', 'chromatic', 'storybook-ia'] },
+  '2026-06-23': { tags: ['plan', 'figma', 'chart', 'component-sync', 'pr-14', 'chromatic', 'storybook-ia'] },
   '2026-06-11': { tags: ['harness', 'figma', 'prism', 'glassmorphism', 'writing', 'dark-mode', 'repo-ops'], notion: 'https://app.notion.com/p/37b5bc5f630780968b5de735c3fc82b0' },
   '2026-06-10': { tags: ['figma', 'iphone16', '한국어화', 'dark-mode', 'tokens'] },
   '2026-06-08': { tags: ['prism-spirit', 'branding', 'concept', 'vercel'], notion: 'https://app.notion.com/p/3795bc5f6307812a8eb2d445ab0465a9' },
