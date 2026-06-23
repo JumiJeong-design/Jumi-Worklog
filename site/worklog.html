@@ -2109,6 +2109,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - 아이데이션 페이지 토큰/스타일 전수 감사에서 미바인딩 29건을 3건으로 줄였다. 남은 3건은 PickBubble 아바타 이니셜 글리프라 의도적으로 유지했다. Group 4 teal은 주미님 선택대로 `cyan/500`에 바인딩했다.
 - `Message Bubble/ModelLabel`을 `Model` variant 5종(Claude, GPT, Gemini, Grok, Perplexity) 컴포넌트 세트로 정리했다.
 - 해외 여행지 화면의 투표 결과/추천 질문 영역은 `QuestionItem`, `VoteBar`, `RecommendedQuestions`, `VoteResult` Figma master로 올리고 실제 프레임을 인스턴스로 치환했다. 패키지 포팅과 Storybook 승격은 ideation 승격 확정 뒤로 둔다.
+- `LegendItem` dot은 재감사 결과 PNG가 아니라 `8x8` ellipse이며, master와 `VoteResult`/화면 인스턴스의 5색 dot 모두 기존 color variable에 바인딩된 상태(unbound 0)라 추가 Figma write 없이 문서 오진만 정정했다.
 
 ## 참고
 - 의견 시각화 모션 프로토타입: https://jumijeong-design.github.io/Jumi-Worklog/opinion-viz-motion.html
@@ -2139,7 +2140,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] locale fixture ko/en/ja 코드 수정과 내부 QA 실행: 오늘은 QA 범위 텍스트만 정리.
 - ~~Page design_chart 후속 Figma 작업: 주미님이 피그마에서 직접 조정한 뒤 재동기화~~ (disable: 오늘 컴포넌트/토큰 정합으로 대체. 화면 ③ 라운드2 카드 3·4 실제 카피 교체와 Dark mode 적용은 별도 요청 전까지 보류)
 - [ ] `ModelChip` 시각 고도화: 모델명/% 2-tone 위계 등. 현재는 1:1 충실 우선.
-- [ ] `LegendItem` dot 이미지→토큰 보정: 기존 master 수정이라 별도 확인 후 진행.
+- [x] `LegendItem` dot 재감사: PNG가 아니라 `8x8` ellipse + color variable 바인딩 상태라 추가 Figma write 없이 문서 오진만 정정.
 - [ ] `ChipGroup` collapsible(1줄+`+N`): 주미님 디자인 결정 대기.
 - [ ] 패키지 포팅 + Storybook 승격: ideation → Components 승격 확정 후 진행.
 
