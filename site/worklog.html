@@ -2048,24 +2048,34 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 <script type="text/plain" id="plan-2026-06-23">
 # 2026-06-23 계획
 
-## prism PR #14 마무리
-- [ ] Chromatic Build #66 시각 승인 → PR #14 머지
-- [ ] Storybook 전반 QA 계속
-- [ ] (보류) 그룹 B neutral 미세차 · disabled · AnswerCard AA · Home/Settings i18n · docs/plans 기록
+## 오늘 우선순위
+- [ ] PR #14 Chromatic Build #66 시각 QA 결과 확인 → 문제 없으면 머지
+- [ ] worklog 운영판/백로그에서 오늘 액션과 보류 질문 분리
+- [ ] 가입/로그인 first-screen locale 분기 초안 정리
 
-## worklog 운영판 / IA
-- [ ] 운영판/백로그 추상 에세이 정리 (불필요 내용 제거)
-- [ ] Storybook IA 정합 — 실제 story title 재배치 여부 결정
-- [ ] '운영판' 이름 결정 (운영 / 디자인 루프 등)
+## Codex가 먼저 정리
+- [ ] 오늘 할 일을 Codex / Claude Code / 주미님 판단으로 분리
+- [ ] PR #14 머지 전 QA 체크리스트 정리
+- [ ] 가입/로그인 플로우를 Figma 작업 전 텍스트 기준으로 정리
+- [ ] 운영판/백로그에서 근거 없는 추상 문구 제거
 
-## 가입/로그인 플로우 (지역별 인증)
+## Claude Code / 디자인 QA
+- [ ] Chromatic Build #66 시각 QA — 신규 컴포넌트, Chat/Home/Settings, 다크 카드, UserProfile 확인
+- [ ] Page design_chart 후속 — 피그마 조정·동기화 / 카피 교체 / Dark mode 검토
+- [ ] Settings 결정 보조 — divider 색 / Settings Page 필요 여부 확인
+
+## 주미님 판단 필요
+- [ ] PR #14 시각 승인 여부
+- [ ] '운영판' 이름 유지 여부 (운영판 / 디자인 루프 등)
+- [ ] Settings Page를 별도 화면으로 잡을지 여부
+
+## 가입/로그인 플로우 메모
 - [ ] first-screen locale 분기 — 한국=카카오, 일본=라인 / 보조 "다른 방법"에 전체 수단
 - [ ] 외국사 전화번호 약관 제약 반영
 
-## 6/22에서 이관
+## 보류 / 백로그
 - [ ] locale fixture 초안 + 내부 QA (ko/en/ja)
-- [ ] Page design_chart 후속 — 피그마 조정·동기화 / 카피 교체 / Dark mode
-- [ ] Settings 결정 — divider 색 / Settings Page 필요 여부
+- [ ] 그룹 B neutral 미세차 · disabled · AnswerCard AA · Home/Settings i18n · docs/plans 기록
 </script>
 
 <script type="text/plain" id="plan-2026-06-22">
@@ -4510,9 +4520,9 @@ Header Nav Bar, Bottom Sheet, Modal/Dialog, Dropdown Menu, Context Menu, Bottom 
 
 Figma의 `Foundation`, `Icons`, `Components`를 기준으로 이미 Component Set인 것과 탐색 프레임인 것을 분리한다. 특히 `UI Components common`, `History`, `Chat`, `UI Layout`, `Reference / Exception`이 Storybook의 어느 층으로 이어질지 본다.
 
-### 기획 결정 로그 만들기
+### 판단 로그 정리
 
-Source/trust, vote/chart, follow-up question, multi-agent comparison은 아직 컴포넌트 일정이 아니라 제품 판단 질문이다. 각 항목마다 필요한 이유, 사용자 흐름, 보류 이유, 다음 확인 조건을 남긴다.
+오늘 진행하기로 확인된 작업과 보류/백로그를 분리한다. 주미님이 직접 말하지 않은 추상 항목은 오늘 할 일로 올리지 않고, 실제 논의가 생겼을 때 별도 기록한다.
 
 ### 하네스 리뷰 루프 만들기
 
@@ -4547,29 +4557,11 @@ Source/trust, vote/chart, follow-up question, multi-agent comparison은 아직 �
 - 먼저 볼 것: Answer Card, Message Bubble, Model Profile, Bottom Bar 조합
 - 완료 조건: 단일 컴포넌트 계약이 아니라 조합 상태 검증 기준 정리
 
-### Source / trust decision
+### 의견 시각화 / 차트 UX 탐색
 
-- 질문: 출처, 인용, 신뢰 표시가 제품에서 어느 정도 필요한가?
-- 먼저 볼 것: source가 없을 때, 실패할 때, 긴 제목일 때, chart/vote와 같이 있을 때
-- 완료 조건: SourceCard 구현 여부가 아니라 신뢰 표현 방식 결정
-
-### Vote / chart fallback
-
-- 질문: 투표 결과나 차트가 핵심 경험인가, 아니면 텍스트/카드 fallback으로 충분한가?
-- 먼저 볼 것: 데이터 구조, 산식, chart 실패 상태, 모바일 표현
-- 완료 조건: ChartContainer 같은 컴포넌트명 확정 전 fallback 기준 정리
-
-### Follow-up question loop
-
-- 질문: 후속 질문이 추천 질문인가, CTA인가, agent 재질문 트리거인가?
-- 먼저 볼 것: 질문 입력 이후 다음 상태, 선택/취소/재질문 흐름
-- 완료 조건: 단일 UI 컴포넌트가 아니라 유저 플로우 기준 정리
-
-### 기획자 개입 체크포인트
-
-- 질문: 각 탐색안에서 기획자가 어떤 결정을 해야 하는가?
-- 먼저 볼 것: 탐색 질문, 페이지/플로우, 승격/보류 기준, 완료 조건
-- 완료 조건: 기획 결정 없이 컴포넌트 계약이 먼저 생기지 않게 하는 체크포인트
+- 질문: 현재 만든 Pick Bubble, Consensus Donut, ScoreBar 탐색안 중 무엇을 계속 볼 것인가?
+- 먼저 볼 것: `opinion-viz-motion.html`, Figma 내 `Page design_chart` 탐색 프레임, 실제 카피가 들어간 화면
+- 완료 조건: 오늘 당장 Prism 계약으로 올릴 항목과 피그마 탐색에 남길 항목이 구분됨
 
 ### 하네스 자체 점검
 
@@ -4754,7 +4746,7 @@ const CONTEXT_VIEWS = {
     kicker: '백로그',
     title: '결정 대기 목차',
     desc: '아직 일정화하지 않은 질문을 모아둔 영역입니다.',
-    items: ['백로그 원칙', '결정 대기 항목', 'Storybook 정보구조 재정리', 'Answer stack 내구성', 'Source / trust decision', 'Vote / chart fallback', 'Follow-up question loop', '기획자 개입 체크포인트', '하네스 자체 점검', '문서 정리 / 제거 기준'],
+    items: ['백로그 원칙', '결정 대기 항목', 'Storybook 정보구조 재정리', 'Answer stack 내구성', '의견 시각화 / 차트 UX 탐색', '하네스 자체 점검', '문서 정리 / 제거 기준'],
     note: '컴포넌트 이름보다 다음 판단 질문을 먼저 봅니다.'
   }
 };
