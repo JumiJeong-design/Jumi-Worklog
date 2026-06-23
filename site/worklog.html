@@ -2158,8 +2158,8 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [x] `QuestionItem` / `VoteBar` / `RecommendedQuestions` / `VoteResult` Figma master 생성 및 해외 여행지 프레임 인스턴스 치환.
 
 ## [보류]
-- [ ] PR #14 Chromatic Build #66 실제 화면 확인과 시각 승인: 오늘 Codex 범위에서는 화면 확인하지 않음.
-- [ ] PR #14 머지 실행: 시각 승인과 리스크 판단 이후 진행.
+- [x] PR #14 Chromatic Build #66 실제 화면 확인과 시각 승인: 주미님이 Chromatic 라이브 리뷰(라이트·EN/JA)로 직접 화면 확인·지적했고, 지적사항은 스토리북 QA로 반영(Codex는 화면 미확인).
+- [ ] PR #14 머지 실행: QA 수정 커밋·푸시 완료(`b974070`). 남은 건 Chromatic UI Tests baseline 수락(주미님)→머지. (애매 → 6/24 이관)
 - [ ] locale fixture ko/en/ja 코드 수정과 내부 QA 실행: 오늘은 QA 범위 텍스트만 정리.
 - ~~Page design_chart 후속 Figma 작업: 주미님이 피그마에서 직접 조정한 뒤 재동기화~~ (disable: 오늘 컴포넌트/토큰 정합으로 대체. 화면 ③ 라운드2 카드 3·4 실제 카피 교체와 Dark mode 적용은 별도 요청 전까지 보류)
 - [ ] `ModelChip` 시각 고도화: 모델명/% 2-tone 위계 등. 현재는 1:1 충실 우선.
@@ -2168,12 +2168,35 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] 패키지 포팅 + Storybook 승격: ideation → Components 승격 확정 후 진행.
 
 ## [판단필요]
-- [ ] 가입/로그인 first-screen 노출 방식 확정: 한국 카카오·전화, 일본 LINE 우선 + Google·Apple 보조, "다른 방법" 전체 수단.
+- [x] 가입/로그인 first-screen 노출 방식 확정: 한국 카카오·전화, 일본 LINE 우선 + Google·Apple 보조, "다른 방법" 전체 수단. (주미님 일단 확정 — 전화번호 노출 수준·외국사 약관 확인은 다음 차수에 확실히 하고 수정)
 - [ ] 전화번호 인증을 한국/일본에서 어떤 수준으로 노출할지, 외국사 약관/정책 확인 담당을 정한다.
-- [ ] PR #14 시각 QA 결과에 따라 머지 / 보류 / 부분 롤백 중 하나를 결정한다.
+- [ ] PR #14 시각 QA 결과에 따라 머지 / 보류 / 부분 롤백 중 하나를 결정한다. (애매 → 6/24 이관)
 - [x] Settings divider 색 기준: Figma `semantic/border-default`와 패키지 `border-control`이 정확히 일치하므로 `border-control` 단일 기준 유지.
 - [x] Settings Page 방향: 신규 컴포넌트 없이 `User Profile` + `Settings/Row` + `SectionHeader` 합성 화면으로 유지.
 - [x] Page design_chart 반복 가설 카드/칩 판단: 칩은 `ModelChip`으로 컴포넌트화, 가설 카드는 칩 인스턴스 조립 프레임으로 유지.
+
+## [작업 중 생긴 일감 · 완료 (Claude 트랙)]
+- [x] 로그인 화면 — strings `login/*` 8종(KR/JP/EN) 토큰화 + `LoginButton` 라벨/태그라인/약관 바인딩, JP 모바일·JP 웹 프레임 추가(프레임 모드 전환만으로 일본어 자동), 브랜드 아이콘 4종 컴포넌트화.
+- [x] 로그인 다크 모드 교정 — 카드/시트/모달 `surface/elevated`+테두리로 배경 분리, Apple 흰색 버그를 브랜드 버튼 고정색(`palette/*-alpha/100`)으로 수정.
+- [x] 스토리북 QA — ChatInputBar guideText 중앙정렬 / MessageBubble 답변 타이틀 시맨틱 `<h3>` / Settings Web 다이얼로그 배경 dim / Home 배경 Chat과 통일.
+- [x] Home/Settings i18n 배선(ko/en/ja, ChatPage 패턴).
+- [x] BottomBar 컨테이너 폭 반응형 + ChatPage 웹 실제 BottomBar 교체 — 검증 typecheck/test44/storybook build 통과, 커밋·푸시 완료(`b974070`, CI 재실행).
+- ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
+</script>
+
+<script type="text/plain" id="plan-2026-06-24">
+# 2026-06-24 계획
+
+## [액션]
+- [ ] **GlassSurface 공통 글래스 레시피 개선** (6/23 #5에서 이관) — 웹에서 글래스가 평평해 보이는 문제(backdrop-filter 뒤 배경이 단색이면 비침이 안 생김. 입력 뒤가 `scrim-90`이라 비칠 게 없음)를 ChatInputBar 단발 패치가 아니라 공통 GlassSurface 품질 개선으로 잡는다.
+  - [ ] 1) 공통 GlassSurface의 specular highlight / inner rim / sheen을 Figma 글래스 레시피에 더 가깝게 보정 — scrim 단계 값·순서·하단 전체폭 그라데이션은 건드리지 않는다.
+  - [ ] 2) GlassSurface 사용처를 light/dark 나란히 캡처: ChatInputBar / HeaderNavBar / BottomNavigation / Toast / ChatHistoryPanel footer / Scroll FAB.
+  - [ ] 3) 과하게 번쩍이는 컴포넌트가 있으면 tone별 분리(예: tone="ios" glossy / tone="default" restrained). 라이트/다크 2~3안 비교 후 선택.
+  - 주의: 공통 변경이라 위 6개 컴포넌트 전부 영향 → Chat 하단 하나만 보고 즉흥 적용 금지, 별도 작업으로 진행.
+- [ ] **PR #14 머지 마무리** (6/23 이관) — 시각 QA 수정 커밋·푸시 완료(`b974070`). 남은 단계: ① Chromatic UI Tests 새 빌드 baseline 수락(주미님) → ② 리스크 재확인(UserProfile 다크 아바타/카드, 393 viewport globals, ko/en/ja 줄바꿈) → ③ 머지/보류/부분 롤백 결정·실행.
+
+## [이월/보류]
+- 6/23 plan 나머지 미완 항목(locale fixture 코드 수정·내부 QA, 전화번호 노출 수준·외국사 약관 확인 담당, ModelChip 시각 고도화, ChipGroup 디자인 결정, 패키지/Storybook 승격 등)은 유효하면 여기로 이월해 분류한다.
 </script>
 
 <script type="text/plain" id="plan-2026-06-22">
@@ -4695,6 +4718,7 @@ const ENTRY_META = {
   '2026-06-19': { tags: ['plan', 'storybook', 'compare-blocks'] },
   '2026-06-22': { tags: ['plan', 'worklog', 'harness', 'ops-loop', 'figma', 'storybook'] },
   '2026-06-23': { tags: ['plan', 'figma', 'chart', 'component-sync', 'pr-14', 'chromatic', 'storybook-ia'] },
+  '2026-06-24': { tags: ['plan', 'glass', 'glass-surface', 'followup'] },
   '2026-06-11': { tags: ['harness', 'figma', 'prism', 'glassmorphism', 'writing', 'dark-mode', 'repo-ops'], notion: 'https://app.notion.com/p/37b5bc5f630780968b5de735c3fc82b0' },
   '2026-06-10': { tags: ['figma', 'iphone16', '한국어화', 'dark-mode', 'tokens'] },
   '2026-06-08': { tags: ['prism-spirit', 'branding', 'concept', 'vercel'], notion: 'https://app.notion.com/p/3795bc5f6307812a8eb2d445ab0465a9' },
