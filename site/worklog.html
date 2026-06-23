@@ -2048,34 +2048,26 @@ read-only 감사 → 변경안/영향/rollback 보고까지. **Figma write 없�
 <script type="text/plain" id="plan-2026-06-23">
 # 2026-06-23 계획
 
-## 오늘 우선순위
-- [ ] PR #14 Chromatic Build #66 시각 QA 결과 확인 → 문제 없으면 머지
-- [ ] worklog 운영판/백로그에서 오늘 액션과 보류 질문 분리
-- [ ] 가입/로그인 first-screen locale 분기 초안 정리
+## [액션]
+- [x] 오늘 계획 탭을 [액션 / 보류 / 판단필요] 체크리스트로 정리하고, 실제 논의하지 않은 추상 문구를 제거한다.
+- [x] 가입/로그인 플로우 텍스트 초안 작성: 한국 카카오·전화 / 일본 LINE 우선, Google·Apple 보조 / "다른 방법" 전체 수단 노출.
+- [x] 외국사 전화번호 약관 제약 반영 포인트를 Figma 제작 전 확인 항목으로 분리한다.
+- [x] PR #14 머지 전 리스크와 Chromatic에서 볼 항목을 텍스트 체크리스트로 정리한다.
+- [x] locale fixture ko/en/ja QA 범위를 텍스트로 정리한다. fixture 코드는 수정하지 않는다.
 
-## 정리 작업
-- [ ] 오늘 할 일을 실행 / 확인 / 판단 필요 항목으로 분리
-- [ ] PR #14 머지 전 QA 체크리스트 정리
-- [ ] 가입/로그인 플로우를 Figma 작업 전 텍스트 기준으로 정리
-- [ ] 운영판/백로그에서 근거 없는 추상 문구 제거
+## [보류]
+- [ ] PR #14 Chromatic Build #66 실제 화면 확인과 시각 승인: 오늘 Codex 범위에서는 화면 확인하지 않음.
+- [ ] PR #14 머지 실행: 시각 승인과 리스크 판단 이후 진행.
+- [ ] Page design_chart 후속 Figma 작업: 주미님이 피그마에서 직접 조정한 뒤 재동기화, 화면 ③ 라운드2 카드 3·4 실제 카피 교체, 필요 시 Dark mode 적용.
+- [ ] locale fixture ko/en/ja 코드 수정과 내부 QA 실행: 오늘은 QA 범위 텍스트만 정리.
 
-## 시각 QA / 디자인 확인
-- [ ] Chromatic Build #66 시각 QA — 신규 컴포넌트, Chat/Home/Settings, 다크 카드, UserProfile 확인
-- [ ] Page design_chart 후속 — 피그마 조정·동기화 / 카피 교체 / Dark mode 검토
-- [ ] Settings 결정 보조 — divider 색 / Settings Page 필요 여부 확인
-
-## 주미님 판단 필요
-- [ ] PR #14 시각 승인 여부
-- [ ] '운영판' 이름 유지 여부 (운영판 / 디자인 루프 등)
-- [ ] Settings Page를 별도 화면으로 잡을지 여부
-
-## 가입/로그인 플로우 메모
-- [ ] first-screen locale 분기 — 한국=카카오, 일본=라인 / 보조 "다른 방법"에 전체 수단
-- [ ] 외국사 전화번호 약관 제약 반영
-
-## 보류 / 백로그
-- [ ] locale fixture 초안 + 내부 QA (ko/en/ja)
-- [ ] 그룹 B neutral 미세차 · disabled · AnswerCard AA · Home/Settings i18n · docs/plans 기록
+## [판단필요]
+- [ ] 가입/로그인 first-screen 노출 방식 확정: 한국 카카오·전화, 일본 LINE 우선 + Google·Apple 보조, "다른 방법" 전체 수단.
+- [ ] 전화번호 인증을 한국/일본에서 어떤 수준으로 노출할지, 외국사 약관/정책 확인 담당을 정한다.
+- [ ] PR #14 시각 QA 결과에 따라 머지 / 보류 / 부분 롤백 중 하나를 결정한다.
+- [ ] Settings divider 색 기준을 정한다: `border-control` 단일 기준으로 갈지, Figma mixed 상태를 유지할지.
+- [ ] Settings Page를 별도 화면으로 잡을지, Row/SectionHeader만 유지할지 정한다.
+- [ ] Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지, 탐색 프레임으로만 둘지 정한다.
 </script>
 
 <script type="text/plain" id="plan-2026-06-22">
