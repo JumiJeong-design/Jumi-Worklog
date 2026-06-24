@@ -4635,6 +4635,7 @@ Recent History Items — 여기도 안바뀌어
 </script>
 
 
+<!-- FALLBACK 전용 — 정본은 content/direction.md. 편집은 .md에서(Typora 등). 뷰어는 .md를 우선 fetch함. -->
 <script type="text/plain" id="direction-board">
 # 2026. 6. 22 이후 운영판
 
@@ -4764,6 +4765,7 @@ Figma의 `Foundation`, `Icons`, `Components`를 기준으로 이미 Component Se
 3~4주마다 운영판, 백로그, Worklog, Storybook QA, Prism 계약 문서를 한 번에 훑는다. 이때 새 규칙을 추가하기보다 오래된 제약 제거, 중복 문서 병합, 자동 평가 후보 추출, 회귀 케이스 보강을 우선한다.
 </script>
 
+<!-- FALLBACK 전용 — 정본은 content/backlog.md. 편집은 .md에서(Typora 등). 뷰어는 .md를 우선 fetch함. -->
 <script type="text/plain" id="backlog-board">
 # 백로그 / 결정 대기
 
@@ -4947,8 +4949,19 @@ function getMarkdown(date) {
   if (LOG_CACHE[date] != null) return LOG_CACHE[date].trim();
   const el = document.getElementById('entry-' + date); return el ? el.textContent.trim() : '';
 }
-function getDirectionMarkdown() { const el = document.getElementById('direction-board'); return el ? el.textContent.trim() : ''; }
-function getBacklogMarkdown() { const el = document.getElementById('backlog-board'); return el ? el.textContent.trim() : ''; }
+// 백로그/운영판 본문은 content/*.md를 정본으로 fetch(embed 블록은 fallback). Typora 등에서 .md만 고치면 반영됨.
+const CONTENT_CACHE = {}, CONTENT_FETCHED = {};
+const CONTENT_PATH = { backlog: 'content/backlog.md', direction: 'content/direction.md' };
+function ensureContent(key, onLoad) {
+  if (CONTENT_FETCHED[key]) return;
+  CONTENT_FETCHED[key] = true;
+  fetch(RAW_BASE + CONTENT_PATH[key], { cache: 'no-cache' })
+    .then(r => r.ok ? r.text() : null)
+    .then(t => { if (t != null) { CONTENT_CACHE[key] = t; if (onLoad) onLoad(); } })
+    .catch(() => {});
+}
+function getDirectionMarkdown() { if (CONTENT_CACHE.direction != null) return CONTENT_CACHE.direction.trim(); const el = document.getElementById('direction-board'); return el ? el.textContent.trim() : ''; }
+function getBacklogMarkdown() { if (CONTENT_CACHE.backlog != null) return CONTENT_CACHE.backlog.trim(); const el = document.getElementById('backlog-board'); return el ? el.textContent.trim() : ''; }
 function getPlan(date) { const el = document.getElementById('plan-' + date); return el ? el.textContent.trim() : ''; }
 function hasPlan(date) { return !!document.getElementById('plan-' + date); }
 function checkboxSource(date, panel) { return panel === 'plan' ? getPlan(date) : getMarkdown(date); }
@@ -5218,9 +5231,10 @@ function buildLogGroups(container) {
 }
 
 function mdInline(s) { try { return marked.parseInline(s || ''); } catch (e) { return s || ''; } }
-function boardHeader(title, subtitle, tags) {
+function boardHeader(title, subtitle, tags, editPath) {
   const tagHtml = (tags || []).map(t => `<span class="entry-tag">${t}</span>`).join('');
-  return `<div class="entry-head"><div><h2>${title}</h2><p class="entry-date">${subtitle}</p></div><div class="entry-tags">${tagHtml}</div></div>`;
+  const edit = editPath ? `<div class="edit-actions"><a class="edit-action" href="${GITHUB_EDIT_BASE + editPath}" target="_blank" rel="noopener">📝 원본 편집(.md)</a></div>` : '';
+  return `<div class="entry-head"><div><h2>${title}</h2><p class="entry-date">${subtitle}</p>${edit}</div><div class="entry-tags">${tagHtml}</div></div>`;
 }
 // 보드 마크다운 → { intro, sections:[{ heading, lead[], items:[{ rawTitle, fields:[{label,val}], prose[] }] }] }
 function parseBoard(md) {
@@ -5280,6 +5294,7 @@ function splitItems(raw) {
   return { lead: lead.join(' '), items };
 }
 function renderDirection() {
+  ensureContent('direction', () => { if (viewMode === 'roadmap') renderDirection(); });
   const md = getDirectionMarkdown();
   if (!md) { document.getElementById('entry-area').innerHTML = `<article class="entry">${boardHeader('🧭 운영판', '', [])}<p class="empty-note">아직 기록이 없습니다.</p></article>`; return; }
   const { intro, sections } = splitSections(md);
@@ -5303,10 +5318,11 @@ function renderDirection() {
   }).join('');
   const introHtml = intro ? `<p class="dir-intro">${mdInline(intro)}</p>` : '';
   document.getElementById('entry-area').innerHTML =
-    `<article class="entry">${boardHeader('🧭 운영판', 'AI 디자인 루프 · Storybook 정보구조 · 기획/개발 접점', ['principles', 'direction', 'ai-loop'])}${introHtml}${actionHtml}<div class="dir-principles"><div class="bk-group-title">원칙 · 방향<span class="bk-group-count">${principles.length}</span></div>${detailsHtml}</div></article>`;
+    `<article class="entry">${boardHeader('🧭 운영판', 'AI 디자인 루프 · Storybook 정보구조 · 기획/개발 접점', ['principles', 'direction', 'ai-loop'], 'content/direction.md')}${introHtml}${actionHtml}<div class="dir-principles"><div class="bk-group-title">원칙 · 방향<span class="bk-group-count">${principles.length}</span></div>${detailsHtml}</div></article>`;
   document.querySelector('.main')?.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function renderBacklog() {
+  ensureContent('backlog', () => { if (viewMode === 'backlog') renderBacklog(); });
   const parsed = parseBoard(getBacklogMarkdown());
   const items = [];
   parsed.sections.forEach(s => s.items.forEach(it => items.push(it)));
@@ -5337,7 +5353,7 @@ function renderBacklog() {
   const principleHtml = principleMd ? `<details class="bk-principle"><summary>백로그 원칙</summary><div class="md">${marked.parse(principleMd)}</div></details>` : '';
   const filter = `<div class="bk-toolbar"><div class="bk-filter"><button class="bk-filter-btn active" data-f="all" type="button">전체</button><button class="bk-filter-btn" data-f="open" type="button">결정 대기</button><button class="bk-filter-btn" data-f="wait" type="button">대기</button></div></div>`;
   const area = document.getElementById('entry-area');
-  area.innerHTML = `<article class="entry">${boardHeader('🧺 백로그', '결정 대기 · 후보 질문 · 승격 조건', ['decision', 'backlog', 'product'])}${principleHtml}${filter}${groupsHtml || '<p class="empty-note">결정 대기 항목이 없습니다.</p>'}</article>`;
+  area.innerHTML = `<article class="entry">${boardHeader('🧺 백로그', '결정 대기 · 후보 질문 · 승격 조건', ['decision', 'backlog', 'product'], 'content/backlog.md')}${principleHtml}${filter}${groupsHtml || '<p class="empty-note">결정 대기 항목이 없습니다.</p>'}</article>`;
   area.querySelectorAll('.bk-filter-btn').forEach(btn => {
     btn.onclick = () => {
       area.querySelectorAll('.bk-filter-btn').forEach(b => b.classList.toggle('active', b === btn));
