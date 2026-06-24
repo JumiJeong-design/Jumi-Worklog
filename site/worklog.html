@@ -2295,11 +2295,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 # 2026-06-24 계획
 
 ## [액션]
-- [ ] **GlassSurface 공통 글래스 레시피 개선** (6/23 #5에서 이관) — 웹에서 글래스가 평평해 보이는 문제(backdrop-filter 뒤 배경이 단색이면 비침이 안 생김. 입력 뒤가 `scrim-90`이라 비칠 게 없음)를 ChatInputBar 단발 패치가 아니라 공통 GlassSurface 품질 개선으로 잡는다.
-  - [ ] 1) 공통 GlassSurface의 specular highlight / inner rim / sheen을 Figma 글래스 레시피에 더 가깝게 보정 — scrim 단계 값·순서·하단 전체폭 그라데이션은 건드리지 않는다.
-  - [ ] 2) GlassSurface 사용처를 light/dark 나란히 캡처: ChatInputBar / HeaderNavBar / BottomNavigation / Toast / ChatHistoryPanel footer / Scroll FAB.
-  - [ ] 3) 과하게 번쩍이는 컴포넌트가 있으면 tone별 분리(예: tone="ios" glossy / tone="default" restrained). 라이트/다크 2~3안 비교 후 선택.
-  - 주의: 공통 변경이라 위 6개 컴포넌트 전부 영향 → Chat 하단 하나만 보고 즉흥 적용 금지, 별도 작업으로 진행.
+- ~~**GlassSurface 공통 글래스 레시피 개선** (6/23 #5에서 이관)~~ (2026-06-24 종결 — Storybook 시제품으로 ① 레시피 강화 ② pill 뒤 톤 backdrop ③ 채팅 배경 톤 모두 시도했으나 눈에 띄는 개선 없음. 흰 pill ↔ 옅은 라이트 배경은 본질적 저대비라 천장이고 흰 광택은 안개만 됨. **production 유지로 만족·종결**, 세부 1~3단계 미실행, 같은 방향 재시도 금지. 잔건은 guide text 뒤 scrim 90% 잔여 비침 정도(선택).)
 - ~~**PR #14 머지 마무리** (6/23 이관)~~ (6/23 저녁 squash 머지 완료 `0241f6a` — 오늘로 안 넘어옴)
 - [ ] **Storybook IA 1차 정리 + state 제어 뷰 착수** (앞으로 할 일 #3·#5) — `Foundations / Components / Pages / Flows` 구분 초안 + 대표 컴포넌트 1~2개에 Controls/args로 state별 디자인 변화 보는 뷰. (백로그 "Storybook 정보구조 재정리"에서 끌어옴, 무의존성이라 오늘 착수)
 
