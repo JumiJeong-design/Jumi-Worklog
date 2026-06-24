@@ -312,7 +312,89 @@ body{
   color: rgba(255,255,255,.88);
 }
 
+/* ============================================================
+   UX pass (2026-06-24): 토큰화 · 보드 카드 · LNB 자동 · a11y
+   ============================================================ */
+
+/* warn 토큰(모드 인지) — 라이트에서도 읽히게 */
+:root        { --warn:#e5b45b; --warn-soft:rgba(229,180,91,.13); }
+[data-theme="light"] { --warn:#b5740a; --warn-soft:rgba(181,116,10,.10); }
+
+/* 1) context-rail / utility: 하드코딩 white-alpha → 토큰 (라이트 모드 가독성 복구) */
+#context-section { border-top:1px solid var(--border); }
+.context-kicker { color:var(--text-muted); }
+.context-title  { color:var(--text); font-size:15px; font-weight:700; letter-spacing:-.01em; }
+.context-desc   { color:var(--text-muted); }
+.context-link   { display:flex; align-items:center; gap:8px; border:1px solid var(--border); background:var(--surface-2); color:var(--text); border-radius:8px; padding:9px 11px; font-size:13px; }
+.context-link:hover { border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+.context-link > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.context-note   { border:1px solid var(--border); background:var(--surface-2); color:var(--text-muted); border-radius:8px; padding:9px 11px; }
+#sidebar.context-rail { background:var(--bg); }
+.sidebar-utility { border-top:1px solid var(--border); }
+.utility-btn { border:1px solid var(--border); background:var(--surface-2); color:var(--text-muted); border-radius:8px; font-weight:600; }
+.utility-btn:hover, .utility-btn.active { border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+.ctx-dot { width:6px; height:6px; border-radius:50%; background:var(--text-dim); flex-shrink:0; }
+.ctx-dot.wait { background:var(--warn); }
+.ctx-dot.open { background:var(--accent); }
+
+/* 2) 달력 날짜 대비 향상(기록 없는 날도 읽히게) */
+.cal-cell { color:var(--text-muted); }
+
+/* 3) 보드 헤더(운영판/백로그) — 일별 기록 헤더와 톤 맞춤 */
+.entry-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:24px; }
+.entry-head h2 { font-size:22px; font-weight:700; letter-spacing:-.03em; color:var(--text); border:none; padding:0; margin:0; text-transform:none; }
+.entry-date { font-size:13px; color:var(--text-muted); margin-top:6px; }
+
+/* 4) 백로그 카드 */
+.bk-principle { margin:0 0 18px; border:1px solid var(--border); border-radius:8px; background:var(--surface-2); }
+.bk-principle > summary { cursor:pointer; padding:10px 14px; font-size:12px; font-weight:600; color:var(--text-muted); list-style:none; }
+.bk-principle > summary::-webkit-details-marker { display:none; }
+.bk-principle > summary::before { content:'▸ '; color:var(--text-dim); }
+.bk-principle[open] > summary::before { content:'▾ '; }
+.bk-principle > .md { padding:0 14px 12px; }
+.bk-principle .md ul { margin-bottom:0; }
+.bk-toolbar { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 20px; }
+.bk-filter { display:flex; gap:4px; }
+.bk-filter-btn { font-family:inherit; font-size:12px; color:var(--text-muted); background:var(--surface-2); border:1px solid var(--border); border-radius:999px; padding:4px 13px; cursor:pointer; transition:color .12s,border-color .12s,background .12s; }
+.bk-filter-btn:hover { color:var(--text); }
+.bk-filter-btn.active { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); font-weight:600; }
+.bk-group { margin-bottom:26px; }
+.bk-group-title { display:flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); margin:0 0 12px; }
+.bk-group-count { color:var(--text-dim); }
+.bk-grid { display:grid; gap:12px; }
+.bk-card { border:1px solid var(--border); background:var(--surface-2); border-radius:12px; padding:15px 18px; scroll-margin-top:calc(var(--topbar-h) + 16px); transition:border-color .12s; }
+.bk-card:hover { border-color:var(--text-muted); }
+.bk-card-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:8px; }
+.bk-title { font-size:15px; font-weight:700; color:var(--text); line-height:1.4; margin:0; }
+.bk-added { font-size:10px; color:var(--text-dim); font-weight:500; margin-left:6px; white-space:nowrap; }
+.bk-chip { flex-shrink:0; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; border:1px solid; white-space:nowrap; }
+.bk-chip.open { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+.bk-chip.wait { color:var(--warn); border-color:var(--warn); background:var(--warn-soft); }
+.bk-q { font-size:14px; color:var(--text); line-height:1.6; margin:0 0 10px; }
+.bk-q:last-of-type { margin-bottom:12px; }
+.bk-qtag { display:inline-block; font-size:10px; font-weight:700; color:var(--accent); background:var(--accent-soft); border-radius:4px; padding:1px 6px; margin-right:2px; vertical-align:1px; }
+.bk-fields { display:flex; flex-direction:column; gap:7px; padding-top:12px; border-top:1px solid var(--border); }
+.bk-field { display:grid; grid-template-columns:74px 1fr; gap:10px; font-size:13px; line-height:1.55; }
+.bk-field-label { color:var(--text-muted); font-weight:600; font-size:11px; padding-top:2px; }
+.bk-field-val { color:var(--text); }
+.bk-field-val code { font-size:12px; }
+.bk-prose { font-size:14px; color:var(--text); line-height:1.65; margin:0; }
+.direction-doc h2 { scroll-margin-top:calc(var(--topbar-h) + 16px); }
+
+/* 5) focus-visible — 키보드 포커스 표시 */
+a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible, input:focus-visible {
+  outline:2px solid var(--accent); outline-offset:2px; border-radius:5px;
+}
+
+/* 6) prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  * { transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+}
+
 </style>
+<script>
+(function(){ try{ var t=localStorage.getItem('theme'); if(!t) t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'; document.documentElement.setAttribute('data-theme',t); }catch(e){} })();
+</script>
 </head>
 <body>
 
@@ -4899,48 +4981,43 @@ function buildCalendar() {
   document.getElementById('cal-grid').innerHTML = html;
   buildList();
 }
-const CONTEXT_VIEWS = {
-  roadmap: {
-    kicker: '운영판',
-    title: '본문 목차',
-    desc: '긴 판단은 오른쪽 본문에서 보고, 여기서는 빠르게 이동만 합니다.',
-    items: ['한 줄 결론', '역할 분리', '기획자 개입 지점', 'Storybook 정보구조 방향', '인터랙션 깊이 구분', 'AI 디자인 루프', '하네스 운영 원칙', '당장 큰 일감'],
-    note: 'LNB는 내용을 담는 칸이 아니라 현재 문서의 지도 역할만 합니다.'
-  },
-  backlog: {
-    kicker: '백로그',
-    title: '결정 대기 목차',
-    desc: '아직 일정화하지 않은 질문을 모아둔 영역입니다.',
-    items: ['백로그 원칙', '결정 대기 항목', 'Storybook 정보구조 재정리', 'Answer stack 내구성', '의견 시각화 / 차트 UX 탐색', '하네스 자체 점검', '문서 정리 / 제거 기준'],
-    note: '컴포넌트 이름보다 다음 판단 질문을 먼저 봅니다.'
-  }
+// LNB(context rail) — 보드 렌더 후 실제 DOM에서 목차 자동 생성 (하드코딩 드리프트 제거)
+const CONTEXT_META = {
+  roadmap: { kicker: '운영판', title: '섹션 바로가기', sel: '.direction-doc > h2' },
+  backlog: { kicker: '백로그', title: '결정 대기', sel: '.bk-card' },
 };
 function renderContext(mode) {
   const section = document.getElementById('context-section');
   if (!section) return;
-  const config = CONTEXT_VIEWS[mode];
-  if (!config) {
-    section.style.display = 'none';
-    section.innerHTML = '';
-    return;
+  const cfg = CONTEXT_META[mode];
+  if (!cfg) { section.style.display = 'none'; section.innerHTML = ''; return; }
+  const targets = [...document.querySelectorAll(`#entry-area ${cfg.sel}`)];
+  const links = targets.map((t, i) => {
+    if (!t.id) t.id = `ctx-${mode}-${i}`;
+    let label, dot = '';
+    if (mode === 'backlog') {
+      const titleEl = t.querySelector('.bk-title');
+      label = ((titleEl && titleEl.childNodes[0] && titleEl.childNodes[0].textContent) || (titleEl && titleEl.textContent) || '').trim();
+      dot = `<span class="ctx-dot ${t.dataset.status || ''}"></span>`;
+    } else {
+      label = t.textContent.trim();
+    }
+    return `<button class="context-link" type="button" data-target="${t.id}">${dot}<span>${label}</span></button>`;
+  }).join('');
+  let note = '';
+  if (mode === 'backlog') {
+    const wait = targets.filter(t => t.dataset.status === 'wait').length;
+    note = `<div class="context-note">결정 대기 ${targets.length - wait} · 대기 ${wait}</div>`;
   }
   section.style.display = 'flex';
   section.innerHTML = `
-    <div class="context-kicker">${config.kicker}</div>
-    <div class="context-title">${config.title}</div>
-    <p class="context-desc">${config.desc}</p>
-    <div class="context-nav">
-      ${config.items.map(item => `<button class="context-link" type="button" data-heading="${item}">${item}</button>`).join('')}
-    </div>
-    <div class="context-note">${config.note}</div>`;
+    <div class="context-kicker">${cfg.kicker}</div>
+    <div class="context-title">${cfg.title}</div>
+    <div class="context-nav">${links}</div>
+    ${note}`;
   section.querySelectorAll('.context-link').forEach(btn => {
-    btn.onclick = () => scrollBoardHeading(btn.dataset.heading || '');
+    btn.onclick = () => document.getElementById(btn.dataset.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
-}
-function scrollBoardHeading(text) {
-  const headings = [...document.querySelectorAll('.direction-doc h2, .direction-doc h3')];
-  const target = headings.find(h => h.textContent.trim() === text) || headings.find(h => h.textContent.includes(text));
-  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function setView(mode) {
@@ -5094,28 +5171,89 @@ function buildLogGroups(container) {
   panels.forEach(panel => container.appendChild(panel));
 }
 
-function renderBoard(markdown, title, subtitle, tags) {
-  const body = markdown ? marked.parse(markdown) : '<p>아직 기록이 없습니다.</p>';
-  const tagHtml = tags.map(tag => `<span>${tag}</span>`).join('');
-  const area = document.getElementById('entry-area');
-  area.innerHTML = `
-    <article class="entry">
-      <div class="entry-head">
-        <div>
-          <h2>${title}</h2>
-          <p class="entry-date">${subtitle}</p>
-        </div>
-        <div class="entry-tags">${tagHtml}</div>
-      </div>
-      <div class="md direction-doc">${body}</div>
-    </article>`;
+function mdInline(s) { try { return marked.parseInline(s || ''); } catch (e) { return s || ''; } }
+function boardHeader(title, subtitle, tags) {
+  const tagHtml = (tags || []).map(t => `<span class="entry-tag">${t}</span>`).join('');
+  return `<div class="entry-head"><div><h2>${title}</h2><p class="entry-date">${subtitle}</p></div><div class="entry-tags">${tagHtml}</div></div>`;
+}
+// 보드 마크다운 → { intro, sections:[{ heading, lead[], items:[{ rawTitle, fields:[{label,val}], prose[] }] }] }
+function parseBoard(md) {
+  const lines = (md || '').split('\n');
+  const intro = [], sections = [];
+  let cur = null, item = null;
+  const pushItem = () => { if (item && cur) { cur.items.push(item); item = null; } };
+  const pushSection = () => { pushItem(); if (cur) sections.push(cur); cur = null; };
+  for (const ln of lines) {
+    let m;
+    if ((m = ln.match(/^##\s+(?!#)(.+)$/))) { pushSection(); cur = { heading: m[1].trim(), lead: [], items: [] }; }
+    else if ((m = ln.match(/^###\s+(.+)$/))) { pushItem(); item = { rawTitle: m[1].trim(), fields: [], prose: [] }; }
+    else if (item) {
+      const f = ln.match(/^\s*-\s*([^:：]{1,16}?)\s*[:：]\s*(.+)$/);
+      if (f) item.fields.push({ label: f[1].trim(), val: f[2].trim() });
+      else if (ln.trim()) item.prose.push(ln.replace(/^\s*-\s*/, '').trim());
+    } else if (cur) { if (ln.trim()) cur.lead.push(ln); }
+    else if (ln.trim() && !/^#\s/.test(ln)) intro.push(ln);
+  }
+  pushSection();
+  return { intro: intro.join('\n'), sections };
+}
+function cardStatus(rawTitle, fields) {
+  const st = (fields.find(f => /상태/.test(f.label)) || {}).val || '';
+  if (/⏸|대기/.test(st) || /대기|주미 직접/.test(rawTitle)) return { key: 'wait', label: '대기' };
+  return { key: 'open', label: '결정 대기' };
+}
+function cleanTitle(t) {
+  return t.replace(/\s*[—–-]\s*\d+\/\d+\s*주미 검토 추가\s*$/, '').replace(/\s*\(\s*대기[^)]*\)\s*$/, '').trim();
+}
+function addedNote(t) { const m = t.match(/(\d+\/\d+)\s*주미 검토 추가/); return m ? m[1] : ''; }
+
+function renderDirection() {
+  const md = getDirectionMarkdown();
+  const body = md ? marked.parse(md) : '<p>아직 기록이 없습니다.</p>';
+  document.getElementById('entry-area').innerHTML =
+    `<article class="entry">${boardHeader('🧭 운영판', 'AI 디자인 루프 · Storybook 정보구조 · 기획/개발 접점', ['figma', 'storybook', 'ai-loop', 'dev-loop'])}<div class="md direction-doc">${body}</div></article>`;
   document.querySelector('.main')?.scrollTo({ top: 0, behavior: 'smooth' });
 }
-function renderDirection() {
-  renderBoard(getDirectionMarkdown(), '🧭 운영판', 'AI 디자인 루프 · Storybook 정보구조 · 기획/개발 접점', ['figma', 'storybook', 'ai-loop', 'planner', 'dev-loop']);
-}
 function renderBacklog() {
-  renderBoard(getBacklogMarkdown(), '🧺 백로그', '결정 대기 · 후보 질문 · 승격 조건', ['decision', 'backlog', 'product', 'storybook']);
+  const parsed = parseBoard(getBacklogMarkdown());
+  const items = [];
+  parsed.sections.forEach(s => s.items.forEach(it => items.push(it)));
+  const principle = parsed.sections.find(s => /원칙/.test(s.heading));
+  const principleMd = principle ? principle.lead.join('\n') : (parsed.intro || '');
+
+  const cardOf = (it, i) => {
+    const status = cardStatus(it.rawTitle, it.fields);
+    const title = cleanTitle(it.rawTitle), added = addedNote(it.rawTitle);
+    const qs = it.fields.filter(f => /^질문/.test(f.label));
+    const rest = it.fields.filter(f => !/^질문/.test(f.label) && !/상태/.test(f.label));
+    const fields = rest.map(f => `<div class="bk-field"><span class="bk-field-label">${f.label}</span><span class="bk-field-val">${mdInline(f.val)}</span></div>`).join('');
+    const prose = (!it.fields.length && it.prose.length) ? `<p class="bk-prose">${mdInline(it.prose.join(' '))}</p>` : '';
+    const qh = qs.map(q => {
+      const tag = q.label.replace(/^질문/, '').replace(/[()（）]/g, '').trim();
+      return `<p class="bk-q">${tag ? `<span class="bk-qtag">${tag}</span> ` : ''}${mdInline(q.val)}</p>`;
+    }).join('');
+    return { status: status.key, html:
+      `<div class="bk-card" data-status="${status.key}"><div class="bk-card-head"><h3 class="bk-title">${title}${added ? `<span class="bk-added">+${added}</span>` : ''}</h3><span class="bk-chip ${status.key}">${status.label}</span></div>${qh}${prose}${fields ? `<div class="bk-fields">${fields}</div>` : ''}</div>` };
+  };
+  const cards = items.map(cardOf);
+  const groupDefs = [{ key: 'open', label: '결정 대기' }, { key: 'wait', label: '대기 · 주미 직접' }];
+  const groupsHtml = groupDefs.map(g => {
+    const cs = cards.filter(c => c.status === g.key);
+    if (!cs.length) return '';
+    return `<div class="bk-group" data-group="${g.key}"><div class="bk-group-title">${g.label}<span class="bk-group-count">${cs.length}</span></div><div class="bk-grid">${cs.map(c => c.html).join('')}</div></div>`;
+  }).join('');
+  const principleHtml = principleMd ? `<details class="bk-principle"><summary>백로그 원칙</summary><div class="md">${marked.parse(principleMd)}</div></details>` : '';
+  const filter = `<div class="bk-toolbar"><div class="bk-filter"><button class="bk-filter-btn active" data-f="all" type="button">전체</button><button class="bk-filter-btn" data-f="open" type="button">결정 대기</button><button class="bk-filter-btn" data-f="wait" type="button">대기</button></div></div>`;
+  const area = document.getElementById('entry-area');
+  area.innerHTML = `<article class="entry">${boardHeader('🧺 백로그', '결정 대기 · 후보 질문 · 승격 조건', ['decision', 'backlog', 'product'])}${principleHtml}${filter}${groupsHtml || '<p class="empty-note">결정 대기 항목이 없습니다.</p>'}</article>`;
+  area.querySelectorAll('.bk-filter-btn').forEach(btn => {
+    btn.onclick = () => {
+      area.querySelectorAll('.bk-filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+      const f = btn.dataset.f;
+      area.querySelectorAll('.bk-group').forEach(grp => { grp.style.display = (f === 'all' || grp.dataset.group === f) ? '' : 'none'; });
+    };
+  });
+  document.querySelector('.main')?.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function renderEntry(index) {
@@ -5200,14 +5338,21 @@ function goTo(index) {
 }
 function toggleTheme() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  document.getElementById('theme-btn').textContent = isDark ? '🌙 다크' : '☀ 라이트';
+  const next = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
+  syncThemeBtn();
+}
+function syncThemeBtn() {
+  const b = document.getElementById('theme-btn');
+  if (b) b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀ 라이트' : '🌙 다크';
 }
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') goTo(currentIndex + 1);
   if (e.key === 'ArrowRight') goTo(currentIndex - 1);
   if (e.key === 'Escape') closeSidebar();
 });
+syncThemeBtn();
 buildCalendar();
 renderEntry(currentIndex);
 // logs/*.md를 직접 읽어 자동 반영(embed는 fallback). 앞으로 logs만 고치면 뷰어에 반영됨.
