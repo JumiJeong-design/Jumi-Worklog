@@ -2291,17 +2291,33 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-06-25">
+# 2026-06-25 계획
+
+## [액션]
+- [ ] **Icons 페이지(`74:10109`) lucide 아이콘 stroke-width 토큰 바인딩** — foundation 규칙대로(`stroke/width/icon-thin` 1.5 = 16px↓, `icon` 1.8 = 20px↑, `icon-strong` 2.2) 아이콘 세트 전반 점검·바인딩. 필요시 색도 토큰화. (6/24 출처 작업서 16px 아이콘 stroke 누락 지적 → 세트 차원 정합 필요)
+- [ ] **Storybook IA 1차 정리 + state 제어 뷰 착수** (6/24 이월) — `Foundations / Components / Pages / Flows` 구분 초안 + 대표 컴포넌트 Controls/args state 뷰.
+
+## [이월/보류]
+- [ ] **출처(citation) 시각 QA → 계약 → 포팅** (6/24 Figma 1차 생성 완료) — 칩 텍스트 톤·다크 variant·single 팝오버 헤더 정렬·SourceCard `Container` 변형 정합 후 `component-contracts/citation.md` 작성 → 패키지 포팅. 마크다운 연동절은 Codex 트랙 사전 조율.
+- [ ] locale fixture ko/en/ja 코드 수정 + 내부 QA 실행 (6/23→6/24→이월)
+- [ ] `ModelChip` 시각 고도화 — 모델명/% 2-tone 위계 등
+- [ ] `ChipGroup` collapsible(1줄+`+N`) 디자인 결정 — 주미님 결정 대기
+- [ ] 패키지 포팅 + Storybook 승격 — ideation → Components 승격 확정 후
+</script>
+
 <script type="text/plain" id="plan-2026-06-24">
 # 2026-06-24 계획
 
 ## [액션]
 - ~~**GlassSurface 공통 글래스 레시피 개선** (6/23 #5에서 이관)~~ (2026-06-24 종결 — Storybook 시제품으로 ① 레시피 강화 ② pill 뒤 톤 backdrop ③ 채팅 배경 톤 모두 시도했으나 눈에 띄는 개선 없음. 흰 pill ↔ 옅은 라이트 배경은 본질적 저대비라 천장이고 흰 광택은 안개만 됨. **production 유지로 만족·종결**, 세부 1~3단계 미실행, 같은 방향 재시도 금지. 잔건은 guide text 뒤 scrim 90% 잔여 비침 정도(선택).)
 - ~~**PR #14 머지 마무리** (6/23 이관)~~ (6/23 저녁 squash 머지 완료 `0241f6a` — 오늘로 안 넘어옴)
-- [ ] **Storybook IA 1차 정리 + state 제어 뷰 착수** (앞으로 할 일 #3·#5) — `Foundations / Components / Pages / Flows` 구분 초안 + 대표 컴포넌트 1~2개에 Controls/args로 state별 디자인 변화 보는 뷰. (백로그 "Storybook 정보구조 재정리"에서 끌어옴, 무의존성이라 오늘 착수)
+- [ ] **Storybook IA 1차 정리 + state 제어 뷰 착수** (앞으로 할 일 #3·#5) — `Foundations / Components / Pages / Flows` 구분 초안 + 대표 컴포넌트 1~2개에 Controls/args로 state별 디자인 변화 보는 뷰. (백로그 "Storybook 정보구조 재정리"에서 끌어옴 / 오늘 미착수 → **6/25 이관**)
 - [x] **Socra 브랜드·제품 원칙·Socra AI Core·에이전트 Sheet → prism 문서 반영** — `product-context`/`brand-style`/`ux-principles` 정합(Multi-AI Judgement Platform·일본 2030·제품원칙 8개·용어 사전·모드 상세·AI 에이전트·포지셔닝). Notion/Sheet는 PDF로 받아 읽음, 충돌 4건 주미님 확인으로 정리(원칙 문서 우선).
 - [x] **plan-11 결정 5건 확정** — 5색 vote=data-viz 예외 / 추천질문=탭→입력 / 컴포넌트명 `RecommendedQuestions` / VoteBar 세그먼트 가변 / QuestionItem 상태=engaged 통합.
 - [x] **Figma write** — 섹션 제목 "추가 질문"→"추천 질문"(챗 3화면+마스터, 전수 sweep) + `QuestionItem` `State=Default/Engaged` variant(Engaged=`surface/Inset`).
 - [x] **Button solid engaged 색 드리프트 정정** (주미님 즉석 요청, 계획 외) — solid의 enabled=engaged가 픽셀 동일(둘 다 #000)인 버그를 read-only 감사로 확인 → 코드 기준 시맨틱 토큰 `semantic/action-primary/bg`·`hover` Figma 신설 + solid 30개(enabled/engaged/loading) 재바인딩. 라이브 픽셀 코드 일치 검증, prism plan·기록 반영.
+- [x] **출처(citation) 컴포넌트 Figma 1차 생성** (주미님 즉석 요청, 계획 외) — 마크다운에 안 묶고 별도 컴포넌트로 분리 결정(메타데이터=`sources` prop). Components 페이지 `Citation / Source` 섹션에 SourceChip/SourceCard/SourcePopover 마스터 생성, 전부 기존 토큰 바인딩(신설 0). 16px 헤더 아이콘 stroke 1.8→`icon-thin` 1.5 정정. prism `docs/plans/12-…` 기록. (시각 QA·계약·포팅은 6/25 이월)
 
 ## [이월/보류]
 - [ ] locale fixture ko/en/ja 코드 수정 + 내부 QA 실행 (6/23은 QA 범위 텍스트만 정리)
