@@ -288,6 +288,8 @@ body{
   #sidebar.context-rail .view-toggle {
     grid-template-columns: 1fr;
   }
+  /* board 모드에서 사이드바가 320px로 넓어지므로 고정 topbar의 left도 맞춘다(겹침 방지) */
+  body.board-mode .topbar { left: 320px; }
 }
 
 
