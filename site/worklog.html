@@ -390,6 +390,22 @@ body{
 .bk-prose { font-size:14px; color:var(--text); line-height:1.65; margin:0; }
 .direction-doc h2 { scroll-margin-top:calc(var(--topbar-h) + 16px); }
 
+/* 4-b) 운영판(방향) — 액션 카드 위, 원칙은 접힘 */
+.dir-intro { font-size:14px; color:var(--text-muted); line-height:1.65; margin:0 0 22px; padding:12px 14px; background:var(--surface-2); border-radius:8px; border-left:3px solid var(--accent); }
+.dir-action { margin-bottom:30px; scroll-margin-top:calc(var(--topbar-h) + 16px); }
+.dir-note { font-size:12.5px; color:var(--text-muted); margin:0 0 14px; line-height:1.55; }
+.dir-principles { margin-top:8px; }
+.dir-sec { border:1px solid var(--border); border-radius:8px; background:var(--surface-2); margin-bottom:8px; scroll-margin-top:calc(var(--topbar-h) + 16px); }
+.dir-sec > summary { cursor:pointer; padding:12px 16px; font-size:13px; font-weight:600; color:var(--text); list-style:none; display:flex; align-items:center; gap:8px; }
+.dir-sec > summary::-webkit-details-marker { display:none; }
+.dir-sec > summary::before { content:'▸'; color:var(--text-dim); }
+.dir-sec[open] > summary::before { content:'▾'; }
+.dir-sec > .md { padding:2px 16px 14px; }
+.dir-sec .md h2 { display:none; }
+.dir-sec .md h3 { margin-top:14px; font-size:13px; }
+.bk-chip.link { color:var(--text-muted); border-color:var(--border); background:var(--surface); }
+@media (max-width:640px) { .md table { display:block; overflow-x:auto; } }
+
 /* 5) focus-visible — 키보드 포커스 표시 */
 a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible, input:focus-visible {
   outline:2px solid var(--accent); outline-offset:2px; border-radius:5px;
@@ -5005,7 +5021,7 @@ function buildCalendar() {
 }
 // LNB(context rail) — 보드 렌더 후 실제 DOM에서 목차 자동 생성 (하드코딩 드리프트 제거)
 const CONTEXT_META = {
-  roadmap: { kicker: '운영판', title: '섹션 바로가기', sel: '.direction-doc > h2' },
+  roadmap: { kicker: '운영판', title: '섹션 바로가기', sel: '.dir-action, .dir-sec' },
   backlog: { kicker: '백로그', title: '결정 대기', sel: '.bk-card' },
 };
 function renderContext(mode) {
@@ -5013,7 +5029,8 @@ function renderContext(mode) {
   if (!section) return;
   const cfg = CONTEXT_META[mode];
   if (!cfg) { section.style.display = 'none'; section.innerHTML = ''; return; }
-  const targets = [...document.querySelectorAll(`#entry-area ${cfg.sel}`)];
+  const root = document.getElementById('entry-area');
+  const targets = root ? [...root.querySelectorAll(cfg.sel)] : [];
   const links = targets.map((t, i) => {
     if (!t.id) t.id = `ctx-${mode}-${i}`;
     let label, dot = '';
@@ -5021,8 +5038,11 @@ function renderContext(mode) {
       const titleEl = t.querySelector('.bk-title');
       label = ((titleEl && titleEl.childNodes[0] && titleEl.childNodes[0].textContent) || (titleEl && titleEl.textContent) || '').trim();
       dot = `<span class="ctx-dot ${t.dataset.status || ''}"></span>`;
+    } else if (t.classList.contains('dir-action')) {
+      label = '지금 큰 일감'; dot = '<span class="ctx-dot open"></span>';
     } else {
-      label = t.textContent.trim();
+      const sm = t.querySelector('summary');
+      label = (sm ? sm.textContent : t.textContent).trim();
     }
     return `<button class="context-link" type="button" data-target="${t.id}">${dot}<span>${label}</span></button>`;
   }).join('');
@@ -5038,7 +5058,11 @@ function renderContext(mode) {
     <div class="context-nav">${links}</div>
     ${note}`;
   section.querySelectorAll('.context-link').forEach(btn => {
-    btn.onclick = () => document.getElementById(btn.dataset.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    btn.onclick = () => {
+      const el = document.getElementById(btn.dataset.target);
+      if (el && el.tagName === 'DETAILS') el.open = true;
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
   });
 }
 
@@ -5229,11 +5253,57 @@ function cleanTitle(t) {
 }
 function addedNote(t) { const m = t.match(/(\d+\/\d+)\s*주미 검토 추가/); return m ? m[1] : ''; }
 
+// 운영판: ## 섹션 단위로 raw 마크다운 보존(원칙=접기, 큰 일감=카드)
+function splitSections(md) {
+  const lines = (md || '').split('\n');
+  const intro = [], sections = [];
+  let cur = null;
+  for (const ln of lines) {
+    const m = ln.match(/^##\s+(?!#)(.+)$/);
+    if (m) { if (cur) sections.push(cur); cur = { heading: m[1].trim(), body: [] }; }
+    else if (cur) cur.body.push(ln);
+    else if (!/^#\s/.test(ln)) intro.push(ln);
+  }
+  if (cur) sections.push(cur);
+  return { intro: intro.join('\n').trim(), sections: sections.map(s => ({ heading: s.heading, raw: s.body.join('\n').trim() })) };
+}
+function splitItems(raw) {
+  const lines = raw.split('\n'), items = [], lead = [];
+  let cur = null;
+  for (const ln of lines) {
+    const m = ln.match(/^###\s+(.+)$/);
+    if (m) { if (cur) items.push(cur); cur = { title: m[1].trim(), body: [] }; }
+    else if (cur) { if (ln.trim()) cur.body.push(ln.trim()); }
+    else if (ln.trim()) lead.push(ln.replace(/^>\s?/, '').trim());
+  }
+  if (cur) items.push(cur);
+  return { lead: lead.join(' '), items };
+}
 function renderDirection() {
   const md = getDirectionMarkdown();
-  const body = md ? marked.parse(md) : '<p>아직 기록이 없습니다.</p>';
+  if (!md) { document.getElementById('entry-area').innerHTML = `<article class="entry">${boardHeader('🧭 운영판', '', [])}<p class="empty-note">아직 기록이 없습니다.</p></article>`; return; }
+  const { intro, sections } = splitSections(md);
+  const actionSec = sections.find(s => /큰 일감/.test(s.heading));
+  const principles = sections.filter(s => s !== actionSec);
+
+  let actionHtml = '';
+  if (actionSec) {
+    const { lead, items } = splitItems(actionSec.raw);
+    const cards = items.map(it => {
+      const linked = /백로그/.test(it.title);
+      const title = cleanTitle(it.title).replace(/\s*→\s*🧺?\s*백로그.*$/, '').trim();
+      const chip = linked ? '<span class="bk-chip link">🧺 백로그 정본</span>' : '<span class="bk-chip open">진행 후보</span>';
+      return `<div class="bk-card"><div class="bk-card-head"><h3 class="bk-title">${title}</h3>${chip}</div><p class="bk-prose">${mdInline(it.body.join(' '))}</p></div>`;
+    }).join('');
+    actionHtml = `<section class="dir-action"><div class="bk-group-title">지금 큰 일감<span class="bk-group-count">${items.length}</span></div>${lead ? `<p class="dir-note">${mdInline(lead)}</p>` : ''}<div class="bk-grid">${cards}</div></section>`;
+  }
+  const detailsHtml = principles.map(s => {
+    const open = /한 줄 결론/.test(s.heading) ? ' open' : '';
+    return `<details class="dir-sec"${open}><summary>${s.heading}</summary><div class="md">${marked.parse(s.raw)}</div></details>`;
+  }).join('');
+  const introHtml = intro ? `<p class="dir-intro">${mdInline(intro)}</p>` : '';
   document.getElementById('entry-area').innerHTML =
-    `<article class="entry">${boardHeader('🧭 운영판', 'AI 디자인 루프 · Storybook 정보구조 · 기획/개발 접점', ['figma', 'storybook', 'ai-loop', 'dev-loop'])}<div class="md direction-doc">${body}</div></article>`;
+    `<article class="entry">${boardHeader('🧭 운영판', 'AI 디자인 루프 · Storybook 정보구조 · 기획/개발 접점', ['principles', 'direction', 'ai-loop'])}${introHtml}${actionHtml}<div class="dir-principles"><div class="bk-group-title">원칙 · 방향<span class="bk-group-count">${principles.length}</span></div>${detailsHtml}</div></article>`;
   document.querySelector('.main')?.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function renderBacklog() {
