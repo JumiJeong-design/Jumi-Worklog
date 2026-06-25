@@ -36,6 +36,13 @@
 
 ## 병렬 작업 규칙 — Codex × Claude Code 동시 진행
 
+**기본은 "한 repo에 한 에이전트". 같은 체크아웃(폴더)을 둘이 동시에 git 작업하지 않는다.** (모든 레포 공통, 이 레포 포함)
+
+- 한 폴더엔 HEAD·index·stash가 각각 1개뿐이라, 두 에이전트가 같은 체크아웃에서 동시에 commit/rebase/push/stash 하면 서로의 작업을 덮어쓰고 push가 non-fast-forward로 충돌한다(오늘 worklog `logs/*.md` 동시 append + push 충돌이 이 경우).
+- 다른 에이전트가 이 repo에서 작업 중이면 끝날 때까지 기다리거나 비킨다(순차). push 전에는 항상 `git pull --rebase`.
+- 꼭 동시여야 하면 같은 폴더를 공유하지 말고 `git worktree add ../Jumi-Worklog-<track> <branch>`로 폴더를 분리해 각자 자기 HEAD·index에서 일하고, 끝나면 rebase로 합친 뒤 `git worktree remove`로 정리한다.
+- 공유 working tree에서 `git stash -u` 금지(다른 트랙 WIP를 쓸어담는다).
+
 > 정본은 작업이 실제로 벌어지는 레포에 둔다. prism 병렬 작업 규칙(소유 경계·생성물 단일 소유·계약 우선·rebase 통합·foundation-first 머지)은 **`riiid/prism`의 `AGENTS.md`** 참조. 여기(worklog 레포)는 메타/오케스트레이션 레포라 포인터만 둔다.
 
 ## 공통 스킬 목록
