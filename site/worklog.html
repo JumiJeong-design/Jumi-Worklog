@@ -2295,7 +2295,8 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 # 2026-06-25 계획
 
 ## [액션]
-- [ ] **Icons 페이지(`74:10109`) lucide 아이콘 stroke-width 토큰 바인딩** — foundation 규칙대로(`stroke/width/icon-thin` 1.5 = 16px↓, `icon` 1.8 = 20px↑, `icon-strong` 2.2) 아이콘 세트 전반 점검·바인딩. 필요시 색도 토큰화. (6/24 출처 작업서 16px 아이콘 stroke 누락 지적 → 세트 차원 정합 필요)
+- ~~**Icons 페이지(`74:10109`) lucide 아이콘 stroke-width 토큰 바인딩**~~ (6/25 완료 — 마스터 stroked VECTOR 4,120개 → `stroke/width/icon` 바인딩, 16px↓ 24노드 `icon-thin` 1.5 override, 아이콘 색 `neutral/500`→`semantic/icon-default` 전환, 패키지 정합 확인·라이트/다크 시각 QA)
+- ~~**Figma 토큰 드리프트 감사 루프 + neutral 그레이스케일 재밸런싱**~~ (6/25 완료 — read-only 드리프트 도구+`pnpm token:drift`, neutral Light 7스텝 CIELAB 재밸런싱+코드 정렬, prism 3커밋 push)
 - ~~**Storybook IA 1차 정리 + state 제어 뷰 착수**~~ (6/24 완료 — `Foundations / Components / Pages / Flows` 4버킷 정리, 대표 state controls, `Foundations/Locale` fixture QA까지 반영)
 
 ## [이월/보류]
@@ -2304,6 +2305,8 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~`ModelChip` 시각 고도화~~ (6/24 완료 — `Name`/`Percent` 2-tone 위계 반영, `+N`은 빈 `Percent`로 단일톤 유지)
 - ~~`ChipGroup` collapsible(1줄+`+N`) 디자인 결정~~ (6/24 완료 — Collapsed variant = 3칩+`+7`, 내부 칩도 진짜 `ModelChip` 인스턴스로 전환. 6/25 이월은 오기)
 - [ ] 패키지 포팅 + Storybook 승격 — ideation → Components 승격 확정 후 (정상 보류)
+- [ ] **PR #14 Chromatic Bucket 3 남은 항목 확인** (6/25 이월 — plan/parallel-codex 후속)
+- [ ] **Opinion Viz 프로토타입 Figma 승격 판단** (6/25 이월 — 현재 상태 요약 후 결정)
 </script>
 
 <script type="text/plain" id="plan-2026-06-24">
