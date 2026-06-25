@@ -80,3 +80,24 @@
 - 질문: 기획서·PoC가 공유되면 디자인-개발 루프 테스트와 Figma 추가요소 탐색을 어떻게 돌릴 것인가?
 - 상태: ⏸ 기획서·PoC 공유 대기(PM 입력) · ai workflow/하네스 관점 글감 업로드는 주미 직접
 - 완료 조건: 공유 시점에 루프 테스트 1회 + Figma 추가요소 목록
+
+### Figma 디자인 다듬어서 정식으로 올릴지 결정 — 투표/추천질문 · 출처 — 6/25 주미 정리
+
+- **둘 다 같은 일**: Figma엔 디자인을 이미 만들어 둠 → 주미가 보고 **디자인부터 다듬어 확정** → 확정되면 코드(prism 패키지)로 옮기고(포팅) Storybook에 올림. 지금은 Figma만 있고 코드엔 없음. **다듬기 전엔 포팅 안 함.**
+- **투표 결과 / 추천 질문** (`VoteBar`·`VoteResult`·`QuestionItem`·`RecommendedQuestions`·`ChipGroup`)
+  - 지금: Figma 마스터 + 계약 초안 있음. 실험 페이지(`🧪 Opinion Viz`)에 있음.
+  - 남은 것: 디자인 다듬어 확정 → 정식 페이지(`✅ Components`)로 올릴지 결정 → 코드 포팅 + Storybook.
+- **출처 표기** (`SourceChip`·`SourceCard`·`SourcePopover`)
+  - 지금: Figma 1차 생성(6/24), 신규 색 없이 기존 토큰만.
+  - 디자인에서 정할 4개: 칩 글자 톤 / 다크 버전 / 출처 1개일 때 헤더 정렬 / 카드 단독·팝오버용 분리.
+  - 남은 것: 위 4개 확정 → `component-contracts/citation.md` 작성 → 코드 포팅. (본문 마크다운 연결은 Codex와 미리 맞춤.)
+- 완료 조건: 두 묶음 각각 디자인 확정 후 "정식으로 올릴지" Go/No-go 판단 → Go면 코드 포팅.
+
+### neutral 색 단일화 리팩터 (코드=Figma) — 6/25 발생, Codex 트랙
+
+- 질문: 코드 회색을 Figma처럼 `neutral` 한 줄로 통일할 것인가? 현재 코드 = `neutral`(4단계, mode-aware) + `gray`(11단계, 단일값) 두 줄 / Figma = `neutral` 한 줄.
+- 근거: code=Figma 단일출처 + `neutral`은 mode-aware라 다크 자동정합(`gray` 직접 사용은 다크 부채).
+- 1단계(작게·안전): 코드 `neutral`에 빠진 단계(50/100/150/300/400/600/800)를 Figma Light/Dark 값으로 추가 → 드리프트 6칸→0, `scripts/figma-token-drift.mjs`의 `KNOWN_ORPHANS` 비움.
+- 2단계(큰 작업): `gray` 사용처 64곳 → `neutral` 묶음별 이관 + Chromatic 시각회귀 검증. "다크에서도 고정 의도된 gray"는 가려 남김. `gray` 폐기는 최후.
+- 소유/주의: Codex 트랙(`*.tokens.json` 단일소유 — 6/25 외부 원복 충돌 1회). 값 출처 = MCP `get_variable_defs`(REST 403). 대표 기록 = prism `docs/plans/10-design-system-followup-2026-06.md` 2026-06-25 "neutral 풀 램프 아키텍처" 절.
+- 완료 조건: 드리프트 "새 0" 유지 + (2단계 시) gray 사용처 이관 완료 + Chromatic 통과.
