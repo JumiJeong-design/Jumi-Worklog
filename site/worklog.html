@@ -2291,6 +2291,26 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-06-26">
+# 2026-06-26 계획
+
+## 스토리북 운영 방식 전환 (파일럿 후속)
+- [ ] **스토리북 운영방식 변경 위키 업데이트** — 구축단계 파일럿 §11 "AI 기반 디자인 구축·전달 워크플로"(01 Design Intent / 02 Executable UI Review / 03 Integrate & QA / 04 Reinforce). 출시 후 운영 루프와 분리해서 명시.
+- [ ] **구축단계 파일럿 문서를 prism `docs/`에 안착** — 역할맵 `docs/00-document-role-map.md`와 정합.
+
+## 토큰·노이즈 규명
+- [ ] **neutral 풀 램프 아키텍처 결정** — 드리프트 6건. (a) 코드에 full neutral 미러 vs (b) sparse 유지 + known-orphan 허용목록. Chromatic "뭐가 바뀐지 모르겠음"(88건) 진짜 원인 = 회색 재밸런싱 → 의도/회귀로 분류.
+
+## 계약·IA
+- [ ] **미완성 계약 초안 5개 마무리** — citation / vote-bar / vote-result / question-item / recommended-questions. 피그마 노드 id·공개 속성·스토리 요구사항 필요(Figma 감사 + 결정).
+- [ ] **Components 하위 분류 결정** — 기본UI / 채팅 / 설정 / 셸 / 콘텐츠. Figma Components 페이지 기준, title prefix만 변경(시각 변화 0).
+- [ ] **ChatInputBar 입력 계약 확장** (파일럿 1번, Figma 선행) — 전송·타이핑 마이크로 인터랙션 Review Story.
+
+## 탐색
+- [ ] **GlassSurface 커서 추적 sheen 프로토타입 (Storybook 데모 1개)** — 21st.dev 버튼에서 참고한 "렌즈가 마우스 따라 출렁" 효과를 우리 글래스 위에 실험. 제약: framer-motion 안 씀(`pointermove` + CSS 변수 `--x`/`--y`로 의존성 0), 데스크톱 한정(`@media (hover:hover)`), GlassSurface 본체 말고 별도 인터랙티브 variant/데모, fallback 경로 위 시각 비교까지. 채택 여부는 데모 보고 판단(브랜드 결 = 모던·절제와 맞는지). (21st Apple Tahoe 버튼 import 금지 = Safari 회귀.)
+- [ ] **홈 배경 임팩트 방향 결정·구현** — 상시 라이브 WebGL(reactbits Prism) 배경은 웹 프로덕트 부적합 결론(6/25: GPU·모바일 발열, 판단도구 브랜드 충돌, 다크전용+접근성 유지비). 택1: (1) 정적 baked 한 컷 이미지(런타임0·라이트/다크 2장) (2) 가벼운 CSS/SVG 광선 (3) 진짜 셰이더는 "AI 판단 중 순간"(의견 시각화)에만. 추천 홈=1 or 2 / 셰이더=3. 탐색물(`ogl` 의존성·`apps/storybook/src/stories/_vendor/Prism.tsx`·`Explorations/Home Prism Hero` 스토리) 마무리/승격/롤백 여부도 결정.
+</script>
+
 <script type="text/plain" id="plan-2026-06-25">
 # 2026-06-25 계획
 
@@ -2298,6 +2318,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [x] **Icons 페이지(`74:10109`) lucide 아이콘 stroke-width 토큰 바인딩** (6/25 완료 — 마스터 stroked VECTOR 4,120개 → `stroke/width/icon` 바인딩, 16px↓ 24노드 `icon-thin` 1.5 override, 아이콘 색 `neutral/500`→`semantic/icon-default` 전환, 패키지 정합 확인·라이트/다크 시각 QA)
 - [x] **Figma 토큰 드리프트 감사 루프 + neutral 그레이스케일 재밸런싱** (6/25 완료 — read-only 드리프트 도구+`pnpm token:drift`, neutral Light 7스텝 CIELAB 재밸런싱+코드 정렬, prism 3커밋 push)
 - [x] **Storybook IA 1차 정리 + state 제어 뷰 착수** (6/24 완료 — `Foundations / Components / Pages / Flows` 4버킷 정리, 대표 state controls, `Foundations/Locale` fixture QA까지 반영)
+- [x] **21st.dev 리퀴드 글래스 버튼 비교 검토** (주미님 즉석 요청, 계획 외 — import 금지 결론: 코어 `backdrop-filter:url(#svg)`=Chromium 전용→Safari 회귀, 왜곡/텍스트 고스팅은 GlassSurface 우위. 참고할 건 커서 추적 1개. 코드 변경 0, 데모는 6/26 이월)
 
 ## [이월/보류]
 - ~~**출처(citation) 시각 QA → 계약 → 포팅**~~ (→ 백로그 "출처 표기" — Figma 4개(칩 톤·다크·헤더 정렬·카드 분리) 확정 후 계약·포팅. 디자인 더 봐야 해서 이관)
