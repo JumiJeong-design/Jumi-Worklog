@@ -103,3 +103,9 @@
 - 상태: 잔여 (본체 6/26 완료)
 - 본체 완료(2026-06-26): `Components/*`를 `Base UI`+`Chat`/`History`/`Navigation`/`Settings`(+예약 Citation/Decision)로 분할, Storybook title·Figma 섹션 정합. top-level은 이미 소비면(Foundations/Components) vs 검토면(Pages/Flows/Patterns) 분리됨. 근거 `riiid/prism` `storybook-map.md`, 상세 worklog 2026-06-26.
 - 잔여(슬림): ① "개발자가 자주 보는 API/Docs 위치"를 명시 감사해 소비면/검토면 분리에 반영(현 구조상 충돌은 없음), ② `Flows/Prototype` 세부 명명 적용 여부.
+
+### GlassSurface 커서 추적 sheen — 6/26 테스트 후 보류
+
+- 상태: 잔여 (테스트 완료 · 미채택)
+- 결과(2026-06-26): Explorations 데모 완성(의존성0 — pointermove + rAF lerp "출렁" + CSS 변수, 데스크톱 한정, reduced-motion 스냅, GlassSurface 본체 미변경). 기술 검증 OK.
+- 보류 이유: Socra 모바일 퍼스트. 커서(hover) 전제 효과라 모바일에선 가치 0(터치=추적 포인터 없음→기본 글래스 폴백). 재고 조건 = 데스크톱/웹 표면 비중↑. 재구현 비용 낮음(의존성0), 코드는 `riiid/prism` Explorations 스토리로 박제.
