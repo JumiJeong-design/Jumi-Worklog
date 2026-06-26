@@ -379,6 +379,7 @@ body{
 .bk-chip { flex-shrink:0; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px; border:1px solid; white-space:nowrap; }
 .bk-chip.open { color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
 .bk-chip.wait { color:var(--warn); border-color:var(--warn); background:var(--warn-soft); }
+.bk-chip.done { color:var(--text-muted); border-color:var(--border); background:var(--surface); }
 .bk-q { font-size:14px; color:var(--text); line-height:1.6; margin:0 0 10px; }
 .bk-q:last-of-type { margin-bottom:12px; }
 .bk-qtag { display:inline-block; font-size:10px; font-weight:700; color:var(--accent); background:var(--accent-soft); border-radius:4px; padding:1px 6px; margin-right:2px; vertical-align:1px; }
@@ -5300,6 +5301,7 @@ function parseBoard(md) {
 }
 function cardStatus(rawTitle, fields) {
   const st = (fields.find(f => /상태/.test(f.label)) || {}).val || '';
+  if (/잔여/.test(st)) return { key: 'done', label: '잔여' };
   if (/⏸|대기/.test(st) || /대기|주미 직접/.test(rawTitle)) return { key: 'wait', label: '대기' };
   return { key: 'open', label: '결정 대기' };
 }
@@ -5385,14 +5387,14 @@ function renderBacklog() {
       `<div class="bk-card" data-status="${status.key}"><div class="bk-card-head"><h3 class="bk-title">${title}${added ? `<span class="bk-added">+${added}</span>` : ''}</h3><span class="bk-chip ${status.key}">${status.label}</span></div>${qh}${prose}${fields ? `<div class="bk-fields">${fields}</div>` : ''}</div>` };
   };
   const cards = items.map(cardOf);
-  const groupDefs = [{ key: 'open', label: '결정 대기' }, { key: 'wait', label: '대기 · 주미 직접' }];
+  const groupDefs = [{ key: 'open', label: '결정 대기' }, { key: 'wait', label: '대기 · 주미 직접' }, { key: 'done', label: '잔여 · 마무리만' }];
   const groupsHtml = groupDefs.map(g => {
     const cs = cards.filter(c => c.status === g.key);
     if (!cs.length) return '';
     return `<div class="bk-group" data-group="${g.key}"><div class="bk-group-title">${g.label}<span class="bk-group-count">${cs.length}</span></div><div class="bk-grid">${cs.map(c => c.html).join('')}</div></div>`;
   }).join('');
   const principleHtml = principleMd ? `<details class="bk-principle"><summary>백로그 원칙</summary><div class="md">${marked.parse(principleMd)}</div></details>` : '';
-  const filter = `<div class="bk-toolbar"><div class="bk-filter"><button class="bk-filter-btn active" data-f="all" type="button">전체</button><button class="bk-filter-btn" data-f="open" type="button">결정 대기</button><button class="bk-filter-btn" data-f="wait" type="button">대기</button></div></div>`;
+  const filter = `<div class="bk-toolbar"><div class="bk-filter"><button class="bk-filter-btn active" data-f="all" type="button">전체</button><button class="bk-filter-btn" data-f="open" type="button">결정 대기</button><button class="bk-filter-btn" data-f="wait" type="button">대기</button><button class="bk-filter-btn" data-f="done" type="button">잔여</button></div></div>`;
   const area = document.getElementById('entry-area');
   area.innerHTML = `<article class="entry">${boardHeader('🧺 백로그', '결정 대기 · 후보 질문 · 승격 조건', ['decision', 'backlog', 'product'], 'content/backlog.md')}${principleHtml}${filter}${groupsHtml || '<p class="empty-note">결정 대기 항목이 없습니다.</p>'}</article>`;
   area.querySelectorAll('.bk-filter-btn').forEach(btn => {

@@ -98,7 +98,8 @@
 
 ## 잔여 (결정 완료·마무리만)
 
-### Storybook 정보구조 재정리 — 본체 6/26 완료
+### Storybook 정보구조 재정리
 
+- 상태: 잔여 (본체 6/26 완료)
 - 본체 완료(2026-06-26): `Components/*`를 `Base UI`+`Chat`/`History`/`Navigation`/`Settings`(+예약 Citation/Decision)로 분할, Storybook title·Figma 섹션 정합. top-level은 이미 소비면(Foundations/Components) vs 검토면(Pages/Flows/Patterns) 분리됨. 근거 `riiid/prism` `storybook-map.md`, 상세 worklog 2026-06-26.
 - 잔여(슬림): ① "개발자가 자주 보는 API/Docs 위치"를 명시 감사해 소비면/검토면 분리에 반영(현 구조상 충돌은 없음), ② `Flows/Prototype` 세부 명명 적용 여부.
