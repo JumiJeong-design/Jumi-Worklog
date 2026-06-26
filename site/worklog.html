@@ -2300,7 +2300,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] **구축단계 파일럿 문서를 prism `docs/`에 안착** — 역할맵 `docs/00-document-role-map.md`와 정합.
 
 ## 토큰·노이즈 규명
-- [ ] **neutral 풀 램프 아키텍처 결정** — 드리프트 6건. (a) 코드에 full neutral 미러 vs (b) sparse 유지 + known-orphan 허용목록. Chromatic "뭐가 바뀐지 모르겠음"(88건) 진짜 원인 = 회색 재밸런싱 → 의도/회귀로 분류.
+- [x] **neutral 풀 램프 아키텍처 결정** — [완료·Codex 트랙] 결정=(a) full neutral 미러: `primitive.tokens.json` 풀 램프(50–900)+`KNOWN_ORPHANS` 비움+드리프트 0(prism `docs/plans/10` 기록). 잔여=Chromatic 88건 의도/회귀 분류 별도. ↓원본: 드리프트 6건. (a) 코드에 full neutral 미러 vs (b) sparse 유지 + known-orphan 허용목록. Chromatic "뭐가 바뀐지 모르겠음"(88건) 진짜 원인 = 회색 재밸런싱 → 의도/회귀로 분류.
 
 ## 계약·IA
 - [ ] **미완성 계약 초안 5개 마무리** — citation / vote-bar / vote-result / question-item / recommended-questions. 피그마 노드 id·공개 속성·스토리 요구사항 필요(Figma 감사 + 결정).
