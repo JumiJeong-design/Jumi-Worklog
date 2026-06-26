@@ -13,11 +13,6 @@
 
 ## 결정 대기 항목
 
-### Storybook 정보구조 재정리 — 본체 6/26 결정·구현 완료(잔여만)
-
-- 본체 완료(2026-06-26): `Components/*`를 `Base UI`+`Chat`/`History`/`Navigation`/`Settings`(+예약 Citation/Decision)로 분할, Storybook title·Figma 섹션 정합. top-level은 이미 소비면(Foundations/Components) vs 검토면(Pages/Flows/Patterns) 분리됨. 근거 `riiid/prism` `storybook-map.md`, 상세 worklog 2026-06-26.
-- 잔여(슬림): ① "개발자가 자주 보는 API/Docs 위치"를 명시 감사해 소비면/검토면 분리에 반영(현 구조상 충돌은 없음), ② `Flows/Prototype` 세부 명명 적용 여부.
-
 ### Answer stack 내구성
 
 - 질문: 여러 모델 답변이 쌓일 때 긴 답변, 로딩, 실패, 모바일 스크롤, 액션바, 다국어가 버티는가?
@@ -100,3 +95,10 @@
 - 2단계(큰 작업): `gray` 사용처 64곳 → `neutral` 묶음별 이관 + Chromatic 시각회귀 검증. "다크에서도 고정 의도된 gray"는 가려 남김. `gray` 폐기는 최후.
 - 소유/주의: Codex 트랙(`*.tokens.json` 단일소유 — 6/25 외부 원복 충돌 1회). 값 출처 = MCP `get_variable_defs`(REST 403). 대표 기록 = prism `docs/plans/10-design-system-followup-2026-06.md` 2026-06-25 "neutral 풀 램프 아키텍처" 절.
 - 완료 조건: 드리프트 "새 0" 유지 + (2단계 시) gray 사용처 이관 완료 + Chromatic 통과.
+
+## 잔여 (결정 완료·마무리만)
+
+### Storybook 정보구조 재정리 — 본체 6/26 완료
+
+- 본체 완료(2026-06-26): `Components/*`를 `Base UI`+`Chat`/`History`/`Navigation`/`Settings`(+예약 Citation/Decision)로 분할, Storybook title·Figma 섹션 정합. top-level은 이미 소비면(Foundations/Components) vs 검토면(Pages/Flows/Patterns) 분리됨. 근거 `riiid/prism` `storybook-map.md`, 상세 worklog 2026-06-26.
+- 잔여(슬림): ① "개발자가 자주 보는 API/Docs 위치"를 명시 감사해 소비면/검토면 분리에 반영(현 구조상 충돌은 없음), ② `Flows/Prototype` 세부 명명 적용 여부.
