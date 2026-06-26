@@ -2309,7 +2309,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 ## 탐색
 - [x] **GlassSurface 커서 추적 sheen 프로토타입 (Storybook 데모 1개)** — [보류·미채택, 6/26 테스트 완료] 데모 완성(Explorations, 의존성0 rAF lerp+CSS변수). Socra 모바일 퍼스트라 커서(hover) 전제 효과는 모바일 가치 0(터치=기본 글래스 폴백) → 보류, 데스크톱/웹 표면 커지면 재고. ↓원본 의도: 21st.dev 버튼에서 참고한 "렌즈가 마우스 따라 출렁" 효과를 우리 글래스 위에 실험. 제약: framer-motion 안 씀(`pointermove` + CSS 변수 `--x`/`--y`로 의존성 0), 데스크톱 한정(`@media (hover:hover)`), GlassSurface 본체 말고 별도 인터랙티브 variant/데모, fallback 경로 위 시각 비교까지. 채택 여부는 데모 보고 판단(브랜드 결 = 모던·절제와 맞는지). (21st Apple Tahoe 버튼 import 금지 = Safari 회귀.)
-- [ ] **홈 배경 임팩트 방향 결정·구현** — 상시 라이브 WebGL(reactbits Prism) 배경은 웹 프로덕트 부적합 결론(6/25: GPU·모바일 발열, 판단도구 브랜드 충돌, 다크전용+접근성 유지비). 택1: (1) 정적 baked 한 컷 이미지(런타임0·라이트/다크 2장) (2) 가벼운 CSS/SVG 광선 (3) 진짜 셰이더는 "AI 판단 중 순간"(의견 시각화)에만. 추천 홈=1 or 2 / 셰이더=3. 탐색물(`ogl` 의존성·`apps/storybook/src/stories/_vendor/Prism.tsx`·`Explorations/Home Prism Hero` 스토리) 마무리/승격/롤백 여부도 결정.
+- [x] **홈 배경 임팩트 방향 결정·구현** — [6/26] option2(가벼운 CSS) 후보 구현·테스트: `Home Aurora Background`(CSS 오로라, 의존성0, 라이트/다크, reduced-motion 정적), Chromatic 프리뷰 발행(로컬호스트 없이 보기). 확정 아님(스냅샷). 잔여=WebGL 탐색물(ogl·_vendor/Prism·Home Prism Hero) 롤백/유지 결정 별도. ↓원본: 상시 라이브 WebGL(reactbits Prism) 배경은 웹 프로덕트 부적합 결론(6/25: GPU·모바일 발열, 판단도구 브랜드 충돌, 다크전용+접근성 유지비). 택1: (1) 정적 baked 한 컷 이미지(런타임0·라이트/다크 2장) (2) 가벼운 CSS/SVG 광선 (3) 진짜 셰이더는 "AI 판단 중 순간"(의견 시각화)에만. 추천 홈=1 or 2 / 셰이더=3. 탐색물(`ogl` 의존성·`apps/storybook/src/stories/_vendor/Prism.tsx`·`Explorations/Home Prism Hero` 스토리) 마무리/승격/롤백 여부도 결정.
 </script>
 
 <script type="text/plain" id="plan-2026-06-25">
