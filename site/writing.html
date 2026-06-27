@@ -124,10 +124,44 @@
       color: var(--muted); font-size: 13px;
     }
 
+    /* ── view switching (home / backlog / reader) ── */
+    #home, #backlog, #reader { display: none; }
+    body[data-view="home"] #home { display: block; }
+    body[data-view="backlog"] #backlog { display: block; }
+    body[data-view="reader"] #reader { display: block; }
+    .topbar nav a.on { color: var(--accent); }
+
+    /* ── backlog (글감 전체보기) ── */
+    .backlog-head { padding: 50px 0 8px; }
+    .backlog-head h1 { font-size: 34px; letter-spacing: -.02em; font-weight: 800; line-height: 1.18; }
+    .backlog-head p { margin-top: 12px; color: var(--text-soft); font-size: 16px; max-width: 600px; }
+    .backlog-legend { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+    .bl-group { padding: 26px 0; border-top: 1px solid var(--line); }
+    .bl-group-head { display: flex; align-items: baseline; gap: 10px; }
+    .bl-group-head h2 { font-size: 20px; letter-spacing: -.02em; }
+    .bl-group-head .cnt { color: var(--muted); font-size: 13px; font-weight: 700; }
+    .bl-src { margin: 6px 0 14px; }
+    .bl-src a { color: var(--muted); font-size: 13px; font-weight: 600; }
+    .bl-src a:hover { color: var(--accent); }
+    .bl-item {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+      padding: 13px 14px; border: 1px solid var(--line); border-radius: 10px;
+      background: var(--panel); cursor: pointer; transition: border-color .12s;
+    }
+    .bl-item:hover { border-color: var(--accent); }
+    .bl-item .n { width: 22px; flex: 0 0 auto; color: var(--muted); font-size: 13px; font-weight: 700; }
+    .bl-item .t { flex: 1; font-size: 15px; font-weight: 600; line-height: 1.4; }
+    .bl-item:hover .t { color: var(--accent); }
+    .status {
+      flex: 0 0 auto; padding: 3px 9px; border-radius: 999px;
+      font-size: 11.5px; font-weight: 700; white-space: nowrap;
+    }
+    .status.draft { background: var(--accent-soft); color: var(--accent); }
+    .status.cand { background: var(--line-soft); color: var(--muted); }
+    .status.research { background: #e4edf6; color: #2f6aa0; }
+    .status.new { background: #f3ead6; color: #9a6a20; }
+
     /* ── reader ── */
-    #reader { display: none; }
-    body.reading #home { display: none; }
-    body.reading #reader { display: block; }
     .reader-bar { padding: 22px 0 0; display: flex; align-items: center; gap: 10px; }
     .back-btn {
       display: inline-flex; align-items: center; gap: 6px;
@@ -211,12 +245,13 @@
     }
   </style>
 </head>
-<body>
+<body data-view="home">
   <header class="topbar">
     <a class="brand" href="#" onclick="showHome();return false;">Jumi <span>writes</span></a>
     <nav>
+      <a href="#" id="nav-home" onclick="showHome();return false;">글</a>
+      <a href="#" id="nav-backlog" onclick="showBacklog();return false;">글감</a>
       <a href="./worklog.html">워크로그</a>
-      <a href="./storybook-docs.html">Storybook</a>
       <a href="https://github.com/JumiJeong-design/Jumi-Worklog/tree/main/writing" target="_blank" rel="noopener">GitHub</a>
     </nav>
   </header>
@@ -235,9 +270,12 @@
 
       <section class="notes">
         <h2>구상 중인 글</h2>
-        <p class="lead">아직 초안은 없지만 출처와 방향이 잡힌 글감입니다. 자세한 목록은 글감 리스트에서 볼 수 있어요.</p>
+        <p class="lead">아직 초안은 없지만 출처와 방향이 잡힌 글감 맛보기입니다. 50여 개 후보 전체는 글감 보관함에서 볼 수 있어요.</p>
         <div class="idea-list" id="idea-root"></div>
-        <div class="note-links" id="note-root"></div>
+        <div class="note-links">
+          <a href="#" onclick="showBacklog();return false;"><strong>📚 글감 전체보기 →</strong></a>
+        </div>
+        <div class="note-links" id="note-root" style="margin-top:8px"></div>
       </section>
 
       <footer class="page-foot">
@@ -246,11 +284,27 @@
     </div>
   </main>
 
+  <!-- ════════ BACKLOG (글감 전체보기) ════════ -->
+  <main id="backlog">
+    <div class="wrap">
+      <section class="backlog-head">
+        <div class="eyebrow" style="color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">글감 보관함</div>
+        <h1>지금까지 모인 글감 전체</h1>
+        <p>발행된 글부터 리서치 단계 후보까지, 주제별로 모았습니다. 각 항목을 누르면 출처 문서로 연결돼요. 마지막 갱신: 2026-06-27.</p>
+        <div class="backlog-legend" id="backlog-legend"></div>
+      </section>
+      <div id="backlog-root"></div>
+      <footer class="page-foot">
+        후보 원본은 <code>writing/_sources/</code> 와 <code>글감_리스트.md</code> 에 있습니다. 상태는 글 진행도 기준이며 발행 순서와는 별개예요.
+      </footer>
+    </div>
+  </main>
+
   <!-- ════════ READER ════════ -->
   <main id="reader">
     <div class="wrap">
       <div class="reader-bar">
-        <a class="back-btn" href="#" onclick="showHome();return false;">← 글 목록</a>
+        <a class="back-btn" href="#" onclick="backFromReader();return false;">← 목록으로</a>
         <a class="reader-edit" id="doc-edit-link" href="#" target="_blank" rel="noopener">GitHub에서 편집 ↗</a>
       </div>
       <div class="article-head" id="article-head" hidden>
@@ -408,6 +462,114 @@
     document.getElementById('hero-meta').textContent = `글 ${total}편 · 두 개의 연재 · 구상 중 ${IDEAS.length}편+`;
   }
 
+  // ── backlog data (글감 전체보기) ──
+  const SRC = {
+    insight: '_sources/source_scan_insight_candidates.md',
+    wiki: '_sources/wiki_source_map.md',
+    product: '_sources/product_research_backlog.md',
+  };
+  const STATUS_LABEL = { draft: '초안 있음', new: '신규', research: '리서치', cand: '후보' };
+  const BACKLOG = [
+    {
+      title: '발행된 글', src: null, srcLabel: '연재 초안 — 누르면 본문으로',
+      items: FLAT.filter(p => !p.intro).map(p => ({ t: p.title, rel: p.rel, status: 'draft' })),
+    },
+    {
+      title: '운영 진화 — 최근 인사이트', src: SRC.insight,
+      srcLabel: '출처: source_scan_insight_candidates.md (2026-06-27 추가)',
+      items: [
+        '멀티 에이전트 격리 — 한 트리에 두 AI는 사고를 부른다',
+        'AI 루프는 어디까지? read-only 감사부터 자동화',
+        "디자인 토큰 드리프트를 '값'으로 감사하기",
+        '반복 운영 행동을 스킬로 박제한다',
+        'trap을 규칙으로 승격 — 같은 실수를 두 번 안 한다',
+        '측정 우선 — 스크린샷·캐시를 믿지 말고 실데이터를 읽어라',
+        "안 쓰기로 한 실험을 버리지 않고 '박제'한다",
+        "워크로그를 '읽는 도구'로 만든다",
+      ].map(t => ({ t, status: 'new' })),
+    },
+    {
+      title: 'AX 인사이트 후보', src: SRC.insight,
+      srcLabel: '출처: source_scan_insight_candidates.md',
+      items: [
+        '직접 코드화는 탐색을 줄였다',
+        'Figma-first는 Figma-only가 아니었다',
+        'Figma Foundation은 AI 통제 장치였다',
+        'Git Rules는 두 번째 디자인 시스템이었다',
+        'FE package는 제한이 아니라 기준점이었다',
+        'Storybook은 예쁜 문서가 아니라 QA 표면이었다',
+        'Worklog는 회고가 아니라 운영 엔진이었다',
+        'Wiki는 worklog 정리가 아니라 리서치 승격이었다',
+        '문서가 많아지면 문서 레벨 설계가 필요하다',
+        'AI는 더 나은 방향으로 가려 해서 멈춤 조건이 필요했다',
+        '모바일과 데스크톱 AI 분업도 운영 설계다',
+        '브랜드와 마지막 디테일은 디자이너가 직접 해야 한다',
+      ].map(t => ({ t, status: 'research' })),
+    },
+    {
+      title: 'Wiki에서 뽑을 글감', src: SRC.wiki,
+      srcLabel: '출처: wiki_source_map.md · 글감_리스트.md §3',
+      items: [
+        'Wiki는 worklog의 예쁜 버전이 아니다',
+        '디자이너가 Storybook을 QA 공간으로 쓰는 법',
+        'Figma-first는 Figma-only가 아니다',
+        '디자이너를 위한 개발 협업 용어 번역',
+        'AI가 다음 세션에서도 이어서 일하게 만드는 handoff 문서',
+        'Exploration, Candidate, Approved를 나누는 이유',
+        '문서가 많아지면 문서 레벨 설계가 필요하다',
+      ].map(t => ({ t, status: 'cand' })),
+    },
+    {
+      title: '제품·운영 실험 글감', src: SRC.product,
+      srcLabel: '출처: product_research_backlog.md · 글감_리스트.md §4',
+      items: [
+        'AI로 브랜딩 구축 프로세스',
+        'AI로 캐릭터/모션 생성 프로세스',
+        '문서 기반 Q&A / 챗봇',
+        '현재 제품 단계 진단 테스트',
+        '문서 의견 넣기 / 댓글 기능',
+        '디자인 as-is/to-be, A/B 테스트 기준',
+        'UT나 데이터 기반 판단 기준',
+        'PoC와 라이브 제품 유저 데이터 연동',
+        '디자인 실험 기록',
+        '코드 ↔ 피그마 양방향 연동 결과 기록',
+        '이미지/텍스트 학습 결과 비교',
+        '기존 Figma 디자인과 시스템을 AI가 반영하게 하는 법',
+        '모바일로 AI 업무 흐름 제어하기',
+        'AI로 웹사이트 디자인-개발 프로세스 줄이기',
+      ].map(t => ({ t, status: 'cand' })),
+    },
+    {
+      title: '기존 글 보강 포인트', src: SRC.insight,
+      srcLabel: '출처: source_scan_insight_candidates.md (2026-06-27 추가)',
+      items: [
+        'Storybook 글 — intrinsic vs extrinsic 경계',
+        '외부 컴포넌트 도입 판단 — import 금지, 재구현',
+        'CI 분리 — 디자이너가 항상 시각 프리뷰를 보게',
+      ].map(t => ({ t, status: 'new' })),
+    },
+  ];
+
+  function renderBacklog() {
+    const legend = ['draft', 'new', 'research', 'cand']
+      .map(s => `<span class="status ${s}">${STATUS_LABEL[s]}</span>`).join('');
+    document.getElementById('backlog-legend').innerHTML =
+      '<span style="color:var(--muted);font-size:12.5px;font-weight:600;margin-right:2px">상태</span>' + legend;
+    document.getElementById('backlog-root').innerHTML = BACKLOG.map(g => `
+      <section class="bl-group">
+        <div class="bl-group-head"><h2>${g.title}</h2><span class="cnt">${g.items.length}개</span></div>
+        ${g.src
+          ? `<div class="bl-src"><a href="#" onclick="openDoc('${g.src}');return false;">${g.srcLabel} →</a></div>`
+          : `<div class="bl-src" style="color:var(--muted);font-size:13px">${g.srcLabel || ''}</div>`}
+        ${g.items.map((it, i) => `
+          <div class="bl-item" onclick="openDoc('${it.rel || g.src}')">
+            <span class="n">${String(i + 1).padStart(2, '0')}</span>
+            <span class="t">${it.t}</span>
+            <span class="status ${it.status}">${STATUS_LABEL[it.status]}</span>
+          </div>`).join('')}
+      </section>`).join('');
+  }
+
   // ── reader ──
   const docContent = document.getElementById('doc-content');
   const docState = document.getElementById('doc-state');
@@ -440,8 +602,24 @@
     return { prev: mk(list[i - 1]), next: mk(list[i + 1]), meta };
   }
 
+  let prevView = 'home';
+  function setView(v) {
+    document.body.dataset.view = v;
+    document.getElementById('nav-home').classList.toggle('on', v === 'home');
+    document.getElementById('nav-backlog').classList.toggle('on', v === 'backlog');
+    window.scrollTo(0, 0);
+  }
+  function showBacklog() {
+    setView('backlog');
+    history.replaceState(null, '', '#backlog');
+  }
+  function backFromReader() {
+    if (prevView === 'backlog') showBacklog(); else showHome();
+  }
+
   async function openDoc(rel) {
-    document.body.classList.add('reading');
+    if (document.body.dataset.view !== 'reader') prevView = document.body.dataset.view || 'home';
+    setView('reader');
     docContent.innerHTML = '';
     navEl.hidden = true;
     headEl.hidden = true;
@@ -482,15 +660,17 @@
   }
 
   function showHome() {
-    document.body.classList.remove('reading');
+    setView('home');
     history.replaceState(null, '', location.pathname + location.search);
-    window.scrollTo(0, 0);
   }
 
   // ── init ──
   renderHome();
+  renderBacklog();
   const m = location.hash.match(/^#read=(.+)$/);
-  if (m) openDoc(decodeURIComponent(m[1]));
+  if (m) { prevView = 'home'; openDoc(decodeURIComponent(m[1])); }
+  else if (location.hash === '#backlog') showBacklog();
+  else setView('home');
   </script>
 </body>
 </html>
