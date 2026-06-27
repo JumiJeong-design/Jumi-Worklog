@@ -245,12 +245,12 @@
     }
   </style>
 </head>
-<body data-view="home">
+<body data-view="backlog">
   <header class="topbar">
-    <a class="brand" href="#" onclick="showHome();return false;">Jumi <span>writes</span></a>
+    <a class="brand" href="#" onclick="showBacklog();return false;">Jumi <span>writes</span></a>
     <nav>
-      <a href="#" id="nav-home" onclick="showHome();return false;">글</a>
       <a href="#" id="nav-backlog" onclick="showBacklog();return false;">글감</a>
+      <a href="#" id="nav-home" onclick="showHome();return false;">초안</a>
       <a href="./worklog.html">워크로그</a>
       <a href="https://github.com/JumiJeong-design/Jumi-Worklog/tree/main/writing" target="_blank" rel="noopener">GitHub</a>
     </nav>
@@ -288,9 +288,9 @@
   <main id="backlog">
     <div class="wrap">
       <section class="backlog-head">
-        <div class="eyebrow" style="color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">글감 보관함</div>
-        <h1>지금까지 모인 글감 전체</h1>
-        <p>발행된 글부터 리서치 단계 후보까지, 주제별로 모았습니다. 각 항목을 누르면 출처 문서로 연결돼요. 마지막 갱신: 2026-06-27.</p>
+        <div class="eyebrow" style="color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">글감 보드</div>
+        <h1>전체 글감을 펼쳐 보고, 뭐부터 쓸지 정한다</h1>
+        <p>완성된 글 모음이 아니라 작업 보드예요. 50여 개 후보를 한눈에 두고 우선순위를 정하고 개요를 잡는 곳입니다. <strong>‘초안 있음’도 확정된 방향이 아니라 먼저 손댄 글</strong>이에요. 각 항목을 누르면 본문이나 출처 문서로 연결됩니다. 마지막 갱신: 2026-06-27.</p>
         <div class="backlog-legend" id="backlog-legend"></div>
       </section>
       <div id="backlog-root"></div>
@@ -471,7 +471,7 @@
   const STATUS_LABEL = { draft: '초안 있음', new: '신규', research: '리서치', cand: '후보' };
   const BACKLOG = [
     {
-      title: '발행된 글', src: null, srcLabel: '연재 초안 — 누르면 본문으로',
+      title: '이미 초안 있는 글', src: null, srcLabel: '확정된 방향이 아니라 먼저 손댄 글 — 누르면 본문으로',
       items: FLAT.filter(p => !p.intro).map(p => ({ t: p.title, rel: p.rel, status: 'draft' })),
     },
     {
@@ -602,7 +602,7 @@
     return { prev: mk(list[i - 1]), next: mk(list[i + 1]), meta };
   }
 
-  let prevView = 'home';
+  let prevView = 'backlog';
   function setView(v) {
     document.body.dataset.view = v;
     document.getElementById('nav-home').classList.toggle('on', v === 'home');
@@ -611,7 +611,7 @@
   }
   function showBacklog() {
     setView('backlog');
-    history.replaceState(null, '', '#backlog');
+    history.replaceState(null, '', location.pathname + location.search);
   }
   function backFromReader() {
     if (prevView === 'backlog') showBacklog(); else showHome();
@@ -661,16 +661,16 @@
 
   function showHome() {
     setView('home');
-    history.replaceState(null, '', location.pathname + location.search);
+    history.replaceState(null, '', '#drafts');
   }
 
   // ── init ──
   renderHome();
   renderBacklog();
   const m = location.hash.match(/^#read=(.+)$/);
-  if (m) { prevView = 'home'; openDoc(decodeURIComponent(m[1])); }
-  else if (location.hash === '#backlog') showBacklog();
-  else setView('home');
+  if (m) { prevView = 'backlog'; openDoc(decodeURIComponent(m[1])); }
+  else if (location.hash === '#drafts') showHome();
+  else showBacklog();
   </script>
 </body>
 </html>
