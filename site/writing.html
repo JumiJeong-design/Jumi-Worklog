@@ -144,6 +144,13 @@
     .article-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
     #doc-state { color: var(--muted); font-size: 14px; padding: 10px 0; }
 
+    /* rendered diagram (mermaid) */
+    .mermaid-fig {
+      margin: 26px 0; padding: 22px 18px; overflow-x: auto; text-align: center;
+      border: 1px solid var(--line); border-radius: 14px; background: var(--panel);
+    }
+    .mermaid-fig svg { max-width: 100%; height: auto; }
+
     /* markdown body */
     .md { font-size: 17px; line-height: 1.8; color: var(--text); }
     .md h1 { font-size: 30px; line-height: 1.22; letter-spacing: -.025em; margin: 0; font-weight: 800; }
@@ -323,6 +330,48 @@
   SERIES.forEach(s => s.posts.forEach(p => FLAT.push({ ...p, rel: s.dir + p.file, series: s })));
   const byRel = Object.fromEntries(FLAT.map(p => [p.rel, p]));
 
+  // ── mermaid (lazy-loaded, vendored, themed) ──
+  const FONT = '-apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif';
+  let mermaidReady = null;
+  function loadMermaid() {
+    if (mermaidReady) return mermaidReady;
+    mermaidReady = new Promise((res, rej) => {
+      const sc = document.createElement('script');
+      sc.src = './assets/mermaid.min.js';
+      sc.onload = () => {
+        window.mermaid.initialize({
+          startOnLoad: false, theme: 'base', securityLevel: 'loose',
+          themeVariables: {
+            fontFamily: FONT, fontSize: '15px', background: '#ffffff',
+            primaryColor: '#eef5f0', primaryBorderColor: '#2f7d5b', primaryTextColor: '#1f1d1a',
+            secondaryColor: '#f3ead6', tertiaryColor: '#ffffff', lineColor: '#9bb3a8',
+          },
+          flowchart: { curve: 'basis', htmlLabels: true, padding: 16, nodeSpacing: 42, rankSpacing: 48 },
+        });
+        res();
+      };
+      sc.onerror = rej;
+      document.head.appendChild(sc);
+    });
+    return mermaidReady;
+  }
+  async function renderMermaid() {
+    const blocks = [...docContent.querySelectorAll('pre > code.language-mermaid')];
+    if (!blocks.length) return;
+    try { await loadMermaid(); } catch (e) { return; }
+    for (let i = 0; i < blocks.length; i++) {
+      const code = blocks[i].textContent;
+      const pre = blocks[i].parentElement;
+      try {
+        const { svg } = await window.mermaid.render('mmd-' + Date.now() + '-' + i, code);
+        const fig = document.createElement('div');
+        fig.className = 'mermaid-fig';
+        fig.innerHTML = svg;
+        pre.replaceWith(fig);
+      } catch (e) { /* keep original code block on failure */ }
+    }
+  }
+
   // ── render home ──
   function renderHome() {
     const root = document.getElementById('series-root');
@@ -418,6 +467,7 @@
       }
       docContent.innerHTML = marked.parse(md);
       normalizeLinks(rel);
+      renderMermaid();
 
       if (info.meta && (info.prev || info.next)) {
         navEl.innerHTML = `

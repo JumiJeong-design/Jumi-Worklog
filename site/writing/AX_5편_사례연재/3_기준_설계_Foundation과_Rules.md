@@ -4,6 +4,12 @@
 
 AI를 디자인 시스템에 안전하게 넣으려면 좋은 프롬프트만으로는 부족했다. 두 개의 기준이 필요했다. **Figma Foundation**은 "어떤 시각 값이 맞는가"를, **Git Rules**는 "AI가 무엇을 어디까지 고쳐도 되는가"를 통제했다. 이 둘은 사실상 두 개의 디자인 시스템이었다.
 
+```mermaid
+flowchart LR
+  F["Figma Foundation\n시각 값 통제\ncolor·type·spacing·상태"] --> S["기준 안에서만\n움직이는 AI"]
+  R["Git Rules\n행동 범위 통제\n무엇을·어디까지"] --> S
+```
+
 ---
 
 ## AI 활용의 핵심은 산출물보다 기준이었다
