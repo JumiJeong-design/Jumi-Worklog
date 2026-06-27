@@ -3,772 +3,444 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jumi Writing Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+  <title>Jumi writes — 디자이너가 AI와 일하며 남긴 글</title>
+  <script src="./assets/marked.min.js"></script>
   <style>
     :root {
-      --bg: #f7f6f2;
+      --bg: #faf8f4;
       --panel: #ffffff;
-      --panel-soft: #f0eee7;
-      --text: #202124;
-      --muted: #62615c;
-      --line: #d9d5ca;
-      --green: #2f7d5b;
-      --green-soft: #e2f0e8;
-      --blue: #286f9b;
-      --blue-soft: #e2eef5;
-      --red: #a14d3a;
-      --red-soft: #f4e7e2;
+      --text: #1f1d1a;
+      --text-soft: #4a463f;
+      --muted: #837d72;
+      --line: #e7e2d8;
+      --line-soft: #efebe2;
+      --accent: #2f7d5b;
+      --accent-soft: #e7f1ea;
       --gold: #9a6a20;
-      --gold-soft: #f3ead6;
-      --ink-soft: #e9e7df;
-      --shadow: 0 10px 30px rgba(32, 33, 36, 0.08);
+      --shadow: 0 1px 2px rgba(31, 29, 26, .04), 0 8px 28px rgba(31, 29, 26, .06);
+      --maxw: 720px;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.55;
-      letter-spacing: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
     }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 248px minmax(0, 1fr);
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      padding: 28px 20px;
-      border-right: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.74);
-      backdrop-filter: blur(10px);
-    }
-
-    .brand {
-      margin: 0 0 22px;
-      font-size: 18px;
-      font-weight: 760;
-    }
-
-    .nav-label {
-      margin: 22px 0 8px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .nav-link {
-      display: block;
-      padding: 8px 10px;
-      border-radius: 8px;
-      color: #363633;
-      font-size: 14px;
-    }
-
-    .nav-link:hover {
-      background: var(--ink-soft);
-    }
-
-    .main {
-      padding: 34px 36px 60px;
-    }
-
+    /* ── top bar ── */
     .topbar {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 26px;
-    }
-
-    h1 {
-      max-width: 760px;
-      margin: 0;
-      font-size: 52px;
-      line-height: 1.04;
-      letter-spacing: 0;
-    }
-
-    .subtitle {
-      max-width: 740px;
-      margin: 14px 0 0;
-      color: var(--muted);
-      font-size: 17px;
-    }
-
-    .meta {
-      display: grid;
-      gap: 8px;
-      min-width: 190px;
-      padding-top: 4px;
-      color: var(--muted);
-      font-size: 13px;
-      text-align: right;
-    }
-
-    .quick-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 0 0 28px;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      min-height: 34px;
-      padding: 7px 11px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      color: #34342f;
-      font-size: 13px;
-      font-weight: 650;
-    }
-
-    .chip:hover {
-      border-color: #b8b2a5;
-      box-shadow: var(--shadow);
-    }
-    .edit-hub {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
-      margin: 0 0 28px;
-    }
-    .edit-link {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-height: 68px;
-      padding: 12px 13px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-    }
-    .edit-link strong { font-size: 13px; }
-    .edit-link span { color: var(--muted); font-size: 12px; }
-    .edit-link:hover { border-color: #b8b2a5; box-shadow: var(--shadow); }
-
-    .section {
-      margin-top: 34px;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 14px;
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: center; gap: 16px;
+      height: 56px; padding: 0 22px;
+      background: rgba(250, 248, 244, .86);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
-      padding-bottom: 10px;
+    }
+    .topbar .brand { font-size: 15px; font-weight: 760; letter-spacing: -.01em; }
+    .topbar .brand span { color: var(--accent); }
+    .topbar nav { margin-left: auto; display: flex; gap: 4px; }
+    .topbar nav a {
+      padding: 6px 11px; border-radius: 8px;
+      color: var(--muted); font-size: 13px; font-weight: 600;
+    }
+    .topbar nav a:hover { background: var(--line-soft); color: var(--text); }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+
+    /* ── hero ── */
+    .hero { padding: 56px 0 30px; }
+    .hero .eyebrow {
+      font-size: 12px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .hero h1 {
+      margin: 14px 0 0; font-size: 40px; line-height: 1.16;
+      letter-spacing: -.025em; font-weight: 800;
+    }
+    .hero p { margin: 16px 0 0; max-width: 600px; color: var(--text-soft); font-size: 17px; }
+    .hero .meta { margin-top: 18px; color: var(--muted); font-size: 13px; }
+
+    /* ── series block ── */
+    .series { padding: 26px 0; border-top: 1px solid var(--line); }
+    .series-head { margin-bottom: 6px; }
+    .series-kicker {
+      display: inline-block; margin-bottom: 8px; padding: 4px 10px;
+      border-radius: 999px; background: var(--accent-soft);
+      color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .01em;
+    }
+    .series-head h2 { font-size: 24px; line-height: 1.25; letter-spacing: -.02em; }
+    .series-head .desc { margin-top: 8px; color: var(--muted); font-size: 14.5px; max-width: 600px; }
+
+    .post-list { margin-top: 18px; display: flex; flex-direction: column; }
+    .post {
+      display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+      padding: 20px 4px; border-top: 1px solid var(--line-soft);
+      cursor: pointer; transition: background .12s;
+    }
+    .post:first-child { border-top: 0; }
+    .post:hover { background: var(--line-soft); border-radius: 12px; }
+    .post:hover .post-title { color: var(--accent); }
+    .post-num {
+      font-size: 13px; font-weight: 800; color: var(--muted);
+      padding-top: 3px; letter-spacing: .02em;
+    }
+    .post-num.intro { color: var(--gold); font-size: 11px; }
+    .post-title { font-size: 19px; font-weight: 720; line-height: 1.32; letter-spacing: -.01em; transition: color .12s; }
+    .post-excerpt { margin-top: 7px; color: var(--text-soft); font-size: 15px; line-height: 1.65; }
+    .post-foot { margin-top: 10px; display: flex; gap: 8px; align-items: center; color: var(--muted); font-size: 12.5px; }
+    .post-foot .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+
+    /* ── notes / coming soon ── */
+    .notes { padding: 30px 0 10px; border-top: 1px solid var(--line); }
+    .notes h2 { font-size: 20px; letter-spacing: -.02em; }
+    .notes .lead { margin-top: 8px; color: var(--muted); font-size: 14px; }
+    .idea-list { margin-top: 16px; display: grid; gap: 8px; }
+    .idea {
+      display: flex; align-items: baseline; gap: 12px;
+      padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px;
+      background: var(--panel); font-size: 14.5px;
+    }
+    .idea .badge {
+      flex: 0 0 auto; padding: 2px 8px; border-radius: 6px;
+      background: var(--line-soft); color: var(--muted);
+      font-size: 11px; font-weight: 700;
+    }
+    .idea .t { font-weight: 650; }
+    .idea .m { color: var(--muted); font-size: 13px; }
+    .note-links { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .note-links a {
+      padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px;
+      background: var(--panel); color: var(--text-soft); font-size: 13px; font-weight: 600;
+    }
+    .note-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+    footer.page-foot {
+      margin-top: 30px; padding: 26px 0 60px; border-top: 1px solid var(--line);
+      color: var(--muted); font-size: 13px;
     }
 
-    h2 {
-      margin: 0;
-      font-size: 24px;
-      line-height: 1.18;
-      letter-spacing: 0;
+    /* ── reader ── */
+    #reader { display: none; }
+    body.reading #home { display: none; }
+    body.reading #reader { display: block; }
+    .reader-bar { padding: 22px 0 0; display: flex; align-items: center; gap: 10px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 13px; border: 1px solid var(--line); border-radius: 8px;
+      background: var(--panel); color: var(--text-soft); font-size: 13px; font-weight: 600;
     }
+    .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .reader-edit { margin-left: auto; color: var(--muted); font-size: 12.5px; }
+    .reader-edit:hover { color: var(--accent); }
 
-    .section-note {
-      max-width: 560px;
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      text-align: right;
+    .article-head { padding: 30px 0 18px; border-bottom: 1px solid var(--line); margin-bottom: 30px; }
+    .article-kicker { color: var(--accent); font-size: 12.5px; font-weight: 700; letter-spacing: .02em; }
+    .article-meta { margin-top: 14px; color: var(--muted); font-size: 13px; display: flex; gap: 8px; align-items: center; }
+    .article-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+    #doc-state { color: var(--muted); font-size: 14px; padding: 10px 0; }
+
+    /* markdown body */
+    .md { font-size: 17px; line-height: 1.8; color: var(--text); }
+    .md h1 { font-size: 30px; line-height: 1.22; letter-spacing: -.025em; margin: 0; font-weight: 800; }
+    .md h2 {
+      margin: 40px 0 14px; font-size: 21px; font-weight: 760; letter-spacing: -.015em;
+      line-height: 1.3;
     }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+    .md h3 { margin: 30px 0 10px; font-size: 18px; font-weight: 700; }
+    .md h4 { margin: 22px 0 6px; font-size: 15px; font-weight: 700; color: var(--text-soft); }
+    .md p { margin: 0 0 18px; }
+    .md ul, .md ol { margin: 0 0 18px; padding-left: 24px; }
+    .md li { margin-bottom: 7px; }
+    .md li p { margin-bottom: 6px; }
+    .md a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+    .md strong { font-weight: 760; }
+    .md blockquote {
+      margin: 22px 0; padding: 4px 20px; border-left: 3px solid var(--accent);
+      color: var(--text-soft); font-style: normal;
     }
-
-    .grid.two {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .md blockquote p:last-child { margin-bottom: 0; }
+    .md hr { margin: 36px 0; border: 0; border-top: 1px solid var(--line); }
+    .md code {
+      padding: 2px 6px; border-radius: 5px; background: #f1ede4;
+      font-family: "SF Mono", ui-monospace, "Fira Code", monospace; font-size: .86em;
     }
-
-    .card {
-      min-width: 0;
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      box-shadow: 0 2px 12px rgba(32, 33, 36, 0.04);
+    .md pre {
+      overflow-x: auto; margin: 0 0 20px; padding: 16px 18px;
+      border: 1px solid var(--line); border-radius: 10px; background: #f6f2ea;
     }
+    .md pre code { padding: 0; background: none; font-size: 13.5px; line-height: 1.6; }
+    .md table { width: 100%; border-collapse: collapse; margin: 0 0 20px; font-size: 14.5px; display: block; overflow-x: auto; }
+    .md th, .md td { padding: 9px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .md th { background: var(--line-soft); font-weight: 700; }
+    .md img { max-width: 100%; border-radius: 10px; }
 
-    .card h3 {
-      margin: 0 0 8px;
-      font-size: 17px;
-      line-height: 1.25;
-      letter-spacing: 0;
+    .post-nav { margin: 44px 0 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .post-nav a {
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel);
     }
+    .post-nav a:hover { border-color: var(--accent); }
+    .post-nav .dir { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .post-nav .nt { font-size: 14.5px; font-weight: 650; line-height: 1.35; }
+    .post-nav a.next { text-align: right; }
+    .post-nav a.disabled { visibility: hidden; }
 
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin: 12px 0 0;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      min-height: 24px;
-      padding: 3px 7px;
-      border-radius: 6px;
-      background: var(--ink-soft);
-      color: #44413a;
-      font-size: 12px;
-      font-weight: 650;
-    }
-
-    .tag.green {
-      background: var(--green-soft);
-      color: var(--green);
-    }
-
-    .tag.blue {
-      background: var(--blue-soft);
-      color: var(--blue);
-    }
-
-    .tag.red {
-      background: var(--red-soft);
-      color: var(--red);
-    }
-
-    .tag.gold {
-      background: var(--gold-soft);
-      color: var(--gold);
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 860px;
-      font-size: 14px;
-    }
-
-    th,
-    td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background: var(--panel-soft);
-      color: #393731;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-
-    tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .priority {
-      width: 44px;
-      color: var(--muted);
-      font-weight: 760;
-    }
-
-    .title-cell {
-      min-width: 220px;
-      font-weight: 720;
-    }
-
-    .quote-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    blockquote {
-      margin: 0;
-      padding: 14px 16px;
-      border-left: 4px solid var(--green);
-      border-radius: 0 8px 8px 0;
-      background: var(--panel);
-      color: #34342f;
-      font-size: 15px;
-    }
-
-    .source-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .source-item {
-      display: grid;
-      grid-template-columns: minmax(170px, 0.8fr) minmax(0, 1.4fr) minmax(0, 1.5fr);
-      gap: 12px;
-      padding: 13px 14px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-    }
-
-    .source-title {
-      font-weight: 740;
-    }
-
-    .source-desc,
-    .source-use {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .footer {
-      margin-top: 44px;
-      padding: 18px 0 0;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    @media (max-width: 980px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        position: static;
-        height: auto;
-        padding: 18px 18px 12px;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .nav-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-
-      .nav-label {
-        display: none;
-      }
-
-      .nav-link {
-        border: 1px solid var(--line);
-        background: var(--panel);
-      }
-
-      .main {
-        padding: 26px 18px 42px;
-      }
-
-      h1 {
-        font-size: 34px;
-      }
-
-      .topbar,
-      .section-head {
-        display: block;
-      }
-
-      .meta,
-      .section-note {
-        margin-top: 12px;
-        text-align: left;
-      }
-
-      .grid,
-      .grid.two {
-        grid-template-columns: 1fr;
-      }
-
-      .source-item {
-        grid-template-columns: 1fr;
-      }
+    @media (max-width: 640px) {
+      .hero { padding: 40px 0 22px; }
+      .hero h1 { font-size: 30px; }
+      .hero p { font-size: 16px; }
+      .post { grid-template-columns: 30px 1fr; gap: 12px; }
+      .post-title { font-size: 17px; }
+      .md { font-size: 16px; }
+      .md h1 { font-size: 25px; }
+      .post-nav { grid-template-columns: 1fr; }
+      .post-nav a.next { text-align: left; }
+      .topbar nav a { padding: 6px 8px; }
     }
   </style>
-  <link rel="stylesheet" href="./assets/viewer.css" />
 </head>
 <body>
-  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-  <div class="topbar">
-    <button class="menu-btn" type="button" onclick="openSidebar()">☰</button>
-    <div class="topbar-title" id="topbar-title">Writing Dashboard</div>
-    <button class="edit-action topbar-index-action" type="button" onclick="showDashboard()">홈</button>
-  </div>
-  <div class="layout app-shell">
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <div class="brand-name">Writing Dashboard</div>
-        <div class="brand-meta">Medium 글감 뷰어</div>
-        <div class="sidebar-actions">
-          <a class="sidebar-link" href="./worklog.html">← 워크로그</a>
-          <a class="sidebar-link" href="./storybook-docs.html">Storybook</a>
-        </div>
-      </div>
-      <div class="nav-label">Sections</div>
-      <div class="nav-group">
-        <a class="nav-link" href="#overview">개요</a>
-        <a class="nav-link" href="#series">연재 초안</a>
-        <a class="nav-link" href="#ideas">새 글감</a>
-        <a class="nav-link" href="#notion">Notion 원본</a>
-        <a class="nav-link" href="#next">다음 편집</a>
-      </div>
-      <div class="nav-label">Source Files</div>
-      <div class="nav-group">
-        <a class="nav-link" href="./writing/글감_리스트.md">글감 리스트 MD</a>
-        <a class="nav-link" href="./writing/_sources/notion_source_map.md">Notion Source Map</a>
-        <a class="nav-link" href="./writing/_sources/product_research_backlog.md">Research Backlog</a>
-        <a class="nav-link" href="./writing/VOICE_GUIDE.md">Voice Guide</a>
-      </div>
-    </aside>
+  <header class="topbar">
+    <a class="brand" href="#" onclick="showHome();return false;">Jumi <span>writes</span></a>
+    <nav>
+      <a href="./worklog.html">워크로그</a>
+      <a href="./storybook-docs.html">Storybook</a>
+      <a href="https://github.com/JumiJeong-design/Jumi-Worklog/tree/main/writing" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
 
-    <main class="main">
-      <div class="reader">
-      <section class="dashboard" id="dashboard">
-      <section id="overview">
-        <div class="page-head">
-          <div>
-            <h1>Medium 글감과 Notion 원본을 한눈에 보는 페이지</h1>
-            <p class="subtitle">Markdown 원본은 그대로 두고, 발행 후보와 후속 리서치 출처를 빠르게 훑기 위한 읽기용 화면입니다.</p>
-          </div>
-          <div class="meta">
-            <span>Last updated: 2026-06-11</span>
-            <span>Source: jumi-worklog/writing</span>
-          </div>
-        </div>
-
-        <div class="quick-actions">
-          <a class="chip" href="./writing/글감_리스트.md">원본 글감 리스트</a>
-          <a class="chip" href="./writing/_sources/notion_source_map.md">Notion 연결 보기</a>
-          <a class="chip" href="./writing/_sources/product_research_backlog.md">상세 백로그</a>
-          <a class="chip" href="./writing/VOICE_GUIDE.md">Medium 말투 기준</a>
-        </div>
-
-        <div class="edit-hub">
-          <a class="edit-link" href="https://github.com/JumiJeong-design/Jumi-Worklog/edit/main/writing/글감_리스트.md" target="_blank" rel="noopener">
-            <strong>글감 리스트 편집</strong>
-            <span>발행 후보, 우선순위, 메모 수정</span>
-          </a>
-          <a class="edit-link" href="https://github.com/JumiJeong-design/Jumi-Worklog/tree/main/writing" target="_blank" rel="noopener">
-            <strong>Writing 폴더 열기</strong>
-            <span>연재 초안과 source map 전체 보기</span>
-          </a>
-          <a class="edit-link" href="https://github.com/JumiJeong-design/Jumi-Worklog/edit/main/writing/VOICE_GUIDE.md" target="_blank" rel="noopener">
-            <strong>말투 기준 편집</strong>
-            <span>Medium 문체, 금지어, 톤 조정</span>
-          </a>
-        </div>
-
-        <div class="grid">
-          <article class="card">
-            <h3>바로 발행 후보</h3>
-            <p>AX 5편, Compound 3편, Wiki/Storybook/Figma sync 글감이 정리되어 있습니다.</p>
-            <div class="tag-row">
-              <span class="tag green">초안 있음</span>
-              <span class="tag">Medium</span>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Notion 기반 사례</h3>
-            <p>쏘냥이, 멀티모델 UI, 유저 리서치, 웹사이트 test 문서를 글감에 연결했습니다.</p>
-            <div class="tag-row">
-              <span class="tag blue">원본 링크</span>
-              <span class="tag">source map</span>
-            </div>
-          </article>
-          <article class="card">
-            <h3>후속 발굴 방식</h3>
-            <p>상위 Notion DB는 전체 본문을 긁지 않고 제목/URL/속성만 얕게 스캔한 뒤 선별합니다.</p>
-            <div class="tag-row">
-              <span class="tag gold">후속 작업</span>
-              <span class="tag">inventory</span>
-            </div>
-          </article>
-        </div>
+  <!-- ════════ HOME (blog feed) ════════ -->
+  <main id="home">
+    <div class="wrap">
+      <section class="hero">
+        <div class="eyebrow">AI × 디자인 · 실험 기록</div>
+        <h1>디자이너가 AI와 일하며<br />남긴 글</h1>
+        <p>AI를 디자인 시스템 운영에 넣어보며 부딪힌 것들. 화면을 빨리 만드는 이야기가 아니라, AI가 들어와도 기준이 안 흔들리게 설계한 기록입니다.</p>
+        <div class="meta" id="hero-meta">글 10편 · 두 개의 연재</div>
       </section>
 
-      <section class="section" id="series">
-        <div class="section-head">
-          <h2>연재 초안</h2>
-          <p class="section-note">이미 파일로 분리된 글입니다. 먼저 VOICE_GUIDE 기준으로 첫 문단을 다시 다듬으면 됩니다.</p>
-        </div>
-        <div class="grid two">
-          <article class="card">
-            <h3>AX 5편 사례 연재</h3>
-            <p>AI workflow, Figma, Git, Storybook, Worklog 기반 사례 연재. 실제 시행착오 중심으로 정리합니다.</p>
-            <div class="tag-row">
-              <a class="tag green" href="./writing/AX_5편_사례연재/0_안내.md">안내</a>
-              <a class="tag" href="./writing/AX_5편_사례연재/1_왜_직접_코드화를_멈췄나.md">1편</a>
-              <a class="tag" href="./writing/AX_5편_사례연재/2_Figma를_Git으로_Storybook으로.md">2편</a>
-              <a class="tag" href="./writing/AX_5편_사례연재/3_기준_설계_Foundation과_Rules.md">3편</a>
-              <a class="tag" href="./writing/AX_5편_사례연재/4_운영_설계_Worklog와_문서레벨.md">4편</a>
-              <a class="tag" href="./writing/AX_5편_사례연재/5_마지막_디테일은_디자이너의_몫.md">5편</a>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Compound Engineering 3편</h3>
-            <p>Compound Engineering을 디자이너의 AI 협업 운영 방식으로 번역한 방법론 초안입니다.</p>
-            <div class="tag-row">
-              <a class="tag green" href="./writing/Compound_3편_방법론연재/0_안내.md">안내</a>
-              <a class="tag" href="./writing/Compound_3편_방법론연재/1_왜_디자이너가_Compound_Engineering을_알아야_하나.md">1편</a>
-              <a class="tag" href="./writing/Compound_3편_방법론연재/2_AI_협업에서_Plan_Work_Review를_잡는_법.md">2편</a>
-              <a class="tag" href="./writing/Compound_3편_방법론연재/3_취향과_판단을_시스템에_남기는_법.md">3편</a>
-            </div>
-          </article>
-        </div>
+      <div id="series-root"></div>
+
+      <section class="notes">
+        <h2>구상 중인 글</h2>
+        <p class="lead">아직 초안은 없지만 출처와 방향이 잡힌 글감입니다. 자세한 목록은 글감 리스트에서 볼 수 있어요.</p>
+        <div class="idea-list" id="idea-root"></div>
+        <div class="note-links" id="note-root"></div>
       </section>
 
-      <section class="section" id="ideas">
-        <div class="section-head">
-          <h2>새 글감 후보</h2>
-          <p class="section-note">브랜딩/캐릭터, 문서 챗봇, UT, 웹 디자인-개발 test는 Notion 원본이 연결되어 있어 바로 확장하기 좋습니다.</p>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>순서</th>
-                <th>글감</th>
-                <th>추천 형태</th>
-                <th>메모</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="priority">1</td>
-                <td class="title-cell">AI로 브랜딩 구축 프로세스</td>
-                <td>단독 글 또는 사례 연재</td>
-                <td>쏘냥이 원본 문서 4개가 연결되어 있어 캐릭터/컬러/말투/모션 기준으로 확장 가능</td>
-              </tr>
-              <tr>
-                <td class="priority">2</td>
-                <td class="title-cell">AI로 캐릭터/모션 생성 프로세스</td>
-                <td>단독 글 또는 case</td>
-                <td>이미지 생성, 모션 생성, UI 삽입 전 검수, 개발 전달 포맷까지 사례화 가능</td>
-              </tr>
-              <tr>
-                <td class="priority">3</td>
-                <td class="title-cell">문서 기반 Q&A / 챗봇</td>
-                <td>wiki playbook + 글</td>
-                <td>Notion, wiki, worklog를 source map으로 묶고 챗봇이 답할 수 있는 경계를 정리</td>
-              </tr>
-              <tr>
-                <td class="priority">4</td>
-                <td class="title-cell">제품 단계 진단 테스트</td>
-                <td>간단 테스트 / 체크리스트</td>
-                <td>OBT, MVP, Sprint, live 단계에 따라 디자인/실험/데이터 기준을 다르게 추천</td>
-              </tr>
-              <tr>
-                <td class="priority">5</td>
-                <td class="title-cell">UT나 데이터 기반 판단 기준</td>
-                <td>단독 글 또는 guide</td>
-                <td>설문 + 콜인터뷰 PD 논의를 바탕으로 AI 제품 UT 질문 구조를 글로 전환</td>
-              </tr>
-              <tr>
-                <td class="priority">6</td>
-                <td class="title-cell">AI로 웹사이트 디자인-개발 프로세스 줄이기</td>
-                <td>case 또는 비교 글</td>
-                <td>Figma Make, Framer, Cursor를 팀 구성과 유지보수 기준으로 비교</td>
-              </tr>
-              <tr>
-                <td class="priority">7</td>
-                <td class="title-cell">코드 &lt;-&gt; 피그마 양방향 연동 결과 기록</td>
-                <td>case</td>
-                <td>Figma evidence package, source of truth, sync 성공/실패 기준으로 묶기</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="section" id="notion">
-        <div class="section-head">
-          <h2>Notion 원본 연결</h2>
-          <p class="section-note">원본 전체를 복사하지 않고, 글감으로 쓰기 좋은 포인트만 연결했습니다.</p>
-        </div>
-        <div class="source-list">
-          <a class="source-item" href="https://app.notion.com/p/35e5bc5f630780f6a1c7e09a6874edc0">
-            <span class="source-title">쏘냥이 만들기 26년ver</span>
-            <span class="source-desc">쏘냥이 이미지/모션 제작 가이드</span>
-            <span class="source-use">브랜딩, 캐릭터/모션, 리소스 운영 글감</span>
-          </a>
-          <a class="source-item" href="https://app.notion.com/p/31e5bc5f6307801c9400ee81c61443f5">
-            <span class="source-title">멀티 모델 UI</span>
-            <span class="source-desc">멀티모델 서비스 UI 레퍼런스와 인사이트</span>
-            <span class="source-use">모델 선택 UX, model routing, 생산성 도구 확장</span>
-          </a>
-          <a class="source-item" href="https://app.notion.com/p/3455bc5f630780399f64c9e8fb07154f">
-            <span class="source-title">유저 설문 + 콜인터뷰 PD논의</span>
-            <span class="source-desc">설문/인터뷰 질문 설계</span>
-            <span class="source-use">UT, 데이터 기반 판단, 제품 단계 진단</span>
-          </a>
-          <a class="source-item" href="https://app.notion.com/p/3195bc5f6307804782f5c7b1154e83c2">
-            <span class="source-title">웹사이트 디자인-개발 test</span>
-            <span class="source-desc">Figma Make, Framer, Cursor 테스트</span>
-            <span class="source-use">AI 디자인-개발 툴 선택 기준</span>
-          </a>
-          <a class="source-item" href="https://app.notion.com/p/3605bc5f630780d2a294c6fa4fe1fcd1">
-            <span class="source-title">쏘냥이 일관성 유지용 프롬프트</span>
-            <span class="source-desc">마스터 프롬프트와 가변 슬롯</span>
-            <span class="source-use">캐릭터 일관성, 이미지/텍스트 학습 비교</span>
-          </a>
-          <a class="source-item" href="https://app.notion.com/p/2345bc5f630780e7adadd523fc4e6141">
-            <span class="source-title">소크라 튜터 프로덕트 디자인</span>
-            <span class="source-desc">상위 디자인 문서 허브</span>
-            <span class="source-use">후속 DB 인벤토리, 제품 단계별 글감 발굴</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="section" id="next">
-        <div class="section-head">
-          <h2>다음 편집 기준</h2>
-          <p class="section-note">바로 할 일은 글을 더 늘리는 것보다, 발행 후보를 고르고 주미님 Medium 톤으로 다시 쓰는 것입니다.</p>
-        </div>
-        <div class="quote-list">
-          <blockquote>AX 5편은 첫 1-2문단의 기술어 밀도를 낮춘다.</blockquote>
-          <blockquote>Notion 원본은 source map에 먼저 연결한 뒤, 외부 발행 가능한 내용만 초안으로 옮긴다.</blockquote>
-          <blockquote>상위 Notion DB는 전체 본문을 긁지 않고 제목, URL, 업무 속성, 제품 단계만 얕게 스캔한다.</blockquote>
-          <blockquote>가장 먼저 발행하기 좋은 새 글감은 쏘냥이 브랜딩/캐릭터 사례와 웹사이트 디자인-개발 test다.</blockquote>
-        </div>
-      </section>
-
-      <footer class="footer">
-        이 페이지는 읽기용 대시보드입니다. 원본 편집은 각 Markdown 파일에서 계속 관리합니다.
+      <footer class="page-foot">
+        읽기용 블로그 화면입니다. 원본은 각 Markdown 파일에서 관리하고, 우상단 GitHub에서 바로 편집할 수 있어요.
       </footer>
-      </section>
-      <section class="viewer" id="doc-viewer">
-        <div class="doc-toolbar">
-          <button class="edit-action" type="button" onclick="showDashboard()">← 홈</button>
-          <a class="edit-action" id="doc-edit-link" href="#" target="_blank" rel="noopener">GitHub에서 편집</a>
-        </div>
-        <div class="doc-state" id="doc-state">글감을 선택하세요.</div>
-        <article class="md" id="doc-content"></article>
-      </section>
+    </div>
+  </main>
+
+  <!-- ════════ READER ════════ -->
+  <main id="reader">
+    <div class="wrap">
+      <div class="reader-bar">
+        <a class="back-btn" href="#" onclick="showHome();return false;">← 글 목록</a>
+        <a class="reader-edit" id="doc-edit-link" href="#" target="_blank" rel="noopener">GitHub에서 편집 ↗</a>
       </div>
-    </main>
-  </div>
+      <div class="article-head" id="article-head" hidden>
+        <div class="article-kicker" id="article-kicker"></div>
+        <div class="article-meta" id="article-meta"></div>
+      </div>
+      <div id="doc-state"></div>
+      <article class="md" id="doc-content"></article>
+      <nav class="post-nav" id="post-nav" hidden></nav>
+    </div>
+  </main>
+
   <script>
-  const WRITING_EDIT_BASE = 'https://github.com/JumiJeong-design/Jumi-Worklog/edit/main/';
-  const dashboard = document.getElementById('dashboard');
-  const viewer = document.getElementById('doc-viewer');
+  const BASE = './writing/';
+  const EDIT_BASE = 'https://github.com/JumiJeong-design/Jumi-Worklog/edit/main/writing/';
+
+  // ── content model ──
+  const SERIES = [
+    {
+      id: 'ax',
+      kicker: 'AX 실험 · 5편 연재',
+      title: 'AI를 디자인 시스템에 넣어본 2주',
+      desc: 'Socra/Prism 디자인 시스템에 AI를 붙여 운영해 본 실험. 시행착오 중심으로, "왜 이렇게 바꿨는지"를 먼저 풉니다.',
+      dir: 'AX_5편_사례연재/',
+      posts: [
+        { n: '안내', intro: true, file: '0_안내.md', title: '나눠 읽기 — 시리즈 안내',
+          ex: 'AI로 화면을 빨리 만드는 게 아니라, AI가 들어와도 기준이 안 흔들리게 설계한 2주 실험. 파트별로 나눠 읽는 입구입니다.' },
+        { n: '1', file: '1_왜_직접_코드화를_멈췄나.md', title: '왜 직접 코드화를 멈췄나',
+          ex: 'Figma를 AI에게 바로 코드화시키면 빠를 줄 알았다. 실제론 토큰 소모도 크고 디자이너의 탐색이 좁아졌다. 그래서 "승인된 기준만 Git·Storybook으로 잇는" 방식으로 방향을 틀었다.' },
+        { n: '2', file: '2_Figma를_Git으로_Storybook으로.md', title: 'Figma를 Git으로, Storybook으로',
+          ex: '이번 실험의 핵심 루프 — Figma 승인 → Git 언어화 → Package 반영 → Storybook QA → Worklog/Wiki 기록. AI는 이 흐름 안에서 비교·누락 탐지·문서화를 맡았다.' },
+        { n: '3', file: '3_기준_설계_Foundation과_Rules.md', title: 'AI를 통제한 두 개의 기준 — Foundation과 Rules',
+          ex: '좋은 프롬프트만으로는 부족했다. Figma Foundation(어떤 시각 값이 맞는가)과 Git Rules(AI가 어디까지 고쳐도 되는가) — 두 기준이 사실상 또 하나의 디자인 시스템이었다.' },
+        { n: '4', file: '4_운영_설계_Worklog와_문서레벨.md', title: '작업을 잃지 않게 한 운영 설계 — Worklog와 문서 레벨',
+          ex: '기준을 세워도 세션이 끊기면 맥락이 사라진다. Worklog는 회고가 아니라 다음 작업을 계산하는 계획 엔진, Wiki는 별도의 리서치 레이어로 운영했다.' },
+        { n: '5', file: '5_마지막_디테일은_디자이너의_몫.md', title: '마지막 디테일은 디자이너의 몫',
+          ex: 'AI는 구조·누락·문서화에 강했지만, B2C 품질의 마지막 디테일은 디자이너 몫이었다. 결론은 "AI가 대체한다"가 아니라 "AI가 들어와도 시스템이 안 무너지게 설계한다"였다.' },
+      ],
+    },
+    {
+      id: 'ce',
+      kicker: 'Compound Engineering · 3편 연재',
+      title: 'Compound Engineering을 디자이너 관점으로',
+      desc: 'Every의 Compound Engineering을 전문 번역이 아니라, AI와 일하는 디자이너가 자기 업무에 바로 적용할 수 있는 언어로 다시 풀어쓴 방법론.',
+      dir: 'Compound_3편_방법론연재/',
+      posts: [
+        { n: '안내', intro: true, file: '0_안내.md', title: '디자이너 관점으로 읽기 — 시리즈 안내',
+          ex: '중심 질문은 하나. "이번 작업이 끝난 뒤, 다음 작업은 더 쉬워졌는가?" 3편 전체의 독자 약속.' },
+        { n: '1', file: '1_왜_디자이너가_Compound_Engineering을_알아야_하나.md', title: '왜 디자이너가 Compound Engineering을 알아야 하나',
+          ex: 'AI를 쓰면 처음엔 속도에 놀란다. 하지만 빨리 만든 결과가 다음 작업을 쉽게 했는지, 더 많은 확인을 남겼는지가 진짜 문제다.' },
+        { n: '2', file: '2_AI_협업에서_Plan_Work_Review를_잡는_법.md', title: 'AI 협업에서 Plan, Work, Review를 잡는 법',
+          ex: '가장 위험한 순간은 느릴 때가 아니라 너무 빨리 그럴듯한 결과가 나올 때다. "무엇을 만들까"만큼 "언제 멈추고 무엇을 확인할까"를 나누는 법.' },
+        { n: '3', file: '3_취향과_판단을_시스템에_남기는_법.md', title: '취향과 판단을 시스템에 남기는 법',
+          ex: '여백·톤·사용감 같은 마지막 디테일은 문서 한 줄로 안 굳는다. 디자이너의 취향과 판단을 token·rule·checklist로 시스템에 남기는 법.' },
+      ],
+    },
+  ];
+
+  const IDEAS = [
+    { badge: 'Wiki', t: 'Wiki는 worklog의 예쁜 버전이 아니다', m: 'raw 기록과 반복 지식의 차이' },
+    { badge: 'Storybook', t: '디자이너가 Storybook을 QA 공간으로 쓰는 법', m: '상태별로 확인하는 방식' },
+    { badge: '브랜딩', t: 'AI로 브랜딩·캐릭터를 제품 톤에 맞추기', m: '쏘냥이 사례 · 생성 결과를 기준으로 승격' },
+    { badge: '제품', t: 'AI로 웹사이트 디자인-개발 프로세스 줄이기', m: 'Figma Make · Framer · Cursor 비교' },
+    { badge: '운영', t: '모바일로 AI 업무 흐름 제어하기', m: '승인·리뷰·중단 지점만 사람이 잡기' },
+  ];
+
+  const NOTE_LINKS = [
+    { label: '전체 글감 리스트', file: '글감_리스트.md' },
+    { label: 'Voice Guide (말투 기준)', file: 'VOICE_GUIDE.md' },
+    { label: 'Wiki source map', file: '_sources/wiki_source_map.md' },
+    { label: '제품/리서치 백로그', file: '_sources/product_research_backlog.md' },
+    { label: 'Notion source map', file: '_sources/notion_source_map.md' },
+  ];
+
+  // flat index for prev/next + lookup by relative file path
+  const FLAT = [];
+  SERIES.forEach(s => s.posts.forEach(p => FLAT.push({ ...p, rel: s.dir + p.file, series: s })));
+  const byRel = Object.fromEntries(FLAT.map(p => [p.rel, p]));
+
+  // ── render home ──
+  function renderHome() {
+    const root = document.getElementById('series-root');
+    root.innerHTML = SERIES.map(s => `
+      <section class="series">
+        <div class="series-head">
+          <span class="series-kicker">${s.kicker}</span>
+          <h2>${s.title}</h2>
+          <p class="desc">${s.desc}</p>
+        </div>
+        <div class="post-list">
+          ${s.posts.map(p => `
+            <article class="post" onclick="openDoc('${s.dir + p.file}')">
+              <div class="post-num ${p.intro ? 'intro' : ''}">${p.intro ? '안내' : p.n}</div>
+              <div>
+                <div class="post-title">${p.title}</div>
+                <div class="post-excerpt">${p.ex}</div>
+                <div class="post-foot"><span>${p.intro ? '시리즈 안내' : s.id.toUpperCase() + ' ' + p.n + '편'}</span></div>
+              </div>
+            </article>`).join('')}
+        </div>
+      </section>`).join('');
+
+    document.getElementById('idea-root').innerHTML = IDEAS.map(i => `
+      <div class="idea">
+        <span class="badge">${i.badge}</span>
+        <span><span class="t">${i.t}</span> &nbsp;<span class="m">${i.m}</span></span>
+      </div>`).join('');
+
+    document.getElementById('note-root').innerHTML = NOTE_LINKS.map(n =>
+      `<a href="#" onclick="openDoc('${n.file}');return false;">${n.label} →</a>`).join('');
+
+    const total = FLAT.filter(p => !p.intro).length;
+    document.getElementById('hero-meta').textContent = `글 ${total}편 · 두 개의 연재 · 구상 중 ${IDEAS.length}편+`;
+  }
+
+  // ── reader ──
   const docContent = document.getElementById('doc-content');
   const docState = document.getElementById('doc-state');
-  const docEditLink = document.getElementById('doc-edit-link');
-  const topbarTitle = document.getElementById('topbar-title');
+  const editLink = document.getElementById('doc-edit-link');
+  const headEl = document.getElementById('article-head');
+  const kickerEl = document.getElementById('article-kicker');
+  const metaEl = document.getElementById('article-meta');
+  const navEl = document.getElementById('post-nav');
 
-  function writingSourcePath(href) {
-    return href.replace(/^\.\/writing\//, 'writing/');
-  }
-  function publicHrefFromDocLink(currentHref, rawHref) {
-    if (!rawHref || rawHref.startsWith('#') || /^[a-z]+:/i.test(rawHref) || rawHref.startsWith('//')) return rawHref;
-    const siteBase = location.pathname.replace(/[^/]*$/, '');
-    const resolved = new URL(rawHref, new URL(currentHref, location.href));
-    if (resolved.origin !== location.origin || !resolved.pathname.startsWith(siteBase)) return resolved.href;
-    return './' + decodeURIComponent(resolved.pathname.slice(siteBase.length)) + resolved.search + resolved.hash;
-  }
-  function normalizeRenderedLinks(currentHref) {
+  function normalizeLinks(currentRel) {
     docContent.querySelectorAll('a[href]').forEach(link => {
-      const normalized = publicHrefFromDocLink(currentHref, link.getAttribute('href'));
-      link.setAttribute('href', normalized);
-      if (normalized.startsWith('./') && normalized.endsWith('.md')) {
-        link.addEventListener('click', event => {
-          event.preventDefault();
-          openDoc(normalized);
-        });
+      const raw = link.getAttribute('href');
+      if (!raw || raw.startsWith('#') || /^[a-z]+:/i.test(raw) || raw.startsWith('//')) return;
+      // resolve relative to the current doc's folder within writing/
+      const baseDir = currentRel.includes('/') ? currentRel.replace(/[^/]*$/, '') : '';
+      const resolved = (baseDir + raw).replace(/[^/]+\/\.\.\//g, '');
+      if (resolved.endsWith('.md')) {
+        link.setAttribute('href', '#');
+        link.addEventListener('click', e => { e.preventDefault(); openDoc(resolved); });
       }
     });
   }
-  function openSidebar() {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('overlay').classList.add('show');
-    document.body.style.overflow = 'hidden';
+
+  function siblings(rel) {
+    const meta = byRel[rel];
+    if (!meta) return { prev: null, next: null, meta: null };
+    const list = meta.series.posts;
+    const i = list.findIndex(p => meta.series.dir + p.file === rel);
+    const mk = p => p ? { rel: meta.series.dir + p.file, title: p.title } : null;
+    return { prev: mk(list[i - 1]), next: mk(list[i + 1]), meta };
   }
-  function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-    document.body.style.overflow = '';
-  }
-  function showDashboard() {
-    document.body.classList.remove('viewer-open');
-    dashboard.classList.remove('hidden');
-    viewer.classList.remove('active');
-    topbarTitle.textContent = 'Writing Dashboard';
-    document.querySelectorAll('.nav-link.active,.tag.active,.chip.active').forEach(el => el.classList.remove('active'));
-    if (location.hash.startsWith('#doc=')) history.replaceState(null, '', location.pathname);
-    closeSidebar();
-  }
-  async function openDoc(href, options = {}) {
-    document.body.classList.add('viewer-open');
-    dashboard.classList.add('hidden');
-    viewer.classList.add('active');
+
+  async function openDoc(rel) {
+    document.body.classList.add('reading');
     docContent.innerHTML = '';
-    docState.textContent = '문서를 불러오는 중...';
-    docEditLink.href = WRITING_EDIT_BASE + encodeURI(writingSourcePath(href));
-    document.querySelectorAll('.nav-link.active,.tag.active,.chip.active').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll(`a[href="${href}"]`).forEach(el => el.classList.add('active'));
-    closeSidebar();
+    navEl.hidden = true;
+    headEl.hidden = true;
+    docState.textContent = '불러오는 중…';
+    editLink.href = EDIT_BASE + encodeURI(rel);
+    window.scrollTo(0, 0);
+
+    const info = siblings(rel);
+    if (info.meta) {
+      kickerEl.textContent = info.meta.series.kicker;
+      headEl.hidden = false;
+    }
+
     try {
-      const response = await fetch(href);
-      if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-      const markdown = await response.text();
-      const title = markdown.match(/^#\s+(.+)$/m)?.[1] || href.split('/').pop();
-      topbarTitle.textContent = title;
+      const res = await fetch(BASE + rel);
+      if (!res.ok) throw new Error(res.status);
+      const md = await res.text();
       docState.textContent = '';
-      docContent.innerHTML = marked.parse(markdown);
-      normalizeRenderedLinks(href);
-      window.scrollTo(0, 0);
-      if (!options.skipHash) history.replaceState(null, '', `#doc=${encodeURIComponent(href)}`);
-    } catch (error) {
-      docState.textContent = '문서를 불러오지 못했습니다. 원본 링크로 다시 열어주세요.';
-      docContent.innerHTML = `<p><a href="${href}">${href}</a></p>`;
+      const chars = md.replace(/\s/g, '').length;
+      const mins = Math.max(1, Math.round(chars / 500));
+      if (info.meta) {
+        metaEl.innerHTML = `<span>${info.meta.intro ? '시리즈 안내' : info.meta.series.id.toUpperCase() + ' ' + info.meta.n + '편'}</span><span class="dot"></span><span>읽는 시간 약 ${mins}분</span>`;
+      }
+      docContent.innerHTML = marked.parse(md);
+      normalizeLinks(rel);
+
+      if (info.meta && (info.prev || info.next)) {
+        navEl.innerHTML = `
+          ${info.prev ? `<a href="#" onclick="openDoc('${info.prev.rel}');return false;"><span class="dir">← 이전 글</span><span class="nt">${info.prev.title}</span></a>` : '<a class="disabled"></a>'}
+          ${info.next ? `<a class="next" href="#" onclick="openDoc('${info.next.rel}');return false;"><span class="dir">다음 글 →</span><span class="nt">${info.next.title}</span></a>` : '<a class="next disabled"></a>'}`;
+        navEl.hidden = false;
+      }
+      history.replaceState(null, '', '#read=' + encodeURIComponent(rel));
+    } catch (e) {
+      docState.innerHTML = `문서를 불러오지 못했습니다. <a class="md" href="${EDIT_BASE + encodeURI(rel)}" style="color:var(--accent)">GitHub에서 보기 ↗</a>`;
     }
   }
-  document.querySelectorAll('a[href^="./writing/"][href$=".md"]').forEach(link => {
-    if (link.dataset.editReady) return;
-    link.dataset.editReady = 'true';
-    link.title = '클릭하면 문서를 열고, 상단 편집 허브에서 원본을 수정할 수 있습니다.';
-    link.addEventListener('click', event => {
-      event.preventDefault();
-      openDoc(link.getAttribute('href'));
-    });
-  });
-  const initialDoc = location.hash.startsWith('#doc=') ? decodeURIComponent(location.hash.replace('#doc=', '')) : '';
-  if (initialDoc) openDoc(initialDoc, { skipHash: true });
+
+  function showHome() {
+    document.body.classList.remove('reading');
+    history.replaceState(null, '', location.pathname + location.search);
+    window.scrollTo(0, 0);
+  }
+
+  // ── init ──
+  renderHome();
+  const m = location.hash.match(/^#read=(.+)$/);
+  if (m) openDoc(decodeURIComponent(m[1]));
   </script>
 </body>
 </html>
