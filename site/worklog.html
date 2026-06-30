@@ -2314,6 +2314,8 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 ## 논의 대기
 - [ ] **입력바 progressive blur 채택 논의** — 6/29 탐색·보존(커밋 `533445f`, 로컬 탐색물). 텍스트=미묘·이미지=자연스러운 개선, `scrimOpacity` 0.3 필수. 적용 시 `BottomBar`+`ChatPage` 2곳 + Figma 단색 그라디언트와의 의도차 판단.
+- [ ] **Announcement Popover · 알림 Badge dot 채택 논의** — 6/30 ChatInputBar 작업 중 레퍼런스(ChatGPT promo 팝업·아이콘 알림 점) 보고 발견. **기획(promo 팝업이 실제 필요한지·위치) 선행 = speculative**, 빌드 안 함. Announcement는 기존 `SourcePopover` surface(neutral/white·shadow/md·radius/xl) 재사용, 알림 dot은 `Badge`에 `Type=dot` 변형. 상세 prism `plan-13`.
+- [ ] **ChatInputBar 미결 디테일** — 버튼 툴팁 단축키 표시 여부 · 음성(mic) 버튼 추가 여부 · focused 글로우 색(brand `action-primary` vs 표준 `--color-focus`). 구현은 완료, 디테일만 논의.
 
 ## 추가 완료 (대화 중 발생)
 - [x] **Tab Item(3147:8514) → PromptPill 제안** — 역할=채팅 추천질문과 동일 → 추천질문 패밀리 형제 `PromptPill`(button, default|engaged). Figma 제안 보드 `3163:1435` + plan-11 §9. (빌드·Figma 리네임은 추천질문 5초안 승격에 합류)
