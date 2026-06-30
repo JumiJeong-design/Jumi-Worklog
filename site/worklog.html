@@ -2292,6 +2292,27 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-06-30">
+# 2026-06-30 계획
+
+6/29 미완 이관. 트랙 정합이 prism 선결(진단 완료, 실행만 남음).
+
+## 최우선 — 트랙 정합 (진단 완료, 실행 대기)
+- [ ] **plan/parallel-codex 트랙 rebase 실행** — 6/29 진단 완료(#17 squash로 본작업 흡수 / 재적용 대상 = #17 이후 신규 스토리 / 격리 worktree dry-run 충돌 0). 주미님 보류 해제 시 실행. 백업 2중(`-backup-0629` + origin 원격).
+
+## 홈 배경 방향 결정
+- [ ] **Aurora vs Ripple 채택 결정** — 둘 다 유력(탐색 완료). 결정 후 Overlay 정리 묶음(Home Prism Hero 롤백 · 발행 PR #22 닫기 · 탐색물 정리)에 합류.
+
+## 이관 (6/29 미완)
+- [ ] **구축단계 파일럿 문서 prism `docs/` 안착** — 역할맵 `docs/00-document-role-map.md` 정합 (트랙 rebase 후)
+- [ ] **미완성 계약 초안 5개** — citation / vote-bar / vote-result / question-item / recommended-questions (Figma 감사·승격 선행)
+- [ ] **ChatInputBar 입력 계약 확장** — 전송·타이핑 마이크로 인터랙션 (Figma 선행)
+- [ ] **neutral Chromatic 88건 의도/회귀 분류**
+
+## 사이드바 코드 정합 (6/29 탐색 꼬리)
+- [ ] **ChatHistoryPanel collapsed(레일) 뷰 지원** — Web 토글이 "완전 숨김"이라 Figma "레일"과 불일치. 공개 API 변경 신중 + Figma `type=collapsed` variant QA(간격·폭·정렬) 동반.
+</script>
+
 <script type="text/plain" id="plan-2026-06-29">
 # 2026-06-29 계획
 
@@ -2312,6 +2333,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 ## 추가 진행 (오늘 발생·완료)
 - [x] **입력바 하단 progressive blur 탐색** — magicui 기법 Socra 로컬 포팅(의존성0·`-webkit-`로 Safari OK), `Explorations/Bottom Bar Progressive Blur` 3종 + 라이트/다크 실측. 텍스트=미묘·이미지=자연스러운 개선, `scrimOpacity` 0.3 필수. 로컬 탐색물 커밋 `533445f`, 채택은 논의 대기(코드·Figma 미반영). (log 참조)
+- [x] **홈 배경 탐색 — ditherwave 미채택 + aceternity Ripple(유력)** — ditherwave(raw WebGL2 디더) 제품 배경 적용 평가 → 미채택(효과=사이버틱/채도빼면 어두움). aceternity Ripple(CSS grid·상시페인트0·의존성0) vendor → light/dark·Playground 옵션·ripple 색(light 0.1)·풀스크린 grid·토글 사이드패널까지. **유력 후보**(Aurora와 함께). 전부 로컬 미커밋, storybook 로컬 유지. (log 참조)
 </script>
 
 <script type="text/plain" id="plan-2026-06-26">
