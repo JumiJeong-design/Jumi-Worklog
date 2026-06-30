@@ -2320,19 +2320,20 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 # 2026-06-29 계획
 
 6/26 기록 확인 후 아래 우선순위부터. (6/26 미완 이관 + 오늘 작업 잔여)
+_하루 마무리 정리: 완료 `[x]` 유지, 미완 항목은 6/30으로 이관(취소선)._
 
 ## 최우선 — 트랙 정합 (선결)
-- [ ] **plan/parallel-codex 트랙 rebase/재정렬** — Codex가 main에 Base UI/Overlay(Skeleton#18·TextField#19·Modal#20·BottomSheet#23 + 분기 대정리#17)를 머지함(내 버킷명 `Base UI`/`Overlay`·진화경로 그대로 사용). 내 트랙(Components 하위 분류·Figma 재섹션화·GlassSurface sheen·Home Aurora)을 **새 main 위로 rebase**해야 통합 가능 → **다른 prism 작업의 선결**. 충돌은 "둘 다 살리기". (6/26 log "짚어둔 것"·Codex 포팅 섹션 참조)
+- [ ] ~~**plan/parallel-codex 트랙 rebase/재정렬** — Codex가 main에 Base UI/Overlay 머지, 내 트랙을 새 main 위로 rebase해야 통합 가능 (다른 prism 작업의 선결).~~ → **6/30 이관**
 
 ## 이관 (6/26 미완)
 - [x] **스토리북 운영방식 위키 업데이트** — 구축단계 파일럿 §11 "AI 기반 디자인 구축·전달 워크플로"(01 Design Intent / 02 Executable UI Review / 03 Integrate & QA / 04 Reinforce). 출시 후 운영 루프와 분리해서 명시. (`socra-ai-workflow-wiki` repo) → **이미 wiki v0.20 배포 완료 확인**(`wiki/playbooks/34-design-build-workflow.md`: 4단계+출시후 운영 루프 분리+Boundary intrinsic/extrinsic 포함, "위키 이관 2026-06-29"). 신규 작업 불필요(중복 방지).
-- [ ] **구축단계 파일럿 문서 prism `docs/`에 안착** — 역할맵 `docs/00-document-role-map.md`와 정합. (트랙 rebase 후)
-- [ ] **미완성 계약 초안 5개 마무리** — citation / vote-bar / vote-result / question-item / recommended-questions. 피그마 노드·공개 속성·스토리 요구사항(Figma 감사·승격 선행).
-- [ ] **ChatInputBar 입력 계약 확장** (파일럿 1번, Figma 선행) — 전송·타이핑 마이크로 인터랙션 Review Story.
+- [ ] ~~**구축단계 파일럿 문서 prism `docs/`에 안착** — 역할맵 정합 (트랙 rebase 후)~~ → **6/30 이관**
+- [ ] ~~**미완성 계약 초안 5개 마무리** — citation / vote-bar / vote-result / question-item / recommended-questions~~ → **6/30 이관**
+- [ ] ~~**ChatInputBar 입력 계약 확장** — 전송·타이핑 마이크로 인터랙션 (Figma 선행)~~ → **6/30 이관**
 
 ## 잔여 (6/26 작업 꼬리)
-- [ ] **WebGL 탐색물 롤백/유지 결정** — 홈 배경=CSS 오로라로 방향 확정 → `ogl` 의존성·`apps/storybook/src/stories/_vendor/Prism.tsx`·`Explorations/Home Prism Hero` 스토리 정리(롤백) 여부.
-- [ ] **neutral Chromatic 88건 의도/회귀 분류** — 재밸런싱이 진짜 원인인 88 변경을 의도/회귀로 분류(아키텍처 결정·드리프트 0은 완료).
+- [ ] ~~**WebGL 탐색물 롤백/유지 결정** — Home Prism Hero·`ogl`·`_vendor/Prism.tsx` 정리 여부~~ → **6/30 이관**(Overlay 정리 묶음)
+- [ ] ~~**neutral Chromatic 88건 의도/회귀 분류**~~ → **6/30 이관**
 
 ## 추가 진행 (오늘 발생·완료)
 - [x] **입력바 하단 progressive blur 탐색** — magicui 기법 Socra 로컬 포팅(의존성0·`-webkit-`로 Safari OK), `Explorations/Bottom Bar Progressive Blur` 3종 + 라이트/다크 실측. 텍스트=미묘·이미지=자연스러운 개선, `scrimOpacity` 0.3 필수. 로컬 탐색물 커밋 `533445f`, 채택은 논의 대기(코드·Figma 미반영). (log 참조)
