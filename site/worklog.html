@@ -2306,7 +2306,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 ## 이관 (6/29 미완)
 - [ ] **구축단계 파일럿 문서 prism `docs/` 안착** — 역할맵 `docs/00-document-role-map.md` 정합 (트랙 rebase 후). **rebase가 보류(주미님 go 대기)라 앞단이 막혀 못 함** — rebase 풀면 rebase→안착 바로.
 - [x] **ChatInputBar 입력 계약 확장** — 전송·타이핑 모션 + 버튼 포커스 폼(원형 링·첨부/전송 툴팁) 구현 완료. 모션은 Storybook `MotionReview`가 본판(Figma 정적 예외). typecheck/test(45)/build/storybook 통과. (log 참조)
-- [ ] **neutral Chromatic 88건 의도/회귀 분류** — 88 시각 diff를 봐야 분류 가능한데 **이 환경 Chromatic 접근 막힘**(sandbox DNS·업로드 승인, `pnpm visual` 미완). 빌드 링크/접근 또는 "바뀐 스토리→neutral 램프 영향 추론" triage 필요.
+- [ ] **neutral Chromatic 88건 의도/회귀 분류** — 88 시각 diff를 봐야 분류 가능. **정정: 네트워크 막힌 거 아님**(chromatic.com HTTP 200 확인). 실제 막힌 건 **CHROMATIC 프로젝트 토큰이 이 환경에 없음**(env·.env 없음) → 업로드/빌드 API 접근 불가. → 토큰/빌드 링크 주면 분류, 없으면 '바뀐 neutral 토큰→사용 스토리' 코드 triage(Chromatic 없이 가능).
 
 ## 사이드바 코드 정합 (6/29 탐색 꼬리)
 - [x] **ChatHistoryPanel collapsed(레일) 뷰 지원** — Figma `type=collapsed`(3136:1363, 60px)에 코드 일치. `state` prop(additive·하위호환) + 60px 레일 렌더 + Web 토글(완전숨김 제거), 신규 토큰 0. typecheck/test(45)/build/storybook 통과. (log 참조)
