@@ -96,6 +96,18 @@
 - 소유/주의: Codex 트랙(`*.tokens.json` 단일소유 — 6/25 외부 원복 충돌 1회). 값 출처 = MCP `get_variable_defs`(REST 403). 대표 기록 = prism `docs/plans/10-design-system-followup-2026-06.md` 2026-06-25 "neutral 풀 램프 아키텍처" 절.
 - 완료 조건: 드리프트 "새 0" 유지 + (2단계 시) gray 사용처 이관 완료 + Chromatic 통과.
 
+### 7/01 이월 — Overlay 정리 · PromptPill · 후속 결정 (트랙 rebase 후)
+
+- 상태: 트랙 rebase 완료로 아래가 활성 plan에서 백로그로 내려옴. 대부분 "결정 → 실행" 대기.
+- **홈 배경 Aurora vs Ripple 채택** → 채택 후 Overlay 정리 묶음(미채택 탐색물 제거 · Home Prism Hero WebGL 롤백 · 발행 PR #22 닫기). 둘 다 탐색 완료, 지금 트랙에 "미확정" 라벨로 실림. (위 "동적 인터랙션 배경/그래픽" 항목의 구체화)
+- **PromptPill 후속** — engaged 대비(`neutral/150`) OK 확인 · `TabItem` radius 24→16 동기화(컴포넌트) · Figma 프리뷰 프레임 정리 · 패키지 포팅(위 "투표/추천질문" 승격에 합류). Figma `Prompt Pill` `3190:1395`, prism plan-11 §9-1.
+- **입력바 progressive blur 채택** — 탐색·보존(`533445f`), 적용 시 `BottomBar`+`ChatPage` 2곳.
+- **Announcement Popover · 알림 Badge dot 채택** — 기획(promo 필요성) 선행, prism `plan-13`.
+- **ChatInputBar 미결 디테일** — 툴팁 단축키 표시 · mic 버튼 · focused 글로우 색.
+- **계약초안 5개** — 위 "Figma 디자인 다듬어서 정식으로 올릴지 — 투표/추천질문 · 출처" 항목과 동일(중복 안 만듦).
+- **Chromatic 88 accept/flag** — 위 "컴포넌트 state 제어 뷰 + Chromatic 승인 루프" 항목. 리뷰는 스냅샷 0=무료라 지금 가능(TurboSnap은 7/01 적용 완료).
+- 완료 조건: 각 항목 Go/No-go → Go면 실행.
+
 ## 잔여 (결정 완료·마무리만)
 
 ### Storybook 정보구조 재정리

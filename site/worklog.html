@@ -2300,22 +2300,12 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 ## 최우선 — 트랙 rebase 실행 (오늘)
 - [x] **plan/parallel-codex 트랙 rebase 실행** ✅ 완료 (충돌 plan-10 1건 정합 · verify: typecheck/test 49/build green · `--force-with-lease` push `ba82197`) — 6/29 진단대로: 경계=#17(`d29a253`) squash가 본작업 흡수 → #17 이전 ~46커밋 drop, 재적용=`029ad88` 이후 4커밋(sheen `340fe31`·aurora `8baf3fb`·progressive blur `533445f`·rail+motion `5db132d`). `git rebase --onto origin/main 029ad88`. 미커밋 6/30 후속 먼저 커밋. 백업 3중(`-backup-0629`·`-backup-0701`·origin). 검증 typecheck/build.
 
-## 홈 배경 방향 결정
-- [ ] **Aurora vs Ripple 채택 결정** — 둘 다 유력(탐색 완료). 결정 후 Overlay 정리 묶음(Home Prism Hero 롤백 · 발행 PR #22 닫기 · 탐색물 정리)에 합류.
-
 ## 이관 (rebase 후)
 - [x] **구축단계 파일럿 문서 prism `docs/` 안착** ✅ 이미 완료 확인 — `docs/workflows.md` §구축단계 워크플로(파일럿 v0.1)에 이미 안착(4단계·intrinsic/extrinsic·PR#15 인프라), 위키 playbook 34와 이중. 역할맵도 workflows.md를 진입문서로 반영. 신규 문서 불필요(역할맵 "기존 병합 우선").
-- [ ] **neutral Chromatic 88 accept/flag** — 코드 triage 완료(미세 회색=accept / 레이아웃·비회색=flag). Chromatic UI에서 주미님이 규칙대로. **리뷰는 스냅샷 0 = 무료(quota 무관, 지금 가능)**.
 - [x] **Chromatic 무료 운용(TurboSnap)** ✅ `visual` 스크립트 `--only-changed` 적용(prism `65bf4b2`) — 매 빌드 전 스토리 스냅샷(5,000/월 소진 원인) → 변경 스토리만(회당 80~95%↓). 남은 선택: CI onlyChanged · 탐색물 스토리 제외(visual 돌릴 때) · 모드/뷰포트 최소화. 88 리뷰는 무료(지금 가능).
 
-## PromptPill 후속 (6/30 빌드 뒤 미결)
-- [ ] **engaged 강도 · 탭 radius 동기화 · 프리뷰 정리 · 포팅** — 6/30 빌드+대비조정 완료. 남은 = `TabItem` radius 24→16 동기화 여부 · Components 프리뷰 프레임 정리 · 패키지 React 포팅(추천질문 패밀리 승격과 함께). plan-11 §9-1.
-
-## 논의 대기
-- [ ] **입력바 progressive blur 채택** — 6/29 탐색·보존(`533445f`). 텍스트=미묘·이미지=자연스러운 개선, `scrimOpacity` 0.3 필수. 적용 시 `BottomBar`+`ChatPage` 2곳.
-- [ ] **Announcement Popover · 알림 Badge dot 채택** — 기획(promo 필요성) 선행 speculative. Announcement=`SourcePopover` surface 재사용, dot=`Badge` `Type=dot`. prism `plan-13`.
-- [ ] **ChatInputBar 미결 디테일** — 툴팁 단축키 표시 · mic 버튼 · focused 글로우 색(`action-primary` vs `--color-focus`). 구현 완료, 디테일만.
-- [ ] **미완성 계약 초안 5개** — citation / vote-bar / vote-result / question-item / recommended-questions. Figma 승격 선행.
+## 결정/채택 대기 → 🧺 백로그 (7/01 이월)
+- Aurora/Ripple 채택(+Overlay 정리 묶음) · PromptPill 후속 · Chromatic 88 리뷰 · progressive blur · Announcement/Badge dot · ChatInputBar 디테일 · 계약초안 5개 → **백로그 "7/01 이월" 항목**으로 이동. 결정 시 실행.
 </script>
 
 <script type="text/plain" id="plan-2026-06-30">
