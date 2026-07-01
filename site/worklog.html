@@ -2298,13 +2298,13 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 6/30 미완 8건 이관. **트랙 rebase부터 실행**(주미님 go).
 
 ## 최우선 — 트랙 rebase 실행 (오늘)
-- [ ] **plan/parallel-codex 트랙 rebase 실행** — 6/29 진단대로: 경계=#17(`d29a253`) squash가 본작업 흡수 → #17 이전 ~46커밋 drop, 재적용=`029ad88` 이후 4커밋(sheen `340fe31`·aurora `8baf3fb`·progressive blur `533445f`·rail+motion `5db132d`). `git rebase --onto origin/main 029ad88`. 미커밋 6/30 후속 먼저 커밋. 백업 3중(`-backup-0629`·`-backup-0701`·origin). 검증 typecheck/build.
+- [x] **plan/parallel-codex 트랙 rebase 실행** ✅ 완료 (충돌 plan-10 1건 정합 · verify: typecheck/test 49/build green · `--force-with-lease` push `ba82197`) — 6/29 진단대로: 경계=#17(`d29a253`) squash가 본작업 흡수 → #17 이전 ~46커밋 drop, 재적용=`029ad88` 이후 4커밋(sheen `340fe31`·aurora `8baf3fb`·progressive blur `533445f`·rail+motion `5db132d`). `git rebase --onto origin/main 029ad88`. 미커밋 6/30 후속 먼저 커밋. 백업 3중(`-backup-0629`·`-backup-0701`·origin). 검증 typecheck/build.
 
 ## 홈 배경 방향 결정
 - [ ] **Aurora vs Ripple 채택 결정** — 둘 다 유력(탐색 완료). 결정 후 Overlay 정리 묶음(Home Prism Hero 롤백 · 발행 PR #22 닫기 · 탐색물 정리)에 합류.
 
 ## 이관 (rebase 후)
-- [ ] **구축단계 파일럿 문서 prism `docs/` 안착** — 역할맵 `docs/00-document-role-map.md` 정합. rebase 완료 뒤 바로.
+- [x] **구축단계 파일럿 문서 prism `docs/` 안착** ✅ 이미 완료 확인 — `docs/workflows.md` §구축단계 워크플로(파일럿 v0.1)에 이미 안착(4단계·intrinsic/extrinsic·PR#15 인프라), 위키 playbook 34와 이중. 역할맵도 workflows.md를 진입문서로 반영. 신규 문서 불필요(역할맵 "기존 병합 우선").
 - [ ] **neutral Chromatic 88 accept/flag** — 코드 triage 완료(미세 회색=accept / 레이아웃·비회색=flag). 남은 것 = Chromatic UI에서 주미님이 규칙대로 accept/flag.
 
 ## PromptPill 후속 (6/30 빌드 뒤 미결)
