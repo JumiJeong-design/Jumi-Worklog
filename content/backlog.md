@@ -98,7 +98,7 @@
 
 ### 7/01 이월 — Overlay 정리 · PromptPill · 후속 결정 (트랙 rebase 후)
 
-- 상태: 트랙 rebase 완료로 아래가 활성 plan에서 백로그로 내려옴. 대부분 "결정 → 실행" 대기.
+- 상태: 트랙 rebase 완료로 아래가 활성 plan에서 백로그로 내려옴. 대부분 "결정 → 실행" 대기. **(7/01) 한동안 코드 파킹 · 탐색 위주 모드 — `plan/parallel-codex` 트랙은 의도적 미merge(feature 브랜치, origin + 3중 백업), "까먹은 일감" 아님. main 반영은 나중에 Overlay 정리 묶음과 함께.**
 - **홈 배경 Aurora vs Ripple 채택** → 채택 후 Overlay 정리 묶음(미채택 탐색물 제거 · Home Prism Hero WebGL 롤백 · 발행 PR #22 닫기). 둘 다 탐색 완료, 지금 트랙에 "미확정" 라벨로 실림. (위 "동적 인터랙션 배경/그래픽" 항목의 구체화)
 - **PromptPill 후속** — engaged 대비(`neutral/150`) OK 확인 · `TabItem` radius 24→16 동기화(컴포넌트) · Figma 프리뷰 프레임 정리 · 패키지 포팅(위 "투표/추천질문" 승격에 합류). Figma `Prompt Pill` `3190:1395`, prism plan-11 §9-1.
 - **입력바 progressive blur 채택** — 탐색·보존(`533445f`), 적용 시 `BottomBar`+`ChatPage` 2곳.
