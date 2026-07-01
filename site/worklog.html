@@ -2292,30 +2292,57 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-07-01">
+# 2026-07-01 계획
+
+6/30 미완 8건 이관. **트랙 rebase부터 실행**(주미님 go).
+
+## 최우선 — 트랙 rebase 실행 (오늘)
+- [ ] **plan/parallel-codex 트랙 rebase 실행** — 6/29 진단대로: 경계=#17(`d29a253`) squash가 본작업 흡수 → #17 이전 ~46커밋 drop, 재적용=`029ad88` 이후 4커밋(sheen `340fe31`·aurora `8baf3fb`·progressive blur `533445f`·rail+motion `5db132d`). `git rebase --onto origin/main 029ad88`. 미커밋 6/30 후속 먼저 커밋. 백업 3중(`-backup-0629`·`-backup-0701`·origin). 검증 typecheck/build.
+
+## 홈 배경 방향 결정
+- [ ] **Aurora vs Ripple 채택 결정** — 둘 다 유력(탐색 완료). 결정 후 Overlay 정리 묶음(Home Prism Hero 롤백 · 발행 PR #22 닫기 · 탐색물 정리)에 합류.
+
+## 이관 (rebase 후)
+- [ ] **구축단계 파일럿 문서 prism `docs/` 안착** — 역할맵 `docs/00-document-role-map.md` 정합. rebase 완료 뒤 바로.
+- [ ] **neutral Chromatic 88 accept/flag** — 코드 triage 완료(미세 회색=accept / 레이아웃·비회색=flag). 남은 것 = Chromatic UI에서 주미님이 규칙대로 accept/flag.
+
+## PromptPill 후속 (6/30 빌드 뒤 미결)
+- [ ] **engaged 강도 · 탭 radius 동기화 · 프리뷰 정리 · 포팅** — 6/30 빌드+대비조정 완료. 남은 = `TabItem` radius 24→16 동기화 여부 · Components 프리뷰 프레임 정리 · 패키지 React 포팅(추천질문 패밀리 승격과 함께). plan-11 §9-1.
+
+## 논의 대기
+- [ ] **입력바 progressive blur 채택** — 6/29 탐색·보존(`533445f`). 텍스트=미묘·이미지=자연스러운 개선, `scrimOpacity` 0.3 필수. 적용 시 `BottomBar`+`ChatPage` 2곳.
+- [ ] **Announcement Popover · 알림 Badge dot 채택** — 기획(promo 필요성) 선행 speculative. Announcement=`SourcePopover` surface 재사용, dot=`Badge` `Type=dot`. prism `plan-13`.
+- [ ] **ChatInputBar 미결 디테일** — 툴팁 단축키 표시 · mic 버튼 · focused 글로우 색(`action-primary` vs `--color-focus`). 구현 완료, 디테일만.
+- [ ] **미완성 계약 초안 5개** — citation / vote-bar / vote-result / question-item / recommended-questions. Figma 승격 선행.
+</script>
+
 <script type="text/plain" id="plan-2026-06-30">
 # 2026-06-30 계획
 
 6/29 미완 이관. 트랙 정합이 prism 선결(진단 완료, 실행만 남음).
 
+_하루 마무리(7/01 아침 정리): 완료 `[x]` 유지. 미완 `[ ]` 8개는 7/01 plan으로 이관(취소선)._
+
 ## 최우선 — 트랙 정합 (진단 완료, 실행 대기)
-- [ ] **plan/parallel-codex 트랙 rebase 실행** — 6/29 진단 완료(#17 squash로 본작업 흡수 / 재적용 대상 = #17 이후 신규 스토리 / 격리 worktree dry-run 충돌 0). 주미님 보류 해제 시 실행. 백업 2중(`-backup-0629` + origin 원격).
+- [ ] ~~**plan/parallel-codex 트랙 rebase 실행**~~ → **7/01 이관** (오늘 실행)
 
 ## 홈 배경 방향 결정
-- [ ] **Aurora vs Ripple 채택 결정** — 둘 다 유력(탐색 완료). 결정 후 Overlay 정리 묶음(Home Prism Hero 롤백 · 발행 PR #22 닫기 · 탐색물 정리)에 합류.
+- [ ] ~~**Aurora vs Ripple 채택 결정**~~ → **7/01 이관**
 
 ## 이관 (6/29 미완)
-- [ ] **구축단계 파일럿 문서 prism `docs/` 안착** — 역할맵 `docs/00-document-role-map.md` 정합 (트랙 rebase 후). **rebase가 보류(주미님 go 대기)라 앞단이 막혀 못 함** — rebase 풀면 rebase→안착 바로.
+- [ ] ~~**구축단계 파일럿 문서 prism `docs/` 안착**~~ → **7/01 이관** (rebase 후)
 - [x] **ChatInputBar 입력 계약 확장** — 전송·타이핑 모션 + 버튼 포커스 폼(원형 링·첨부/전송 툴팁) 구현 완료. 모션은 Storybook `MotionReview`가 본판(Figma 정적 예외). typecheck/test(45)/build/storybook 통과. (log 참조)
-- [ ] **neutral Chromatic 88건 의도/회귀 분류** — **코드 triage 완료**: 88건은 거의 다 미세 회색 톤 이동(`d6bcd15`·`15072c2` neutral ±1 재밸런싱 + 램프·gray→neutral 정리)이라 대부분 의도. 규칙 = 미세 회색만=accept / 레이아웃·비회색=flag. 의도 예상 ~27 컴포넌트(log). **남은 것 = Chromatic UI에서 규칙대로 accept/flag**. 토큰은 메모리 보관(다신 안 물음), `pnpm visual`은 로컬 탐색물 publish 우려로 안 돌림.
+- [ ] ~~**neutral Chromatic 88건 의도/회귀 분류**~~ → **7/01 이관** (코드 triage 완료 · 남은 것 = Chromatic UI에서 규칙대로 accept/flag)
 
 ## 사이드바 코드 정합 (6/29 탐색 꼬리)
 - [x] **ChatHistoryPanel collapsed(레일) 뷰 지원** — Figma `type=collapsed`(3136:1363, 60px)에 코드 일치. `state` prop(additive·하위호환) + 60px 레일 렌더 + Web 토글(완전숨김 제거), 신규 토큰 0. typecheck/test(45)/build/storybook 통과. (log 참조)
 
-## 논의 대기
-- [ ] **입력바 progressive blur 채택 논의** — 6/29 탐색·보존(커밋 `533445f`, 로컬 탐색물). 텍스트=미묘·이미지=자연스러운 개선, `scrimOpacity` 0.3 필수. 적용 시 `BottomBar`+`ChatPage` 2곳 + Figma 단색 그라디언트와의 의도차 판단.
-- [ ] **Announcement Popover · 알림 Badge dot 채택 논의** — 6/30 ChatInputBar 작업 중 레퍼런스(ChatGPT promo 팝업·아이콘 알림 점) 보고 발견. **기획(promo 팝업이 실제 필요한지·위치) 선행 = speculative**, 빌드 안 함. Announcement는 기존 `SourcePopover` surface(neutral/white·shadow/md·radius/xl) 재사용, 알림 dot은 `Badge`에 `Type=dot` 변형. 상세 prism `plan-13`.
-- [ ] **ChatInputBar 미결 디테일** — 버튼 툴팁 단축키 표시 여부 · 음성(mic) 버튼 추가 여부 · focused 글로우 색(brand `action-primary` vs 표준 `--color-focus`). 구현은 완료, 디테일만 논의.
-- [ ] **미완성 계약 초안 5개** — citation / vote-bar / vote-result / question-item / recommended-questions. Figma 감사·ideation→Components 승격 선행이라 논의 대기.
+## 논의 대기 (→ 7/01 이관)
+- [ ] ~~**입력바 progressive blur 채택 논의**~~ → **7/01 이관**
+- [ ] ~~**Announcement Popover · 알림 Badge dot 채택 논의**~~ → **7/01 이관**
+- [ ] ~~**ChatInputBar 미결 디테일**~~ → **7/01 이관**
+- [ ] ~~**미완성 계약 초안 5개**~~ → **7/01 이관**
 
 ## 추가 완료 (대화 중 발생)
 - [x] **Tab Item(3147:8514) → PromptPill 제안** — 역할=채팅 추천질문과 동일 → 추천질문 패밀리 형제 `PromptPill`(button, default|engaged). Figma 제안 보드 `3163:1435` + plan-11 §9. (빌드·Figma 리네임은 추천질문 5초안 승격에 합류)
@@ -4961,6 +4988,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
+  '2026-07-01': { tags: ['plan', 'prism', 'rebase', 'track', 'promptpill'] },
   '2026-06-12': { tags: ['prism', 'storybook', 'figma', 'i18n', 'chat-history'] },
   '2026-06-15': { tags: ['plan', 'storybook', 'handoff', 'figma-source', 'glass-effect', 'prism', 'figma-sync'] },
   '2026-06-16': { tags: ['prism', 'glass', 'storybook', 'dark-mode', 'checkbox', 'chat-history'] },
