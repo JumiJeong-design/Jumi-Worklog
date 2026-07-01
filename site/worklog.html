@@ -2306,7 +2306,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 ## 이관 (rebase 후)
 - [x] **구축단계 파일럿 문서 prism `docs/` 안착** ✅ 이미 완료 확인 — `docs/workflows.md` §구축단계 워크플로(파일럿 v0.1)에 이미 안착(4단계·intrinsic/extrinsic·PR#15 인프라), 위키 playbook 34와 이중. 역할맵도 workflows.md를 진입문서로 반영. 신규 문서 불필요(역할맵 "기존 병합 우선").
 - [ ] **neutral Chromatic 88 accept/flag** — 코드 triage 완료(미세 회색=accept / 레이아웃·비회색=flag). Chromatic UI에서 주미님이 규칙대로. **리뷰는 스냅샷 0 = 무료(quota 무관, 지금 가능)**.
-- [ ] **Chromatic 무료 운용(TurboSnap)** — 막힌 원인: `visual` 스크립트에 TurboSnap 미설정 → 매 빌드가 전 스토리 스냅샷 → free 5,000/월 금방 소진(당시 ~4,888). 대책: `chromatic --only-changed`(변경 스토리만, 회당 80~95%↓) + 탐색물 스토리 제외 + 모드/뷰포트 최소화. 월 리셋.
+- [x] **Chromatic 무료 운용(TurboSnap)** ✅ `visual` 스크립트 `--only-changed` 적용(prism `65bf4b2`) — 매 빌드 전 스토리 스냅샷(5,000/월 소진 원인) → 변경 스토리만(회당 80~95%↓). 남은 선택: CI onlyChanged · 탐색물 스토리 제외(visual 돌릴 때) · 모드/뷰포트 최소화. 88 리뷰는 무료(지금 가능).
 
 ## PromptPill 후속 (6/30 빌드 뒤 미결)
 - [ ] **engaged 강도 · 탭 radius 동기화 · 프리뷰 정리 · 포팅** — 6/30 빌드+대비조정 완료. 남은 = `TabItem` radius 24→16 동기화 여부 · Components 프리뷰 프레임 정리 · 패키지 React 포팅(추천질문 패밀리 승격과 함께). plan-11 §9-1.
