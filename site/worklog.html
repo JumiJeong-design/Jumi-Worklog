@@ -2292,6 +2292,43 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-07-03">
+# 2026-07-03 계획
+
+7/02 이어서 — **② 메뉴 통합 실제 제작**이 최우선. (감사·수정분은 7/02 기록/계획 참조)
+
+## 최우선 — 메뉴 통합 (② 이어서)
+- [ ] **단일 `Menu Item` 제작** — 6상태(default/hover/pressed/selected/disabled/destructive) × 슬롯(Leading none/icon · Description off/on · Trailing none/chevron/check/shortcut), semantic 토큰. destructive=`semantic/text-error`, selected=체크 인디케이터.
+- [ ] **Dropdown / Context Menu 재조립** — `Menu Item` 인스턴스 기반 + items 슬롯(개수 가변).
+- [ ] **Overlay 섹션 이동 + 계약 문서** — Menu Item·Dropdown·Context component-contract. (History/Nav Item 이관은 별도 스코프)
+
+## 기회적 / 백로그
+- [ ] neutral→semantic 재바인딩은 컴포넌트 만질 때만(빅뱅 X)
+- [ ] Button 로딩 인터랙션 → Storybook (모션이라 Figma 아님)
+- [ ] Message Bubble `_TextBubble`(1342:727) 고아 마스터 정식화
+- [ ] Chat Input Bar 글래스 표면(neutral/white) 검토
+- [ ] History Item / SourceCard / Callout primitive(다크 elevated) 검토
+- [ ] status 컴포넌트 semantic 재바인딩 여부 결정(할 거면 그때 토큰)
+</script>
+
+<script type="text/plain" id="plan-2026-07-02">
+# 2026-07-02 계획
+
+Figma 컴포넌트 감사 요청에서 시작(비계획 진입). 그날 진행분을 `[x]`로 정리 — 서술은 기록 탭.
+
+## 컴포넌트 감사 → 수정
+- [x] **Figma 컴포넌트 감사(직접그림·하드코딩·비정식)** — `✅ Components`(0:1) 73유닛. Button 로딩 손그림·Modal 고아버튼·`_TextBubble` 고아 발견.
+- [x] **Modal 버튼 정정** — 고아 레거시 버튼(`17:44/17:104`)+`Icon/Placeholder`(`17:2`) → 정식 `Button` 세트(`17:184`) 5개 swap, 룩 동일.
+- [x] **하드코딩 토큰화** — Favicon·Table radius8→`radius/lg` · Link Preview 배경→`surface/Floating`.
+- [x] **전 컴포넌트 primitive→semantic 불일치 감사** — 52/70 primitive 직접 바인딩. "다크 광범위 깨짐"은 과장(neutral 램프 자동 반전) 정정.
+- [x] **오버레이 9곳 다크 표면 수정** — neutral/white→`surface/Floating`(Modal·BottomSheet·Popover·Dropdown·Context).
+- [x] **토큰 신설 판단** — status/inverse 안 만듦(불필요·클러터). 드리프트 메모리 기록.
+- [x] **메뉴 승격 플랜 확정(A안)** — 통합 `Menu Item`(semantic·상태틴트). 실제 제작은 7/03.
+
+## 백로그로 (7/02 발생)
+- Button 로딩 인터랙션→Storybook · `_TextBubble` 고아 정식화 · Chat Input Bar 글래스 표면 검토.
+</script>
+
 <script type="text/plain" id="plan-2026-07-01">
 # 2026-07-01 계획
 
@@ -4979,6 +5016,8 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
+  '2026-07-03': { tags: ['plan', 'prism', 'figma', 'menu', 'component'] },
+  '2026-07-02': { tags: ['prism', 'figma', 'audit', 'token', 'semantic', 'dark-mode', 'modal', 'menu'] },
   '2026-07-01': { tags: ['plan', 'prism', 'rebase', 'track', 'promptpill'] },
   '2026-06-12': { tags: ['prism', 'storybook', 'figma', 'i18n', 'chat-history'] },
   '2026-06-15': { tags: ['plan', 'storybook', 'handoff', 'figma-source', 'glass-effect', 'prism', 'figma-sync'] },
