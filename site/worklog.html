@@ -2302,6 +2302,11 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] **Dropdown / Context Menu 재조립** — `Menu Item` 인스턴스 기반 + items 슬롯(개수 가변).
 - [ ] **Overlay 섹션 이동 + 계약 문서** — Menu Item·Dropdown·Context component-contract. (History/Nav Item 이관은 별도 스코프)
 
+## 다크 shadow 트랙 마무리 (7/02 이어서)
+- [ ] **시각 검증** — worktree(`../prism-shadow-track`) `pnpm storybook`로 `Foundations/Shadow & Elevation` 다크 눈검 · inner highlight geometry(inset 1px) · 글래스 `::before` 이중 하이라이트 여부, 필요시 조정.
+- [ ] **rebase 통합** — Codex build.ts(반응형 타이포) green 되면 `track/shadow-dark-tokens` rebase. 생성물(theme.css/manifest)은 소스 합친 뒤 `token:build` 1회로 재생성·단일 소유 커밋(foundation-first).
+- [ ] (선택) `pnpm visual` Chromatic 다크 전/후 diff — 주미님 go 후.
+
 ## 기회적 / 백로그
 - [ ] neutral→semantic 재바인딩은 컴포넌트 만질 때만(빅뱅 X)
 - [ ] Button 로딩 인터랙션 → Storybook (모션이라 Figma 아님)
@@ -2324,6 +2329,7 @@ Figma 컴포넌트 감사 요청에서 시작(비계획 진입). 그날 진행�
 - [x] **오버레이 9곳 다크 표면 수정** — neutral/white→`surface/Floating`(Modal·BottomSheet·Popover·Dropdown·Context).
 - [x] **토큰 신설 판단** — status/inverse 안 만듦(불필요·클러터). 드리프트 메모리 기록.
 - [x] **메뉴 승격 플랜 확정(A안)** — 통합 `Menu Item`(semantic·상태틴트). 실제 제작은 7/03.
+- [x] **다크 shadow 토큰 Figma `shadow/dark/*` 정합** — (비계획·즉석 요청) xs/sm/md 다크가 검정 4~6%라 near-black 위에서 안 보이던 드리프트 → 검정 drop+흰 inner highlight로 포팅, lg/xl 신설, `Foundations/Shadow & Elevation` 스토리. 병렬 타이포 WIP와 충돌 → worktree 분리(`track/shadow-dark-tokens` `2936f25`, typecheck·test 49 green). 시각검증·rebase 통합은 7/03.
 
 ## 백로그로 (7/02 발생)
 - Button 로딩 인터랙션→Storybook · `_TextBubble` 고아 정식화 · Chat Input Bar 글래스 표면 검토.
