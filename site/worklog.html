@@ -2292,6 +2292,33 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-07-06">
+# 2026-07-06 계획
+
+7/03(금) 마감 이월 — 주말(7/04~05) 건너뛰고 월요일로.
+
+## 반응형 타이포 mo↔웹 — Phase 1c 이후 (worktree `feat/responsive-typography-mo-pc`, PR riiid/prism#24)
+- [ ] **Phase 1c(GATED) — Figma 스타일 통합**: `heading/1..4`를 `text/heading-*` 역할변수 연동 + **웹 프레임/페이지를 `text` 컬렉션 `Web` 모드로 설정** + `heading/web-1..4` 삭제. ⚠️ 오조작 시 웹 텍스트 크기 깨짐 → 페이지 단위 점진 + 스크린샷 검증. plan-14 §Phase 1c.
+- [ ] **Phase 2** — 컴포넌트 `text-[Npx]` 하드코딩 → 역할/스텝 토큰 참조 이관.
+- [ ] **Phase 3** — Figma 역할·램프 값 ↔ 코드 값 드리프트 검증(`token:drift` 확장).
+- [ ] **PR #24 머지 판단** — 코드 green·additive·non-breaking, Figma 골조 무바인딩(시각 0).
+
+## 다크 shadow 트랙 (7/03 이월)
+- [ ] **rebase 통합** — `track/shadow-dark-tokens`(`2936f25`+`3faeab1`) → `plan/parallel-codex` fast-forward. 지시 시.
+
+## 타이포 정리표 후속 (7/03 이월)
+- [ ] **Figma 라이브러리 Publish** — Plugin API 불가 → 주미님 수동(Assets→Publish). 안 누르면 파일에만 반영.
+- [ ] **코드 body/chat Chromatic 검증** — `text-[16px]`→`[17px]` 시각 변경, WIP 정리 후 `pnpm visual`.
+
+## 기회적 / 백로그 (이월)
+- [ ] neutral→semantic 재바인딩은 컴포넌트 만질 때만(빅뱅 X)
+- [ ] Button 로딩 인터랙션 → Storybook (모션이라 Figma 아님)
+- [ ] Message Bubble `_TextBubble`(1342:727) 고아 마스터 정식화
+- [ ] Chat Input Bar 글래스 표면(neutral/white) 검토
+- [ ] History Item / SourceCard / Callout primitive(다크 elevated) 검토
+- [ ] status 컴포넌트 semantic 재바인딩 여부 결정(할 거면 그때 토큰)
+</script>
+
 <script type="text/plain" id="plan-2026-07-03">
 # 2026-07-03 계획
 
@@ -2304,29 +2331,22 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [x] **(계획 밖 · "둘다 해줘" 지시) `@riiid/prism` MenuItem 패키지 포팅** — MenuItem.tsx(state 4·슬롯) + 스토리·계약·테스트·export. typecheck/test(50)/build/pack/storybook 5게이트 green. 커밋 `a888081`.
 
 ## 다크 shadow 트랙 마무리 (7/02 이어서)
-- [ ] **시각 검증** — worktree(`../prism-shadow-track`) `pnpm storybook`로 `Foundations/Shadow & Elevation` 다크 눈검 · inner highlight geometry(inset 1px) · 글래스 `::before` 이중 하이라이트 여부, 필요시 조정.
-- [ ] **rebase 통합** — Codex build.ts(반응형 타이포) green 되면 `track/shadow-dark-tokens` rebase. 생성물(theme.css/manifest)은 소스 합친 뒤 `token:build` 1회로 재생성·단일 소유 커밋(foundation-first).
-- [ ] (선택) `pnpm visual` Chromatic 다크 전/후 diff — 주미님 go 후.
+- [x] **시각 검증** — Storybook 실측: inset highlight geometry 정상, 글래스 이중 하이라이트 없음, `theme.css`↔`shadow.md`↔Figma 일치. 분해 비교로 흰 highlight 유지 결론.
+- [x] (선택) Chromatic 공유 — Shadow Playground 스토리(`3faeab1`) + 스코프 스냅샷 업로드·게시 성공(원격 인터랙티브 링크).
+- *(rebase 통합은 미완 → 7/06 이월)*
 
 ## 타이포 정리표 구체화 (주미님 요청 · 7/02 이어서)
-- [ ] **Figma Typography 프레임에 스펙 표기** — 각 샘플 옆에 `size / line-height / weight / letter-spacing / 용도`(현재 샘플만 있고 수치 안 보임). 실측 프리필: prism `design-system/foundation/typography-style-spec.md`. **Figma write=승인 게이트**(read-only 확인 → 변경안/rollback 보고 → 승인).
-- [ ] **코드 토큰 동기** — `body/chat`·`body/lg` 17px(base→lg, Figma는 7/02 완료) 코드 반영 여부.
-- [ ] **off-scale line-height 결정** — `chat/h2 1.35·chat/h3 1.4·display/3 1.4·display/4 1.5` 토큰화 vs 예외.
-- [ ] (저우선) 일본어 본문 자간 `-1.2%`→`0` 분기 검토.
+- [x] **Figma Typography 프레임에 스펙 표기** — 정리표 34행+범례(`spec:*`, 변수 바인딩), write 전 `get_variable_defs` 라이브 대조 100% 일치, 기존 라벨·샘플 무변경.
+- [x] **코드 토큰 동기** — `MessageBubble`·`AnswerCard` 본문 `text-[16px]`→`[17px]`(uncommitted). *(Chromatic 검증 → 7/06 이월)*
+- [x] **off-scale line-height 결정** — 참조 변수 `135/140/150` 추가하되 바인딩 안 함(px 강제), display 자간 유지.
+- [x] (저우선) 일본어 본문 자간 → JP-first 0 통일 — 19개 스타일 −1.2%/−2%→0(display만 음수 유지).
 
 ## 반응형 타이포 mo↔PC Phase 1b (7/02 이어서 · worktree `feat/responsive-typography-mo-pc`)
-- [ ] **v1 값표 사인오프** — plan14 §3-1(3xl 24→28, 5xl 32→40 등). 본문·캡션·UI 고정, 제목/display만 pc↑.
-- [ ] **Figma size 컬렉션 Device(mo/pc) 모드 신설** — 색 Light/Dark와 별도 컬렉션. **write=승인 게이트**(read-only 감사→변경안/rollback→승인).
-- [ ] **`font.size` 공개 `--font-size-*` 승격 여부 결정** — 전체 스케일을 컴포넌트가 소비하려면 전제.
-- [ ] **코드 토큰 `{mo,pc}` 반영 → build/test → worktree 커밋/PR.**
+- [x] **v1 값표 사인오프** — 결정 A(제안값 그대로). 본문·캡션·UI 고정, 제목/display만 pc↑.
+- [x] **Figma Device(mo/web) 모드 신설** — 감사 후 **역할 기반**으로 정정: 램프 `font-size`(단일모드 15값) + 역할 `text`(모드 Mobile/Web, `heading-1..4` 램프 별칭). read-back 실측. 무바인딩(시각 0).
+- [x] **`font.size` 공개 `--font-size-*` 승격** — 결정 B(전체 포팅+승격) 완료.
+- [x] **코드 토큰 반영 → build/test → 커밋/PR** — 램프 고정 + semantic `--text-heading-*` {mo,pc}. green(build/lint/typecheck3/test49). PR riiid/prism#24(커밋 3). 남은 Phase 1c/2/3 → 7/06 이월.
 
-## 기회적 / 백로그
-- [ ] neutral→semantic 재바인딩은 컴포넌트 만질 때만(빅뱅 X)
-- [ ] Button 로딩 인터랙션 → Storybook (모션이라 Figma 아님)
-- [ ] Message Bubble `_TextBubble`(1342:727) 고아 마스터 정식화
-- [ ] Chat Input Bar 글래스 표면(neutral/white) 검토
-- [ ] History Item / SourceCard / Callout primitive(다크 elevated) 검토
-- [ ] status 컴포넌트 semantic 재바인딩 여부 결정(할 거면 그때 토큰)
 </script>
 
 <script type="text/plain" id="plan-2026-07-02">
