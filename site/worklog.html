@@ -2298,9 +2298,10 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 7/02 이어서 — **② 메뉴 통합 실제 제작**이 최우선. (감사·수정분은 7/02 기록/계획 참조)
 
 ## 최우선 — 메뉴 통합 (② 이어서)
-- [ ] **단일 `Menu Item` 제작** — 6상태(default/hover/pressed/selected/disabled/destructive) × 슬롯(Leading none/icon · Description off/on · Trailing none/chevron/check/shortcut), semantic 토큰. destructive=`semantic/text-error`, selected=체크 인디케이터.
-- [ ] **Dropdown / Context Menu 재조립** — `Menu Item` 인스턴스 기반 + items 슬롯(개수 가변).
-- [ ] **Overlay 섹션 이동 + 계약 문서** — Menu Item·Dropdown·Context component-contract. (History/Nav Item 이관은 별도 스코프)
+- [x] **단일 `Menu Item` 제작** — 6상태(default/hover/pressed/selected/disabled/destructive) × 슬롯(Leading·Description·Trailing +아이콘 스왑), semantic 토큰. destructive=`semantic/text-error`, selected=`lucide:check`. Figma `Menu Item`(`3352:1374`), hover는 신규 토큰 없이 `surface/Inset` 재사용.
+- [x] **Dropdown / Context Menu 재조립** — `Menu Item` 인스턴스로 교체. Dropdown(Opus=selected 체크), Context(삭제하기=destructive). 스크린샷 검증.
+- [x] **Overlay 섹션 이동 + 계약 문서** — Menu Item·Dropdown·Context를 `Overlay` 섹션(`1684:1972`, Modal/BottomSheet와 동일 그룹)으로 승격. Menu Item 계약(`design-system/components/menu-item.md`) 완료. Dropdown/Context 컨테이너 계약은 배치 후보 유지.
+- [x] **(계획 밖 · "둘다 해줘" 지시) `@riiid/prism` MenuItem 패키지 포팅** — MenuItem.tsx(state 4·슬롯) + 스토리·계약·테스트·export. typecheck/test(50)/build/pack/storybook 5게이트 green. 커밋 `a888081`.
 
 ## 다크 shadow 트랙 마무리 (7/02 이어서)
 - [ ] **시각 검증** — worktree(`../prism-shadow-track`) `pnpm storybook`로 `Foundations/Shadow & Elevation` 다크 눈검 · inner highlight geometry(inset 1px) · 글래스 `::before` 이중 하이라이트 여부, 필요시 조정.
