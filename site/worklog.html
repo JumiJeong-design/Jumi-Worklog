@@ -2310,6 +2310,12 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] **Figma 라이브러리 Publish** — Plugin API 불가 → 주미님 수동(Assets→Publish). 안 누르면 파일에만 반영.
 - [ ] **코드 body/chat Chromatic 검증** — `text-[16px]`→`[17px]` 시각 변경, WIP 정리 후 `pnpm visual`.
 
+## 메뉴/오버레이 후속 (7/03 log 미해결 이관 · Claude 담당)
+- [ ] **MenuItem/오버레이 Chromatic·Storybook 가시성** — `a888081`은 origin/plan/parallel-codex에 커밋+push됐으나 **PR이 없어 Chromatic 미빌드**(published #101은 반응형 브랜치라 미포함, main에도 없음). menu 전용 브랜치/PR로 CI Chromatic 빌드 → published Storybook에 MenuItem 6스토리 포함.
+- [ ] **Dropdown / Context Menu 컨테이너 패키지 포팅** — 지금까진 Menu Item 행만 포팅. 계약 README "다음 배치 후보".
+- [ ] **Figma Menu Item 캐비엇 대응** — `disabled`/`destructive`에서 아이콘 스왑 prop 교체 시 nested vector 색 오버라이드 초기화 → 교체 시 색 재바인딩.
+- [ ] **Chromatic 빌드 #99 component-error 원인 확인** — 로컬 재현 불가(캡처 환경 특정/일시적), 공유 링크 정상이라 보류였음.
+
 ## 기회적 / 백로그 (이월)
 - [ ] neutral→semantic 재바인딩은 컴포넌트 만질 때만(빅뱅 X)
 - [ ] Button 로딩 인터랙션 → Storybook (모션이라 Figma 아님)
