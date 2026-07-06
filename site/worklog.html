@@ -2313,7 +2313,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 ## 메뉴/오버레이 후속 (7/03 log 미해결 이관 · Claude 담당)
 - [x] **MenuItem/오버레이 Chromatic·Storybook 가시성** — menu 전용 브랜치 + PR #25 머지(main, `c13076f`). CI Chromatic 빌드 + published Storybook에 MenuItem 스토리 노출. CI validate 실패도 수정(`880aaa3`: menu-item.md 형식 정합).
 - [x] **Dropdown / Context Menu 컨테이너 패키지 포팅** — `Menu` 컴포넌트 포팅(`ebd723d`). Dropdown(194:50)·Context(194:38) 정합, `sectionHeader`·`divided` prop, 계약·근거·스토리 4종·테스트. README 승격.
-- [ ] **Figma Menu Item 캐비엇 대응** — `disabled`/`destructive`에서 아이콘 스왑 prop 교체 시 nested vector 색 오버라이드 초기화 → 교체 시 색 재바인딩.
+- [x] **Figma Menu Item 캐비엇 대응** — read-only 감사(`3352:1374`): 아이콘 stroke가 상태별 semantic 변수에 이미 정상 바인딩(default=icon-default, disabled=icon-muted, destructive=text-error). 스왑 시 icon-default로 되돌아가는 건 Figma 인스턴스 스왑 플랫폼 한계라 구조 변경 없이 재바인딩 규약으로 처리. 코드(MenuItem.tsx)는 아이콘 색 부모 상속이라 무영향. menu-item.md에 확정(`7100e1f`).
 - [ ] **Chromatic 빌드 #99 component-error 원인 확인** — 로컬 재현 불가(캡처 환경 특정/일시적), 공유 링크 정상이라 보류였음.
 
 ## 기회적 / 백로그 (이월)
