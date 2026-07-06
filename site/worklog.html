@@ -2301,18 +2301,18 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] **Phase 1c(GATED) — Figma 스타일 통합**: `heading/1..4`를 `text/heading-*` 역할변수 연동 + **웹 프레임/페이지를 `text` 컬렉션 `Web` 모드로 설정** + `heading/web-1..4` 삭제. ⚠️ 오조작 시 웹 텍스트 크기 깨짐 → 페이지 단위 점진 + 스크린샷 검증. plan-14 §Phase 1c.
 - [ ] **Phase 2** — 컴포넌트 `text-[Npx]` 하드코딩 → 역할/스텝 토큰 참조 이관.
 - [ ] **Phase 3** — Figma 역할·램프 값 ↔ 코드 값 드리프트 검증(`token:drift` 확장).
-- [ ] **PR #24 머지 판단** — 코드 green·additive·non-breaking, Figma 골조 무바인딩(시각 0).
+- [x] **PR #24 머지 판단** — 머지 완료(squash→main, `8db0ef2`). 코드 green·additive·non-breaking, Figma 골조 무바인딩(시각 0). ※ plan/parallel-codex는 아직 main 미동기(19앞 2뒤), `--text-heading-*` 미보유.
 
 ## 다크 shadow 트랙 (7/03 이월)
-- [ ] **rebase 통합** — `track/shadow-dark-tokens`(`2936f25`+`3faeab1`) → `plan/parallel-codex` fast-forward. 지시 시.
+- [x] **rebase 통합** — `track/shadow-dark-tokens`(`2936f25`+`3faeab1`) → `plan/parallel-codex` cherry-pick 통합(`1a1792e`+`58ecb4a`). 다크 xs/sm/md 정정 + lg/xl 신설 + Shadow Playground 스토리.
 
 ## 타이포 정리표 후속 (7/03 이월)
-- [ ] **Figma 라이브러리 Publish** — Plugin API 불가 → 주미님 수동(Assets→Publish). 안 누르면 파일에만 반영.
-- [ ] **코드 body/chat Chromatic 검증** — `text-[16px]`→`[17px]` 시각 변경, WIP 정리 후 `pnpm visual`.
+- [x] **Figma 라이브러리 Publish** — 주미님 완료 확인.
+- [x] **코드 body/chat Chromatic 검증** — 17px(`07c57ea`) + 행간 1.7 통일(`e951819`, user 1.6→1.7·AI 1.75→1.7, Figma body/chat 완전 정합). Chromatic 빌드 105/110 published(TurboSnap 정상, 월 스냅샷 한도로 자동 비교 제한).
 
 ## 메뉴/오버레이 후속 (7/03 log 미해결 이관 · Claude 담당)
-- [ ] **MenuItem/오버레이 Chromatic·Storybook 가시성** — `a888081`은 origin/plan/parallel-codex에 커밋+push됐으나 **PR이 없어 Chromatic 미빌드**(published #101은 반응형 브랜치라 미포함, main에도 없음). menu 전용 브랜치/PR로 CI Chromatic 빌드 → published Storybook에 MenuItem 6스토리 포함.
-- [ ] **Dropdown / Context Menu 컨테이너 패키지 포팅** — 지금까진 Menu Item 행만 포팅. 계약 README "다음 배치 후보".
+- [x] **MenuItem/오버레이 Chromatic·Storybook 가시성** — menu 전용 브랜치 + PR #25 머지(main, `c13076f`). CI Chromatic 빌드 + published Storybook에 MenuItem 스토리 노출. CI validate 실패도 수정(`880aaa3`: menu-item.md 형식 정합).
+- [x] **Dropdown / Context Menu 컨테이너 패키지 포팅** — `Menu` 컴포넌트 포팅(`ebd723d`). Dropdown(194:50)·Context(194:38) 정합, `sectionHeader`·`divided` prop, 계약·근거·스토리 4종·테스트. README 승격.
 - [ ] **Figma Menu Item 캐비엇 대응** — `disabled`/`destructive`에서 아이콘 스왑 prop 교체 시 nested vector 색 오버라이드 초기화 → 교체 시 색 재바인딩.
 - [ ] **Chromatic 빌드 #99 component-error 원인 확인** — 로컬 재현 불가(캡처 환경 특정/일시적), 공유 링크 정상이라 보류였음.
 
