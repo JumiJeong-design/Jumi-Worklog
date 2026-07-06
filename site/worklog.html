@@ -2292,6 +2292,33 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-07-07">
+# 2026-07-07 계획
+
+7/06에서 이관. 오늘 완료분(PR #24·#25 머지 · 다크 shadow 통합 · 행간 1.7 · MenuItem 가시성 · Menu 컨테이너 포팅 · Menu Item 캐비엇 · Figma Publish)은 제외.
+
+## 반응형 타이포 — main 동기화가 선행조건
+- [ ] **병렬 WIP 커밋**(선행) — 체크아웃의 ChatInputBar 2line·아이콘 마이그레이션 WIP(`Icon.tsx`·`package.json`·`pnpm-lock.yaml`·chat-input-bar 문서·changeset)가 미커밋. 이게 커밋돼야 아래 main 동기화 가능. (주미님/해당 트랙)
+- [ ] **main ↔ plan/parallel-codex 동기화** — PR #24·#25 머지로 main이 앞섬(19앞 2뒤), `--text-heading-*`가 main에만 있음. WIP 커밋 후 rebase/merge.
+- [ ] **Phase 2** — 컴포넌트 `text-[Npx]` 하드코딩 → 역할/스텝 토큰 이관. markdown 헤딩도 이때 반응형 토큰으로 완전 이관(7/06은 고정값 정합까지만). main 동기화 후.
+- [ ] **Phase 1c(GATED)** — Figma `heading/1..4`→`text/heading-*` 재바인딩 + 웹 프레임 Web 모드 + `heading/web-1..4` 삭제. 오조작 시 웹 텍스트 깨짐 → 별도 세션·페이지 단위·스크린샷. 주미님 착수 시점.
+- [ ] **Phase 3** — Figma 역할·램프 ↔ 코드 드리프트 검증(`token:drift` 타이포 확장).
+
+## 주미님 결정/진행
+- [ ] **plan-16 §3 Quick/Deep 결과 화면 7항목** — 주미님 Figma 직접 진행. 일본 UX 인풋(정성 라벨 % 병기 지지) 반영됨.
+- [ ] **소소한 결정 3개** — `body/xs`(13px) 스케일 정렬 여부 / 스타일명 `heading/1~4` vs `chat/h1~4` 정리 / Figma "Tab Item" 패밀리명 확정.
+
+## 백로그 (이월)
+- [ ] Chromatic 빌드 #99 component-error 원인 (현 빌드 105/106/110 green)
+- [ ] fontFamily 회귀 재발 원인/방지 (7/06 82/82 복구, 원인 미상)
+- [ ] neutral→semantic 재바인딩 (컴포넌트 만질 때만, 빅뱅 X)
+- [ ] Button 로딩 인터랙션 → Storybook (모션)
+- [ ] Message Bubble `_TextBubble`(1342:727) 고아 마스터 정식화
+- [ ] Chat Input Bar 글래스 표면(neutral/white) 검토
+- [ ] History Item / SourceCard / Callout primitive(다크 elevated) 검토
+- [ ] status 컴포넌트 semantic 재바인딩 여부 결정
+</script>
+
 <script type="text/plain" id="plan-2026-07-06">
 # 2026-07-06 계획
 
@@ -2323,6 +2350,8 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] Chat Input Bar 글래스 표면(neutral/white) 검토
 - [ ] History Item / SourceCard / Callout primitive(다크 elevated) 검토
 - [ ] status 컴포넌트 semantic 재바인딩 여부 결정(할 거면 그때 토큰)
+
+> 위 미완(`[ ]`) 항목은 `plan-2026-07-07`로 이관.
 </script>
 
 <script type="text/plain" id="plan-2026-07-03">
