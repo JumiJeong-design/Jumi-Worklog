@@ -2292,6 +2292,58 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-07-10">
+# 2026-07-10 계획
+
+주간 리뷰 중 발견한 이슈 처리. 완료분 [x], 이월 [ ].
+
+## 타이포 off-scale
+- [x] **display/1 폰트 변수 싱크 안 됨 원인 규명** — 크기값이 스케일 밖(off-scale)이라 붙을 변수 없는 드리프트
+- [x] **off-scale 제품 타이포 변수 신설·바인딩** — `font/size/8xl`(56)·`font/size/13` 신설, `display/1`·`body/xs` 바인딩(픽셀 0) + tokens.json 미러
+- [ ] 12~20 px-numeric 밴드 정리 + 팔레트 밀도 철학 (defer · add-as-earned)
+- [ ] Figma 라이브러리 publish (8xl·13, 디자이너 몫)
+
+## 컬러 semantic (plan-17)
+- [x] **별도 바운디드 패스로 분리** — plan-17 신설(백로그 스코핑)
+- [x] **컬러 다크 위생 라이브 재감사** — `✅ Components` 3,952노드 스캔, 흰 표면 147개가 진짜 다크 타깃(write 0)
+- [ ] 다크 수리 write (흰 표면 147 → `surface/Floating`) — 디테일 올릴 때 착수(defer)
+
+## Socra 유즈케이스
+- [x] **"가치 거울" 질문 선정 원칙 도출** — 값의 지도 방향 + 검증 질문 세트(쏠림 통과)
+
+## 이월(미결)
+- [ ] 코드·문서 미커밋 결정 (tokens.json·plan-15·plan-17, `plan/parallel-codex`)
+- [ ] ChatInputBar/Mode Toggle 코드 포팅, 갭 감사 P0 Figma 선설계 (7/07 이월)
+</script>
+
+<script type="text/plain" id="plan-2026-07-09">
+# 2026-07-09 계획
+
+border-beam pulse 탐색(주미님 요청 기반). 완료분 [x], 이월 [ ].
+
+## Border Beam "Pulse" 탐색
+- [x] 레퍼런스(border-beam pulse) **의존성 0 프로토타입** (원본 알고리즘 재구현)
+- [x] **Figma Smart Animate 근사본** — 자동 호흡 루프 + hover 액션 트리거(네이버 방식)
+- [x] **Storybook 포팅** (`Explorations/Border Beam Pulse`) — Playground/ActionTriggered/Palettes
+- [x] **custom 다색 컬러**(색 stop 2~6 보간) + saturation 컨트롤
+- [x] `Home Dither Background` 스토리 + 전용 벤더 제거
+- [x] worklog 7/6~7/10 정리·push + 로그 표준 구조 정합
+
+## 이월(미결)
+- [ ] Border Beam 채택 결정 — 색 방향(rainbow vs 브랜드)·적용 위치·트리거
+- [ ] Prism 패키지 승격 여부 (채택 시)
+- [ ] prism 코드 커밋 결정 (BorderBeamPulse·dither 제거·docs/plans/18, working tree)
+</script>
+
+<script type="text/plain" id="plan-2026-07-08">
+# 2026-07-08 계획
+
+Figma 시안 손 작업 위주 (AI 세션 없음).
+
+## Figma 시안
+- [x] Socra 제품 시안(디자인 초안) Figma에서 직접 작업
+</script>
+
 <script type="text/plain" id="plan-2026-07-07">
 # 2026-07-07 계획
 
