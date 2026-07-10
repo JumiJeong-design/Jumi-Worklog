@@ -2292,6 +2292,30 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-07-13">
+# 2026-07-13 계획
+
+7/10 미완 이월 (7/11·12 주말 건너뜀). 착수분 [x], 미착수 [ ].
+
+## 코드 커밋·동기화
+- [ ] 코드·문서 미커밋 결정 (tokens.json 13·8xl · plan-15 · plan-17, `plan/parallel-codex`)
+- [ ] prism 코드 커밋 결정 — BorderBeamPulse·dither 제거·docs/plans/18 (working tree) · 7/09 이월
+
+## 컴포넌트 포팅 (7/07 이월)
+- [ ] ChatInputBar 코드 포팅(breaking) — type 1line/2line + embedded ModeToggle + 2500자 카운터
+- [ ] Mode Toggle 코드 포팅 — Figma `3434:1410`, 기존 Toggle.tsx 재사용 불가
+- [ ] 갭 감사 P0 Figma 선설계 — 가중치 누적 막대 · 공통/고유 리포트 카드 · Deep 스텝퍼
+
+## Border Beam (7/09 이월)
+- [ ] 채택 결정 — 색 방향(rainbow vs 브랜드)·적용 위치·트리거
+- [ ] Prism 패키지 승격 여부 (채택 시)
+
+## defer / 디자이너 몫
+- [ ] 컬러 다크 수리 write (흰 표면 147 → `surface/Floating`) — plan-17, 디테일 단계
+- [ ] 12~20 px-numeric 밴드 + 팔레트 밀도 (add-as-earned)
+- [ ] Figma 라이브러리 publish (8xl·13)
+</script>
+
 <script type="text/plain" id="plan-2026-07-10">
 # 2026-07-10 계획
 
@@ -2314,6 +2338,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 ## 이월(미결)
 - [ ] 코드·문서 미커밋 결정 (tokens.json·plan-15·plan-17, `plan/parallel-codex`)
 - [ ] ChatInputBar/Mode Toggle 코드 포팅, 갭 감사 P0 Figma 선설계 (7/07 이월)
+- [ ] Border Beam 채택 결정·Prism 승격·prism 커밋 결정 (7/09 이월)
 </script>
 
 <script type="text/plain" id="plan-2026-07-09">
@@ -2341,7 +2366,7 @@ border-beam pulse 탐색(주미님 요청 기반). 완료분 [x], 이월 [ ].
 Figma 시안 손 작업 위주 (AI 세션 없음).
 
 ## Figma 시안
-- [x] Socra 제품 시안(디자인 초안) Figma에서 직접 작업
+- [x] Socra Quick/Deep 결과 화면 순차 아이데이션 — 1·2차 + 기획 인벤토리/Open Issues (Figma 직접, `2211:9469`)
 </script>
 
 <script type="text/plain" id="plan-2026-07-07">
@@ -5148,6 +5173,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
+  '2026-07-13': { tags: ['plan', '이월', 'prism', 'chat-input-bar', 'mode-toggle', 'border-beam'] },
   '2026-07-10': { tags: ['prism', 'figma', 'typography', 'token', 'variable', 'color', 'plan-17', 'socra', 'usecase', 'value-mirror'] },
   '2026-07-09': { tags: ['claude-code', 'border-beam', 'storybook', 'figma', 'prism', 'socra'] },
   '2026-07-08': { tags: ['figma', 'design-draft', 'socra', 'no-ai'] },
