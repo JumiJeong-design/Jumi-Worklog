@@ -30,7 +30,13 @@
 - 질문: 현재 하네스가 다음 작업을 쉽게 만들고 있는가, 아니면 낡은 제약과 문서 과잉으로 작업을 느리게 만드는가?
 - 먼저 볼 것: 에이전트 규칙, Worklog 운영판/백로그, Storybook QA 축, Prism 계약 문서, 최근 실패/회귀 케이스
 - 완료 조건: 유지할 규칙, 병합할 문서, 제거할 절차, 자동화할 평가 케이스가 분리됨
-- 상태: 🔄 착수(2026-07-13) — Codex 중단 → 단일 에이전트(Claude Code) 전환. 실행 항목은 7/13 plan "트랙 정리": 병렬 규칙 개정 · plan/parallel-codex→main 통합 · 죽은 워크트리(완료)/브랜치 정리 · validate 스크립트 pre-commit 훅. 자동화 원칙: 팬아웃은 3~4개 소규모 기본(7/10 세션 리밋 교훈), 주간 read-only 감사(token:drift+Figma 스팟체크)는 반자동 루틴
+- 상태: ✅ 감사 완료(2026-07-13) — 실행은 승인 후 1묶음(7/13 plan 참조). 자동화 원칙: 팬아웃은 3~4개 소규모 기본(7/10·7/13 두 번 세션리밋 친 교훈 — 감사류는 인라인), 주간 read-only 감사(token:drift+Figma 스팟체크)는 반자동 루틴
+- **감사 결과(유지/병합/제거/자동화)**:
+  - *개정* — 단일 에이전트 전환 잔재: prism `docs/agent-rules.md`(6/18, Codex·병렬 언급), worklog `AGENTS.md`(병렬 규칙 섹션·Codex 행). AGENTS.md(prism)는 이미 휴면 표기 완료.
+  - *자동화/정합* — `design-system/sync/figma-sync-map.md` STALE(Menu·ModeToggle·Bottom Sheet 미등록), `storybook-map.md` ModeToggle 누락 → 신규 컴포넌트 등록을 `validate-design-system.sh` 게이트로 강제 검토.
+  - *제거/강등* — worklog `CONTEXT.md` 6/23 stale(validate 3주째 경고). prism `docs/plans/10-…-06-06.md`는 자기명시 아카이브라 유지 OK.
+  - *결정 필요* — `.changeset/` 미출시 10건: `@riiid/prism` publish 안 하면 "changelog 전용" 명문화 / 하면 release 1회. `hooks/settings-snippet.json` pre-push-guard 경로가 placeholder(미설치).
+  - *유지(양호)* — 계약↔근거 짝 정합(badge·gnb는 근거만=미포팅, 정상), memory 인덱스 6/6 정합, `check-context-freshness.sh`는 validate에 연결됨, prism `.githooks/pre-commit` 신규 정상.
 
 ### 문서 정리 / 제거 기준
 
