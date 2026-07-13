@@ -4947,7 +4947,7 @@ Recent History Items — 여기도 안바뀌어
 </script>
 
 
-<!-- FALLBACK 전용 — 정본은 content/direction.md. 편집은 .md에서(Typora 등). 뷰어는 .md를 우선 fetch함. -->
+<!-- FALLBACK 전용 — 정본은 site/content/direction.md (2026-07-13 이동: Pages가 site/만 배포해 루트 content/는 라이브 404였음). 편집은 .md에서(Typora 등). 뷰어는 .md를 우선 fetch함. -->
 <script type="text/plain" id="direction-board">
 # 2026. 6. 22 이후 운영판
 
@@ -5077,7 +5077,7 @@ Figma의 `Foundation`, `Icons`, `Components`를 기준으로 이미 Component Se
 3~4주마다 운영판, 백로그, Worklog, Storybook QA, Prism 계약 문서를 한 번에 훑는다. 이때 새 규칙을 추가하기보다 오래된 제약 제거, 중복 문서 병합, 자동 평가 후보 추출, 회귀 케이스 보강을 우선한다.
 </script>
 
-<!-- FALLBACK 전용 — 정본은 content/backlog.md. 편집은 .md에서(Typora 등). 뷰어는 .md를 우선 fetch함. -->
+<!-- FALLBACK 전용 — 정본은 site/content/backlog.md (2026-07-13 이동: Pages가 site/만 배포해 루트 content/는 라이브 404였음). 편집은 .md에서(Typora 등). 뷰어는 .md를 우선 fetch함. -->
 <script type="text/plain" id="backlog-board">
 # 백로그 / 결정 대기
 
@@ -5640,7 +5640,7 @@ function renderDirection() {
   }).join('');
   const introHtml = intro ? `<p class="dir-intro">${mdInline(intro)}</p>` : '';
   document.getElementById('entry-area').innerHTML =
-    `<article class="entry">${boardHeader('🧭 운영판', 'AI 디자인 루프 · Storybook 정보구조 · 기획/개발 접점', ['principles', 'direction', 'ai-loop'], 'content/direction.md')}${introHtml}${actionHtml}<div class="dir-principles"><div class="bk-group-title">원칙 · 방향<span class="bk-group-count">${principles.length}</span></div>${detailsHtml}</div></article>`;
+    `<article class="entry">${boardHeader('🧭 운영판', 'AI 디자인 루프 · Storybook 정보구조 · 기획/개발 접점', ['principles', 'direction', 'ai-loop'], 'site/content/direction.md')}${introHtml}${actionHtml}<div class="dir-principles"><div class="bk-group-title">원칙 · 방향<span class="bk-group-count">${principles.length}</span></div>${detailsHtml}</div></article>`;
   document.querySelector('.main')?.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function renderBacklog() {
@@ -5675,7 +5675,7 @@ function renderBacklog() {
   const principleHtml = principleMd ? `<details class="bk-principle"><summary>백로그 원칙</summary><div class="md">${marked.parse(principleMd)}</div></details>` : '';
   const filter = `<div class="bk-toolbar"><div class="bk-filter"><button class="bk-filter-btn active" data-f="all" type="button">전체</button><button class="bk-filter-btn" data-f="open" type="button">결정 대기</button><button class="bk-filter-btn" data-f="wait" type="button">대기</button><button class="bk-filter-btn" data-f="done" type="button">잔여</button></div></div>`;
   const area = document.getElementById('entry-area');
-  area.innerHTML = `<article class="entry">${boardHeader('🧺 백로그', '결정 대기 · 후보 질문 · 승격 조건', ['decision', 'backlog', 'product'], 'content/backlog.md')}${principleHtml}${filter}${groupsHtml || '<p class="empty-note">결정 대기 항목이 없습니다.</p>'}</article>`;
+  area.innerHTML = `<article class="entry">${boardHeader('🧺 백로그', '결정 대기 · 후보 질문 · 승격 조건', ['decision', 'backlog', 'product'], 'site/content/backlog.md')}${principleHtml}${filter}${groupsHtml || '<p class="empty-note">결정 대기 항목이 없습니다.</p>'}</article>`;
   area.querySelectorAll('.bk-filter-btn').forEach(btn => {
     btn.onclick = () => {
       area.querySelectorAll('.bk-filter-btn').forEach(b => b.classList.toggle('active', b === btn));
