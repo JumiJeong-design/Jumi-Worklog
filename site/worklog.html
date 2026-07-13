@@ -2292,6 +2292,58 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-07-14">
+# 2026-07-14 계획
+
+7/13 하네스 감사 + `docs/20-socra-product-spec-2026-07.md`(기획서 캡처본) 재검토로 뽑은 to-do. 아직 미착수 — 리스트만 확정하고 하나씩 진행.
+
+## A. 지금 해야 하는 것 (하네스 정리 후속)
+
+7/13 감사 결과 실행분(승인 필요, 순수 문서라 리스크 낮음).
+
+- [ ] prism `docs/agent-rules.md`(6/18) — Codex·병렬 작업 언급을 단일 에이전트 모드로 개정
+- [ ] worklog `AGENTS.md` — 병렬 작업 규칙 섹션 + "Codex 자동 로드" 행을 휴면/개정 표기
+- [ ] `design-system/sync/figma-sync-map.md` 갱신 — Menu·ModeToggle·Bottom Sheet 미등록 채우기
+- [ ] `design-system/storybook/storybook-map.md`에 ModeToggle 행 추가
+- [ ] worklog `CONTEXT.md` 갱신 or 강등 결정 — 6/23 이후 stale, validate 스크립트가 3주째 경고 중
+- [ ] `.changeset/` 미출시 10건 — `@riiid/prism` 실제 publish 여부 결정(안 하면 "changelog 전용" 명문화, 하면 release 1회)
+- [ ] `hooks/settings-snippet.json`의 pre-push-guard 경로가 placeholder(`/ABSOLUTE/PATH/`) — 실제 설치 or 문서에 "미설치" 명시
+- [ ] 죽은 로컬 브랜치 나머지 정리 — ~20개(`codex/*`·`canary/*` 등), 머지 여부 개별 확인 후
+- [ ] PR #22(Aurora 탐색) — Aurora vs Ripple 채택 결정 필요, 미루면 Overlay 정리 묶음도 계속 밀림
+- [ ] ChatInputBar 2line 글자수 카운터 배치(전송 좌측, 잠정) — Figma에서 확정해 코드 정합
+
+## B. 기획서 기반 남은 일 (`docs/20-socra-product-spec-2026-07.md` 대조)
+
+기획서 캡처본(2026-07-13)의 [화면·상태 인벤토리]·[Open Issues] 전부 `[ ]` 상태. **디자인이 지금 당장 움직일 수 있는 것**과 **PM 결정 선행이라 대기해야 하는 것**을 구분.
+
+### B-1. 디자인이 바로 착수 가능 (Quick/Deep 결과 화면 방향과 독립적)
+- [ ] Chat 응답 화면 3종(단순 응답/유도 질문/factual+출처) — 출처 표기는 백로그 "Figma 디자인 다듬어서 정식으로 올릴지" 카드에 4개 미정 항목 있음, 그것부터
+- [ ] 피드백 UI(좋아요/싫어요 + 사유 선택) — 미설계(P1 gap, 7/07 갭 감사)
+- [ ] 예외·에러·빈 상태 화면(3장: 생성 실패/부분 실패, 저장 실패, 오프라인, 빈 세션 목록) — 감사 자체가 안 됨, 있는지 없는지부터 확인
+- [ ] 파일 첨부 UI(형식/용량 안내) — Open Issue [기능]이지만 디자인 쪽에서 안 대신 제시 가능
+- [ ] 모드명 라벨에 일본어 보조 설명(かんたん/じっくり) 병기 여부 — 작은 결정, 바로 확정 가능
+- [ ] 시각화 그래프 형태(막대/도넛 등) — 백로그 "의견 시각화/차트 UX 탐색" 카드와 동일 건, Quick/Deep 결과 화면 전체가 보류라도 **그래프 형태 자체**는 먼저 좁힐 수 있음
+
+### B-2. Quick/Deep 결과 화면 보류에 종속 (주미 결정 후)
+- Quick 결과(선택지+가중치 누적 막대), Deep 결과(지지율 칩·공통/고유 리포트·전문 바텀시트), Deep 진행 스텝퍼 — 전부 P0 gap(7/07 갭 감사)이자 백로그 "Quick/Deep 결과 화면 확정" 카드 종속. 결과 화면 방향 픽스 전엔 착수 보류 유지
+
+### B-3. PM/법무 결정 대기 (디자인 착수 불가, 트래킹만)
+- 답변 생성시간/타임아웃 정책 · RAG 도메인 + 에이전트 초기 구성 · 계정/인증/플랫폼 · 비로그인 무료 Quick 횟수 · 개인정보·법무(APPI) · 온보딩 전환 장치
+- (참고: MVP 일정 2026-09·BM 없음은 이미 확정)
+
+## C. 백로그/운영판 정리 (오래 방치됨 — 손 좀 봐야 함)
+
+- [ ] 운영판(`site/content/direction.md`) 갱신 — 6/22 시점 작성, "당장 큰 일감"에 이미 끝난 Storybook IA 재정리가 남아있고 트랙 통합·main-first 전환 등 최신 상태 미반영
+- [ ] 백로그(`site/content/backlog.md`) 중복 정리 — "Quick/Deep MVP 기획 Open Issues"(7/8 승격) 카드가 이제 `docs/20-socra-product-spec-2026-07.md`의 [Open Issues]로 훨씬 상세히 대체됨 → 스펙 문서를 정본으로 포인터만 남기고 카드 축소(중복 관리 금지 원칙)
+- [ ] 백로그 "하네스 자체 점검" 카드 — 결정 완료됐으니 "잔여" 섹션으로 이동
+- [ ] "7/01 이월" 카드 — 12일째 미결(Aurora/Ripple), 위 A의 PR #22 결정과 묶어서 정리
+
+## D. 위키 정리
+
+- [ ] 범위부터 확정 — `/Users/jeongjumi/Desktop/AI_product design_guide`(별도 레포, 마지막 커밋 6/29·2주 정체) 자체 정리인지, jumi-worklog `writing/_sources/wiki_source_map.md`(Medium 글감 포인터, 실제 위키 아님) 쪽인지 주미님께 확인
+- [ ] 확정되면 오래된 노트/중복 가이드부터 유지·병합·제거 분류(하네스 감사와 같은 방식)
+</script>
+
 <script type="text/plain" id="plan-2026-07-13">
 # 2026-07-13 계획
 
@@ -5196,6 +5248,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
+  '2026-07-14': { tags: ['plan', '이월', 'harness', 'backlog-정리', 'spec-checklist', 'wiki'] },
   '2026-07-13': { tags: ['plan', '이월', 'prism', 'chat-input-bar', 'border-beam', 'harness', 'single-agent', 'track-정리'] },
   '2026-07-10': { tags: ['prism', 'figma', 'typography', 'token', 'variable', 'color', 'plan-17', 'socra', 'usecase', 'value-mirror'] },
   '2026-07-09': { tags: ['claude-code', 'border-beam', 'storybook', 'figma', 'prism', 'socra'] },
