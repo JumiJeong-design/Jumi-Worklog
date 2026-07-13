@@ -2316,8 +2316,11 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [x] 백로그 보드 라이브 404 수리 — Pages가 `site/`만 배포해 정본 `content/*.md`가 라이브 404(보드는 6/24 시점 fallback을 렌더 중, 7/8 승격 카드 2장 미노출이었음) → `site/content/`로 이동(`c4c4b51`), 라이브 200 + 보류 카드 노출 측정 확인
 
 ## 컴포넌트 (7/07 이월)
-- [ ] ChatInputBar 코드 포팅(breaking) — 1line/2line + embedded ModeToggle(Deep) + 2500자 카운터 + growing textarea
-- [ ] 홈/챗 Figma 화면 프레임 2line+Deep 토글 갱신 — 신 변형(`3460:1494`/`3460:1499`) 사용, 구 세그먼트 금지
+- [x] ChatInputBar 코드 포팅 — `type=2line`(기본 1line, non-breaking): 실 textarea+CSS 오토그로우 · 2500 카운터(`maxLength`) · ModeToggle(Deep) 임베드(disabled/loading 비활성 처리 포함). Figma `3397:1405` 실측 정합, typecheck·test 53·build·pack·storybook·렌더 스모크 178 green. `feat/chat-input-bar-2line`(`73eeb31`) push — **PR은 #26 머지 후 오픈**. ⚠️ 카운터 배치는 Figma 미정의 잠정(전송 좌측 13px fg-muted) — Figma 확정 필요
+- [ ] 홈/챗 Figma 화면 프레임 2line+Deep 토글 갱신 — **블록**: 7/07 기록 노드(`2700:10690`/`2700:10670`)가 두 파일 모두 미존재(7/8~10 손작업 재구성으로 이동/삭제 추정). 현행 화면 프레임 위치 확인 필요(주미) 후 read-only 감사 → 변경안 승인 → write
+
+## PR #26 (트랙→main)
+- [ ] 머지 — 주미 클릭 대기(에이전트 셀프머지는 권한 게이트로 차단됨). CI: validate·storybook·check·publish **pass**, Chromatic "1 failed to render"는 로컬 test-runner 175/175 렌더 통과로 반증(캡처 플레이크, #99 전례) — Chromatic UI에서 확인 가능
 
 ## 보류/defer (백로그 카드 유지)
 - Quick/Deep 결과 화면(픽스 아님·보류, 주미 결정) · Border Beam 채택 결정(색·위치·트리거) · 컬러 다크 write 147 · 12~20 밴드 · Figma publish(8xl·13, 디자이너 몫)
