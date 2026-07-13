@@ -2307,9 +2307,13 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [x] 죽은 워크트리 정리 — prism-responsive-typo(PR#24 squash 포함 확인) · prism-shadow-track(cherry 패치동등 확인) 제거 + /tmp prune. 브랜치 ref는 보존
 
 ## 트랙 정리 — 병렬 모델 은퇴 (ChatInputBar 착수 전)
-- [ ] plan/parallel-codex → main PR 통합(29 앞/2 뒤) → 이후 main-first + 짧은 feature 브랜치
-- [ ] AGENTS.md 병렬(Codex×Claude) 규칙 → 단일 에이전트 모드 개정 (+ validate-design-system.sh pre-commit 훅)
-- [ ] 죽은 로컬 브랜치 정리 — 27개 중 codex/*·canary/* 등 (머지 여부 개별 확인 후)
+- [x] main↔track 동기화 — 충돌 8파일 merge 해소(`66a9222`: 7파일 트랙판·plan-14만 main판 채택, token:build diff 0·typecheck·test 51·build·pack·storybook 전부 green) → **PR #26 생성**. 머지 판단은 주미
+- [x] mode-toggle 근거 문서 작성(`92bdd95`) — 계약의 "미작성 후속"이 CI validate를 깨는 상태라 PR 선행 해소. Figma 세트 변형 4종 read-only 실측 재확인
+- [x] AGENTS.md 단일 에이전트 모드 개정 + validate pre-commit 훅(`0b9c2ef`) — 병렬 규칙은 휴면 표기 보존
+- [ ] 죽은 로컬 브랜치 정리 — 머지 검증된 2개(shadow-dark-tokens·responsive-typo) 삭제 완료, 나머지 ~20개(codex/*·canary/* 등)는 개별 확인 후
+
+## 발견 수리 (계획 외)
+- [x] 백로그 보드 라이브 404 수리 — Pages가 `site/`만 배포해 정본 `content/*.md`가 라이브 404(보드는 6/24 시점 fallback을 렌더 중, 7/8 승격 카드 2장 미노출이었음) → `site/content/`로 이동(`c4c4b51`), 라이브 200 + 보류 카드 노출 측정 확인
 
 ## 컴포넌트 (7/07 이월)
 - [ ] ChatInputBar 코드 포팅(breaking) — 1line/2line + embedded ModeToggle(Deep) + 2500자 카운터 + growing textarea
