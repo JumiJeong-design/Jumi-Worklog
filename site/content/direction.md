@@ -1,4 +1,4 @@
-# 2026. 6. 22 이후 운영판
+# 운영판 (2026-07-14 갱신)
 
 이 화면은 날짜별 실행 일정이 아니라, **AI로 디자인 루프를 돌리기 위한 운영판**이다. 지금 필요한 것은 “다음 주에 어떤 컴포넌트를 만들까”가 아니라, AI/Figma 탐색 결과를 누가, 어디서, 어떤 기준으로 판정하고 Git/Storybook으로 승격할지 정하는 일이다.
 
@@ -53,17 +53,11 @@ Storybook은 개발자가 실제로 보는 접점이므로, 컴포넌트와 페�
 
 색, 타이포, spacing, radius, shadow, icon, token 같은 기반 규칙이다. Figma 변수와 Git 토큰이 어긋나면 이 층을 먼저 정리한다.
 
-### Components / Common
+### Components / *
 
-Button, Text Field, Checkbox, Radio, Toggle, Badge, Toast, Chip, Spinner, Tooltip처럼 제품 맥락과 무관하게 재사용되는 기본 컴포넌트다. 개발자는 여기서 import 경로, props, 접근성, keyboard/focus, token 사용 기준을 본다.
+> 실제 버킷 이름은 2026-06-26 재정리로 확정됐다. 정본은 `riiid/prism`의 `design-system/storybook/storybook-map.md`이며, 아래는 방향 요약이다.
 
-### Components / Chat
-
-Message Bubble, Answer Card, Chat Input Bar, Model Profile, Bottom Bar, Callout처럼 채팅 표면에서만 의미가 강한 컴포넌트다. 공통 컴포넌트처럼 보여도 데이터 shape, loading/error/fallback, 대화 흐름과 연결되므로 별도 층으로 둔다.
-
-### Components / Layout
-
-Header Nav Bar, Bottom Sheet, Modal/Dialog, Dropdown Menu, Context Menu, Bottom Navigation, Settings Row처럼 화면 골격을 만드는 컴포넌트다. 단일 컴포넌트 story와 페이지 조합 예시를 분리한다.
+`Base UI`(제품 무관 재사용 프리미티브 — Button, TextField, Checkbox, Radio, Toggle, Chip, Toast, Tooltip, Mode Toggle …) / `Chat`(ChatInputBar, MessageBubble, AnswerCard, ModelProfile, BottomBar, Callout, Markdown …) / `History` / `Navigation` / `Settings` / `Overlay`(Modal/Dialog, Bottom Sheet, Menu, MenuItem)로 나눈다. 분류 기준은 "제품 무관 재사용 여부"이고, 도메인 표면은 버킷을 더 쪼개지 않고 그 안에서 자란다. 단일 컴포넌트 story와 페이지 조합 예시는 분리한다.
 
 ### Pages
 
@@ -109,9 +103,13 @@ Header Nav Bar, Bottom Sheet, Modal/Dialog, Dropdown Menu, Context Menu, Bottom 
 
 > 큰 일감의 상세 질문·완료 조건은 🧺 **백로그**를 정본으로 둔다. 운영판에서는 방향만 확인한다.
 
-### Storybook 정보구조 재정리 → 🧺 백로그
+### Quick/Deep 결과 화면 방향 확정 → 🧺 백로그 (최우선)
 
-`Foundations / Components(Common·Chat·Layout) / Pages / Flows`로 나눌 수 있는지가 핵심 방향. 상세 질문·완료 조건은 백로그의 「Storybook 정보구조 재정리」 카드를 정본으로 본다(중복 관리 방지).
+지금 가장 큰 구멍이다. 가중치 그래프·공통/고유 리포트 카드·Deep 진행 스텝퍼가 통째로 미설계라, 결과 화면 방향이 픽스되기 전엔 종속 항목들이 전부 대기한다. 상세는 백로그의 「Quick/Deep 결과 화면 확정」 카드를 정본으로 본다.
+
+### 기획서 대조 — 지금 착수 가능한 화면
+
+결과 화면 방향과 **독립적**이라 먼저 움직일 수 있는 것: Chat 응답 화면 3종, 피드백 UI(좋아요/싫어요+사유), 예외·에러·빈 상태 화면, 파일 첨부 UI, 모드명 JP 보조 라벨, 시각화 그래프 형태 좁히기. 정본은 `riiid/prism`의 `docs/20-socra-product-spec-2026-07.md`(기획서 참조 사본)다.
 
 ### Figma 관리 구조 감사
 
@@ -121,6 +119,8 @@ Figma의 `Foundation`, `Icons`, `Components`를 기준으로 이미 Component Se
 
 오늘 진행하기로 확인된 작업과 보류/백로그를 분리한다. 주미님이 직접 말하지 않은 추상 항목은 오늘 할 일로 올리지 않고, 실제 논의가 생겼을 때 별도 기록한다.
 
-### 하네스 리뷰 루프 만들기
+### 하네스 리뷰 루프 (1회차 완료 — 2026-07-13)
 
-3~4주마다 운영판, 백로그, Worklog, Storybook QA, Prism 계약 문서를 한 번에 훑는다. 이때 새 규칙을 추가하기보다 오래된 제약 제거, 중복 문서 병합, 자동 평가 후보 추출, 회귀 케이스 보강을 우선한다.
+3~4주마다 운영판, 백로그, Worklog, Storybook QA, Prism 계약 문서를 한 번에 훑는다. 새 규칙 추가보다 오래된 제약 제거, 중복 문서 병합, 자동 평가 후보 추출, 회귀 케이스 보강을 우선한다.
+
+1회차(2026-07-13 감사 → 7/14 실행)에서 나온 것: **운영 모드가 Claude Code 단일 에이전트로 바뀌었다**(Codex 병행 중단, main-first 브랜치 전략). 팬아웃은 3~4개 소규모가 기본이고 감사·리서치류는 인라인이 기본이다(대규모 팬아웃이 두 번 세션리밋에 걸렸다). 낡은 문서 개정분은 7/14에 반영됐다(prism `agent-rules.md`·근거/스토리 맵, worklog `AGENTS.md`·`CONTEXT.md`). 다음 회차는 8월 초가 기준이다.

@@ -25,19 +25,6 @@
 - 먼저 볼 것: `opinion-viz-motion.html`, Figma 내 `Page design_chart` 탐색 프레임, 실제 카피가 들어간 화면
 - 완료 조건: 오늘 당장 Prism 계약으로 올릴 항목과 피그마 탐색에 남길 항목이 구분됨
 
-### 하네스 자체 점검
-
-- 질문: 현재 하네스가 다음 작업을 쉽게 만들고 있는가, 아니면 낡은 제약과 문서 과잉으로 작업을 느리게 만드는가?
-- 먼저 볼 것: 에이전트 규칙, Worklog 운영판/백로그, Storybook QA 축, Prism 계약 문서, 최근 실패/회귀 케이스
-- 완료 조건: 유지할 규칙, 병합할 문서, 제거할 절차, 자동화할 평가 케이스가 분리됨
-- 상태: ✅ 감사 완료(2026-07-13) — 실행은 승인 후 1묶음(7/13 plan 참조). 자동화 원칙: 팬아웃은 3~4개 소규모 기본(7/10·7/13 두 번 세션리밋 친 교훈 — 감사류는 인라인), 주간 read-only 감사(token:drift+Figma 스팟체크)는 반자동 루틴
-- **감사 결과(유지/병합/제거/자동화)**:
-  - *개정* — 단일 에이전트 전환 잔재: prism `docs/agent-rules.md`(6/18, Codex·병렬 언급), worklog `AGENTS.md`(병렬 규칙 섹션·Codex 행). AGENTS.md(prism)는 이미 휴면 표기 완료.
-  - *자동화/정합* — `design-system/sync/figma-sync-map.md` STALE(Menu·ModeToggle·Bottom Sheet 미등록), `storybook-map.md` ModeToggle 누락 → 신규 컴포넌트 등록을 `validate-design-system.sh` 게이트로 강제 검토.
-  - *제거/강등* — worklog `CONTEXT.md` 6/23 stale(validate 3주째 경고). prism `docs/plans/10-…-06-06.md`는 자기명시 아카이브라 유지 OK.
-  - *결정 필요* — `.changeset/` 미출시 10건: `@riiid/prism` publish 안 하면 "changelog 전용" 명문화 / 하면 release 1회. `hooks/settings-snippet.json` pre-push-guard 경로가 placeholder(미설치).
-  - *유지(양호)* — 계약↔근거 짝 정합(badge·gnb는 근거만=미포팅, 정상), memory 인덱스 6/6 정합, `check-context-freshness.sh`는 validate에 연결됨, prism `.githooks/pre-commit` 신규 정상.
-
 ### 문서 정리 / 제거 기준
 
 - 질문: 새로 생긴 AI 운영/디자인 문서가 실제로 읽히고 실행 기준으로 쓰이는가?
@@ -105,8 +92,8 @@
 
 ### 7/01 이월 — Overlay 정리 · PromptPill · 후속 결정 (트랙 rebase 후)
 
-- 상태: 트랙 rebase 완료로 아래가 활성 plan에서 백로그로 내려옴. 대부분 "결정 → 실행" 대기. **(7/01) 한동안 코드 파킹 · 탐색 위주 모드 — `plan/parallel-codex` 트랙은 의도적 미merge(feature 브랜치, origin + 3중 백업), "까먹은 일감" 아님. main 반영은 나중에 Overlay 정리 묶음과 함께.**
-- **홈 배경 Aurora vs Ripple 채택** → 채택 후 Overlay 정리 묶음(미채택 탐색물 제거 · Home Prism Hero WebGL 롤백 · 발행 PR #22 닫기). 둘 다 탐색 완료, 지금 트랙에 "미확정" 라벨로 실림. (위 "동적 인터랙션 배경/그래픽" 항목의 구체화)
+- 상태(2026-07-14 갱신): **트랙은 은퇴했다** — `plan/parallel-codex`가 PR #26으로 main에 통합·삭제되고(태그 `archive/plan-parallel-codex-2026-07-13`에 SHA 보존) 단일 에이전트·main-first로 전환됐다. 따라서 "main 반영은 나중에" 전제는 더 이상 유효하지 않고, 아래는 전부 main 위에서 "결정 → 실행" 대기다.
+- **홈 배경 Aurora vs Ripple 채택 — 13일째 미결, 이 카드의 실질 병목.** 둘 다 탐색은 끝났다. 채택 시 남는 실행은 미채택 탐색물 제거 + 발행 PR #22 닫기다. (Home Prism Hero WebGL 롤백은 **7/13 PR #28에서 이미 완료** — Chromatic 타임아웃 원인이라 스토리·전용 벤더까지 삭제했다.) (위 "동적 인터랙션 배경/그래픽" 항목의 구체화)
 - **PromptPill 후속** — engaged 대비(`neutral/150`) OK 확인 · `TabItem` radius 24→16 동기화(컴포넌트) · Figma 프리뷰 프레임 정리 · 패키지 포팅(위 "투표/추천질문" 승격에 합류). Figma `Prompt Pill` `3190:1395`, prism plan-11 §9-1.
 - **입력바 progressive blur 채택** — 탐색·보존(`533445f`), 적용 시 `BottomBar`+`ChatPage` 2곳.
 - **Announcement Popover · 알림 Badge dot 채택** — 기획(promo 필요성) 선행, prism `plan-13`.
@@ -124,12 +111,20 @@
 
 ### Quick/Deep MVP 기획 Open Issues (착수 전 확정) — 7/8 아이데이션 승격
 
-- 질문: 디자인·개발 착수 전 확정 필요 — 모드명 JP 보조라벨(かんたん/じっくり) 병기 여부, 답변 생성시간/타임아웃 정책, 시각화 그래프 형태(막대/도넛), RAG 1차 지원 도메인, 에이전트 초기 구성(MVP=롤 에이전트), 온보딩·비로그인 전환 장치는 어디까지?
-- 먼저 볼 것: 7/8 log §2 "기획서 아이데이션/질문"(화면·상태 인벤토리 + Open Issues), Figma `5211:3276`
-- 완료 조건: 각 이슈 결정 → 화면/상태 사양 반영
-- 상태: ⏸ 일부 PM 입력 대기 (계정·인증·법무(APPI)·BM·MVP 일정(2026-09)은 주미/PM 직접)
+- **정본 이동(2026-07-14)**: 이 카드가 요약하던 Open Issues는 `riiid/prism`의 **`docs/20-socra-product-spec-2026-07.md`**(기획서 참조 사본, 2026-07-13)에 [화면·상태 인벤토리]·[Open Issues]로 훨씬 상세히 들어갔다. **중복 관리하지 않는다** — 항목별 상태는 스펙 문서를 본다. 여기엔 판단 분류만 남긴다.
+- **디자인이 지금 착수 가능**: Chat 응답 화면 3종, 피드백 UI, 예외·에러·빈 상태, 파일 첨부 UI, 모드명 JP 보조라벨, 시각화 그래프 형태 좁히기.
+- **결과 화면 방향에 종속**: 선택지·가중치 시각화, 지지율 칩, 공통/고유 리포트, Deep 진행 스텝퍼 → 아래 「Quick/Deep 결과 화면 확정」 카드가 풀려야 착수.
+- **PM/법무 결정 대기(트래킹만)**: 답변 생성시간/타임아웃, RAG 1차 도메인, 에이전트 초기 구성, 계정·인증·비로그인 무료 횟수, 개인정보(APPI), 온보딩 전환 장치. (MVP 일정 2026-09·BM 없음은 확정)
 
 ## 잔여 (결정 완료·마무리만)
+
+### 하네스 자체 점검 (1회차)
+
+- 상태: 잔여 — 감사 2026-07-13 완료, 문서 개정 실행 2026-07-14 완료. 다음 회차 기준은 8월 초(3~4주 주기).
+- 실행분(7/14): prism `docs/agent-rules.md` 운영 모드 신설 · `figma-sync-map.md`/`storybook-map.md` 미등록 채움(Menu·MenuItem·Mode Toggle·Bottom Sheet) · worklog `AGENTS.md` 병렬 규칙 휴면 강등 · `CONTEXT.md` 날짜 섹션 누적분 접고 스냅샷 복구(3주째 stale 경고 해소).
+- 감사표 정정 2건: `agent-rules.md`엔 병렬 규칙이 애초에 없었고(Codex는 임시폴더 경로 언급뿐), `hooks/settings-snippet.json` placeholder는 **미설치가 아니라 의도된 템플릿**이었다(실제 훅은 설치돼 있음 — README에 명시).
+- 남은 결정 1건: `.changeset/` 미출시 10건 → `@riiid/prism` 실제 publish 할지, 아니면 "changelog 전용"으로 명문화할지. **주미님 결정 대기.**
+- 운영 원칙(확정): 팬아웃은 3~4개 소규모 기본, 감사·리서치류는 인라인(7/10·7/13 두 번 세션리밋 친 교훈).
 
 ### Storybook 정보구조 재정리
 
