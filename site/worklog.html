@@ -2301,13 +2301,13 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 7/13 감사 결과 실행분(승인 필요, 순수 문서라 리스크 낮음).
 
-- [ ] prism `docs/agent-rules.md`(6/18) — Codex·병렬 작업 언급을 단일 에이전트 모드로 개정
-- [ ] worklog `AGENTS.md` — 병렬 작업 규칙 섹션 + "Codex 자동 로드" 행을 휴면/개정 표기
-- [ ] `design-system/sync/figma-sync-map.md` 갱신 — Menu·ModeToggle·Bottom Sheet 미등록 채우기
-- [ ] `design-system/storybook/storybook-map.md`에 ModeToggle 행 추가
-- [ ] worklog `CONTEXT.md` 갱신 or 강등 결정 — 6/23 이후 stale, validate 스크립트가 3주째 경고 중
-- [ ] `.changeset/` 미출시 10건 — `@riiid/prism` 실제 publish 여부 결정(안 하면 "changelog 전용" 명문화, 하면 release 1회)
-- [ ] `hooks/settings-snippet.json`의 pre-push-guard 경로가 placeholder(`/ABSOLUTE/PATH/`) — 실제 설치 or 문서에 "미설치" 명시
+- [x] prism `docs/agent-rules.md`(6/18) — "에이전트 운영 모드" 섹션 신설(단일 에이전트·main-first). **감사표 정정**: 실측하니 이 파일엔 병렬 규칙이 없고 Codex는 임시폴더 경로 언급뿐이라 과잉정정 없이 모드 명시만 추가. (PR #29)
+- [x] worklog `AGENTS.md` — Codex 진입점 행 휴면 표기 + 병렬 작업 규칙 섹션을 `(휴면)`으로 강등, 단일 에이전트 문단 추가 (`dd94ed7`)
+- [x] `design-system/sync/figma-sync-map.md` 갱신 — Bottom Sheet(`192:78`)·Menu Item(`3352:1374`)·Dropdown Menu(`194:50`)·Context Menu(`194:38`)·Mode Toggle(`3434:1410`) 행 추가 (PR #29)
+- [x] `design-system/storybook/storybook-map.md` — Mode Toggle + Menu·Menu Item 행 추가, 스토리 ID 4개를 `storybook-static/index.json` 실제 인덱스와 대조 확인 (PR #29)
+- [x] worklog `CONTEXT.md` — **갱신으로 결정**. stale의 근본 원인이 "스냅샷 파일에 날짜 섹션 6개(6/12~6/23)가 누적돼 worklog와 중복 → 갱신 비용 과다"라 날짜 이력은 `logs/`에 맡기고 현재 상태 1벌로 접음. freshness 경고 해소 확인(`2026-07-14 >= 2026-07-13`) (`dd94ed7`)
+- [ ] `.changeset/` 미출시 10건 — `@riiid/prism` 실제 publish 여부 결정(안 하면 "changelog 전용" 명문화, 하면 release 1회) → **주미님 결정 대기**
+- [x] `hooks/settings-snippet.json` placeholder — **false positive였음**. 실제로는 `~/.claude/settings.json:133`에 이미 설치돼 있고 placeholder는 의도된 템플릿. `hooks/README.md`에 설치 상태·템플릿 성격 명시 (`dd94ed7`)
 - [ ] 죽은 로컬 브랜치 나머지 정리 — ~20개(`codex/*`·`canary/*` 등), 머지 여부 개별 확인 후
 - [ ] PR #22(Aurora 탐색) — Aurora vs Ripple 채택 결정 필요, 미루면 Overlay 정리 묶음도 계속 밀림
 - [ ] ChatInputBar 2line 글자수 카운터 배치(전송 좌측, 잠정) — Figma에서 확정해 코드 정합
