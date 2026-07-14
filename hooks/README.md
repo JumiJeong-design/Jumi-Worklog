@@ -10,6 +10,9 @@
 | `pre-push-guard.sh` | git push 사고 방지 — ① force push ② main/master 직접 push 차단 |
 | `settings-snippet.json` | `~/.claude/settings.json` 에 병합할 hooks 조각 |
 
+> **설치 상태(2026-07-14 확인):** 주미님 맥북에는 이미 설치돼 있다(`~/.claude/settings.json`의 PreToolUse → `/Users/jeongjumi/Desktop/jumi-worklog/hooks/pre-push-guard.sh`).
+> `settings-snippet.json`의 `/ABSOLUTE/PATH/...`는 **의도된 템플릿 placeholder**이지 미설치 표시가 아니다. 새 머신에서만 아래 설치 절차를 따른다.
+
 ## 설치 (로컬 터미널, 1회)
 
 ```bash

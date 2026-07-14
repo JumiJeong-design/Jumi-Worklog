@@ -2,7 +2,9 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-06-23
+> Last updated: 2026-07-14
+>
+> 이 파일은 **누적 이력이 아니라 스냅샷**이다. 날짜별 경과는 `logs/`가 정본이므로 여기에 날짜 섹션을 쌓지 않고, 현재 상태 한 벌만 덮어쓴다(2026-07-14 정리 — 6/12~6/23 날짜 섹션 6개가 누적돼 worklog와 중복되고 갱신이 밀리던 것을 접음).
 
 ---
 
@@ -41,80 +43,42 @@
 
 ---
 
-## 2026-06-23 현재 상태
+## 현재 상태 (2026-07-14 기준)
 
-- 최신 worklog 파일은 `logs/2026/06/2026-06-23.md`다. 현재는 작업하며 채우는 기록으로, 상세 할 일은 public viewer의 계획 탭을 함께 확인한다.
-- 6/23 참고 링크: 의견 시각화 모션 프로토타입 `https://jumijeong-design.github.io/Jumi-Worklog/opinion-viz-motion.html`.
-- 가입/로그인 지역별 인증 요구사항 후보: 한국 = 카카오·전화, 일본 = 라인 + 구글·애플, 외국사 전화번호 약관 제약. 반영 여부는 계획 탭 기준으로 확인한다.
+### 운영 모드
 
----
+- **Claude Code 단일 에이전트** 체제다(2026-07-13~, Codex 병행 중단). 브랜치 전략은 main-first: 짧은 feature 브랜치 → PR → main. 장수 병렬 트랙(`plan/parallel-codex`류)은 새로 만들지 않는다.
+- 같은 세션에서 병렬이 필요하면 서브에이전트 + `git worktree` 격리를 쓰되 팬아웃은 3~4개 소규모가 기본이다. **감사·리서치류는 인라인이 기본**(7/10·7/13 대규모 팬아웃이 두 번 다 세션리밋에 걸렸다).
+- 2-에이전트 병렬 규칙은 휴면 상태로 보존돼 있다(정본: `riiid/prism`의 `AGENTS.md`).
 
-## 2026-06-22 현재 상태
+### `riiid/prism`
 
-- `socra-ai-workflow-wiki`: v0.18로 Storybook QA Harness 플레이북을 추가하고, 병렬 에이전트 작업, source/generated 산출물 owner, page-first 화면 검증 기준을 운영 플레이북으로 승격했다.
-- `socra-ai-workflow-wiki`: v0.19로 `workflow-visualization.html`을 운영 기본값 중심으로 보강했다. 신규 플로우를 기본값으로 노출하고 레거시/신규 비교는 접힌 보조 섹션으로 낮췄으며, `화면 조합 검증`, `Prism contract 보강`, `Storybook story 추가`, `Wiki playbook 승격` 회수 경로를 명시했다.
-- wiki/site 콘텐츠를 사용자에게 보이는 형태로 변경하면 `bump-version`, changelog, 캐시 버전, worklog 기록, commit/push까지가 완료 기준이다. 내용만 바꾸고 버전 갱신을 뒤로 미루지 않는다.
-- `riiid/prism`: 6/22 기준 PR #14 통합이 완료됐고, Chromatic Build #66으로 시각 QA 잔여를 확인한다. 자세한 작업 내역은 `logs/2026/06/2026-06-22.md`를 우선한다.
-- worklog public viewer 변경 시에는 `jumi-worklog/scripts/verify-public-worklog-month.mjs --html site/worklog.html --month YYYY-MM --forbid-plan --allow-unchecked entry-YYYY-MM-DD`까지 확인한다.
+- main 최신은 PR #24~#28 통합분이다: 반응형 타이포 `{mo,pc}` 축, MenuItem 포팅, `plan/parallel-codex` 트랙 통합·은퇴, ChatInputBar `type=2line`(홈 확장 컴포저), Home Prism Hero·dither 제거(Chromatic 타임아웃 해소).
+- 외부 공유용 Storybook은 Chromatic **Build 124**(2026-07-14 수동 업로드, 172 stories). CI 자동 업로드 워크플로는 없어 필요할 때 `pnpm visual`을 수동 실행한다.
+- 문서 형식 게이트는 `.githooks/pre-commit`(→ `scripts/validate-design-system.sh`)으로 커밋 전 자동 실행된다. 새 클론은 `git config core.hooksPath .githooks` 필요.
 
----
+### 열려 있는 결정 (진행을 막고 있는 것)
 
-## 2026-06-17 현재 상태
+- **Quick/Deep 결과 화면 방향** — 가중치 그래프·리포트 카드가 통째로 미설계(최대 갭). 이게 픽스돼야 결과 화면 종속 항목들이 풀린다.
+- **PR #22(Aurora 탐색) 채택 여부** — 7/1부터 미결. Overlay 정리 묶음이 계속 밀리는 원인.
+- `.changeset/` 미출시 10건 — `@riiid/prism` 실제 publish 여부(안 하면 "changelog 전용"으로 명문화).
+- 기획서(`docs/20-socra-product-spec-2026-07.md`)의 [Open Issues] — 타임아웃 정책·RAG 도메인·계정/인증·개인정보(APPI) 등은 PM/법무 결정 대기라 디자인 착수 불가.
 
-- `riiid/prism`: PR [#8](https://github.com/riiid/prism/pull/8) `review-pasted-text-content` -> `main` 생성. Figma 실대조 기준으로 Checkbox / Toggle / Toast / History Item gray off-ramp를 palette reference로 복구하고, chromatic ramp, status muted dark tint, Storybook QA/Viewport/Locale 표면을 함께 반영했다.
-- `riiid/prism`: 검증 `pnpm token:build`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm pack:check`, `pnpm storybook:build`, `pnpm demo:build` 통과. Gradient old gray 교정은 Figma-side 후속으로 남김.
-- `riiid/prism`: Text Field Figma component(`52:49`)에 `Type=box/line` variant 축을 추가했다. 패키지 `TextField` 구현과 Storybook 반영은 승인 후 별도 진행.
-- `riiid/prism`: Markdown Rendering(`1169:2`, `918:2`) 고도화를 Figma에 반영했다. `chat/h1~h4` 공유 텍스트 스타일, heading rhythm, inline code, blockquote, divider, link preview, table visual을 전역 승인 기준으로 변경했다.
-- Markdown 패키지화는 진행 중이다. 완료된 것은 `markdown.*` 타입/간격 토큰 신설과 `pnpm token:build`까지다. 현재 `review-markdown-figma-storybook` 브랜치에 `component.tokens.json`, `build.ts`, `theme.css`, `public.manifest.json`, `docs/plans/10-design-system-followup-2026-06.md`가 미커밋 변경으로 남아 있다.
-- 승인된 Markdown 구현 방향: 코어는 의존성 없는 Markdown block components, `@riiid/prism/markdown` 서브패스는 `react-markdown` + `remark-gfm` opt-in renderer. 파싱은 위임하고 AST->Prism block 매핑만 소유한다.
-- `jumi-worklog`: 2026-06-17 worklog 원본과 `site/worklog.html` public viewer에 Text Field 작업, PR #8, Markdown Rendering 후속 기록을 반영했다.
-- 남은 후속 작업: Figma-side gradient old gray master 9개 바인딩, Model Profile 브랜드 아이콘 색 결정, focus ring accent 토큰 도입 여부 결정, Text Field package/Storybook 연결, Markdown blocks/renderer/contract/Storybook playground 구현.
+### 알려진 캐비엇
 
-## 2026-06-16 현재 상태
-
-- `riiid/prism`: PR [#7](https://github.com/riiid/prism/pull/7) `glass-light-dark-colors` → `main` **머지 완료** (`a296620`, 2026-06-16 03:21:46). Glass 표면/컨트롤 색상 동기화, stroke-width 기준 동기화, Storybook autodocs 복구, Checkbox/ChatHistoryPanel glass 보정 등 30개 커밋 반영.
-- Chromatic: Build 58 업로드 성공(Storybook Publish, 47 stories published) + UI Review `정주미` 승인(34건 visual/a11y 변경 baseline 채택). `CHROMATIC_PROJECT_TOKEN` 재실행 항목과 Storybook 매트릭스 육안 QA 항목 모두 이 승인으로 완료 처리.
-- 이전 세션에서 "남은 항목"으로 기록했던 PR 머지·Chromatic 업로드·Storybook QA 3개는 실제로는 완료돼 있었으나 worklog/CONTEXT.md/prism plan 문서에 반영되지 않았던 것을 발견하고 정정함.
-- 남은 후속 작업: Chat History Panel PR #6 EN/JP 말줄임 QA, NavItem 패키지 구현 승인, 글래스모피즘 Modal/Bottom Sheet·Settings·Web 헤더 적용.
-
-## 2026-06-15 현재 상태
-
-- `riiid/prism`: `glass-light-dark-colors` 브랜치에 React Bits 기반 `GlassSurface`, glass semantic tokens, Header/Chat/Toast glass 동기화, Checkbox/Radio/Toggle custom control 보정, HistoryItem 한 줄 구조 보정, Storybook glass review 배경 강화, 작업 완료 후 다음 작업 허락 규칙을 커밋/푸시했다. 커밋은 `adf6454`.
-- `riiid/prism`: stroke width 후속으로 `1px` border, `1.5px` small icon thin, `1.8px` 기본 icon/control, `2.2px` strong mark 기준을 Foundation 문서와 package tokens에 추가했다. Checkbox checked mark와 Toast 타입 배지 아이콘은 2.2px, Chip/Photo XBtn small icon은 1.5px로 맞췄고, Chat Input Bar attachment row crop을 보정했다.
-- `riiid/prism` 검증: `pnpm check` 통과. `pnpm visual`은 Storybook build까지 통과했지만 `CHROMATIC_PROJECT_TOKEN` 누락으로 Chromatic 업로드 실패.
-- `jumi-worklog`: 2026-06-15 worklog 원본과 `site/worklog.html` public viewer에 Prism glass / Storybook QA 동기화 및 stroke width 후속 기록을 추가했다.
-- 다음 작업은 새 규칙대로 먼저 범위와 의도를 설명하고 주미님 허락을 받은 뒤 진행한다.
-
-## 2026-06-12 상태 스냅샷
-
-- `jumi-worklog`: 6/12 worklog와 public viewer를 오늘 커밋 전체 기준으로 보강 중이다. 6/11 로컬 수정은 최신 원격과 충돌해 `stash@{0}: preserve-2026-06-11-local-worklog-edit`에 보존되어 있다.
-- 공개 워크로그 뷰어는 `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html` 기준이다. 오늘 focus, plan/log 탭 유지, roadmap view, 모바일 drawer, edit/link action, checkbox refresh를 보강했다.
-- Socra Storybook 6월 확장 계획은 `docs/10-socra-storybook-collaboration-context.md`를 먼저 읽는다. 원문 30개 문서는 `docs/70-socra-storybook-docs/`에 보존하고, 공개 확인용으로 `site/storybook-docs.html` + `site/storybook-docs/`에 반영했다.
-- 글쓰기/Medium 발행 준비는 `writing/글감_리스트.md`를 진입점으로 본다. AX 5편 사례 연재와 Compound Engineering 3편 방법론 연재 초안, `VOICE_GUIDE.md`, 제품/운영 실험 백로그가 `writing/` 아래에 있고, 공개 확인용 `site/writing.html`에 이관했다.
-- Glassmorphism 웹 구현 후속 4개는 6/12 plan에서 완료 처리했다. 기준은 `surface/glass-*`, `stroke/glass`, `Effect/glass`, `backdrop-filter`/`-webkit-backdrop-filter`, 미지원 시 alpha surface + stroke + shadow fallback이다.
-- 6/12 Figma / 디자인 시스템 plan에서 red scale hue 전체 정규화는 완료 처리했다. 글래스모피즘 추가 적용 영역은 `Chat History Panel`만 완료, Modal / Bottom Sheet, Settings 카드, Web 헤더, Notification / Toast는 잔여 후보로 둔다.
-- `riiid/prism`: `component-history-i18n-sync` 브랜치에 `ChatHistoryPanel` 다국어 토큰화와 Storybook 반영을 커밋/푸시했다. Draft PR은 https://github.com/riiid/prism/pull/6 이다.
-- Figma `Socra Design system test`: EN/JP mobile history와 EN/JP web home/chat의 `Chat History Panel` 텍스트 override를 토큰 기준으로 동기화했다. 최종 검사 기준 패널 내 한글 잔여 텍스트는 0개다.
-- `socra-ai-workflow-wiki`: 최신 원격 기준으로 맞춘 뒤 playbook/guide 번호화, local markdown link check와 role prefix check 추가, site html 재생성.
-- 6/12 plan의 완료 항목은 public viewer의 `plan-2026-06-12`에서 `[x]`로 표시한다. 후보는 승인과 다르다.
-- 이번 세션에서 잘못 진행한 피그마 glassmorphism 변경은 rollback 완료. 이후 피그마 시각 변경은 명시 승인 전 write 금지.
-- `apps/storybook/src/stories/GlassEffect.stories.tsx`는 Chat History Panel 작업 범위 밖 untracked 파일이다. 출처 확인 전 PR/커밋에 포함하지 않는다.
-- 완료 보고 전 `jumi-worklog`, `socra-ai-workflow-wiki`, `riiid/prism`의 `git status -sb`와 검증 결과를 다시 확인한다.
+- Product 파일 홈 화면(`5027:3909`)의 컴포저는 DS 라이브러리 마스터가 아니라 **Product 파일 내 로컬 카피**(`5338:50726`)를 참조한다(포크 상태 — DS 마스터를 고쳐도 전파 안 됨). 라이브러리 publish 후 재연결은 defer.
+- 죽은 로컬 브랜치 ~20개(`codex/*`·`canary/*`)가 남아 있다. 정리 시 머지 여부를 개별 확인한다.
 
 ---
 
 ## 다음 후보 작업
 
-아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다.
+아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다. 상세 to-do는 public viewer의 계획 탭을 정본으로 본다.
 
-- EN/JP mobile/web `Chat History Panel`의 긴 텍스트 `clipping + ellipsis` 처리를 디자이너 QA로 최종 확인한다.
-- Markdown Rendering 후속: `packages/prism/src/markdown/blocks.tsx` 구현, `@riiid/prism/markdown` 서브패스 추가, `component-contracts/markdown.md` 작성, Storybook 입력형 playground 추가.
-- `GlassEffect.stories.tsx`가 별도 foundation 작업 산출물인지 확인한다.
-- 실제 POC 화면/기능을 다시 확인하고 Storybook 컴포넌트 후보를 구현 단위로 연결한다.
-- Storybook IA / inventory를 실제 `riiid/prism` Storybook 구조와 연결하는 구현 TODO를 분리한다.
-- Prism 다음 구현 후보는 `NavItem` 패키지 구현 → `ChatHistoryPanel` 패키지 구현 → `Components/ChatHistoryPanel` Storybook → `Screens/HomeHistory` 순서다. 시작 전 범위 설명과 허락이 필요하다.
-- 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서로 진행한다. 아직 시작하지 않았다.
-- AI 워크플로우 Medium 업로드와 POC 페이지 기반 컴포넌트 추가는 백로그로 유지한다.
+- 기획서 대조 B-1(결과 화면 방향과 독립적이라 지금 착수 가능): Chat 응답 화면 3종, 피드백 UI(좋아요/싫어요+사유), 예외·에러·빈 상태 화면, 파일 첨부 UI, 모드명 JP 보조 라벨, 시각화 그래프 형태 좁히기.
+- 백로그/운영판 정리: `site/content/direction.md`(6/22 이후 미갱신), 백로그 "Quick/Deep MVP 기획 Open Issues" 카드를 스펙 문서 포인터로 축소.
+- 위키 정리 — 범위 확정부터 필요(`AI_product design_guide` 별도 레포인지, `writing/_sources/wiki_source_map.md`인지).
+- 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서. 아직 시작하지 않았다.
 
 ---
 
@@ -149,6 +113,6 @@
 
 | 서비스 | 계정 |
 | --- | --- |
-| Claude Code / Codex | candoit.j@gmail.com |
+| Claude Code | candoit.j@gmail.com |
 | Figma | jumi.jeong@socra.ai |
 | GitHub | JumiJeong-design |
