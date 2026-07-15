@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-07-14
+> Last updated: 2026-07-15
 >
 > 이 파일은 **누적 이력이 아니라 스냅샷**이다. 날짜별 경과는 `logs/`가 정본이므로 여기에 날짜 섹션을 쌓지 않고, 현재 상태 한 벌만 덮어쓴다(2026-07-14 정리 — 6/12~6/23 날짜 섹션 6개가 누적돼 worklog와 중복되고 갱신이 밀리던 것을 접음).
 
@@ -43,7 +43,7 @@
 
 ---
 
-## 현재 상태 (2026-07-14 기준)
+## 현재 상태 (2026-07-15 기준)
 
 ### 운영 모드
 
@@ -53,15 +53,17 @@
 
 ### `riiid/prism`
 
-- main 최신은 PR #24~#28 통합분이다: 반응형 타이포 `{mo,pc}` 축, MenuItem 포팅, `plan/parallel-codex` 트랙 통합·은퇴, ChatInputBar `type=2line`(홈 확장 컴포저), Home Prism Hero·dither 제거(Chromatic 타임아웃 해소).
+- main 최신은 PR #33까지 통합된 상태다: changeset은 publish가 아니라 changelog 전용으로 명문화됐다.
+- `docs/plan19-web-first-v3`는 일정 트랙이다. Codex는 일정 문서 변경을 중단하고, 하네스 변경은 `main` 기준 별도 브랜치 `docs/storybook-harness-followup-2026-07-15`로 분리했다.
+- 하네스 후속 브랜치 `docs/storybook-harness-followup-2026-07-15` 커밋 `d5057fe`가 원격에 push됐다. 내용은 Storybook IA/API Docs 문서 정리, 죽은 루트 `.storybook` 설정 제거, component contract ↔ story map coverage gate 보강이다. PR 오픈/머지는 아직 별도 결정 필요.
 - 외부 공유용 Storybook은 Chromatic **Build 124**(2026-07-14 수동 업로드, 172 stories). CI 자동 업로드 워크플로는 없어 필요할 때 `pnpm visual`을 수동 실행한다.
 - 문서 형식 게이트는 `.githooks/pre-commit`(→ `scripts/validate-design-system.sh`)으로 커밋 전 자동 실행된다. 새 클론은 `git config core.hooksPath .githooks` 필요.
 
 ### 열려 있는 결정 (진행을 막고 있는 것)
 
 - **Quick/Deep 결과 화면 방향** — 가중치 그래프·리포트 카드가 통째로 미설계(최대 갭). 이게 픽스돼야 결과 화면 종속 항목들이 풀린다.
-- **PR #22(Aurora 탐색) 채택 여부** — 7/1부터 미결. Overlay 정리 묶음이 계속 밀리는 원인.
-- `.changeset/` 미출시 10건 — `@riiid/prism` 실제 publish 여부(안 하면 "changelog 전용"으로 명문화).
+- **Prism 하네스 후속 브랜치 처리** — `docs/storybook-harness-followup-2026-07-15`를 PR로 열고 main에 합칠지 결정 필요.
+- **ChatInputBar 2line 카운터 Figma 정합** — 7/14 이월. 주미님은 Figma 확정이라고 확인했으나 실측 대조와 코드 정합은 아직 별도 착수.
 - 기획서(`docs/20-socra-product-spec-2026-07.md`)의 [Open Issues] — 타임아웃 정책·RAG 도메인·계정/인증·개인정보(APPI) 등은 PM/법무 결정 대기라 디자인 착수 불가.
 
 ### 알려진 캐비엇
@@ -75,9 +77,9 @@
 
 아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다. 상세 to-do는 public viewer의 계획 탭을 정본으로 본다.
 
+- Prism 하네스 후속 브랜치 PR 오픈/머지 여부 결정.
+- `socra-ai-workflow-wiki` GitHub Pages 배포 후 `Storybook QA Harness` 문서가 공개 사이트에 반영됐는지 확인.
 - 기획서 대조 B-1(결과 화면 방향과 독립적이라 지금 착수 가능): Chat 응답 화면 3종, 피드백 UI(좋아요/싫어요+사유), 예외·에러·빈 상태 화면, 파일 첨부 UI, 모드명 JP 보조 라벨, 시각화 그래프 형태 좁히기.
-- 백로그/운영판 정리: `site/content/direction.md`(6/22 이후 미갱신), 백로그 "Quick/Deep MVP 기획 Open Issues" 카드를 스펙 문서 포인터로 축소.
-- 위키 정리 — 범위 확정부터 필요(`AI_product design_guide` 별도 레포인지, `writing/_sources/wiki_source_map.md`인지).
 - 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서. 아직 시작하지 않았다.
 
 ---

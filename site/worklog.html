@@ -2292,6 +2292,51 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="entry-2026-07-15">
+# 2026-07-15
+
+일정 산출은 Claude 쪽에서 진행 중이라 Codex는 일정 문서에서 빠지고, 남은 하네스·위키 정리로 전환한 날. 공개 worklog 뷰어에서 7/15 계획을 다시 확인한 뒤 `storybook-story-coverage-check`와 `socra-ai-workflow-wiki` 동기화를 처리했다.
+
+요청:
+
+```text
+ㅇㅇ 딴거하라고
+위키도 있고
+할일많은데
+하네스 검토도있고
+작업 남은거있으면 해
+둘다 해라
+```
+
+---
+
+## 완료
+
+- [x] **Prism Storybook 하네스 후속** — `docs/storybook-harness-followup-2026-07-15` 브랜치에서 커밋 `d5057fe` 푸시. 루트의 죽은 `.storybook/main.js`·`preview.js` 삭제, `storybook-map.md`/`apps/storybook/usage.md` 최신 IA 반영, `component-contracts/README.md` 현재/후보 목록 정리.
+- [x] **storybook-story-coverage-check 보강** — `scripts/validate-design-system.sh`가 모든 `packages/prism/component-contracts/*.md`가 Storybook map에 등록됐는지, map의 `Components/*` title이 실제 story 파일에 존재하는지 검사하도록 확장.
+- [x] **Workflow wiki 현행 IA 반영** — `socra-ai-workflow-wiki` main 커밋 `24d6889` 푸시. `wiki/playbooks/33-storybook-qa-harness.md`의 오래된 `QA/*` 표기를 현행 `Foundations/*`/`Patterns/*`/`Explorations/*` 구조로 갱신하고 `site/guide-playbooks.html` 재빌드.
+- [x] **검증** — Prism: `git diff --check`, `bash scripts/validate-design-system.sh`, `pnpm storybook:build` 통과(기존 chunk-size 경고만). Wiki: `bash scripts/validate-docs.sh` 통과.
+
+## 남은 것
+
+- Prism 하네스 브랜치 PR 오픈/머지 여부 결정.
+- GitHub Pages 배포 후 `socra-ai-workflow-wiki` 공개 사이트에서 `Storybook QA Harness` 문서 반영 확인.
+- 일정 트랙(`docs/plan19-web-first-v3`)은 Claude 진행분과 분리 유지.
+
+## 회고
+
+- 일정 작업과 하네스 작업이 같은 checkout에 섞일 뻔했다. 커밋 전에 `main` 기준 새 브랜치로 분리해서 일정 브랜치에 하네스 변경을 얹지 않았다.
+- `component-contracts/README.md`는 실제 export/계약/스토리 상태보다 오래된 후보 목록을 품고 있었다. 하네스 문서 정합만으로 끝내지 말고 검증 스크립트에 coverage gate를 넣는 편이 맞았다.
+- 위키는 세부 스펙을 복사하는 곳이 아니라 운영 패턴을 남기는 곳이다. 이번 갱신도 컴포넌트 계약이 아니라 Storybook IA 명칭 drift만 바로잡았다.
+
+## 커밋
+
+| repo | 커밋/브랜치 | 설명 |
+| --- | --- | --- |
+| `riiid/prism` | `d5057fe` / `docs/storybook-harness-followup-2026-07-15` | Storybook 하네스 문서와 커버리지 검증 정리 |
+| `socra-ai-workflow-wiki` | `24d6889` / `main` | Storybook QA 하네스 IA 최신화 |
+</script>
+
 <script type="text/plain" id="plan-2026-07-15">
 # 2026-07-15 계획
 
@@ -2324,7 +2369,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 ## D. 로그
 
-- [ ] 실행 마무리 후 `logs/2026/07/2026-07-15.md` 기록(log) 작성
+- [x] 실행 마무리 후 `logs/2026/07/2026-07-15.md` 기록(log) 작성
 </script>
 
 <script type="text/plain" id="plan-2026-07-14">
@@ -5293,7 +5338,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
-  '2026-07-15': { tags: ['plan', '잔무', 'pr-정리', 'changeset', 'wiki-감사', 'w1', 'mvp-일정'] },
+  '2026-07-15': { tags: ['log', 'plan', 'harness', 'storybook', 'coverage', 'wiki', 'commit'] },
   '2026-07-14': { tags: ['plan', '이월', 'harness', 'backlog-정리', 'spec-checklist', 'wiki'] },
   '2026-07-13': { tags: ['prism', 'chat-input-bar', 'border-beam', 'harness', 'single-agent', 'track-정리', 'pr-26', 'pr-27', 'pr-28', 'chromatic'] },
   '2026-07-10': { tags: ['prism', 'figma', 'typography', 'token', 'variable', 'color', 'plan-17', 'socra', 'usecase', 'value-mirror'] },
