@@ -2292,6 +2292,34 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="plan-2026-07-15">
+# 2026-07-15 계획
+
+오늘 트랙 = **"잔무·PR 정리 먼저"**(주미님 선택). plan-19 기준 W1이지만 임계 경로 A(결과 화면 방향 확정)는 주미님 디자인 결정이라 별도 트랙. 밀린 잔무부터 비우고, 남은 작업을 실행 큐 / 결정·디자인 트랙으로 나눠 정리.
+
+## A. 오늘 처리한 잔무 (완료)
+
+- [x] **PR 스택 비우기** — #29(하네스 후속)·#30(홈 배경 은퇴)·#31(plan-19 일정) squash 머지 + 로컬 main 동기화. #22(Aurora 미채택·코드는 #30에서 제거)·#5(자동 버전 0.2.0, 미배포 방침) 닫기. 남은 열린 PR = **#13(codex chip-locale, DRAFT 휴면)** 뿐
+- [x] **changeset "changelog 전용" 명문화** — `.changeset/readme.md`에 미배포(내부 전용) 방침 블록 추가 → **PR #33 머지**(validate/storybook green)
+- [x] **위키 정리 범위 감사**(read-only) — `socra-ai-workflow-wiki`(마지막 6/29·정체)에서 현행 운영 모델(Codex 중단·단일 에이전트·main-first) 대비 drift를 **3파일로 확정**: `playbooks/30-agent-handoff`(Codex·병렬 4곳)·`AGENTS.md`(Codex 진입점 2곳)·`playbooks/31-component-update`(병렬 전제 1문장). README Channel Map·나머지 guides/notes/playbooks는 잔존 0 → 정리 불필요
+
+## B. 남은 작업 — 내 실행 큐 (승인/결정 대기)
+
+- [ ] **위키 편집 실행** (범위 승인 후 착수) — 위 3파일의 Codex·병렬 전제를 단일 에이전트/`(휴면)`으로 재프레이밍(prism `AGENTS.md`와 동일 패턴). 편집은 read-only 감사와 분리
+- [ ] **ChatInputBar 2line 카운터 Figma 정합** (7/14 이월) — 주미님 "Figma 확정 맞음". Figma 실측 대조 → 코드 정합 미착수. 오늘 트랙에서 주미님이 제외 → 별도 착수
+- [ ] **changeset 자동 버전 PR 재생성 근본 해소** (검토) — changeset이 main에 남는 한 `changeset-release/main` PR이 push마다 재생성(오늘 #32도 재생성돼 닫음). release 워크플로 `version-pr` job 비활성화 여부 = 배포 재개 전까지 검토. 지금은 반복 닫기로 대응
+
+## C. 남은 작업 — 주미님 결정 / 디자인 트랙 (plan-19 W1)
+
+- [ ] **W1 액션 ①: 결과 화면 방향 확정(7/17 목표)** — 임계 경로 출발점. Product 파일 `5472:9784`의 정의안 vs 압축안·지지율 표기·정량/정성 라벨 결정만 남음. 착수 시 내가 실측 결정 시트 준비 가능
+- [ ] **W1 액션 ②: 브랜드 freeze 날짜 합의(이번 주)** — 인터랙션 디자이너님과, 목표 8/22
+- [ ] **B-1 디자인 착수 가능 6건**(기획서 대조, 7/14 이월) — Chat 응답 3종·피드백 UI·예외/에러/빈 상태·첨부 UI·모드명 JP 보조 라벨·그래프 형태. 결과 화면 방향과 독립적으로 착수 가능
+
+## D. 로그
+
+- [ ] 실행 마무리 후 `logs/2026/07/2026-07-15.md` 기록(log) 작성
+</script>
+
 <script type="text/plain" id="plan-2026-07-14">
 # 2026-07-14 계획
 
@@ -5258,6 +5286,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
+  '2026-07-15': { tags: ['plan', '잔무', 'pr-정리', 'changeset', 'wiki-감사', 'w1', 'mvp-일정'] },
   '2026-07-14': { tags: ['plan', '이월', 'harness', 'backlog-정리', 'spec-checklist', 'wiki'] },
   '2026-07-13': { tags: ['prism', 'chat-input-bar', 'border-beam', 'harness', 'single-agent', 'track-정리', 'pr-26', 'pr-27', 'pr-28', 'chromatic'] },
   '2026-07-10': { tags: ['prism', 'figma', 'typography', 'token', 'variable', 'color', 'plan-17', 'socra', 'usecase', 'value-mirror'] },
