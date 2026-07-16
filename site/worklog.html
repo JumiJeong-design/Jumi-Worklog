@@ -2292,6 +2292,53 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - ~~Chat 입력영역 글래스(#5)~~ (→ 6/24 이관: 공통 GlassSurface 레시피 개선. 원인 확정 후 aperture 시도→그라데이션 회귀로 원복)
 </script>
 
+<script type="text/plain" id="entry-2026-07-16">
+# 2026-07-16
+
+7/15 하네스 후속에서 남은 큐 중 "결정 없이 실행 가능한 3건"을 이어받은 날. 위키의 Codex/병렬 전제, changeset version-pr 재생성, ChatInputBar 2line 카운터 — 셋 다 성격이 같았다. 문서·CI·코드가 실제 현행 상태보다 뒤처져 있어서 다음 세션이 잘못된 전제로 출발하는 부채.
+
+요청:
+
+```text
+이렇게 하다 말았는데 너가 이어서 해봐
+다 해라
+다 끝내고 worklog 기록남기고 혹시 다 못하겠으면 내일 이어서하겠다고 말해
+```
+
+---
+
+## 한 일
+
+**위키 단일 에이전트 재프레이밍** (`socra-ai-workflow-wiki` main `32cf6c8`) — `30-agent-handoff-playbook`의 핸드오프를 세션 간 기준으로 재서술하고 병렬 절을 `(휴면) — 두 에이전트 동시 진행 시`로 강등했다. `31-component-update-playbook`의 생성물 owner 규칙도 휴면 조건부로 감쌌고, 위키 `AGENTS.md`의 Codex 진입점 행은 삭제하지 않고 (휴면) 표기만 붙였다(그 파일의 존재 근거라서). prism `AGENTS.md`와 같은 패턴 — **병렬 규칙은 지우지 않고 보존**. `site/guide-playbooks.html` 재빌드.
+
+**changeset version-pr 근본 해소** (Prism `7eadfa9`) — `release.yml`의 `version-pr` job에 `vars.ENABLE_VERSION_PR` 게이트를 넣었다. 미설정이 곧 비활성이라 이제 main push마다 Version PR이 재생성되지 않는다. job 블록은 남겨 배포 재개 시 repo variable만 켜면 되게 했다. 겸사겸사 `docs/release.md`가 배포 활성인 것처럼 서술해 방침과 **반대 결론**을 주던 것도 정정했다.
+
+**ChatInputBar 2line 카운터 정합** (Prism `9877e40`) — Figma `3397:1417` 실측으로 카운터 노드 부재를 확인하고, 주미님 결정("거의 도달한 시점에만")에 따라 남은 100자 이하에서만 노출하도록 바꿨다. 7/13 계약의 "Figma 확정 필요"가 이걸로 해소됐고 Figma write는 불필요했다.
+
+**검증** — Prism: `pnpm typecheck`·`pnpm test`(54 통과)·`pnpm build`·`pnpm storybook:build`·`validate-design-system.sh` 통과. `release.yml`은 YAML 파싱으로 `if` 표현식과 `publish-latest needs: check`(의존성 안 깨짐)을 확인. Wiki: `build-wiki.py` 재생성 diff 0 + `validate-docs.sh` 통과.
+
+## 남은 것
+
+- Prism `chore/version-pr-switch-chat-counter` PR 오픈/머지 여부 결정. 7/15 `docs/storybook-harness-followup-2026-07-15` PR도 아직 미오픈 — 두 브랜치 처리 방침을 함께 정하는 게 나음.
+- repo variable `ENABLE_VERSION_PR`은 GitHub 설정이라 코드로 만들지 않음. 미설정이 곧 비활성이라 지금은 의도대로 동작.
+- W1 결과 화면 방향 확정(7/17 목표)·브랜드 freeze 날짜 합의·B-1 디자인 6건은 주미님 결정 트랙이라 이 세션 범위 밖.
+
+## 회고
+
+- 계약서에는 "카운터 Figma 미정의"라 적혀 있고 큐에는 "Figma 확정 맞음"이라 적혀 있었다. 코드를 고치기 전에 Figma를 read-only로 실측해서 모순을 먼저 깼다. 실측 없이 "정합"을 시작했으면 없는 기준에 코드를 맞추는 헛수고였다.
+- 테스트가 옛 계약을 박아두고 있었다. 카운터 조건을 바꾸자 기존 2line 테스트가 깨졌는데, 이건 회귀가 아니라 **테스트가 규정한 옛 계약**이라 새 계약으로 갱신하는 게 맞았다. 내가 새로 쓴 테스트도 처음엔 깨졌는데 원인은 소스가 아니라 `value`만 넘기고 `onValueChange`를 안 넘겨 uncontrolled로 떨어진 내 테스트 버그였다 — 실패를 소스 탓으로 돌리지 않고 코드를 읽어 확정했다.
+- 위키 병렬 절을 통째로 휴면 처리하니 "source만 바뀐 상태는 완료가 아니다"라는 **병렬과 무관한 현행 규칙**까지 같이 묻혔다. 재프레이밍이 만든 부작용이라 그 규칙만 활성 섹션으로 분리했다.
+- 생성물(`site/guide-playbooks.html`)이 rebase에서 깨끗이 머지됐지만 믿지 않고 재생성해 diff 0을 확인했다. 텍스트 머지가 성공한 것과 소스와 일치하는 것은 다른 말이다.
+
+## 커밋
+
+| repo | 커밋/브랜치 | 설명 |
+| --- | --- | --- |
+| `riiid/prism` | `7eadfa9` / `chore/version-pr-switch-chat-counter` | version-pr을 ENABLE_VERSION_PR 스위치로 비활성 |
+| `riiid/prism` | `9877e40` / `chore/version-pr-switch-chat-counter` | 2line 카운터를 한계 근처에서만 노출 |
+| `socra-ai-workflow-wiki` | `32cf6c8` / `main` | 핸드오프/컴포넌트 플레이북 단일 에이전트 재프레이밍 |
+</script>
+
 <script type="text/plain" id="entry-2026-07-15">
 # 2026-07-15
 
@@ -5338,6 +5385,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
+  '2026-07-16': { tags: ['log', 'prism', 'wiki', 'single-agent', 'changeset', 'release', 'chat-input-bar', 'figma', 'commit'] },
   '2026-07-15': { tags: ['log', 'plan', 'harness', 'storybook', 'coverage', 'wiki', 'commit'] },
   '2026-07-14': { tags: ['plan', '이월', 'harness', 'backlog-정리', 'spec-checklist', 'wiki'] },
   '2026-07-13': { tags: ['prism', 'chat-input-bar', 'border-beam', 'harness', 'single-agent', 'track-정리', 'pr-26', 'pr-27', 'pr-28', 'chromatic'] },

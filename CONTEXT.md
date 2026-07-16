@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-07-15
+> Last updated: 2026-07-16
 >
 > 이 파일은 **누적 이력이 아니라 스냅샷**이다. 날짜별 경과는 `logs/`가 정본이므로 여기에 날짜 섹션을 쌓지 않고, 현재 상태 한 벌만 덮어쓴다(2026-07-14 정리 — 6/12~6/23 날짜 섹션 6개가 누적돼 worklog와 중복되고 갱신이 밀리던 것을 접음).
 
@@ -43,17 +43,17 @@
 
 ---
 
-## 현재 상태 (2026-07-15 기준)
+## 현재 상태 (2026-07-16 기준)
 
 ### 운영 모드
 
 - **Claude Code 단일 에이전트** 체제다(2026-07-13~, Codex 병행 중단). 브랜치 전략은 main-first: 짧은 feature 브랜치 → PR → main. 장수 병렬 트랙(`plan/parallel-codex`류)은 새로 만들지 않는다.
 - 같은 세션에서 병렬이 필요하면 서브에이전트 + `git worktree` 격리를 쓰되 팬아웃은 3~4개 소규모가 기본이다. **감사·리서치류는 인라인이 기본**(7/10·7/13 대규모 팬아웃이 두 번 다 세션리밋에 걸렸다).
-- 2-에이전트 병렬 규칙은 휴면 상태로 보존돼 있다(정본: `riiid/prism`의 `AGENTS.md`).
+- 2-에이전트 병렬 규칙은 휴면 상태로 보존돼 있다(정본: `riiid/prism`의 `AGENTS.md`). `socra-ai-workflow-wiki`의 핸드오프/컴포넌트 플레이북과 `AGENTS.md`도 2026-07-16에 같은 (휴면) 패턴으로 맞췄다.
 
 ### `riiid/prism`
 
-- main 최신은 PR #33까지 통합된 상태다: changeset은 publish가 아니라 changelog 전용으로 명문화됐다.
+- main 최신은 PR #33까지 통합된 상태다: changeset은 publish가 아니라 changelog 전용으로 명문화됐다. 2026-07-16에 이 방침을 워크플로에도 강제했다 — `release.yml`의 `version-pr` job이 repo variable `ENABLE_VERSION_PR == 'true'`일 때만 돈다(미설정 = 비활성). 배포 재개 시 `.changeset/readme.md` 방침 블록 삭제 + variable 설정 두 곳을 함께 되돌린다.
 - `docs/plan19-web-first-v3`는 일정 트랙이다. Codex는 일정 문서 변경을 중단하고, 하네스 변경은 `main` 기준 별도 브랜치 `docs/storybook-harness-followup-2026-07-15`로 분리했다.
 - 하네스 후속 브랜치 `docs/storybook-harness-followup-2026-07-15` 커밋 `d5057fe`가 원격에 push됐다. 내용은 Storybook IA/API Docs 문서 정리, 죽은 루트 `.storybook` 설정 제거, component contract ↔ story map coverage gate 보강이다. PR 오픈/머지는 아직 별도 결정 필요.
 - 외부 공유용 Storybook은 Chromatic **Build 124**(2026-07-14 수동 업로드, 172 stories). CI 자동 업로드 워크플로는 없어 필요할 때 `pnpm visual`을 수동 실행한다.
@@ -62,8 +62,7 @@
 ### 열려 있는 결정 (진행을 막고 있는 것)
 
 - **Quick/Deep 결과 화면 방향** — 가중치 그래프·리포트 카드가 통째로 미설계(최대 갭). 이게 픽스돼야 결과 화면 종속 항목들이 풀린다.
-- **Prism 하네스 후속 브랜치 처리** — `docs/storybook-harness-followup-2026-07-15`를 PR로 열고 main에 합칠지 결정 필요.
-- **ChatInputBar 2line 카운터 Figma 정합** — 7/14 이월. 주미님은 Figma 확정이라고 확인했으나 실측 대조와 코드 정합은 아직 별도 착수.
+- **Prism 미오픈 브랜치 2개 처리** — `docs/storybook-harness-followup-2026-07-15`(`d5057fe`)와 `chore/version-pr-switch-chat-counter`(`7eadfa9`·`9877e40`) 둘 다 원격에 push됐지만 PR 미오픈. 처리 방침을 함께 정하는 게 낫다.
 - 기획서(`docs/20-socra-product-spec-2026-07.md`)의 [Open Issues] — 타임아웃 정책·RAG 도메인·계정/인증·개인정보(APPI) 등은 PM/법무 결정 대기라 디자인 착수 불가.
 
 ### 알려진 캐비엇
@@ -77,8 +76,7 @@
 
 아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다. 상세 to-do는 public viewer의 계획 탭을 정본으로 본다.
 
-- Prism 하네스 후속 브랜치 PR 오픈/머지 여부 결정.
-- `socra-ai-workflow-wiki` GitHub Pages 배포 후 `Storybook QA Harness` 문서가 공개 사이트에 반영됐는지 확인.
+- Prism 미오픈 브랜치 2개(하네스 후속 / version-pr·카운터) PR 오픈·머지 여부 결정.
 - 기획서 대조 B-1(결과 화면 방향과 독립적이라 지금 착수 가능): Chat 응답 화면 3종, 피드백 UI(좋아요/싫어요+사유), 예외·에러·빈 상태 화면, 파일 첨부 UI, 모드명 JP 보조 라벨, 시각화 그래프 형태 좁히기.
 - 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서. 아직 시작하지 않았다.
 
