@@ -1,7 +1,7 @@
-# Claude 공통 지침 — 정주미
+# Jumi-Worklog — 운영 지침
 
-이 파일은 프로젝트에 관계없이 주미님과 일할 때 항상 적용되는 공통 룰이다.
-프로젝트별 세부 규칙은 각 프로젝트의 `CLAUDE.md`를 따른다.
+날짜별 작업 로그·세션 맥락·공통 스킬을 관리하는 오케스트레이션 레포다.
+레포와 무관한 공통 작업 방식은 `~/.claude/CLAUDE.md`에 있다.
 
 ---
 
@@ -13,14 +13,9 @@
 4. `scripts/check-context-freshness.sh`를 실행해 `CONTEXT.md`가 최신 worklog보다 오래됐는지 확인. 경고가 나오면 `CONTEXT.md`를 현재 상태로 믿지 말고 최신 worklog와 관련 repo의 git 상태를 먼저 확인
 5. 문서 구조를 정리하거나 새 문서를 만들 때는 `docs/00-document-role-map.md`의 번호 체계를 따른다
 
-## AI 도구별 진입점
+## 에이전트 체제
 
-| 도구 | 세션 시작 방식 |
-|------|---------------|
-| Claude Code | `CLAUDE.md` + SessionStart 한스 (`~/.claude/settings.json`) — 자동으로 이 체크리스트 실행 |
-| ~~Codex~~ (휴면) | 이 파일(`AGENTS.md`) 자동 로드 — 2026-07-13부터 병행 중단, 재개 시에만 적용 |
-
-2026-07-13부터 **Claude Code 단일 에이전트** 체제다. 같은 세션에서 병렬이 필요하면 별도 에이전트가 아니라 서브에이전트 + `git worktree` 격리를 쓰고, 팬아웃은 3~4개 소규모를 기본으로 한다(감사·리서치류는 인라인 우선 — 대규모 팬아웃이 두 번 세션리밋에 걸렸다).
+2026-07-13부터 **Claude Code 단일 에이전트** 체제다(Codex 병행 중단). 같은 세션에서 병렬이 필요하면 별도 에이전트가 아니라 서브에이전트 + `git worktree` 격리를 쓰고, 팬아웃은 3~4개 소규모를 기본으로 한다(감사·리서치류는 인라인 우선 — 대규모 팬아웃이 두 번 세션리밋에 걸렸다).
 
 ## 기본 운영 방식 — 토큰/범위 절약
 
@@ -36,49 +31,26 @@
 - plan/worklog/backlog 문구는 후보와 기록이지 실행 승인이나 실제 완료 증거가 아니다. write 작업 전에는 source-of-truth 파일, GitHub 상태, 필요 시 Figma 실제 상태를 직접 확인한다.
 - 완료 보고에서 "완료"라고 부르려면 source 변경, 생성물/뷰어 fallback, 공개 또는 시각 표면, plan/log 기록이 서로 맞아야 한다. 해당 작업에 없는 축은 "해당 없음"으로 명시하고 넘어간다.
 
-## (휴면) 병렬 작업 규칙 — 두 에이전트 동시 진행 시
+## 동시 작업
 
-2026-07-13 단일 에이전트 전환으로 **현재는 적용되지 않는다.** 제2 에이전트를 다시 병행할 때만 되살려 쓴다. 아래 첫 원칙은 서브에이전트/워크트리를 쓸 때도 그대로 유효하다.
+**한 repo에 한 에이전트.** 같은 체크아웃(폴더)을 둘이 동시에 git 작업하지 않는다.
+한 폴더엔 HEAD·index·stash가 각각 1개뿐이라 동시 commit/rebase/push는 서로를 덮어쓴다
+(오늘 worklog `logs/*.md` 동시 append + push 충돌이 이 경우). 공유 working tree에서
+`git stash -u` 금지. 꼭 동시여야 하면 `git worktree`로 폴더를 분리한다.
 
-**기본은 "한 repo에 한 에이전트". 같은 체크아웃(폴더)을 둘이 동시에 git 작업하지 않는다.** (모든 레포 공통, 이 레포 포함)
+> 두 에이전트 병행 시의 상세 규칙(소유 경계·생성물 단일 소유·계약 우선·foundation-first 머지)은
+> 휴면 상태이며 정본은 `riiid/prism`의 `docs/agent-parallel-rules.md`에 있다.
 
-- 한 폴더엔 HEAD·index·stash가 각각 1개뿐이라, 두 에이전트가 같은 체크아웃에서 동시에 commit/rebase/push/stash 하면 서로의 작업을 덮어쓰고 push가 non-fast-forward로 충돌한다(오늘 worklog `logs/*.md` 동시 append + push 충돌이 이 경우).
-- 다른 에이전트가 이 repo에서 작업 중이면 끝날 때까지 기다리거나 비킨다(순차). push 전에는 항상 `git pull --rebase`.
-- 꼭 동시여야 하면 같은 폴더를 공유하지 말고 `git worktree add ../Jumi-Worklog-<track> <branch>`로 폴더를 분리해 각자 자기 HEAD·index에서 일하고, 끝나면 rebase로 합친 뒤 `git worktree remove`로 정리한다.
-- 공유 working tree에서 `git stash -u` 금지(다른 트랙 WIP를 쓸어담는다).
+## 공통 스킬
 
-> 정본은 작업이 실제로 벌어지는 레포에 둔다. prism 병렬 작업 규칙(소유 경계·생성물 단일 소유·계약 우선·rebase 통합·foundation-first 머지)은 **`riiid/prism`의 `AGENTS.md`** 참조. 여기(worklog 레포)는 메타/오케스트레이션 레포라 포인터만 둔다.
+`skills/`의 스킬은 `~/.claude/skills/`에 심링크로 등록되어 있어 어느 레포에서든
+트리거만으로 실행된다. 새 스킬을 추가하면 심링크도 함께 만든다:
+`ln -sfn <경로> ~/.claude/skills/<이름>`
 
-## 공통 스킬 목록
+## UX 리뷰 게이트
 
-프로젝트에 관계없이 쓰는 스킬은 `skills/` 폴더에 있다.
-어느 레포에서 작업 중이더라도 아래 스킬이 트리거되면 해당 SKILL.md를 읽어서 실행한다.
-
-| 스킬 | 트리거 | 파일 |
-|------|--------|------|
-| `write-worklog` | `워크로그 써줘`, `오늘 정리해줘`, `/write-worklog` | `skills/write-worklog/SKILL.md` |
-| `session-snapshot` | `지금까지 뭐했어?`, `중간 정리`, `/session-snapshot` | `skills/session-snapshot/SKILL.md` |
-| `sync-entry` | `동기화 확인해줘`, `뷰어랑 맞아?`, `/sync-entry` | `skills/sync-entry/SKILL.md` |
-| `handoff-check` | `handoff 확인해줘`, `클로드 코드에서 이어받을 수 있어?`, `오늘 할 일`, `이어받자`, `진행하자`, `/handoff-check` | `skills/handoff-check/SKILL.md` |
-| `bump-version` | `버전 올려줘`, `배포할게`, `/bump-version` | `skills/bump-version/SKILL.md` |
-| `prep-meeting` | `미팅 준비해줘`, `이번주 요약해줘`, `/prep-meeting` | `skills/prep-meeting/SKILL.md` |
-| `record-trap` | `이거 기억해줘`, `규칙 추가해줘`, `재발 방지`, `/record-trap` | `skills/record-trap/SKILL.md` |
-
-## 디자이너 에이전트 / UX 리뷰 게이트
-
-프론트엔드, public viewer, 문서 뷰어, 모바일 UI, 내비게이션, 편집 화면을 수정할 때는 구현 전에 아래 UX 리뷰 게이트를 통과한다. 이 기준은 Avenir-UX의 step-level usability 평가(SEQ, efficiency, clarity, confidence), Agentic Design Review의 다중 관점 리뷰(배치, 계층, 색, 구성), PrototypeAgent의 의도 정렬/중간 검토 흐름을 이 레포 작업 방식에 맞게 가져온 것이다.
-
-- **구조 제안 전 판단 순서**: UI/운영 구조를 제안할 때는 구현안부터 말하지 않는다. 먼저 기존 시스템의 중심축, source of truth, 정보 중복 가능성, 사용자의 1차 실행 화면, 새 뷰가 만드는 비용을 판단한 뒤 추천안과 버릴 안을 함께 제시한다.
-- **역할 분리**: `햄버거/메뉴`, `홈`, `뒤로`, `목록`, `편집`은 서로 다른 역할이다. 같은 기능에 여러 이름을 붙이지 않고, 다른 기능에 같은 이름을 붙이지 않는다.
-- **모바일 내비게이션**: 모바일에서 메뉴/인덱스는 상시 접근 가능한 drawer 또는 고정 컨트롤로 제공한다. 사용자가 메뉴를 다시 열기 위해 본문 맨 위로 스크롤해야 하는 구조를 만들지 않는다.
-- **홈과 메뉴**: `홈`은 현재 상세/문서 뷰를 닫고 첫 화면으로 돌아가는 동작이다. `햄버거`는 현재 위치와 관계없이 메뉴/인덱스를 여는 동작이다. 둘 중 하나로 다른 하나를 대체하지 않는다.
-- **목록/상세 상태**: 목록 화면, 문서 상세 화면, 편집 링크 상태를 명확히 구분한다. 상세 화면에서 사용자는 "지금 무엇을 보고 있고 어디로 돌아갈 수 있는지"를 즉시 알아야 한다.
-- **반복 접근 비용**: 주요 작업(메뉴 열기, 홈 복귀, 편집, 다음 문서 이동)은 모바일에서 1탭 이내로 접근 가능해야 한다. 스크롤 위치에 의존하는 탐색은 실패로 본다.
-- **명확성 점검**: 버튼 라벨은 사용자의 목적어로 쓴다. 추상어(`인덱스로`)를 쓰기 전에 사용자가 실제로 찾는 말(`홈`, `메뉴`, `편집`, `문서 열기`)인지 확인한다.
-- **시각 계층**: 상단바, 사이드바/drawer, 본문, 보조 액션이 서로 경쟁하지 않게 한다. 문서 읽기 화면에서는 본문을 가리지 않고, 탐색은 필요할 때 즉시 열리게 한다.
-- **디자인 시스템 일관성**: 같은 레포의 public viewer는 토큰, spacing, 버튼 스타일, markdown 스타일을 공유한다. 새 UI를 만들기 전에 기존 `viewer.css`/`worklog.html` 패턴을 먼저 본다.
-- **실제 시나리오 검증**: 수정 후 최소한 다음 경로를 모바일 기준으로 머릿속이 아니라 실제 화면/DOM으로 검증한다: 홈 진입 → 메뉴 열기 → 문서 열기 → 메뉴 다시 열기 → 홈 복귀 → 편집 링크 확인.
-- **결과 보고**: UI/UX 수정 완료 보고에는 "무엇을 없앴다"가 아니라 "사용자가 어떤 경로로 무엇을 할 수 있게 됐는지"를 적는다.
+프론트엔드·public viewer·문서 뷰어·모바일 UI·내비게이션·편집 화면을 수정할 때는
+구현 전에 `ux-review-gate` 스킬을 통과한다.
 
 ## worklog 작성 규칙
 

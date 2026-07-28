@@ -13,10 +13,16 @@ write-worklog 전에 "뭐가 빠졌나?" 확인하거나, 잠깐 자리를 비�
 
 ## Step 1 — 오늘 커밋 조회  [Research]
 
-`mcp__github__list_commits`로 오늘 날짜 기준 3개 레포 커밋을 조회한다 (`since: YYYY-MM-DDT00:00:00Z`):
-- `JumiJeong-design/Jumi-Worklog`
-- `jumijeong-design/socra-ai-workflow-wiki`
-- `riiid/prism`
+로컬 3개 레포에서 오늘 커밋을 조회한다:
+
+```bash
+for r in ~/Desktop/jumi-worklog "$HOME/Desktop/AI_product design_guide" "$HOME/Desktop/socraAI_product design"; do
+  echo "### $(basename "$r")"
+  git -C "$r" log --since=midnight --oneline --author="$(git -C "$r" config user.name)"
+done
+```
+
+미푸시 커밋도 잡히므로 `git status -sb`로 원격과의 차이도 함께 본다.
 
 ---
 

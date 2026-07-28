@@ -63,10 +63,10 @@ disable-model-invocation: false
 
 ## Step 3 — 파일 읽기  [Research]
 
-`mcp__github__get_file_contents`로 업데이트할 파일의 현재 내용과 SHA를 읽는다.
+업데이트할 파일을 로컬에서 읽는다.
 
-- `riiid/prism` → `design-system/rules.md`, `docs/agent-rules.md`
-- `JumiJeong-design/Jumi-Worklog` → `AGENTS.md`, 관련 `skills/*/SKILL.md`, 오늘 날짜 worklog 파일 (`logs/YYYY/MM/YYYY-MM-DD.md`)
+- `~/Desktop/socraAI_product design` (riiid/prism) → `design-system/rules.md`, `docs/agent-rules.md`
+- `~/Desktop/jumi-worklog` → `AGENTS.md`, 관련 `skills/*/SKILL.md`, 오늘 날짜 worklog 파일 (`logs/YYYY/MM/YYYY-MM-DD.md`)
 
 ---
 
@@ -90,7 +90,8 @@ disable-model-invocation: false
 - `skills/*/SKILL.md`에는 해당 스킬이 실제로 수행할 단계, URL, repo/path, 검증 명령만 둔다.
 - 공개 URL, repo명, 검증 명령은 `README.md`/`AGENTS.md`와 충돌하지 않게 맞춘다.
 
-모두 `mcp__github__create_or_update_file`로 업데이트. SHA 필수.
+모두 로컬 파일을 직접 수정한다. 커밋은 레포별로 나눠 담고, 한 번에 묶어서 push한다
+(작은 변경마다 push 반복 금지). prism은 팀 레포이므로 push 전 사용자 확인을 받는다.
 
 완료 후 출력:
 ```

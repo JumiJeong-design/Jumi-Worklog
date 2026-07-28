@@ -36,7 +36,7 @@ FigJam 보드에 **날짜 스탬프 카드**로 자동 저장한다.
 
 ## Mandatory prerequisites
 
-- Figma MCP (`mcp__8f3fc815__use_figma`, `mcp__8f3fc815__get_figjam`) 연결 필요
+- Figma MCP (`mcp__figma__use_figma`, `mcp__figma__get_figjam`) 연결 필요
 - 대화 컨텍스트 — 이번 세션 아이데이션 내용
 - FigJam 파일 키 — 사용자가 세션에서 공유한 URL에서 추출, 없으면 물어본다
 
@@ -61,7 +61,7 @@ FigJam 보드에 **날짜 스탬프 카드**로 자동 저장한다.
 
 ## Step 2 — FigJam 현재 상태 파악  [Research]
 
-`mcp__8f3fc815__get_figjam`으로 파일 구조를 읽어 **카드를 놓을 빈 위치**를 파악한다.
+`mcp__figma__get_figjam`으로 파일 구조를 읽어 **카드를 놓을 빈 위치**를 파악한다.
 
 - 기존 "결정 사항" 카드가 있으면 그 아래에 이어서 배치
 - 없으면 기존 콘텐츠 오른쪽 여백에 배치
@@ -71,7 +71,7 @@ FigJam 보드에 **날짜 스탬프 카드**로 자동 저장한다.
 
 ## Step 3 — FigJam에 카드 작성  [Write]
 
-`mcp__8f3fc815__use_figma`로 아래 구조의 카드를 생성한다.
+`mcp__figma__use_figma`로 아래 구조의 카드를 생성한다.
 
 ### 카드 구조 (코드 템플릿)
 

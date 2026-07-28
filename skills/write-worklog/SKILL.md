@@ -15,10 +15,11 @@ disable-model-invocation: false
 
 ## Mandatory prerequisites
 
-- GitHub MCP (`mcp__github__*`) — 파일 읽기·쓰기에 사용
-- Notion MCP (`mcp__a2cd6401__notion-*`) — Notion DB 업로드에 사용 (미연결 시 GitHub만 push)
+- 로컬 레포 `~/Desktop/jumi-worklog` — 읽기·쓰기 모두 로컬 파일로 한다
+- `gh` CLI 인증 (`gh auth status`) — push·원격 확인용
+- Notion MCP — **선택**. 연결돼 있지 않으면 Step 5를 건너뛰고 그 사실을 보고에 남긴다
 - 오늘 날짜 확인 필요 (`currentDate` 시스템 컨텍스트 또는 대화에서 추출)
-- 대상 레포: `JumiJeong-design/Jumi-Worklog` (`logs/` 원본과 `site/worklog.html` 공개 뷰어 파일을 같은 repo에서 관리)
+- `logs/` 원본과 `site/worklog.html` 공개 뷰어를 같은 레포에서 관리한다
 
 ---
 
@@ -84,7 +85,7 @@ disable-model-invocation: false
 | 보조 기록 | 미해결 항목, 함정, 회고, 다음 액션, 커밋은 `###` 이하로 둔다 |
 | 커밋 테이블 | 관련 작업 영역 안의 `### 커밋 (repo-name)`으로 둔다 |
 | 섹션 구분 | `---` 로 구분 |
-| 커밋 SHA | 7자리 축약형, **단 main에 도달 가능한 SHA만 기재** (Step 2.5) |
+| 커밋 SHA | 7자리 축약형, **단 `origin/main`에 도달 가능한 SHA만 기재** (Step 2.5) |
 
 ---
 
@@ -92,10 +93,10 @@ disable-model-invocation: false
 
 **Do:**
 1. 오늘 날짜를 확인한다 (`currentDate` 시스템 컨텍스트 또는 대화에서 추출).
-2. `mcp__github__get_file_contents`로 `JumiJeong-design/Jumi-Worklog` 레포의 `logs/YYYY/MM/` 경로를 읽어 최근 날짜 파일 목록을 확인한다. (`YYYY`와 `MM`은 오늘 날짜 기준)
+2. `ls ~/Desktop/jumi-worklog/logs/$(date +%Y/%m)/`로 최근 날짜 파일 목록을 확인한다.
 3. 최근 1~2개 worklog 파일을 읽는다 (미해결 항목 이월, 맥락 파악 목적).
 4. 오늘 날짜 파일(`logs/YYYY/MM/YYYY-MM-DD.md`)이 이미 존재하는지 확인한다.
-   - 존재하면: SHA와 기존 내용을 읽어 이어쓰기 준비
+   - 존재하면: 기존 내용을 읽어 이어쓰기 준비
    - 없으면: 새 파일 생성 준비
 
 **Self-check:**
@@ -107,20 +108,25 @@ disable-model-invocation: false
 
 ## Step 2 — 오늘 작업 추출  [Research]
 
-> ⚠️ **대화 컨텍스트만 보면 놓친다.** 세션이 여러 개이거나 다른 도구가 작업한 경우 컨텍스트에 안 잡힌 커밋이 있다. 반드시 **GitHub에서 레포별 커밋을 직접 조회**한다.
+> ⚠️ **대화 컨텍스트만 보면 놓친다.** 세션이 여러 개이거나 다른 도구가 작업한 경우 컨텍스트에 안 잡힌 커밋이 있다. 반드시 **레포별 커밋을 직접 조회**한다.
 
 **Do:**
-1. `mcp__github__list_commits`로 오늘 날짜 기준 커밋을 **3개 레포 모두** 조회한다 (`since: YYYY-MM-DDT00:00:00Z`):
-   - `JumiJeong-design/Jumi-Worklog`
-   - `jumijeong-design/socra-ai-workflow-wiki`
-   - `riiid/prism`
+1. 오늘 커밋을 **3개 레포 모두** 조회한다:
+   ```bash
+   for r in ~/Desktop/jumi-worklog "$HOME/Desktop/AI_product design_guide" "$HOME/Desktop/socraAI_product design"; do
+     echo "### $(basename "$r")"
+     git -C "$r" log --since=midnight --oneline
+     git -C "$r" status -sb | head -1        # 미푸시/미커밋 확인
+   done
+   ```
+   로컬 조회라 **아직 push 안 된 커밋도 잡힌다.** 그건 "완료"가 아니므로 Step 2.5에서 가른다.
 2. 조회된 커밋 목록과 대화 컨텍스트를 합쳐서 아래 항목을 추출한다.
 
 | 추출 대상 | 추출 방법 |
 |-----------|----------|
 | 사용자 요청 | 사용자가 직접 입력한 지시/질문 문구 (원문 그대로) |
 | Claude 작업 | 실제로 수행한 작업 (파일 수정, 생성, 분석, push 등) |
-| 커밋 정보 | SHA 7자리 + 커밋 메시지 (GitHub 조회 결과 기준) |
+| 커밋 정보 | SHA 7자리 + 커밋 메시지 (`git log` 결과 기준) |
 | 함정/삽질 | 발생한 에러, 잘못된 접근, 재발 방지 포인트 |
 | 인사이트 | 깨달은 것, 방향 전환, 설계 결정 |
 | 미완료 항목 | 시작했지만 끝나지 않은 작업 |
@@ -136,13 +142,20 @@ disable-model-invocation: false
 **배경 (2026-05-30 실제 사고):** 5/29 작업(커밋 `b93d8db`, rules.md 규칙 17개)이 세션 간 히스토리 충돌로 main에서 orphaned됐는데, 워크로그에는 "완료"로 적혀 있었다. 다음 세션이 그 위에 작업을 쌓다가 유실을 뒤늦게 발견했다.
 
 **Do:**
-1. 커밋 테이블에 기재할 각 SHA에 대해 `mcp__github__list_commits`(해당 레포, main)로 그 SHA가 목록에 나오는지 확인한다. (또는 `get_commit`으로 존재는 확인되더라도, list_commits 도달성 여부가 핵심)
-2. main에서 도달 불가(orphaned)한 SHA는:
-   - 커밋 테이블에 그냥 적지 않는다. 대신 **함정 모음에 "유실 위험" 항목으로 기록**하고 사용자에게 보고한다.
-   - 유실된 작업 내용이 중요하면 `get_file_contents`에 `sha`(전체 커밋 SHA) 파라미터로 그 시점 파일을 읽어 **복구**를 제안한다.
-3. 문서 변경을 기록할 때 "할 예정"과 "실제 main에 push 완료"를 구분한다. 추측으로 "완료"라고 쓰지 않는다.
+1. 원격 상태를 먼저 받아온다: `git -C <repo> fetch origin --quiet`
+2. 각 SHA가 **원격 main에 도달 가능한지** 확인한다:
+   ```bash
+   git -C <repo> merge-base --is-ancestor <SHA> origin/main && echo "OK" || echo "NOT ON REMOTE MAIN"
+   ```
+   로컬 `main`이 아니라 **`origin/main` 기준**이어야 한다. 로컬에만 있는 커밋은 아직 완료가 아니다.
+3. `origin/main`에서 도달 불가한 SHA는:
+   - 커밋 테이블에 적지 않는다. 대신 **함정 모음에 "유실 위험" 항목으로 기록**하고 사용자에게 보고한다.
+   - 아직 push만 안 된 것인지(`git status -sb`에 `ahead`) 정말 orphaned인지 구분해서 보고한다.
+   - 유실된 내용이 중요하면 `git show <SHA>:<path>`로 그 시점 파일을 읽어 **복구**를 제안한다.
+4. 문서 변경을 기록할 때 "할 예정"과 "실제 origin/main에 push 완료"를 구분한다. 추측으로 "완료"라고 쓰지 않는다.
 
-**Self-check:** 커밋 테이블의 모든 SHA가 `list_commits` main 결과에 존재하는가? 하나라도 없으면 멈추고 보고.
+**Self-check:** 커밋 테이블의 모든 SHA가 `merge-base --is-ancestor origin/main`을 통과하는가?
+하나라도 실패하면 멈추고 보고.
 
 ---
 
@@ -170,20 +183,21 @@ disable-model-invocation: false
 
 ---
 
-## Step 4 — GitHub에 push  [Write]
+## Step 4 — 파일 저장  [Write]
 
-`mcp__github__create_or_update_file`로 파일을 저장한다.
+`~/Desktop/jumi-worklog/logs/YYYY/MM/YYYY-MM-DD.md`에 직접 쓴다.
 
-| 파라미터 | 값 |
-|---------|-----|
-| owner | `jumijeong-design` |
-| repo | `Jumi-Worklog` |
-| path | `logs/YYYY/MM/YYYY-MM-DD.md` |
-| branch | `main` |
-| message | `feat: YYYY-MM-DD worklog 추가` |
-| sha | 기존 파일이 있는 경우 반드시 포함 |
+**여기서 push하지 않는다.** Step 4.5(CONTEXT.md)와 4.6(worklog.html)까지 마친 뒤
+**한 번에 커밋·push**한다 — 작은 변경마다 push를 반복하지 않는다.
 
-**에러 처리:** SHA 없이 기존 파일 업데이트 → SHA 먼저 읽고 재시도. 네트워크 에러 → 3회 재시도 (2s → 4s → 8s).
+```bash
+git -C ~/Desktop/jumi-worklog add logs/ CONTEXT.md site/worklog.html
+git -C ~/Desktop/jumi-worklog commit -m "log: YYYY-MM-DD 작업 기록"
+git -C ~/Desktop/jumi-worklog pull --rebase && git -C ~/Desktop/jumi-worklog push
+```
+
+**에러 처리:** push가 non-fast-forward로 거부되면 다른 세션이 먼저 push한 것이다.
+`git pull --rebase` 후 재시도하고, 충돌하면 멈추고 보고한다(임의 해결 금지).
 
 ---
 
@@ -192,7 +206,7 @@ disable-model-invocation: false
 워크로그 push 직후 `Jumi-Worklog/CONTEXT.md`를 업데이트한다. 다음 세션 자동 로드 시 항상 최신 상태가 반영되도록 한다.
 
 **Do:**
-1. `mcp__github__get_file_contents`로 `CONTEXT.md`의 현재 내용과 SHA를 읽는다.
+1. 로컬 `~/Desktop/jumi-worklog/CONTEXT.md`를 읽는다.
 2. 오늘 worklog에서 다음을 추출한다:
    - 완료된 항목 → `### 미해결 항목`에서 제거
    - 새로 생긴 미완료 항목 → `### 미해결 항목`에 추가
@@ -200,16 +214,7 @@ disable-model-invocation: false
    - 새로 결정된 사항 → `## 최근 주요 결정` 추가 (중요한 경우만)
    - 다음 세션 할 일 → `## 다음 작업 예정` 업데이트
 3. `Last updated: YYYY-MM-DD` 날짜를 오늘로 갱신한다.
-4. `mcp__github__create_or_update_file`로 저장한다.
-
-| 파라미터 | 값 |
-|---------|-----|
-| owner | `jumijeong-design` |
-| repo | `Jumi-Worklog` |
-| path | `CONTEXT.md` |
-| branch | `main` |
-| message | `chore: CONTEXT.md 업데이트 — YYYY-MM-DD 세션 반영` |
-| sha | 반드시 포함 (읽은 SHA 사용) |
+4. 로컬 파일에 저장한다. 커밋은 Step 4.6까지 마친 뒤 한 번에 한다.
 
 **주의:** `##` 헤더와 테이블 구조는 유지하고 내용만 수정한다.
 
@@ -223,7 +228,7 @@ disable-model-invocation: false
 worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIES 목록은 DOM에서 자동 파생되므로 별도로 건드리지 않는다.
 
 **Do:**
-1. `mcp__github__get_file_contents`로 `JumiJeong-design/Jumi-Worklog`의 `site/worklog.html` 현재 내용과 SHA를 읽는다.
+1. 로컬 `~/Desktop/jumi-worklog/site/worklog.html`을 읽는다.
 2. 오늘 엔트리가 이미 있는지(`id="entry-YYYY-MM-DD"`) 확인. 있으면 해당 블록 교체, 없으면 신규 추가.
 3. **엔트리 블록 삽입:** 가장 최신 엔트리 블록 **바로 위**에 새 블록을 넣는다.
    ```
@@ -240,22 +245,16 @@ worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIE
    ```
    - tags나 notion이 없으면 이 단계는 생략해도 된다.
    - **ENTRIES 배열은 건드리지 않는다** — `entry-YYYY-MM-DD` 블록 추가만으로 캘린더·목록에 자동 반영된다.
-5. `mcp__github__create_or_update_file`로 저장한다.
-6. 저장 후 `JumiJeong-design/Jumi-Worklog` main에 `logs/` 원본과 `site/worklog.html` 변경이 모두 반영됐는지 확인한다.
+5. 로컬 파일에 저장한 뒤, **여기서 Step 4의 커밋·push를 한 번에 실행한다**
+   (`logs/` + `CONTEXT.md` + `site/worklog.html`을 한 커밋으로).
+6. push 후 `git -C ~/Desktop/jumi-worklog status -sb`가 `ahead` 없이 깨끗한지 확인한다.
 7. 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`을 직접 받아서 새 날짜/수정 문구가 실제로 보이는지 확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재확인한다.
 8. 문구 확인만으로 완료하지 않는다. 공개 HTML을 저장한 뒤 월 단위 체크박스 검증을 실행한다.
    - 예: `node scripts/verify-public-worklog-month.mjs --html /tmp/worklog-public.html --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD`
    - `--allow-unchecked`에는 내일 `Next`처럼 의도적으로 남기는 entry만 넣는다.
    - 오늘 완료한 항목이 `[ ]`로 남거나, 허용하지 않은 `plan-YYYY-MM-DD` 블록이 남으면 완료 처리하지 않는다.
 
-| 파라미터 | 값 |
-|---------|-----|
-| owner | `jumijeong-design` |
-| repo | `Jumi-Worklog` |
-| path | `site/worklog.html` |
-| branch | `main` |
-| message | `feat: YYYY-MM-DD worklog 엔트리 추가` |
-| sha | 반드시 포함 (읽은 SHA 사용) |
+커밋 메시지: `log: YYYY-MM-DD 작업 기록 + 뷰어 엔트리`
 
 **주의:** `<style>`, 사이드바, 스킬 패널, JS 함수 등 **엔트리 외 구조는 절대 건드리지 않는다.** 오직 엔트리 블록(`entry-/plan-`) + ENTRY_META(선택)만 추가.
 
@@ -263,12 +262,17 @@ worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIE
 
 ## Step 5 — Notion 동기화  [Write]
 
-Notion MCP(`mcp__a2cd6401__notion-*`)로 디자인팀 DB에 오늘 작업 로그를 업로드한다.
+Notion MCP로 디자인팀 DB에 오늘 작업 로그를 업로드한다.
+
+> **선택 단계.** Notion MCP가 연결돼 있지 않으면 건너뛰고, 완료 보고에
+> "Notion 미연결 — 업로드 안 함"이라고 명시한다. 조용히 생략하지 않는다.
+> 도구 이름은 세션마다 다를 수 있으니(커넥터 ID가 바뀐다) 하드코딩하지 말고
+> `notion` 키워드로 사용 가능한 도구를 먼저 찾는다.
 
 **Do:**
-1. `mcp__a2cd6401__notion-search`로 오늘 날짜 페이지가 이미 존재하는지 확인한다.
-2. 존재하면: `mcp__a2cd6401__notion-update-page`로 내용 업데이트
-3. 없으면: `mcp__a2cd6401__notion-create-pages`로 신규 페이지 생성
+1. Notion 검색 도구로 오늘 날짜 페이지가 이미 존재하는지 확인한다.
+2. 존재하면: Notion 페이지 업데이트 도구로 내용 업데이트
+3. 없으면: Notion 페이지 생성 도구로 신규 페이지 생성
 
 **페이지 구조:**
 | 속성 | 값 |

@@ -14,15 +14,18 @@ disable-model-invocation: false
 
 ## Mandatory prerequisites
 
-- GitHub MCP (`mcp__github__*`)
+- 로컬 레포 `~/Desktop/jumi-worklog` (원격은 `JumiJeong-design/Jumi-Worklog`)
 - 확인할 날짜 (기본값: 오늘)
+
+> 읽기는 로컬 파일로 한다. 로컬이 원격과 어긋났을 수 있으니 시작 전 `git -C ~/Desktop/jumi-worklog status -sb`로
+> 미푸시 커밋·미커밋 변경이 있는지 먼저 본다.
 
 ---
 
 ## Step 1 — 양쪽 내용 읽기  [Research]
 
-1. `mcp__github__get_file_contents`로 `JumiJeong-design/Jumi-Worklog`의 `logs/YYYY/MM/YYYY-MM-DD.md`를 읽는다.
-2. `mcp__github__get_file_contents`로 `JumiJeong-design/Jumi-Worklog`의 `site/worklog.html`을 읽는다.
+1. `logs/YYYY/MM/YYYY-MM-DD.md`를 읽는다.
+2. `site/worklog.html`을 읽는다.
 3. worklog.html에서 `id="entry-YYYY-MM-DD"` 블록을 추출한다.
 
 ---

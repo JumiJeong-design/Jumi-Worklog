@@ -1,108 +1,99 @@
 ---
 name: bump-version
-description: "socra-ai-workflow-wiki 버전을 올릴 때 4개 파일(sidebar.html, ai-workflow-guide.html, changelog.html, index.html)을 동시에 수정한다. '버전 올려줘', 'v0.X 배포해줘', '/bump-version' 시 실행."
+description: "socra-ai-workflow-wiki 버전을 올린다. 콘텐츠 4파일 + 캐시 토큰 16파일을 함께 갱신해야 라이브에 반영된다. '버전 올려줘', 'v0.X 배포해줘', '/bump-version' 시 실행."
 disable-model-invocation: false
 ---
 
 # bump-version
 
-`socra-ai-workflow-wiki` 버전을 올릴 때 반드시 수정해야 하는 4개 파일을 순서대로 처리한다.
-누락이나 날짜 오타를 방지하기 위해 스킬로 관리한다.
+`socra-ai-workflow-wiki`(로컬: `~/Desktop/AI_product design_guide`) 버전 bump.
+
+**핵심 함정:** 콘텐츠 4파일만 고치면 라이브에 안 보인다. 사이드바는 `ai-workflow-guide.js`가 `fetch('sidebar.html?v=<토큰>')`로 불러오고, 그 js도 전 페이지에서 `?v=<토큰>`로 로드된다. 토큰을 안 올리면 캐시된 방문자는 옛 사이드바를 계속 본다.
 
 ---
 
-## 수정 대상 파일 (4개 전부 필수)
+## 대상
+
+**콘텐츠 (4파일)**
 
 | 파일 | 수정 내용 |
 |------|-----------|
-| `sidebar.html` | 버전 텍스트 (`v0.X`) |
-| `ai-workflow-guide.html` | 상단 버전 배지 + 인라인 changelog 항목 추가 |
-| `changelog.html` | 신규 버전 섹션 추가 (최신순 — 맨 위에 삽입) |
-| `index.html` | 신규 기능 카드 추가 (변경 사항이 사용자에게 보일 때만) |
+| `site/sidebar.html` | 버전 텍스트 `v0.X` |
+| `site/ai-workflow-guide.html` | 상단 버전 배지 + 인라인 changelog 항목 |
+| `site/changelog.html` | 신규 버전 섹션 (최신순 — 맨 위 삽입) |
+| `site/index.html` | 신규 기능 카드 (사용자에게 보이는 변경일 때만) |
+
+**캐시 토큰 (16파일)** — Step 4에서 일괄 처리
+
+- `ai-workflow-guide.js?v=<토큰>` — `site/*.html` 전체 + `scripts/build-guide.py`, `scripts/build-wiki.py`
+- `sidebar.html?v=<토큰>` — `site/ai-workflow-guide.js` 안
+- `ai-workflow-guide.css?v=<토큰>` — **CSS를 실제로 고쳤을 때만** 올린다 (js 토큰과 별개 카운터)
+
+> ⚠️ `?v=`를 무조건 치환하지 말 것. `site/guide-*.html`의 Notion URL에도 `?v=3425…`가 있다. 반드시 `ai-workflow-guide.js?v=` / `sidebar.html?v=` / `ai-workflow-guide.css?v=` 처럼 **자산명을 포함**해 치환한다.
 
 ---
 
-## Step 1 — 버전 정보 수집  [Confirm]
+## Step 1 — 정보 수집  [Confirm]
 
-**Do:**
-1. 사용자에게 확인한다:
-   - 새 버전 번호 (예: `v0.5`)
-   - 오늘 날짜 (`currentDate` 컨텍스트에서 자동 추출 — `YYYY.MM` 형식)
-   - 이번 버전에서 변경된 내용 (없으면 대화 컨텍스트에서 추출)
-2. `mcp__github__get_file_contents`로 현재 버전을 확인한다 (`sidebar.html` 기준).
-3. 이전 버전 번호와 새 버전 번호를 확정한다.
+1. 사용자에게 확인: 새 버전 번호(`v0.X`), 이번 변경 내용
+2. 날짜는 `currentDate` 컨텍스트에서 `YYYY.MM`으로 추출 (직접 입력 금지 — 연도 오타 주의)
+3. 현재 상태 측정:
+   ```bash
+   grep -rn 'ai-workflow-guide\.js?v=' site/ scripts/ | head -1   # 현재 토큰
+   grep -o 'v0\.[0-9]*' site/sidebar.html | head -1               # 현재 버전
+   ```
+4. 새 토큰을 정한다: `<새버전>-<한단어 슬러그>` (예: `0.21-storybook-qa`)
 
-**Self-check:**
-- 날짜가 올해(`2026`)로 정확한가? (2025 오타 주의)
-- 변경 내용이 1줄 이상 있는가?
-
----
-
-## Step 2 — 4개 파일 읽기  [Research]
-
-`mcp__github__get_file_contents`로 아래 파일의 현재 내용과 SHA를 읽는다.
-
-- `sidebar.html`
-- `ai-workflow-guide.html`
-- `changelog.html`
-- `index.html`
-
-모두 `jumijeong-design/socra-ai-workflow-wiki` 레포, `main` 브랜치에서 읽는다.
+**Self-check:** 날짜가 올해인가? 변경 내용이 1줄 이상인가?
 
 ---
 
-## Step 3 — 수정 내용 확인  [Confirm]
+## Step 2 — 콘텐츠 4파일 수정  [Write]
 
-각 파일에서 수정할 부분을 찾아 before/after를 채팅에 출력한다.
+각 파일의 before/after를 채팅에 출력하고 진행한다.
 
-**sidebar.html 수정 위치:**
-- 버전 텍스트가 있는 `v0.X` 문자열을 새 버전으로 교체
-
-**ai-workflow-guide.html 수정 위치:**
-- 상단 버전 배지: `v0.X` → 새 버전
-- changelog 인라인 항목: 최신순으로 새 항목 추가
-
-**changelog.html 수정 위치:**
-- 기존 최신 버전 섹션 위에 새 버전 섹션 삽입
-- 형식: `## v0.X — YYYY.MM` + 변경 내용 불릿
-
-**index.html 수정 위치:**
-- 이번 변경이 사용자에게 노출되는 신규 기능인 경우만 카드 추가
-- 단순 수정/버그픽스면 생략
-
-"이 내용으로 진행할까요? [진행 / 수정]" 확인.
+- `sidebar.html` — `v0.X` 문자열 교체
+- `ai-workflow-guide.html` — 배지 교체 + changelog 인라인 항목 추가
+- `changelog.html` — 기존 최신 섹션 **위에** 새 섹션 삽입 (`## v0.X — YYYY.MM` + 불릿)
+- `index.html` — 신규 기능 카드 (단순 수정/버그픽스면 생략)
 
 ---
 
-## Step 4 — 4개 파일 업데이트  [Write]
+## Step 3 — 캐시 토큰 일괄 갱신  [Write]
 
-`mcp__github__create_or_update_file`로 순서대로 업데이트한다.
-
-| 파라미터 | 값 |
-|---------|-----|
-| owner | `jumijeong-design` |
-| repo | `socra-ai-workflow-wiki` |
-| branch | `main` |
-| sha | Step 2에서 읽은 각 파일의 SHA (필수) |
-
-커밋 메시지 형식: `feat: v0.X 배포 — <한 줄 요약>`
-
-완료 후 출력:
+```bash
+OLD="0.20-build-pilot"; NEW="0.21-<슬러그>"
+grep -rl "guide\.js?v=$OLD\|sidebar\.html?v=$OLD" site/ scripts/ \
+  | xargs sed -i '' "s/guide\.js?v=$OLD/guide.js?v=$NEW/g; s/sidebar\.html?v=$OLD/sidebar.html?v=$NEW/g"
 ```
-버전 업데이트 완료.
-v0.(이전) → v0.(새) — YYYY.MM
-수정 파일: sidebar.html, ai-workflow-guide.html, changelog.html, index.html
+
+CSS를 고쳤다면 CSS 토큰도 같은 방식으로 별도 갱신한다.
+
+**검증 (필수):**
+```bash
+grep -rn "$OLD" site/ scripts/          # 0건이어야 함
+grep -rc "guide\.js?v=$NEW" site/*.html scripts/*.py | grep -v ':0'   # 16파일 확인
 ```
+
+---
+
+## Step 4 — 빌드 · 배포 · 측정  [Verify]
+
+1. 빌드 스크립트 재실행: `python3 scripts/build-guide.py && python3 scripts/build-wiki.py`
+2. 로컬 확인 후 **한 번에** 커밋·푸시 — `feat: v0.X 배포 — <한 줄 요약>`
+3. 배포 확인은 `gh run list`에서 "Deploy Wiki Site" success 여부로 본다.
+   GitHub Pages API의 `status`는 옛 "errored"를 계속 보여주니 **무시한다**.
+4. 라이브를 cache-bust로 측정:
+   ```bash
+   curl -s "https://jumijeong-design.github.io/socra-ai-workflow-wiki/sidebar.html?cb=$RANDOM" | grep -o 'v0\.[0-9]*'
+   ```
+   새 버전이 나와야 완료. **측정 전에 "됐다"고 보고하지 않는다.**
 
 ---
 
 ## 운영 규칙
 
-- 날짜는 항상 `currentDate`에서 추출 (`YYYY.MM` 형식), 직접 입력하지 않는다
-- 4개 파일 중 하나라도 실패하면 나머지도 중단하고 에러 보고
+- 작은 변경마다 커밋·배포 반복 금지 — 모아서 로컬 검증 후 1회 배포
+- 콘텐츠 4파일 중 하나라도 실패하면 중단하고 에러 보고
 - changelog는 최신순 (새 항목이 맨 위)
-- index.html 카드 추가는 선택적 — 사용자가 결정
-
-## Trigger phrases
-
-`/bump-version`, `버전 올려줘`, `v0.X 배포해줘`, `버전 업데이트`, `배포할게`
+- CSS 토큰은 js 토큰과 별개 — 동반 상승시키지 않는다
