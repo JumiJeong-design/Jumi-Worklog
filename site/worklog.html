@@ -2384,6 +2384,67 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 | `socra-ai-workflow-wiki` | `24d6889` / `main` | Storybook QA 하네스 IA 최신화 |
 </script>
 
+<script type="text/plain" id="plan-2026-07-28">
+# 2026-07-28 계획
+
+오늘 만든 건 다 반영·퍼블리시됐다. 남은 건 수·목·금(7/29~31)에 처리한다.
+
+## 오늘 한 것
+
+- [x] **Deep 로딩 인디케이터 10컷 신설** — 진행 5 + 감산 비교 2 + 투표 로드 실패 1 + 스와이프 2 (루트 `6254-43959`, x=8700~)
+- [x] **인디케이터 A/B/C 종결** — A(아바타+%) 확정, B/C는 `_실험종료(A채택)`로 아카이브
+- [x] **첨부 UI 정합** — 칩 부제 용량→종류 라벨(`3575:1480`), 긴 파일명 페이드 케이스(`3639:47`), 에러 사유 골격 3종(`3644:1734`)
+- [x] **첨부 바텀시트 + 미지원 형식 토스트** — `3654:1720`(Bottom Sheet `Type=selection`)·`3656:1750`(Toast `Type=error`) 인스턴스 override, 마스터 무변경
+- [x] **리포트 차트 색 기준 정리** — "색은 데이터가 아니라 화면 성격이 정한다"(퀵=여러 색 / 딥=한 계열 명도)
+- [x] **컴포넌트 감사표 plan-20 저장** + 선행 결정 2건 확정 + 커밋 2개(`01b984e`·`42d5ac9`)
+
+## 수·목·금 — Figma PC 케이스 2개
+
+웹 프레임 1440×1024 다크. 기획서 §182 근거이고, 보드에 붙어 있는 "PC에서는 셀렉트박스로 대체" 메모가 이 얘기다.
+
+- [ ] **첨부 소스 셀렉트박스** — `+` 옆에서 소스를 고르는 PC 화면(모바일 바텀시트 대체). DS `Dropdown Menu`(`194:50`) 재사용
+- [ ] **드래그앤드롭 강조** — 입력창에 파일을 끌어다 놓는 중 드롭 영역이 강조되는 화면
+
+## 수·목·금 — 확인·전달
+
+- [ ] **PM 확인 2건** — ① 접힘 기준 5줄→10줄 상향 ② 접혀도 첨부는 안 숨김. 둘 다 Figma 가이드엔 반영, 기획서 원문은 미수정 상태라 확인만 받으면 됨
+- [ ] **개발 전달 메모 2건** — ① 첨부 실패의 '다시 시도'가 아이콘 탭이라 화면에 글자로 안 보임 ② 파일명 중간 말줄임은 Figma로 표현 불가, 규정만 `Attachment/File` 아래 기재
+
+## 수·목·금 — 정리
+
+- [ ] **`Attachment/Media` 잔여 세트 제거** — 첨부를 칩 통일로 바꾸면서 쓸모없어짐. ※ 7/27 기록엔 `3593:1731`을 지웠다고 돼 있으니 남은 게 정확히 뭔지 먼저 확인
+- [ ] **바텀시트 '카메라로 촬영' 판단** — 기획서에 없는 항목. 남길지 뺄지 결정 필요
+
+## 컴포넌트 포팅 착수 순서 (plan-20)
+
+결정 2건이 풀려 순서가 확정됐다.
+
+- [ ] **plan-13 `Badge` 포팅** — 결정 ①의 선행. `dot` 변형 포함. 이게 먼저 들어와야 아래가 시작됨
+- [ ] **`Chip` 축 확장** — radius 2타입(알약/사각) + 선택형에 필요한 tone만. 상태·등급·카운트는 Badge로 빠짐
+- [ ] **형제 칩 포팅** — `SourceChip`(plan-12) / `ModelChip`·`ChipGroup` / `Attachment/Chip`
+- [ ] **Tier 1 재사용 6종** — 결정과 무관하니 아무 때나. Spinner · Button(ActionBar) · MessageBubble · ModelProfile · HeaderNavBar · ChatInputBar
+
+## 주미님 결정 대기
+
+- [ ] **카테고리 칩 귀속** — `DeepWaitVote.stories.tsx:136`. 눌러서 필터되면 Chip, 분류 라벨이면 Badge
+- [ ] **'넘어가기' 노출 타이밍** — 결과 공개와 동시 vs 1~2초 뒤. 정해지면 ⓐ투표 전 → ⓑ탭 직후 morph → ⓒ~3초 3컷 제작
+- [ ] **딥 이지선다(2개) 색 예외** — 한 계열 통일 vs "이지선다는 대비"
+- [ ] **대기→리포트 그래프 전환 정지컷** — 넣을지 자체가 미결(모션 본판은 Storybook)
+- [ ] **브랜드 freeze 날짜 합의** — 인터랙션 디자이너님과, 목표 8/22. plan-19 W7이 여기 걸림
+
+## 이월 (7/20 plan — "차주에 하자"로 미룬 것)
+
+- [ ] **Prism 미오픈 브랜치 2개** — `chore/version-pr-switch-chat-counter`, `docs/storybook-harness-followup-2026-07-15`. 원격에 있고 PR만 안 연 상태
+- [ ] **B-1 예외/에러 화면 4개** — Deep 답변/리포트 에러(에러 카드만), Quick AI/리포트 에러(부분 답변 + 복구 카드)
+
+## 백로그
+
+- [ ] sent/composer 칩(`3613:1578`)까지 종류 라벨 통일
+- [ ] `3603:1528` 노드 현황 확인 — 파일에서 안 잡힘(삭제/오타 추정)
+- [ ] 아바타 최대 7명 오버플로 "+N" 규칙 — `profile group` 자산이 4명짜리
+- [ ] `chart/*` semantic 토큰 승격(plan-17) — plan-20 Tier 3 data-viz 6종의 공통 전제
+</script>
+
 <script type="text/plain" id="plan-2026-07-20">
 # 2026-07-20 계획 (차주 월)
 
@@ -5411,6 +5472,10 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
+  '2026-07-28': { tags: ['plan', 'figma', 'deep-loading', '첨부', 'chip', 'badge', 'componentization', 'plan-20', 'commit'] },
+  '2026-07-27': { tags: ['figma', '첨부', 'message-bubble', 'chat-input-bar', 'mode-toggle', 'attachment', 'spec-v1.0.3'] },
+  '2026-07-24': { tags: ['storybook', 'verdict-bar', 'prism', 'prism-dist', '배포', 'spec-v1.0.3', 'notion', 'brief', 'commit'] },
+  '2026-07-21': { tags: ['figma', 'quick', 'score-bar', '출처', '에러', '브랜딩', 'notion', 'im-not-ai'] },
   '2026-07-20': { tags: ['plan', '차주', 'pr-정리', 'b-1', 'figma', '결과화면', '결정대기'] },
   '2026-07-16': { tags: ['log', 'prism', 'wiki', 'single-agent', 'changeset', 'release', 'chat-input-bar', 'figma', 'b-1', 'commit'] },
   '2026-07-15': { tags: ['log', 'plan', 'harness', 'storybook', 'coverage', 'wiki', 'commit'] },
