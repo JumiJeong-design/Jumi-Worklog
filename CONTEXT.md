@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-07-28 (전면 갱신은 07-16 기준 · 07-28에 Quick/Deep 결과 화면 항목만 갱신)
+> Last updated: 2026-07-28 (전면 갱신은 07-16 기준 · 07-28에 Quick/Deep 결과 화면 + 라벨 뱃지 계열·타이포 램프·브랜치 캐비엇 갱신)
 >
 > 이 파일은 **누적 이력이 아니라 스냅샷**이다. 날짜별 경과는 `logs/`가 정본이므로 여기에 날짜 섹션을 쌓지 않고, 현재 상태 한 벌만 덮어쓴다(2026-07-14 정리 — 6/12~6/23 날짜 섹션 6개가 누적돼 worklog와 중복되고 갱신이 밀리던 것을 접음).
 
@@ -58,6 +58,8 @@
 - 하네스 후속 브랜치 `docs/storybook-harness-followup-2026-07-15` 커밋 `d5057fe`가 원격에 push됐다. 내용은 Storybook IA/API Docs 문서 정리, 죽은 루트 `.storybook` 설정 제거, component contract ↔ story map coverage gate 보강이다. PR 오픈/머지는 아직 별도 결정 필요.
 - 외부 공유용 Storybook은 Chromatic **Build 124**(2026-07-14 수동 업로드, 172 stories). CI 자동 업로드 워크플로는 없어 필요할 때 `pnpm visual`을 수동 실행한다.
 - 문서 형식 게이트는 `.githooks/pre-commit`(→ `scripts/validate-design-system.sh`)으로 커밋 전 자동 실행된다. 새 클론은 `git config core.hooksPath .githooks` 필요.
+- **라벨 뱃지 계열이 2026-07-28에 들어왔다.** Figma `Badge`(`125:94`, 숫자 카운트) / `Badge/Label`(`3704:1797`, 텍스트 라벨 18변형) / `Button/DeepCTA`(`3719:1993`) + 텍스트 스타일 `body/md-sb`. 패키지엔 `Badge`·`BadgeLabel` 2종이 포팅됐고(`Button/DeepCTA`는 아직 Figma만), 시안 인스턴스 110개가 교체됐다. 기준선은 **눌러서 상태가 바뀌면 `Chip`, 그냥 읽는 라벨이면 `BadgeLabel`** — 시안에 눌리는 Chip은 0개였다. 정본은 `docs/plans/20-report-view-componentization-audit-2026-07.md` §5-1~5-3.
+- **제품 타이포 램프에 Bold가 없다.** 강조 굵기는 전부 SemiBold이고 Bold는 `foundation/*`(DS 문서용)과 `chat/h1`뿐이다. 15px 강조가 필요하면 2026-07-28 신설한 `body/md-sb`를 쓴다.
 
 ### 열려 있는 결정 (진행을 막고 있는 것)
 
@@ -69,6 +71,9 @@
 
 - Product 파일 홈 화면(`5027:3909`)의 컴포저는 DS 라이브러리 마스터가 아니라 **Product 파일 내 로컬 카피**(`5338:50726`)를 참조한다(포크 상태 — DS 마스터를 고쳐도 전파 안 됨). 라이브러리 publish 후 재연결은 defer.
 - 죽은 로컬 브랜치 ~20개(`codex/*`·`canary/*`)가 남아 있다. 정리 시 머지 여부를 개별 확인한다.
+- **로컬 브랜치 `explore/deep-wait-vote`가 `origin/explore/report-hero`를 추적한다.** 그대로 push하면 엉뚱한 원격 브랜치로 간다. 2026-07-28 커밋 3건이 여기 로컬로만 쌓여 있다 — 추적 정리가 push보다 먼저다.
+- **라이브러리 publish는 플러그인 API에 없다.** DS에 컴포넌트를 만들어도 주미님이 Figma에서 직접 게시해야 제품 파일이 본다. 신설 → 게시 대기 → 인스턴스 교체가 기본 리듬이다.
+- **게시된 variant를 지우면 다른 세션 인스턴스가 뜬다.** 2026-07-28에 `Badge/Label`의 역할 이름 축(success/error/info/warning)을 색 이름 축으로 갈면서 삭제했는데, 그 사이 다른 세션이 쓴 `Type=info` 인스턴스 16개가 마스터에 없는 변형을 붙들고 있다(색 규칙 시안 `6392:12854`). 축 개편 전 소비자 확인이 필요하다.
 
 ---
 
@@ -77,6 +82,8 @@
 아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다. 상세 to-do는 public viewer의 계획 탭을 정본으로 본다.
 
 - Prism 미오픈 브랜치 2개(하네스 후속 / version-pr·카운터) PR 오픈·머지 여부 결정.
+- 라이브러리 재게시 후 후속 2건: `Badge/Label` 색 톤 10개와 `Button/DeepCTA` SemiBold가 제품 파일에 반영되는지 확인. `Type=info` 인스턴스 16개 처리 방향도 함께.
+- `Button/DeepCTA` 패키지 포팅(현재 Figma만).
 - 기획서 대조 B-1(결과 화면 방향과 독립적이라 지금 착수 가능): Chat 응답 화면 3종, 피드백 UI(좋아요/싫어요+사유), 예외·에러·빈 상태 화면, 파일 첨부 UI, 모드명 JP 보조 라벨, 시각화 그래프 형태 좁히기.
 - 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서. 아직 시작하지 않았다.
 

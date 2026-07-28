@@ -2399,6 +2399,11 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [x] **컴포넌트 감사표 plan-20 저장** + 선행 결정 2건 확정 + 커밋 2개(`01b984e`·`42d5ac9`)
 - [x] **대기→리포트 흡수 전환** — Storybook 탐색(`Explorations/리포트 히어로`) + Figma 4컷 신설(x=11200, Smart Animate 자동 전환) + 스펙 노트. 지지도 분산 사실로 아바타 레전드·착지 모션 설계 정정
 - [x] **그래프 색 규칙 재설계** — 색이 나르는 정보를 "선택지 구분"에서 "강조 여부"로 전환. 강조 = 1등 + 7%p 이내(`blue/500` 막대 + `blue/100`/`blue/800` 칩), 나머지 = `neutral/300` 회색. Figma 시안 9개 신설(섹션 `6392:12854`, 규칙 카드 4 + 전체 화면 5) · 칩 21개를 `Badge/Label` 인스턴스로 교체 · plan-16 §8 작성(미커밋)
+- [x] **`Badge/Label` 신설 + 시안 104개 교체** — 시안 전수 감사에서 Chip 인스턴스 163개 중 **눌리는 게 0개**로 나왔다. 라벨용 컴포넌트가 없어 Chip을 늘려 쓰고 있던 것. `3704:1797` 18변형 신설(Type 9 × Size 2, 색 톤 글자색은 AA 통과 최저 단계 계산) 후 등급·카테고리·익명 라벨 104개 교체. 문구 보존, 렌더 무변경
+- [x] **패키지 포팅 `Badge`·`BadgeLabel`** — 계약 2 + design-system 근거 1 + 스토리 1 + 테스트 3(총 56 통과). 토큰 신규(`color.label.*`·`badge-label.*`·`radius.label`) + 포팅(`font.size.13`·`spacing.0_5`) + 피그마 정합 2건(`badge.neutral.bg`·`radius.badge`)
+- [x] **스토리북 손코딩 라벨 칩 4곳 치환** — `StatusPill`·등급칩·카테고리 칩·익명 → `BadgeLabel`
+- [x] **Deep 전환 CTA 문구 정합 + `Button/DeepCTA` 신설** — 폭 실측으로 `Deep 모드에서` 접두가 최악 59px 초과라 어떤 조합으로도 못 들어감을 확인(아이콘 제거로도 26px밖에 못 범). 시안에 이미 있던 접두 없는 패턴으로 통일 후 제품 화면 3개 반영. `3719:1993`(enabled/skeleton) 신설 + 떼어낸 프레임 6개 교체
+- [x] **`body/md-sb` 신설** — CTA 라벨 Bold 전환 요청에서 제품 램프에 Bold가 없다는 게 드러남(강조는 전부 SemiBold). 램프 유지 쪽으로 SemiBold 채택 + 15px SemiBold 스타일 신설
 
 ## 수·목·금 — Figma PC 케이스 2개
 
@@ -2421,7 +2426,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 결정 2건이 풀려 순서가 확정됐다.
 
-- [ ] **plan-13 `Badge` 포팅** — 결정 ①의 선행. `dot` 변형 포함. 이게 먼저 들어와야 아래가 시작됨
+- [x] **plan-13 `Badge` 포팅** — 완료. 단 Figma `125:94`에 `dot` variant가 없어 **`dot`은 빼고** 포팅했다(없는 축을 코드가 먼저 만드는 셈이라). 알림 dot이 필요해지면 Figma variant 추가가 선행. 텍스트 라벨은 별도 `BadgeLabel`로 갈렸다
 - [ ] **`Chip` 축 확장** — radius 2타입(알약/사각) + 선택형에 필요한 tone만. 상태·등급·카운트는 Badge로 빠짐
 - [ ] **형제 칩 포팅** — `SourceChip`(plan-12) / `ModelChip`·`ChipGroup` / `Attachment/Chip`
 - [ ] **Tier 1 재사용 6종** — 결정과 무관하니 아무 때나. Spinner · Button(ActionBar) · MessageBubble · ModelProfile · HeaderNavBar · ChatInputBar
