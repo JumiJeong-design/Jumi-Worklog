@@ -1,15 +1,17 @@
 ---
 name: write-worklog
-description: "오늘 작업 세션을 요약→문서화→GitHub push→CONTEXT.md 갱신→worklog.html 뷰어 동기화→Notion 업로드 순서로 자동 완료한다. Jumi-Worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)로 정리. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
+description: "오늘 작업 세션을 요약→문서화→GitHub push→CONTEXT.md 갱신→worklog.html 뷰어 등록 순서로 자동 완료한다. Jumi-Worklog 형식(미해결 항목 / 함정 모음 / 회고 및 인사이트 / 날짜별 작업 / 커밋 테이블)로 정리. '워크로그 써줘', '오늘 작업 기록해줘', '세션 정리해줘', '/write-worklog' 시 실행."
 disable-model-invocation: false
 ---
 
 # write-worklog
 
-오늘 작업 세션을 **요약 → 문서화 → GitHub push → CONTEXT.md 갱신 → worklog.html 뷰어 동기화 → Notion 업로드** 순서로 자동 완료한다.
+오늘 작업 세션을 **요약 → 문서화 → GitHub push → CONTEXT.md 갱신 → worklog.html 뷰어 등록** 순서로 자동 완료한다.
 대화 컨텍스트에서 작업 내용을 직접 추출하므로, 사용자가 별도로 내용을 타이핑할 필요가 없다.
 
-> **핵심:** worklog는 같은 `JumiJeong-design/Jumi-Worklog` repo 안에서 두 파일로 관리된다 — ① `logs/YYYY/MM/YYYY-MM-DD.md`(원본 마크다운) ② `site/worklog.html`(공개 뷰어, 엔트리 fallback). 뷰어는 raw logs를 fetch하지만 실패 시 HTML에 박힌 fallback을 쓰므로, 이 스킬이 push 시점에 **둘 다** 갱신해야 한다. Step 4.6을 건너뛰면 뷰어 fallback과 편집 링크가 어긋난다.
+> **핵심:** 워크로그 본문의 정본은 `logs/YYYY/MM/YYYY-MM-DD.md` 하나다. 공개 뷰어(`site/worklog.html`)는 이 파일을 GitHub raw에서 fetch해 보여주므로, **본문을 HTML에 복사해 넣지 않는다.** 뷰어가 할 일은 그 날짜를 목록에 띄우는 것뿐이고, 그건 `ENTRY_META`에 키를 추가하면 된다(Step 4.6).
+>
+> HTML 안의 `entry-YYYY-MM-DD` 블록은 fetch 실패 대비 fallback이라 과거 날짜에만 남아 있다. **새로 만들지 않는다** — 만들면 원문과 두 벌이 되어 어긋난다.
 
 ---
 
@@ -17,7 +19,6 @@ disable-model-invocation: false
 
 - 로컬 레포 `~/Desktop/jumi-worklog` — 읽기·쓰기 모두 로컬 파일로 한다
 - `gh` CLI 인증 (`gh auth status`) — push·원격 확인용
-- Notion MCP — **선택**. 연결돼 있지 않으면 Step 5를 건너뛰고 그 사실을 보고에 남긴다
 - 오늘 날짜 확인 필요 (`currentDate` 시스템 컨텍스트 또는 대화에서 추출)
 - `logs/` 원본과 `site/worklog.html` 공개 뷰어를 같은 레포에서 관리한다
 
@@ -231,78 +232,56 @@ git -C ~/Desktop/jumi-worklog pull --rebase && git -C ~/Desktop/jumi-worklog pus
 
 ## Step 4.6 — worklog.html 뷰어 동기화  [Write]
 
-공개 뷰어 파일 `site/worklog.html`에 오늘 엔트리 fallback을 추가한다.
-**이 단계를 건너뛰면 공개 뷰어가 raw log fetch 실패 시 오래된 내용을 보여준다.**
+오늘 날짜를 공개 뷰어 목록에 띄운다. **본문은 복사하지 않는다** — 뷰어가 `logs/*.md`를 raw로 fetch하므로, 여기서 할 일은 날짜 등록뿐이다.
 
-worklog.html은 엔트리를 **`<script>` 블록**으로만 관리한다. ENTRIES 목록은 DOM에서 자동 파생되므로 별도로 건드리지 않는다.
+날짜가 뷰어(`ENTRIES`)에 뜨는 조건은 `ENTRY_META`에 키가 있거나 `entry-`/`plan-` 블록이 있는 것 둘 중 하나다. **신규 날짜는 `ENTRY_META` 등록으로 처리한다.**
 
 **Do:**
 1. 로컬 `~/Desktop/jumi-worklog/site/worklog.html`을 읽는다.
-2. 오늘 엔트리가 이미 있는지(`id="entry-YYYY-MM-DD"`) 확인. 있으면 해당 블록 교체, 없으면 신규 추가.
-3. **엔트리 블록 삽입:** 가장 최신 엔트리 블록 **바로 위**에 새 블록을 넣는다.
-   ```
-   <script type="text/plain" id="entry-YYYY-MM-DD">
-   (worklog 마크다운 본문)
-   </script>
-   ```
-   - `##` 섹션은 탭으로 전환할 만큼 큰 작업 흐름에만 쓴다. 커밋, 회고, 다음 액션, 보조 기록은 `###` 이하로 둔다.
-   - `</script>` 문자열이 본문에 들어가면 블록이 깨지므로 피한다.
-4. **ENTRY_META 갱신 (선택):** tags나 notion 링크가 있으면 `ENTRY_META` 객체에만 추가한다.
+2. `ENTRY_META`에 오늘 날짜 키를 **최상단**(가장 최신 날짜 위)에 추가한다.
    ```js
-   'YYYY-MM-DD': { tags: ['태그1', '태그2'] },
-   // notion 링크가 있는 경우: 'YYYY-MM-DD': { tags: [...], notion: 'https://...' },
+   const ENTRY_META = {
+     'YYYY-MM-DD': { tags: ['태그1', '태그2'] },
+     ...
    ```
-   - tags나 notion이 없으면 이 단계는 생략해도 된다.
-   - **ENTRIES 배열은 건드리지 않는다** — `entry-YYYY-MM-DD` 블록 추가만으로 캘린더·목록에 자동 반영된다.
+   - tags는 그날 작업의 검색 키워드. 커밋이 있으면 `'commit'`도 넣는다.
+   - **ENTRIES 배열은 건드리지 않는다** — `ENTRY_META` 키 추가만으로 캘린더·목록에 자동 반영된다.
+3. **`entry-YYYY-MM-DD` 블록을 새로 만들지 않는다.** 그건 fetch 실패 대비 fallback이고 과거 날짜에만 남아 있다. 새로 만들면 원문과 두 벌이 되어 어긋난다. (2026-07-29 정정 — 이전 판이 블록 생성을 지시하고 있었다)
+4. **plan 블록은 예외다.** `getPlan()`은 raw fetch가 없어 embed만 읽으므로, 계획 탭이 필요한 날짜는 `plan-YYYY-MM-DD` 블록을 HTML에 직접 넣어야 한다.
 5. 로컬 파일에 저장한 뒤, **여기서 Step 4의 커밋·push를 한 번에 실행한다**
    (`logs/` + `CONTEXT.md` + `site/worklog.html`을 한 커밋으로).
 6. push 후 `git -C ~/Desktop/jumi-worklog status -sb`가 `ahead` 없이 깨끗한지 확인한다.
-7. 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`을 직접 받아서 새 날짜/수정 문구가 실제로 보이는지 확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재확인한다.
-8. 문구 확인만으로 완료하지 않는다. 공개 HTML을 저장한 뒤 월 단위 체크박스 검증을 실행한다.
+7. 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`을 직접 받아 새 날짜가 실제로 보이는지 확인한다. **안 보이면 코드를 또 고치기 전에 캐시부터 의심한다** — `?v=$(date +%s)`를 붙여 cache-bust로 재확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재시도.
+8. 원문이 raw로 실제 받아지는지도 확인한다:
+   `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/JumiJeong-design/Jumi-Worklog/main/logs/YYYY/MM/YYYY-MM-DD.md`
+9. 월 단위 체크박스 검증을 실행한다.
    - 예: `node scripts/verify-public-worklog-month.mjs --html /tmp/worklog-public.html --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD`
    - `--allow-unchecked`에는 내일 `Next`처럼 의도적으로 남기는 entry만 넣는다.
-   - 오늘 완료한 항목이 `[ ]`로 남거나, 허용하지 않은 `plan-YYYY-MM-DD` 블록이 남으면 완료 처리하지 않는다.
+   - **오늘 만든 것과 과거 누적분을 구분해 보고한다.** 과거 plan 블록의 미체크가 쌓여 있으면 검증은 항상 실패로 나온다. 오늘 기여분이 0이면 그렇게 명시하고, 누적분을 오늘 작업의 실패로 보고하지 않는다.
 
-커밋 메시지: `log: YYYY-MM-DD 작업 기록 + 뷰어 엔트리`
+커밋 메시지: `log: YYYY-MM-DD 작업 기록`
 
-**주의:** `<style>`, 사이드바, 스킬 패널, JS 함수 등 **엔트리 외 구조는 절대 건드리지 않는다.** 오직 엔트리 블록(`entry-/plan-`) + ENTRY_META(선택)만 추가.
+**주의:** `<style>`, 사이드바, 스킬 패널, JS 함수 등 **다른 구조는 절대 건드리지 않는다.** 오직 `ENTRY_META` 키(+필요 시 `plan-` 블록)만 추가.
 
 ---
 
-## Step 5 — Notion 동기화  [Write]
+## Notion 업로드 — 하지 않는다 (2026-07-29 확정)
 
-Notion MCP로 디자인팀 DB에 오늘 작업 로그를 업로드한다.
+일일 워크로그는 **Notion에 올리지 않는다.** 공개 뷰어가 그 역할을 한다.
 
-> **선택 단계.** Notion MCP가 연결돼 있지 않으면 건너뛰고, 완료 보고에
-> "Notion 미연결 — 업로드 안 함"이라고 명시한다. 조용히 생략하지 않는다.
-> 도구 이름은 세션마다 다를 수 있으니(커넥터 ID가 바뀐다) 하드코딩하지 말고
-> `notion` 키워드로 사용 가능한 도구를 먼저 찾는다.
+이전 판에는 Notion 동기화 단계가 있었으나 실제로는 2026-06-08을 마지막으로 안 하고 있었고(7월 워크로그는 Notion에 한 건도 없다), 2026-07-29에 안 하는 것으로 확정했다. 스킬이 지시하는데 실무는 안 하는 상태를 없애기 위해 단계를 지운다.
 
-**Do:**
-1. Notion 검색 도구로 오늘 날짜 페이지가 이미 존재하는지 확인한다.
-2. 존재하면: Notion 페이지 업데이트 도구로 내용 업데이트
-3. 없으면: Notion 페이지 생성 도구로 신규 페이지 생성
-
-**페이지 구조:**
-| 속성 | 값 |
-|------|-----|
-| Title | `YYYY-MM-DD 업무 로그` |
-| Date | 오늘 날짜 |
-
-**본문:** worklog 마크다운 내용 그대로 (미해결 항목 → 함정 → 회고 → 작업 목록 → 커밋)
+> AX 실험 기록처럼 **별도 사례글**을 Notion에 올리는 건 이 스킬 범위가 아니다. 그건 `ax-log` 스킬이 다룬다.
 
 성공 시 출력:
 ```
 worklog 저장 완료.
 ├── GitHub: logs/YYYY/MM/YYYY-MM-DD.md → JumiJeong-design/Jumi-Worklog
 ├── CONTEXT.md 갱신 완료
-├── worklog.html 뷰어 동기화 완료 → JumiJeong-design/Jumi-Worklog `site/worklog.html`
+├── worklog.html ENTRY_META 등록 완료
 ├── 공개 URL 확인 완료 → https://jumijeong-design.github.io/Jumi-Worklog/worklog.html
-├── 공개 HTML 월별 체크박스 검증 완료 → 오늘 `[x]`, 내일 `Next`만 `[ ]`
-└── Notion: YYYY-MM-DD 업무 로그 업데이트
+└── 월별 체크박스 검증 → 오늘 기여분 N건 / 과거 누적 M건
 ```
-
-**에러 처리:** Notion MCP 미연결 시 → GitHub push + CONTEXT.md + worklog.html 까지 완료하고 "Notion MCP가 연결되지 않아 GitHub에만 저장했어요." 출력.
 
 ---
 
@@ -312,8 +291,9 @@ worklog 저장 완료.
 - 빈 섹션 작성 금지 (내용 없으면 섹션 자체 생략) — 단 **회고는 예외, 항상 포함**
 - 사용자 요청 코드블록: 원문 그대로 (오타·수정 금지)
 - 작업 번호는 1부터 순서대로
-- **worklog.html 동기화(Step 4.6)는 빠뜨리지 않는다**
-- **워크로그 수정은 공개 URL 확인까지가 완료다** — MD/GitHub push만으로 완료 처리하지 않는다
+- **뷰어 등록(Step 4.6)은 빠뜨리지 않는다.** 단 등록은 `ENTRY_META` 키 추가이지 본문 복사가 아니다
+- **`entry-YYYY-MM-DD` 블록을 새로 만들지 않는다** — 본문 정본은 `logs/*.md` 하나다
+- **워크로그 수정은 공개 URL 확인까지가 완료다** — MD/GitHub push만으로 완료 처리하지 않는다. 안 보이면 캐시부터 의심한다
 - **커밋 SHA는 main 도달 가능성을 검증하고 기재한다(Step 2.5)**
 - **Step 2에서 3개 레포 커밋을 GitHub에서 직접 조회한다** — 대화 컨텍스트만 보면 다른 세션 작업을 놓친다
 - 레포 정비·대량 수정 시 반드시 origin/main 최신 상태를 먼저 읽고 작업한다
