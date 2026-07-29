@@ -148,14 +148,23 @@ disable-model-invocation: false
    git -C <repo> merge-base --is-ancestor <SHA> origin/main && echo "OK" || echo "NOT ON REMOTE MAIN"
    ```
    로컬 `main`이 아니라 **`origin/main` 기준**이어야 한다. 로컬에만 있는 커밋은 아직 완료가 아니다.
-3. `origin/main`에서 도달 불가한 SHA는:
-   - 커밋 테이블에 적지 않는다. 대신 **함정 모음에 "유실 위험" 항목으로 기록**하고 사용자에게 보고한다.
-   - 아직 push만 안 된 것인지(`git status -sb`에 `ahead`) 정말 orphaned인지 구분해서 보고한다.
-   - 유실된 내용이 중요하면 `git show <SHA>:<path>`로 그 시점 파일을 읽어 **복구**를 제안한다.
-4. 문서 변경을 기록할 때 "할 예정"과 "실제 origin/main에 push 완료"를 구분한다. 추측으로 "완료"라고 쓰지 않는다.
+3. **⚠️ squash 머지 오탐 주의.** PR을 squash로 머지하면 원본 커밋은 main의 조상이 아니게 되어
+   내용이 멀쩡히 main에 있어도 위 검사가 실패한다. 실패한 SHA는 **내용 기준으로 다시 확인**한다:
+   ```bash
+   git -C <repo> diff --stat origin/main HEAD -- <해당 경로>   # 비어 있으면 내용은 main에 있음
+   gh pr list --head <branch> --state all                      # squash 머지된 PR이 있는지
+   ```
+   내용이 main에 있으면 유실이 아니다. 커밋 테이블에는 **머지 커밋 SHA**를 적는다.
+4. 내용까지 main에 없는 SHA만 진짜 미반영이다:
+   - 커밋 테이블에 적지 않고 **함정 모음에 "미반영" 항목으로 기록**해 사용자에게 보고한다.
+   - 아직 push만 안 된 것인지(`git status -sb`에 `ahead`) 정말 orphaned인지 구분한다.
+   - 원격 브랜치가 `[gone]`이면 머지 후 자동 삭제된 것일 수 있다 — 그 뒤에 쌓은 커밋은
+     **어디에도 없는 상태**이므로 반드시 보고한다.
+   - 유실 위험 내용이 중요하면 `git show <SHA>:<path>`로 읽어 **복구**를 제안한다.
+5. 문서 변경을 기록할 때 "할 예정"과 "실제 origin/main에 push 완료"를 구분한다. 추측으로 "완료"라고 쓰지 않는다.
 
-**Self-check:** 커밋 테이블의 모든 SHA가 `merge-base --is-ancestor origin/main`을 통과하는가?
-하나라도 실패하면 멈추고 보고.
+**Self-check:** 커밋 테이블의 모든 SHA가 `merge-base` 검사를 통과했거나, 실패했더라도
+Step 3의 내용 검사로 main 반영이 확인됐는가? 둘 다 실패한 게 있으면 멈추고 보고.
 
 ---
 
