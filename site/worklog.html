@@ -2384,6 +2384,71 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 | `socra-ai-workflow-wiki` | `24d6889` / `main` | Storybook QA 하네스 IA 최신화 |
 </script>
 
+<script type="text/plain" id="plan-2026-07-31">
+# 2026-07-31 계획
+
+7/28 계획을 기준으로, 그 뒤에 닫힌 것을 반영했다. 차트 색 규칙은 주미님이 오늘 마무리 중이라 거기 딸린 항목은 그 뒤로 미룬다.
+
+## 오늘 한 것
+
+- [x] **브랜치 정리** — `explore/deep-wait-vote`가 `origin/explore/report-hero`를 추적하던 걸 바로잡고, `origin/main` 머지로 0.2.0 릴리스 되돌림을 없앤 뒤 push. 로컬에만 있던 커밋 4건이 원격으로 올라감
+- [x] **`DeepCTA` 패키지 포팅**(`1f8e1dc`) — `state=enabled|skeleton`. 라벨 규칙(`OOO의 답변 받기`, `Deep 모드에서` 접두 금지)을 실측 근거와 함께 계약에 명문화
+- [x] **색 규칙 보드 CTA 3개 정합** — 접두 제거 + 인스턴스 교체. 현재 페이지에 떼어낸 CTA 0개
+- [x] **body 램프 SemiBold 채움** — `xs`·`sm`·`base`·`lg` 4개 신설. body가 5사이즈 × 3굵기(r/m/sb)로 완성
+- [x] **과잉 텍스트 스타일 삭제** — 83개 → 66개. `app/*` 11개 전부(제품 파일에서 사용 0건이었음), `foundation/*` 10개. 전 페이지 사용량 실측 후 0건인 것만
+- [x] **spacing + radius → `size` 통합** — `size/{px}` 32개 신설(이름=값), `radius/full`만 예외 존치. 재바인딩 5만 건 이상 실패 0, 시각 변화 없음. 옛 컬렉션 삭제 완료
+
+## 새로 닫힌 결정
+
+- [x] **PM 확인 2건** — 접힘은 **5줄 유지**(10줄 상향 안 함), 접혀도 첨부·이미지 안 숨김
+- [x] **바텀시트 '카메라로 촬영'** — 안 하기로
+- [x] **전환 컷 중복 정리** — 삭제 완료
+- [x] **카테고리 칩 귀속** — 라벨(Badge)로 확정, `Badge/Label` `subtle/sm`으로 교체 완료
+- [x] **'넘어가기' 노출 타이밍** — "한 박자 뒤 노출"로 확정(`b544b5c`), 정지컷 2개(`6311:11783`·`6311:11902`) 제작 완료
+- [x] **`Badge/Label` 정성 라벨 전용 variant** — 소멸. 근거였던 `Type=info` 인스턴스 16개가 화면 개편으로 0개가 됨
+- [x] **기획서 4.4·4.8 표시 규정** — PM 이관 불필요. 퀵/딥 막대 차트 표시는 디자인에서 결정하기로
+- [x] **로딩 중 Mode Toggle** — 로딩에선 채팅 인풋 자체를 숨기는 방향으로
+
+## 진행 중 (주미님)
+
+- [ ] **차트 색 규칙 최종 확정** — 오늘 마무리 예정. 정해지면 아래가 줄줄이 풀린다
+  - [ ] `chart/*` semantic 토큰 승격(plan-17) — plan-20 Tier 3 data-viz 6종의 공통 전제
+  - [ ] 대기 투표 결과 바 정리(현 대비 1.17:1)
+  - [ ] 히어로 문장 판정 7%p 통일 · Storybook 버블 흡수 방식 정합
+  - [ ] 히어로 레전드 유무 — 4컷은 "레전드 포함" 기준으로 그려둠. 뒤집히면 재작업
+  - [ ] 히어로 × 대기 화면 결합 검증 · N=3 대기 화면 공백 · Quick 다지선다 수치 역전
+  - [ ] 선택지 카드 아바타 "지지한"의 정의 — 지지가 분산되므로 임계(0% 초과/과반/1순위)에 따라 아바타 수가 달라짐
+
+## 바로 할 수 있는 것
+
+- [ ] **접힘 가이드 5줄로 되돌리기** — 7/28에 Figma 가이드를 10줄로 올려뒀는데 5줄 유지로 결정됨
+- [ ] **패키지 토큰 동기화**(8/3 예정) — `radius.control`·`radius.badge`·`radius.label`이 Figma와 어긋남. 단 공개 토큰이고 npm 0.2.0으로 배포돼 이름 변경은 소비자를 깨뜨림. 선택지 3개(코드 이름 유지 / 별칭 병행 / 다음 메이저)
+- [ ] **PC 첨부 케이스 2개** — 웹 1440×1024 다크. 셀렉트박스(DS `Dropdown Menu` `194:50` 재사용) / 드래그 중 드롭 영역 강조
+- [ ] **개발 전달 메모 2건** — '다시 시도'가 아이콘 탭이라 글자로 안 보임 / 파일명 중간 말줄임은 Figma로 표현 불가
+- [ ] **`Attachment/Media` 잔여 세트 제거** — 남은 게 뭔지 확인 선행
+- [ ] **sent/composer 칩(`3613:1578`) 종류 라벨 통일** · `3603:1528` 노드 현황 확인
+- [ ] **아바타 최대 7명 오버플로 "+N"** — profile group 자산이 4명짜리
+
+## 미머지 작업
+
+- [ ] `explore/deep-wait-vote` — main 머지로 정리 완료, **PR만 내면 됨**
+- [ ] `chore/version-pr-switch-chat-counter`(+2) · `docs/storybook-harness-followup-2026-07-15`(+1) — 원격 생존, PR 미오픈
+- [ ] **PR #35 `docs/plan19-web-first-v3` OPEN** — 7/28 목록에 없던 항목, 처리 방침 필요
+
+## 포팅 순서 (plan-20)
+
+- [x] plan-13 `Badge` 포팅 — 완료. `dot`은 Figma에 variant가 없어 제외. 텍스트 라벨은 `BadgeLabel`로 갈림
+- [ ] `Chip` 축 확장 — radius 2타입(알약/사각) + 선택형에 필요한 tone만
+- [ ] 형제 칩 포팅 — `SourceChip`(plan-12) / `ModelChip`·`ChipGroup` / `Attachment/Chip`
+- [ ] Tier 1 재사용 6종 — Spinner · Button(ActionBar) · MessageBubble · ModelProfile · HeaderNavBar · ChatInputBar
+
+## 그 외
+
+- [ ] **B-1 예외/에러 화면 4개** — Deep 답변/리포트 에러(에러 카드만), Quick AI/리포트 에러(부분 답변 + 복구 카드)
+- [ ] **브랜드 freeze 날짜 합의** — 인터랙션 디자이너님과, 목표 8/22. plan-19 W7이 여기 걸림
+- [ ] `git stash drop`으로 잔여 stash 정리
+</script>
+
 <script type="text/plain" id="plan-2026-07-28">
 # 2026-07-28 계획
 
@@ -5489,7 +5554,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
-  '2026-07-31': { tags: ['prism', 'prism-dist', '배포', 'npm', '브랜치 정리', '함정'] },
+  '2026-07-31': { tags: ['plan', 'prism', 'prism-dist', '배포', 'npm', '브랜치 정리', 'typography', 'token', 'size', 'badge-label', 'deep-cta', '함정'] },
   '2026-07-30': { tags: ['prism', '배포', 'npm', 'canary', 'latest', '0.2.0', 'trusted-publishing', 'changeset', 'release', 'commit'] },
   '2026-07-29': { tags: ['harness', 'skills', 'ax-log', 'notion', '검증', '오탐', 'sync-entry', 'write-worklog', 'commit'] },
   '2026-07-28': { tags: ['plan', 'figma', 'deep-loading', '첨부', 'chip', 'badge', 'badge-label', 'cta', 'button', 'prism', 'typography', 'componentization', 'plan-20', 'chart-color', 'quick', 'deep', 'commit'] },
