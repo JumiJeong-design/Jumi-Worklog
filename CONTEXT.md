@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-07-29 (전면 갱신은 07-16 기준 · 07-28에 Quick/Deep 결과 화면 + 라벨 뱃지 계열·타이포 램프·브랜치 캐비엇 갱신 · 07-29에 스킬 검증·오탐 수정 반영)
+> Last updated: 2026-07-31 (전면 갱신은 07-16 기준 · 07-28에 Quick/Deep 결과 화면 + 라벨 뱃지 계열·타이포 램프·브랜치 캐비엇 갱신 · 07-29에 스킬 검증·오탐 수정 반영 · 07-30~31에 prism npm 배포 재개와 `prism-dist` 은퇴 반영)
 >
 > 이 파일은 **누적 이력이 아니라 스냅샷**이다. 날짜별 경과는 `logs/`가 정본이므로 여기에 날짜 섹션을 쌓지 않고, 현재 상태 한 벌만 덮어쓴다(2026-07-14 정리 — 6/12~6/23 날짜 섹션 6개가 누적돼 worklog와 중복되고 갱신이 밀리던 것을 접음).
 
@@ -53,7 +53,11 @@
 
 ### `riiid/prism`
 
-- main 최신은 PR #33까지 통합된 상태다: changeset은 publish가 아니라 changelog 전용으로 명문화됐다. 2026-07-16에 이 방침을 워크플로에도 강제했다 — `release.yml`의 `version-pr` job이 repo variable `ENABLE_VERSION_PR == 'true'`일 때만 돈다(미설정 = 비활성). 배포 재개 시 `.changeset/readme.md` 방침 블록 삭제 + variable 설정 두 곳을 함께 되돌린다.
+- **배포 재개됨 (2026-07-30). `@riiid/prism@0.2.0`이 npm에 `latest`·restricted로 배포됐다.** 첫 실배포다. 2026-07-14~07-16의 "changelog 전용 / 배포 금지" 방침은 접었고 `.changeset/readme.md` 방침 블록도 제거됐다. 설치는 `pnpm add @riiid/prism@0.2.0`. canary도 살아 있다(`0.2.0-canary.05a7f381...`).
+  - 배포 경로는 로컬 `npm publish`가 아니라 **GitHub Actions + npm Trusted Publishing(OIDC)**이다. latest = Version PR을 `main`에 머지 / canary = `canary/**` 브랜치 push + changeset. 필요한 시크릿은 `NPM_READ_TOKEN`(restricted 버전 조회)·조직 앱 토큰·`CHROMATIC_PROJECT_TOKEN`. 정본은 `docs/release.md`.
+  - 로컬에서 `npm view @riiid/prism`이 404여도 미배포가 아니다 — restricted라 미인증 조회가 막힌 것이다. 확인은 워크플로 로그로 한다.
+  - `0.2.0`은 **내부 검증용**이다. 디자인 픽스(variant·토큰 피그마 정합)는 아직 진행 중이라 다음 버전이 뒤따른다.
+  - 산출물 브랜치 `prism-dist`는 2026-07-31에 은퇴(원격·로컬 삭제, 마지막 `4739e39`). 깃헙을 정적 저장소로 쓰는 방식은 유지 비용 때문에 폐기했고, **빌드 산출물을 저장소에 커밋하지 않는다**가 기준이다.
 - `docs/plan19-web-first-v3`는 일정 트랙이다. Codex는 일정 문서 변경을 중단하고, 하네스 변경은 `main` 기준 별도 브랜치 `docs/storybook-harness-followup-2026-07-15`로 분리했다.
 - 하네스 후속 브랜치 `docs/storybook-harness-followup-2026-07-15` 커밋 `d5057fe`가 원격에 push됐다. 내용은 Storybook IA/API Docs 문서 정리, 죽은 루트 `.storybook` 설정 제거, component contract ↔ story map coverage gate 보강이다. PR 오픈/머지는 아직 별도 결정 필요.
 - 외부 공유용 Storybook은 Chromatic **Build 124**(2026-07-14 수동 업로드, 172 stories). CI 자동 업로드 워크플로는 없어 필요할 때 `pnpm visual`을 수동 실행한다.
@@ -71,7 +75,8 @@
 
 - Product 파일 홈 화면(`5027:3909`)의 컴포저는 DS 라이브러리 마스터가 아니라 **Product 파일 내 로컬 카피**(`5338:50726`)를 참조한다(포크 상태 — DS 마스터를 고쳐도 전파 안 됨). 라이브러리 publish 후 재연결은 defer.
 - 죽은 로컬 브랜치 ~20개(`codex/*`·`canary/*`)가 남아 있다. 정리 시 머지 여부를 개별 확인한다.
-- **로컬 브랜치 `explore/deep-wait-vote`가 `origin/explore/report-hero`를 추적한다.** 그대로 push하면 엉뚱한 원격 브랜치로 간다. 2026-07-28 커밋 3건이 여기 로컬로만 쌓여 있다 — 추적 정리가 push보다 먼저다.
+- ~~로컬 브랜치 `explore/deep-wait-vote`가 `origin/explore/report-hero`를 추적한다.~~ 2026-07-29에 정리됨 — 지금은 `origin/explore/deep-wait-vote`를 올바르게 추적하고 원격과 동기 상태다.
+- **같은 폴더에서 두 세션이 동시에 git 작업하는 일이 실제로 발생했다(2026-07-31).** 한쪽이 `main`으로 체크아웃해 둔 사이 다른 세션이 커밋·브랜치 전환을 해서 HEAD가 바뀌어 있었다. 이번엔 유실이 없었지만 `AGENTS.md`의 "한 repo에 한 에이전트"를 지키거나 `git worktree`로 분리한다.
 - **라이브러리 publish는 플러그인 API에 없다.** DS에 컴포넌트를 만들어도 주미님이 Figma에서 직접 게시해야 제품 파일이 본다. 신설 → 게시 대기 → 인스턴스 교체가 기본 리듬이다.
 - **게시된 variant를 지우면 다른 세션 인스턴스가 뜬다.** 2026-07-28에 `Badge/Label`의 역할 이름 축(success/error/info/warning)을 색 이름 축으로 갈면서 삭제했는데, 그 사이 다른 세션이 쓴 `Type=info` 인스턴스 16개가 마스터에 없는 변형을 붙들고 있다(색 규칙 시안 `6392:12854`). 축 개편 전 소비자 확인이 필요하다.
 
