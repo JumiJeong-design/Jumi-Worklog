@@ -43,7 +43,7 @@
 
 ---
 
-## 현재 상태 (2026-07-16 기준)
+## 현재 상태 (2026-08-03 기준)
 
 ### 운영 모드
 
@@ -63,16 +63,19 @@
 - 외부 공유용 Storybook은 Chromatic **Build 124**(2026-07-14 수동 업로드, 172 stories). CI 자동 업로드 워크플로는 없어 필요할 때 `pnpm visual`을 수동 실행한다.
 - 문서 형식 게이트는 `.githooks/pre-commit`(→ `scripts/validate-design-system.sh`)으로 커밋 전 자동 실행된다. 새 클론은 `git config core.hooksPath .githooks` 필요.
 - **라벨 뱃지 계열이 2026-07-28에 들어왔다.** Figma `Badge`(`125:94`, 숫자 카운트) / `Badge/Label`(`3704:1797`, 텍스트 라벨 18변형) / `Button/DeepCTA`(`3719:1993`) + 텍스트 스타일 `body/md-sb`. 패키지엔 `Badge`·`BadgeLabel` 2종이 포팅됐고(`Button/DeepCTA`는 아직 Figma만), 시안 인스턴스 110개가 교체됐다. 기준선은 **눌러서 상태가 바뀌면 `Chip`, 그냥 읽는 라벨이면 `BadgeLabel`** — 시안에 눌리는 Chip은 0개였다. 정본은 `docs/plans/20-report-view-componentization-audit-2026-07.md` §5-1~5-3.
+- **차트 색은 코드에서 `apps/storybook/src/stories/chartPalette.ts` 한 곳이다**(2026-08-03, `4980b79`). 그전엔 같은 5색이 `verdictBarMotion`·`deepReportShared`·`reportHeroExploration` 세 파일에 다른 이름으로 복붙돼 있었다. **semantic `chart/*` 역할 토큰 승격은 보류** — 색 규칙(5색 시리즈 → 강조 2단)이 막 바뀌고 라임도 갓 들어와 역할이 안 굳었다. 승격 시 정리할 어긋남 둘은 파일 주석에 있다: 시리즈 5색 중 사이언만 `/400`이고, `PCT_GRAY #6B7385`는 램프에 없는 값이다.
 - **제품 타이포 램프에 Bold가 없다.** 강조 굵기는 전부 SemiBold이고 Bold는 `foundation/*`(DS 문서용)과 `chat/h1`뿐이다. 15px 강조가 필요하면 2026-07-28 신설한 `body/md-sb`를 쓴다.
 
 ### 열려 있는 결정 (진행을 막고 있는 것)
 
 - **Quick/Deep 결과 화면 방향** — 2026-07-28 기준 크게 전진했다. 형태는 히어로 스택바 + 하단 선택지 카드(개별 막대)로 이미 그려져 있고, 남은 건 **그래프 색 규칙 최종 확정** 하나다. 방향은 "색 = 강조 여부" 2단(강조 = 1등 + 7%p 이내 → `blue/500` 막대 + `blue/100`/`blue/800` 칩 / 나머지 → `neutral/300` 회색)으로 잡혔고, Product 파일 섹션 `6392:12854`에 Quick·Deep × 이지·다지 전체 화면 시안 9개가 있다. 정본은 `riiid/prism`의 `docs/plans/16-quick-deep-result-ui-2026-07.md` §8. 채택되면 `chart/*` 토큰 승격·대기 투표 바 정리·Storybook 정합이 뒤따른다.
 - **히어로 레전드 유무** — 비교 스토리는 만들어뒀고 채택만 남았다. Figma 흡수 전환 4컷을 "레전드 포함" 기준으로 그려둬서, 뒤집히면 그 4컷이 재작업이다. 색 규칙과 함께 정하는 게 낫다.
-- **미머지 작업 3건** — 완성돼 있는데 main에 안 올라간 것들. 방치할수록 충돌만 커진다.
-  - `docs/storybook-harness-followup-2026-07-15`(+1) · `chore/version-pr-switch-chat-counter`(+2) — 원격 생존·PR 미오픈(2026-07-29 확인)
-  - **PR #35 `docs/plan19-web-first-v3` OPEN** — 처리 방침 미정
-  - `explore/deep-wait-vote` — 2026-07-29에 `origin/main` 머지로 릴리스 되돌림을 없앴다. main 대비 델타는 `Badge`·`BadgeLabel`·`DeepCTA` 3종 + 계약 3 + 토큰. **PR만 내면 된다.**
+- ~~**미머지 작업 3건**~~ — 2026-08-03에 셋 다 PR로 나갔다. 남은 건 리뷰·머지뿐이다.
+  - **PR #42 `explore/deep-wait-vote`** — `Badge`·`BadgeLabel`·`DeepCTA` 3종 + 계약 3 + 토큰. main이 0.3.0까지 나가 있어 다시 머지했고(import 지정자 `.tsx` 규칙 정합), 릴리즈 파일 되돌림 0건을 확인했다.
+  - **PR #40 `fix/chat-input-2line-counter`** — 원 브랜치 `chore/version-pr-switch-chat-counter`의 두 커밋 중 `7eadfa9`(release 워크플로 `version-pr` 비활성)는 7/30 배포 재개로 무효라 **버리고** 카운터 커밋만 cherry-pick했다. 원 브랜치는 머지 후 삭제 대상.
+  - **PR #41 `docs/storybook-harness-followup-2026-07-15`** — main 머지로 되돌림 해소. `plan-10`의 7/15 하네스 기록과 7/30 배포 방침 기록은 날짜가 달라 둘 다 보존.
+  - **PR #35 `docs/plan19-web-first-v3` OPEN** — 처리 방침 여전히 미정. PR #39(라임 팔레트)는 다른 세션 작업이라 확인 필요.
+- **`Chip` 축 확장 — Figma 결정 2건이 선행(2026-08-03).** 계획엔 "radius 알약/사각 2타입"이라 적혀 있는데 마스터에 사각 variant가 없다(6변형 전부 `radius/24`). 눌린 상태 색도 패키지 `action-primary`(파랑) vs Figma `neutral/900`(검정)으로 갈리고, md 텍스트는 패키지 16px vs Figma `body/lg-r`(17px)다. **어느 쪽이 정본인지 정해야 코드를 고칠 수 있다.**
 - 기획서(`docs/20-socra-product-spec-2026-07.md`)의 [Open Issues] — 타임아웃 정책·RAG 도메인·계정/인증·개인정보(APPI) 등은 PM/법무 결정 대기라 디자인 착수 불가.
 
 ### 알려진 캐비엇
@@ -83,6 +86,8 @@
 - **같은 폴더에서 두 세션이 동시에 git 작업하는 일이 실제로 발생했다(2026-07-31).** 한쪽이 `main`으로 체크아웃해 둔 사이 다른 세션이 커밋·브랜치 전환을 해서 HEAD가 바뀌어 있었다. 이번엔 유실이 없었지만 `AGENTS.md`의 "한 repo에 한 에이전트"를 지키거나 `git worktree`로 분리한다.
 - **라이브러리 publish는 플러그인 API에 없다.** DS에 컴포넌트를 만들어도 주미님이 Figma에서 직접 게시해야 제품 파일이 본다. 신설 → 게시 대기 → 인스턴스 교체가 기본 리듬이다.
 - **게시된 variant를 지우면 다른 세션 인스턴스가 뜬다.** 2026-07-28에 `Badge/Label`의 역할 이름 축(success/error/info/warning)을 색 이름 축으로 갈면서 삭제했더니, 그 사이 다른 세션이 쓴 `Type=info` 인스턴스 16개가 마스터에 없는 변형을 붙들었다. 7/29 화면 개편으로 해소됐지만(현재 0개), **축 개편 전 소비자 확인**이라는 교훈은 유효하다.
+- **plan-20 감사표 수치를 근거로 쓰기 전에 다시 센다(2026-08-03 확인).** Tier 1 재사용 대상은 6종이 아니라 **4종**이다 — `MessageBubble`·`Button/ActionBar`는 이미 패키지를 쓰고 있었다. 형제 칩 3종 중 **`ModelChip`·`ChipGroup`은 Figma Components 페이지에 없다**(검색 0건). 문서는 쓰인 시점의 사실이고 그 뒤에 사람이 일한다.
+- **병렬 팬아웃은 Figma MCP 의존 작업으로 채우지 않는다(2026-08-03).** 조사 4건을 서브에이전트로 갈랐다가 전부 MCP 재연결에 걸려 3시간 반 동안 진전 0, 중간 산출물도 못 건졌다. 인라인 재실행에서는 MCP를 안 타는 감사가 제일 먼저 끝났다. 나눌 땐 **외부 의존이 없는 쪽부터** 가른다.
 - **카운트 비교 전에 가시성 필터부터.** 7/29에 남은 `Chip` 31개를 보고 "안 써야 할 칩이 다시 들어왔나" 의심했는데 전부 `visible:false`인 잔재였다. 또 페이지 전체를 훑으면 인스턴스 내부 레이어와 타 제품 보드(`vai-home` 등)가 섞인다 — 이 페이지는 최상위 노드가 222개다.
 
 ---
@@ -92,7 +97,9 @@
 아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다. 상세 to-do는 public viewer의 계획 탭을 정본으로 본다.
 
 - **라이브러리 재게시 1회**(주미님 손) — `Badge/Label` 색 톤 10개 + `Button/DeepCTA` SemiBold + 7/27 DS 변경분(Mode Toggle 비활성·`ComposerGroup` 한 줄·`loading` 토글)이 한 번에 풀린다. 게시는 플러그인 API에 없다. 누른 뒤 반영 확인은 세션에서.
-- (미머지 작업 3건은 위 "열려 있는 결정"으로 옮김)
+- **형제 칩 2종 포팅** — `SourceChip`(2변형, 쉬움) → `Attachment/Chip`(8변형). `ModelChip`·`ChipGroup`은 Figma에 없어 대상이 아니다.
+- **Tier 1 남은 3종** — `ChatInputBar`(레이아웃이 커진다) · `ModelProfile`(컨트리뷰터 데이터가 `{role, note}`뿐이라 어느 모델인지 정보가 없다 — 데이터 계약 선행) · `Spinner`(반쪽만 해당, `verdictBarMotion`의 점 애니메이션은 Spinner로 바꾸면 표현이 달라진다). `HeaderNavBar`는 2026-08-03에 처리됨(`1729951`).
+- **눈으로 볼 것 2건** — `DeepCTA`의 conic 그라데이션 테두리 브라우저 렌더 / 헤더 치환 후 Deep 화면(이모지 → 실제 lucide 아이콘·44px 터치 타깃·glass surface로 시각이 바뀐다).
 - 기획서 대조 B-1(결과 화면 방향과 독립적이라 지금 착수 가능): Chat 응답 화면 3종, 피드백 UI(좋아요/싫어요+사유), 예외·에러·빈 상태 화면, 파일 첨부 UI, 모드명 JP 보조 라벨, 시각화 그래프 형태 좁히기.
 - 가입/탈퇴 플로우는 설계 먼저 → 주미님 확인 → 빌드 순서. 아직 시작하지 않았다.
 - 미검증 스킬 5개(`bump-version`·`record-trap`·`save-ideation`·`prep-meeting`·`ux-review-gate`). 07-28 정비 대상이었으나 실행 검증은 안 됐다. 따로 돌리지 말고 실제로 그 일을 할 때 결과를 확인한다.
