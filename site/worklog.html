@@ -2408,7 +2408,9 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] ~~`chart/*` semantic 역할 이름 부여~~ — **보류.** 규칙이 방금 5색 시리즈 → 강조 2단으로 바뀌었고 라임도 갓 들어와 역할이 안 굳었다. 지금 이름을 박으면 두 번 일한다. 확정 규칙이 화면 두세 개를 거친 뒤에
 - [ ] 대기 투표 결과 바 정리(현 대비 1.17:1) · 히어로 7%p 통일 · Storybook 흡수 방식 정합
 - [ ] 히어로 레전드 유무 — 4컷이 "레전드 포함" 기준이라 뒤집히면 재작업
-- [ ] 히어로 × 대기 결합 검증 · N=3 공백 · Quick 다지선다 수치 역전
+- [x] ~~히어로 × 대기 결합 검증~~ — **문제 없음**(2026-08-03 실측). deep 화면 11개에서 히어로 바가 y=190·329·526, 전부 뷰포트 852 안
+- [x] ~~Quick 다지선다 수치 역전~~ — **이미 해결**. 라벨과 막대 길이가 내림차순으로 정합(다수 > 접전 > 소수 > 소수)
+- [ ] N=3 공백 — 케이스 미제작 확인. 다만 주말에 `quick_2개 모델 실패`·`quick_모든 모델 실패`가 생겼으니 **별도로 그리지 말고 그 실패 케이스 세트에 흡수**하는 게 맞다
 - [ ] 선택지 카드 아바타 "지지한"의 정의 — 지지가 분산돼 임계에 따라 아바타 수가 달라짐
 
 ## 제품 디자인 — 남은 것
@@ -2416,7 +2418,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 ### 에러
 
 - [ ] 오류일 때 채팅 못 하게 하는 것 인지적으로 명시 — 기획서에 서술 없음, 새 결정
-- [ ] B-1 예외/에러 화면 4개 — Deep 답변·리포트 에러(에러 카드만), Quick AI·리포트 에러(부분 답변 + 복구 카드)
+- [ ] B-1 예외/에러 화면 — **Quick 쪽은 상당 부분 생겼다**(`quick_리포트 실패`·`3회 실패`·`2개 모델 실패`·`모든 모델 실패`). 남은 건 Deep 쪽 커버리지 확인
 
 ### 에이전트 프로필
 
@@ -2459,9 +2461,17 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 ## 코드·저장소
 
 - [ ] **패키지 토큰 동기화** — 값은 이미 일치 확인. 이름 정책만 결정: 코드 이름 유지 / 별칭 병행 / 다음 메이저
-- [ ] `Chip` 축 확장 — radius 2타입(알약·사각) + 선택형 tone만
-- [ ] 형제 칩 포팅 — `SourceChip`(plan-12) / `ModelChip`·`ChipGroup` / `Attachment/Chip`
-- [ ] Tier 1 재사용 6종 — Spinner · Button(ActionBar) · MessageBubble · ModelProfile · HeaderNavBar · ChatInputBar
+- [ ] **`Chip` — Figma 결정 선행** (2026-08-03 실측). 코드부터 못 고친다
+  - Figma 마스터 6변형이 전부 `radius/24`다. 계획의 "알약/사각 2타입" 중 **사각 variant가 없다** → Figma 제작 선행
+  - 눌린 상태 색이 다르다: 패키지 `active` = `action-primary`(파랑) / Figma `active` = `neutral/900`(검정). 어느 쪽이 정본인지 결정 필요
+  - md 텍스트도 어긋남: 패키지 16px / Figma `body/lg-r`(17px)
+- [ ] 형제 칩 포팅 **2종** — `SourceChip`(`3035:1361`, 2변형·favicon+`+N`, 제일 쉬움) / `Attachment/Chip`(`3578:1732`, 8변형·Image 56×56·File 180×56)
+- [ ] ~~`ModelChip`·`ChipGroup` 포팅~~ — **Figma에 없다**(2026-08-03 확인). 감사표의 "Figma 확정 존재"가 틀렸다. 필요하면 Figma 제작이 선행
+- [ ] **Tier 1 재사용 — 6종이 아니라 4종**(2026-08-03 실측). `MessageBubble`·`Button/ActionBar`는 이미 패키지를 쓰고 있다
+  - [ ] **`HeaderNavBar`** — 우선순위 1위. Deep 화면 헤더의 `☰`·`⋯`가 **이모지 글자**로 찍혀 있다(`DeepReport.stories.tsx:19-23` · `DeepWaitVote.stories.tsx:433-437`). 크기·색이 손으로 잡혀 있고 접근성 없음
+  - [ ] `ChatInputBar` — `DeepReport.stories.tsx:28-30` 등. div 2개로 입력창+Deep 배지를 흉내. 교체하면 기능이 붙는 대신 레이아웃이 커진다
+  - [ ] `ModelProfile` — `deepReportShared.tsx:202` 컨트리뷰터 아바타가 20×20 회색 원. **데이터에 모델 정보가 없어**(`{role, note}`뿐) 단순 교체 불가, 데이터 계약 선행
+  - [ ] `Spinner` — `DeepWaitVote.stories.tsx:364`만 해당. `verdictBarMotion.tsx:467`은 "생각 중 ···" 점이라 Spinner로 바꾸면 표현이 달라진다
 - [ ] `git stash drop`
 
 ## 미머지 작업
@@ -2560,7 +2570,9 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] `chart/*` semantic 토큰 승격(plan-17)
 - [ ] 대기 투표 결과 바 정리(현 1.17:1) · 히어로 7%p 통일 · Storybook 흡수 방식 정합
 - [ ] 히어로 레전드 유무 — 4컷이 "레전드 포함" 기준이라 뒤집히면 재작업
-- [ ] 히어로 × 대기 결합 검증 · N=3 공백 · Quick 다지선다 수치 역전
+- [x] ~~히어로 × 대기 결합 검증~~ — **문제 없음**(2026-08-03 실측). deep 화면 11개에서 히어로 바가 y=190·329·526, 전부 뷰포트 852 안
+- [x] ~~Quick 다지선다 수치 역전~~ — **이미 해결**. 라벨과 막대 길이가 내림차순으로 정합(다수 > 접전 > 소수 > 소수)
+- [ ] N=3 공백 — 케이스 미제작 확인. 다만 주말에 `quick_2개 모델 실패`·`quick_모든 모델 실패`가 생겼으니 **별도로 그리지 말고 그 실패 케이스 세트에 흡수**하는 게 맞다
 - [ ] 선택지 카드 아바타 "지지한"의 정의
 
 ## 디자인 파일 정리 (7/31 실측에서 나옴)
@@ -2573,9 +2585,17 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 ## 코드·저장소
 
-- [ ] `Chip` 축 확장 — radius 2타입(알약·사각) + 선택형 tone만
-- [ ] 형제 칩 포팅 — `SourceChip`(plan-12) / `ModelChip`·`ChipGroup` / `Attachment/Chip`
-- [ ] Tier 1 재사용 6종 — Spinner · Button(ActionBar) · MessageBubble · ModelProfile · HeaderNavBar · ChatInputBar
+- [ ] **`Chip` — Figma 결정 선행** (2026-08-03 실측). 코드부터 못 고친다
+  - Figma 마스터 6변형이 전부 `radius/24`다. 계획의 "알약/사각 2타입" 중 **사각 variant가 없다** → Figma 제작 선행
+  - 눌린 상태 색이 다르다: 패키지 `active` = `action-primary`(파랑) / Figma `active` = `neutral/900`(검정). 어느 쪽이 정본인지 결정 필요
+  - md 텍스트도 어긋남: 패키지 16px / Figma `body/lg-r`(17px)
+- [ ] 형제 칩 포팅 **2종** — `SourceChip`(`3035:1361`, 2변형·favicon+`+N`, 제일 쉬움) / `Attachment/Chip`(`3578:1732`, 8변형·Image 56×56·File 180×56)
+- [ ] ~~`ModelChip`·`ChipGroup` 포팅~~ — **Figma에 없다**(2026-08-03 확인). 감사표의 "Figma 확정 존재"가 틀렸다. 필요하면 Figma 제작이 선행
+- [ ] **Tier 1 재사용 — 6종이 아니라 4종**(2026-08-03 실측). `MessageBubble`·`Button/ActionBar`는 이미 패키지를 쓰고 있다
+  - [ ] **`HeaderNavBar`** — 우선순위 1위. Deep 화면 헤더의 `☰`·`⋯`가 **이모지 글자**로 찍혀 있다(`DeepReport.stories.tsx:19-23` · `DeepWaitVote.stories.tsx:433-437`). 크기·색이 손으로 잡혀 있고 접근성 없음
+  - [ ] `ChatInputBar` — `DeepReport.stories.tsx:28-30` 등. div 2개로 입력창+Deep 배지를 흉내. 교체하면 기능이 붙는 대신 레이아웃이 커진다
+  - [ ] `ModelProfile` — `deepReportShared.tsx:202` 컨트리뷰터 아바타가 20×20 회색 원. **데이터에 모델 정보가 없어**(`{role, note}`뿐) 단순 교체 불가, 데이터 계약 선행
+  - [ ] `Spinner` — `DeepWaitVote.stories.tsx:364`만 해당. `verdictBarMotion.tsx:467`은 "생각 중 ···" 점이라 Spinner로 바꾸면 표현이 달라진다
 - [ ] `git stash drop`
 
 ## 미머지 작업
@@ -2630,7 +2650,9 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
   - [ ] `chart/*` semantic 토큰 승격(plan-17) — plan-20 Tier 3 data-viz 6종의 전제
   - [ ] 대기 투표 결과 바 정리(현 대비 1.17:1) · 히어로 7%p 통일 · Storybook 흡수 방식 정합
   - [ ] 히어로 레전드 유무 — 4컷을 "레전드 포함"으로 그려둬 뒤집히면 재작업
-  - [ ] 히어로 × 대기 결합 검증 · N=3 공백 · Quick 다지선다 수치 역전
+  - [x] ~~히어로 × 대기 결합 검증~~ — **문제 없음**(2026-08-03 실측). deep 화면 11개에서 히어로 바가 y=190·329·526, 전부 뷰포트 852 안
+- [x] ~~Quick 다지선다 수치 역전~~ — **이미 해결**. 라벨과 막대 길이가 내림차순으로 정합(다수 > 접전 > 소수 > 소수)
+- [ ] N=3 공백 — 케이스 미제작 확인. 다만 주말에 `quick_2개 모델 실패`·`quick_모든 모델 실패`가 생겼으니 **별도로 그리지 말고 그 실패 케이스 세트에 흡수**하는 게 맞다
   - [ ] 선택지 카드 아바타 "지지한"의 정의 — 지지가 분산돼 임계에 따라 아바타 수가 달라짐
   - [ ] 접전 / 압도적 의견 포함일 때와 아닐 때의 디자인 구분
 
@@ -2642,7 +2664,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 - [ ] quick — 처음부터 리포트 만들 수 있는 케이스로만 변경
 - [ ] deep 케이스 수정
 - [ ] 오류일 때 채팅 못 하게 하는 것 인지적으로 명시 — **기획서에 해당 서술 없음. 새 결정이다**
-- [ ] B-1 예외/에러 화면 4개 — Deep 답변·리포트 에러(에러 카드만), Quick AI·리포트 에러(부분 답변 + 복구 카드)
+- [ ] B-1 예외/에러 화면 — **Quick 쪽은 상당 부분 생겼다**(`quick_리포트 실패`·`3회 실패`·`2개 모델 실패`·`모든 모델 실패`). 남은 건 Deep 쪽 커버리지 확인
 
 ### 에이전트 프로필 — 기획서에 서술 0건, 디자인이 먼저 정한다
 
@@ -2694,8 +2716,13 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 - [ ] **패키지 토큰 동기화**(8/3) — 값은 이미 일치함을 확인(패키지 radius 3개·spacing 12개 모두 Figma `size`에 존재). 남은 건 이름 정책뿐: 코드 이름 유지 / 별칭 병행 / 다음 메이저
 - [ ] `Chip` 축 확장 — radius 2타입(알약·사각) + 선택형에 필요한 tone만
-- [ ] 형제 칩 포팅 — `SourceChip`(plan-12) / `ModelChip`·`ChipGroup` / `Attachment/Chip`
-- [ ] Tier 1 재사용 6종 — Spinner · Button(ActionBar) · MessageBubble · ModelProfile · HeaderNavBar · ChatInputBar
+- [ ] 형제 칩 포팅 **2종** — `SourceChip`(`3035:1361`, 2변형·favicon+`+N`, 제일 쉬움) / `Attachment/Chip`(`3578:1732`, 8변형·Image 56×56·File 180×56)
+- [ ] ~~`ModelChip`·`ChipGroup` 포팅~~ — **Figma에 없다**(2026-08-03 확인). 감사표의 "Figma 확정 존재"가 틀렸다. 필요하면 Figma 제작이 선행
+- [ ] **Tier 1 재사용 — 6종이 아니라 4종**(2026-08-03 실측). `MessageBubble`·`Button/ActionBar`는 이미 패키지를 쓰고 있다
+  - [ ] **`HeaderNavBar`** — 우선순위 1위. Deep 화면 헤더의 `☰`·`⋯`가 **이모지 글자**로 찍혀 있다(`DeepReport.stories.tsx:19-23` · `DeepWaitVote.stories.tsx:433-437`). 크기·색이 손으로 잡혀 있고 접근성 없음
+  - [ ] `ChatInputBar` — `DeepReport.stories.tsx:28-30` 등. div 2개로 입력창+Deep 배지를 흉내. 교체하면 기능이 붙는 대신 레이아웃이 커진다
+  - [ ] `ModelProfile` — `deepReportShared.tsx:202` 컨트리뷰터 아바타가 20×20 회색 원. **데이터에 모델 정보가 없어**(`{role, note}`뿐) 단순 교체 불가, 데이터 계약 선행
+  - [ ] `Spinner` — `DeepWaitVote.stories.tsx:364`만 해당. `verdictBarMotion.tsx:467`은 "생각 중 ···" 점이라 Spinner로 바꾸면 표현이 달라진다
 - [ ] `git stash drop`으로 잔여 stash 정리
 
 ## 미머지 작업
