@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-07-31 (전면 갱신은 07-16 기준 · 07-28에 Quick/Deep 결과 화면 + 라벨 뱃지 계열·타이포 램프·브랜치 캐비엇 갱신 · 07-29에 스킬 검증·오탐 수정 반영 · 07-30~31에 prism npm 배포 재개와 `prism-dist` 은퇴 반영)
+> Last updated: 2026-08-03 (전면 갱신은 07-16 기준 · 07-28에 Quick/Deep 결과 화면 + 라벨 뱃지 계열·타이포 램프·브랜치 캐비엇 갱신 · 07-29에 스킬 검증·오탐 수정 반영 · 07-30~31에 prism npm 배포 재개와 `prism-dist` 은퇴 반영 · 08-03에 미머지 3건 PR 전환·차트 팔레트 단일화·감사표 수치 정정 반영)
 >
 > 이 파일은 **누적 이력이 아니라 스냅샷**이다. 날짜별 경과는 `logs/`가 정본이므로 여기에 날짜 섹션을 쌓지 않고, 현재 상태 한 벌만 덮어쓴다(2026-07-14 정리 — 6/12~6/23 날짜 섹션 6개가 누적돼 worklog와 중복되고 갱신이 밀리던 것을 접음).
 
@@ -59,7 +59,7 @@
   - `0.2.0`은 **내부 검증용**이다. 디자인 픽스(variant·토큰 피그마 정합)는 아직 진행 중이라 다음 버전이 뒤따른다.
   - 산출물 브랜치 `prism-dist`는 2026-07-31에 은퇴(원격·로컬 삭제, 마지막 `4739e39`). 깃헙을 정적 저장소로 쓰는 방식은 유지 비용 때문에 폐기했고, **빌드 산출물을 저장소에 커밋하지 않는다**가 기준이다.
 - `docs/plan19-web-first-v3`는 일정 트랙이다. Codex는 일정 문서 변경을 중단하고, 하네스 변경은 `main` 기준 별도 브랜치 `docs/storybook-harness-followup-2026-07-15`로 분리했다.
-- 하네스 후속 브랜치 `docs/storybook-harness-followup-2026-07-15` 커밋 `d5057fe`가 원격에 push됐다. 내용은 Storybook IA/API Docs 문서 정리, 죽은 루트 `.storybook` 설정 제거, component contract ↔ story map coverage gate 보강이다. PR 오픈/머지는 아직 별도 결정 필요.
+- 하네스 후속 브랜치 `docs/storybook-harness-followup-2026-07-15`의 내용은 Storybook IA/API Docs 문서 정리, 죽은 루트 `.storybook` 설정 제거, component contract ↔ story map coverage gate 보강이다. 2026-08-03에 PR #41로 오픈됐다.
 - 외부 공유용 Storybook은 Chromatic **Build 124**(2026-07-14 수동 업로드, 172 stories). CI 자동 업로드 워크플로는 없어 필요할 때 `pnpm visual`을 수동 실행한다.
 - 문서 형식 게이트는 `.githooks/pre-commit`(→ `scripts/validate-design-system.sh`)으로 커밋 전 자동 실행된다. 새 클론은 `git config core.hooksPath .githooks` 필요.
 - **라벨 뱃지 계열이 2026-07-28에 들어왔다.** Figma `Badge`(`125:94`, 숫자 카운트) / `Badge/Label`(`3704:1797`, 텍스트 라벨 18변형) / `Button/DeepCTA`(`3719:1993`) + 텍스트 스타일 `body/md-sb`. 패키지엔 `Badge`·`BadgeLabel` 2종이 포팅됐고(`Button/DeepCTA`는 아직 Figma만), 시안 인스턴스 110개가 교체됐다. 기준선은 **눌러서 상태가 바뀌면 `Chip`, 그냥 읽는 라벨이면 `BadgeLabel`** — 시안에 눌리는 Chip은 0개였다. 정본은 `docs/plans/20-report-view-componentization-audit-2026-07.md` §5-1~5-3.
