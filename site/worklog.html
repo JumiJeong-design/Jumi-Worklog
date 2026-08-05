@@ -2474,7 +2474,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
   - [ ] `ChatInputBar` — `DeepReport.stories.tsx:28-30` 등. div 2개로 입력창+Deep 배지를 흉내. 교체하면 기능이 붙는 대신 레이아웃이 커진다
   - [ ] `ModelProfile` — `deepReportShared.tsx:202` 컨트리뷰터 아바타가 20×20 회색 원. **데이터에 모델 정보가 없어**(`{role, note}`뿐) 단순 교체 불가, 데이터 계약 선행
   - [ ] `Spinner` — `DeepWaitVote.stories.tsx:364`만 해당. `verdictBarMotion.tsx:467`은 "생각 중 ···" 점이라 Spinner로 바꾸면 표현이 달라진다
-- [ ] stash 정리 — prism은 0건으로 끝났다. 남은 건 `jumi-worklog`의 `stash@{0}` (`preserve-2026-06-11-local-worklog-edit`, 2026-06-12 생성, 7주째). 내용(`logs/2026/06/2026-06-11.md` 6+/7-)은 이미 본문에 반영돼 있고 패치도 더는 적용되지 않으니(`git apply --check` 실패) 검토 없이 `git stash drop`
+- [x] ~~stash 정리~~ — 두 레포 다 0건. `jumi-worklog`의 `stash@{0}`(7주 묵음)을 확인 후 삭제(SHA `18e81f1`, reflog 복구 가능). 근거가 절반만 맞았다 — 본문이 그 사이 다시 쓰이면서 stash가 하려던 정정이 더 정확한 형태로(`v0.28`→`v0.17`, 6/11 로그 94행) 들어가 있었고, stash 쪽 `v0.17-worklog-scope`가 오히려 틀린 값이었다
 
 ## 미머지 작업
 
