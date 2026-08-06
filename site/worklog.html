@@ -2384,6 +2384,59 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 | `socra-ai-workflow-wiki` | `24d6889` / `main` | Storybook QA 하네스 IA 최신화 |
 </script>
 
+<script type="text/plain" id="plan-2026-08-07">
+# 2026-08-07 계획
+
+## 결정 대기 (주미님/PM — 풀려야 아래가 움직임)
+
+- [ ] 첨부 정책 2건 — 즉시 차단 vs 에러 칩 / 드롭 판정 범위(창 전체 vs 채팅영역). 둘 다 v1.0.6 충돌로 PM 대기. 드롭 판정은 PR #54의 DnD 채택안과 직결이라 답에 따라 스토리 되돌림 가능
+- [ ] 네트워크·게이트 확인 4건 — 게이트 헤드라인·토스트 문구 확정 / 기존 계정 로그인 시 무고지 삭제 유지 여부 / 비로그인 생성 중 끊김 복구 불가 표시 / `Chat / 입력창 · 전송 실패` opacity 20% 의도 여부 (plan-20)
+- [ ] `History/Footer`의 PlanLabel "Free" 유지 여부(MVP는 무료 런칭) / 빈 목록 문구("새 대화를 시작하세요" vs 기획서 "새 대화를 시작해 보세요!")
+- [ ] 800 본문 가독폭 — 한국어 한 줄 50자가 긴지, 어제 리포트 시안 보고 판단
+- [ ] 다크 구간색 step 확정 — 다크 웹 시안 선결이자 아래 다크 시멘틱 검토와 같은 묶음
+- [ ] 데모 프레임 승격 선별 — 전부 클론이라 원본이 바뀌어도 안 따라옴
+
+## 주미님 액션
+
+- [ ] PR #54 머지(Chromatic 확인 후) · PR #53 `chore: 0.4.0` 릴리스 머지
+- [ ] DS 라이브러리 퍼블리시 → 제품 파일 업데이트 수락 — Text Divider `leading` 슬롯 전파
+- [ ] PR #47 SourceChip 확인 2건 · PR #13 codex Chip locale 존폐 결정
+
+## 비로그인 유도 flow 마무리
+
+- [ ] `History/Footer` DS 승격 — `State=logged-in | logged-out` 축 추가. 재료 확보됨(Button ghost `735:838` · lucide:log-in `74:4690` · lucide:settings `74:6394`). `combineAsVariants`로 기존 key 유지 → 게시 1회로 종료
+- [ ] 승격 후 제품 파일 비로그인 2장 로컬 푸터 → 인스턴스 치환 + 웹 사이드바 비로그인 상태 확인
+- [ ] 패키지 `ChatHistoryPanel` logged-out 푸터 포팅 + 스토리북 반영
+- [ ] 게이트 웹(1440) 버전 — 모바일은 바텀시트, 웹은 센터 모달. `web / 다른 방법 (modal)` 골격 참고
+- [ ] 게이트 첨부 시도 트리거 — 같은 모달이라 결정 노트로 갈음할지 한 장 더 그릴지 판단
+
+## 오류 케이스 정합 (기획서와)
+
+- [ ] 네트워크 에러 팝업 디자인 디벨롭 — 문구 확정 후 토스트 유지 vs 팝업/모달 형태 재검토
+- [ ] 오류 케이스 전수 대조 — 전체 기능 디자인 기준으로 v1.0.6 §5.1/5.3과 정합 확인(그려진 것: 전송 실패·리포트 실패 1/3·3/3·S9-1·S9-2)
+
+## 검증·통일
+
+- [ ] PR #54 Chromatic — `pnpm visual` + 머지 전 workflow_dispatch 전체 비교. TextDivider·AttachmentChip focused 시각 변경분
+- [ ] 다크 시멘틱 깨진 곳 검토 — 다크 표면 토큰 붕괴(plan-10 기록) + 어제 본 다크 ghost 라벨 흐림이 같은 원인인지
+- [ ] 바텀시트 디자인 통일 — 구형 `Bottom Sheet Type=action`과 신형 Sheet 패밀리 혼재 정리
+- [ ] 팝오버 디자인 통일 — 글래스/비글래스 혼재. Figma 표현=스펙용·웹=GlassSurface 예외 규칙 명문화 포함
+- [ ] 첨부파일 정리 — 필요없는 요소 삭제, 모바일/웹 기준 통일, 가이드 문서화
+- [ ] 읽는 속도 유즈케이스 — 메모만 있고 화면 없음, 화면 착수
+
+## DS 위생 (이어지는 것)
+
+- [ ] 리포트 컴포넌트 내부 FILL 정리 — 참여자·댓글·추천질문·`Answer/Footer` 원본(차트 15개는 완료)
+- [ ] chart/* semantic 토큰 승격 — **PR #54 머지 후 시작**(토큰 파일 충돌 방지, 어제 0.4.0 역행 패턴)
+- [ ] 문서 정정 4건 — plan-16 §8 폐기 표시 등
+- [ ] 화면 → DS 컴포넌트 이동·신설 대치 / 토큰 미사용 케이스 스캔(컴포넌트·화면 양쪽)
+- [ ] 내용 재검토 요청 (AI 잔소리) — 범위·의도 확인 필요
+
+## 차주 대기 (기획)
+
+- Deep 로딩 추론형 재변경 · 대기 중 투표 재검토 · 사고과정 토글 Chat·Quick 적용
+</script>
+
 <script type="text/plain" id="plan-2026-08-03">
 # 2026-08-03 계획
 
@@ -5852,7 +5905,8 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
-  '2026-08-06': { tags: ['prism', 'ds', '포팅', 'sheet', 'slot', 'instance-swap', 'external-agent', 'vestway', '토큰', '게시전파', '첨부', '드래그앤드롭', 'v1.0.6', 'storybook', '레이아웃', 'responsive', 'breakpoint', '컬럼', '오버레이', '팝오버', '버블', 'commit'] },
+  '2026-08-07': { tags: ['plan', '이월', '비로그인', '게이트', '네트워크에러', 'history-footer', 'chromatic', '다크', '바텀시트', '팝오버', '첨부'] },
+  '2026-08-06': { tags: ['prism', 'ds', '포팅', 'sheet', 'slot', 'instance-swap', 'external-agent', 'vestway', '토큰', '게시전파', '첨부', '드래그앤드롭', 'v1.0.6', 'storybook', '레이아웃', 'responsive', 'breakpoint', '컬럼', '오버레이', '팝오버', '버블', 'text-divider', '게이트', '네트워크에러', '진입점', 'pr-54', 'commit'] },
   '2026-08-03': { tags: ['plan', '이월', 'prism', 'pr', '브랜치정리', 'chart-palette', 'header-nav-bar', '감사', '병렬실패', 'commit'] },
   '2026-08-02': { tags: ['figma', 'overlay', 'state', '네트워크에러', '팝업', '컴포넌트'] },
   '2026-08-01': { tags: ['plan', '이월', '제품디자인', 'pc', '에이전트프로필', '차트'] },
