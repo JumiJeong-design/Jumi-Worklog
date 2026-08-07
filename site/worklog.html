@@ -2399,7 +2399,7 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 ## 주미님 액션
 
 - [ ] PR #54 머지(Chromatic 확인 후) — 0.4.0은 #43으로 이미 릴리스됐고(8/6 10:57) #53은 스테일 중복이라 닫힘. 브랜치에 살아남은 소비 완료 changeset 10개도 8/6 밤에 제거·TextDivider changeset 추가
-- [ ] DS 라이브러리 퍼블리시 → 제품 파일 업데이트 수락 — Text Divider `leading` 슬롯 전파
+- [ ] DS 라이브러리 퍼블리시 → 제품 파일 업데이트 수락 — Text Divider `leading` 슬롯 전파 + (8/7 추가) `Report/Feedback`·`Button/ActionBar` 선택 슬롯 신규칙 전파
 - [ ] PR #47 SourceChip 확인 2건 · PR #13 codex Chip locale 존폐 결정
 
 ## 비로그인 유도 flow 마무리
@@ -2430,6 +2430,8 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 하위: DS 정리 후 화면 적용 · 화면 컴포넌트 → DS 이동 · 컴포넌트화 가능 요소 DS 생성 후 대치 · 토큰 미사용 케이스 변경(컴포넌트·화면 양쪽). **8/6에 1차 스윕 완료** — 컴포넌트 10종 포팅, 언바운드 fill 503→18, 로컬 마스터 인스턴스 110 치환, `History/Footer` 비로그인 공백 발견. 잔여분:
 
+- [x] chat/chart 손코딩 33곳 일괄 치환 — **(8/7 완료)** "이 리포트가 도움이 됐나요?" 행 17곳 → `Report/Feedback` 인스턴스(문구 캐논 "어땠나요"로 통일) · AI 질문 본문 16곳 → `Message Bubble`(ModelLabel·ActionBar hidden). 제외 2건: 추론 텍스트(주미님 판정, Message Bubble 아님)·시트 답변 피드백(아래 별건)
+- [x] `Answer/Feedback` 신설 + 선택 문법 통일 — **(8/7 완료)** 시트 답변 피드백을 DS 세트로(4199:1896, none/helpful/unhelpful), 선택=engaged 면 `neutral/100`+선 `neutral/300`(주미님 튜닝 확정). 게시 후 `Sheet/전문 본문` 마스터 2개 교체. 같은 규칙을 `Report/Feedback`·`Button/ActionBar` 선택 슬롯 4곳에 적용. 패키지 포팅(토큰 border 신설·`AnswerFeedback` 컴포넌트·테스트 91/91)까지 — 커밋은 로컬 브랜치(미푸시)
 - [ ] 리포트 컴포넌트 내부 FILL 정리 — 참여자·댓글·추천질문·`Answer/Footer` 원본(차트 15개는 완료)
 - [ ] chart/* semantic 토큰 승격 — **PR #54 머지 후 시작**(토큰 파일 충돌 방지, 8/6 0.4.0 역행 패턴)
 - [x] 문서 정정 4건 — **(8/7 확인: 4건 전부 이미 반영돼 있었음, 이월 표기가 낡았던 것)** plan-16 §8 폐기 표시 · plan-21 접전 cyan→orange 표 정정 · plan-20 Tier 1=6 정합 · color.md 라임 표 재산출
@@ -5909,7 +5911,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
-  '2026-08-07': { tags: ['plan', '이월', '비로그인', '게이트', '네트워크에러', 'history-footer', 'chromatic', '다크', '바텀시트', '팝오버', '첨부'] },
+  '2026-08-07': { tags: ['plan', '이월', '비로그인', '게이트', '네트워크에러', 'history-footer', 'chromatic', '다크', '바텀시트', '팝오버', '첨부', '피드백', '컴포넌트화', 'commit'] },
   '2026-08-06': { tags: ['prism', 'ds', '포팅', 'sheet', 'slot', 'instance-swap', 'external-agent', 'vestway', '토큰', '게시전파', '첨부', '드래그앤드롭', 'v1.0.6', 'storybook', '레이아웃', 'responsive', 'breakpoint', '컬럼', '오버레이', '팝오버', '버블', 'text-divider', '게이트', '네트워크에러', '진입점', 'pr-54', 'commit'] },
   '2026-08-03': { tags: ['plan', '이월', 'prism', 'pr', '브랜치정리', 'chart-palette', 'header-nav-bar', '감사', '병렬실패', 'commit'] },
   '2026-08-02': { tags: ['figma', 'overlay', 'state', '네트워크에러', '팝업', '컴포넌트'] },
