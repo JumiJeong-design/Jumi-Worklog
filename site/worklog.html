@@ -2384,6 +2384,27 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 | `socra-ai-workflow-wiki` | `24d6889` / `main` | Storybook QA 하네스 IA 최신화 |
 </script>
 
+<script type="text/plain" id="plan-2026-08-09">
+# 2026-08-09 계획
+
+> 8/7 마감 시점 이월분. PR 상태 검토(8/7 오후) 결과 반영 — 0.4.0 릴리스(#43)·changeset 정리·PR #47(CLOSED, plan-12 기록으로 흡수)·PR #13(폐기)·chart/* 토큰 승격(피그마+코드, #54 브랜치에 포함)은 **종결 확인**돼 이월하지 않는다.
+
+## 결정 대기 (주미님)
+
+- [ ] **PR #54 머지** — validate·check·storybook·Publish 전부 SUCCESS, Chromatic UI Review/Tests만 쿼터 블록으로 PENDING. 선행 결정: 플랜 업그레이드 vs 월 리셋 대기 vs Chromatic 체크 없이 머지. (#56 머지로 #57 버전 PR(0.4.1)도 열려 있음)
+- [ ] **마스터 3종 처분** — `Chart/StackBar`·`Chart/OptionBar`·`Deep/LoadingCard` 제품 사용처 0(가변 폭 바 인스턴스 불성립 결론). ① 5% 스텝 variant 개편 재도입 ② 참고용 유지 ③ 삭제(재게시 필요)
+- [ ] `Message Bubble Content=Image` 2건 — DS에 순수 이미지 변형 없음. DS 추가 vs Text+Image 스왑 vs 유지
+- [ ] 제품 오프스케일 그림자 29건(auth-card 8%·modal 16%·dialog 15%·Toast 복합) — 램프 확장 vs 화면별 동결
+- [ ] 다크 구간색 step 확정 — chart/band 다크 모드값 교체의 선행
+- [ ] 첨부 정책 2건(PM) · 네트워크·게이트 문구 4건 · History PlanLabel/빈 목록 문구 · 800 가독폭 — 8/7 이월 그대로
+
+## 작업 후보 (Claude)
+
+- [ ] **댓글·추천질문 원본 FILL 상태 피그마 확인** — 8/6 "리포트 컴포넌트 내부 FILL 정리" 중 완료 기록 없는 잔여. 참여자·Answer/Footer는 8/7 인스턴스 치환으로 대체 확인됨, `Comment/Item`·`RecommendedQuestions` 원본만 FIXED 여부 미확인
+- [ ] 홈/히스토리·로그인/설정 고아 마스터 치환 — 8/7 주미님 지시로 보류(chat/chart 24곳만 완료). 재개 시 텍스트 스냅샷→복원 + 전후 스크린샷 게이트
+- [ ] Sheet/전문 본문 웹(1440) 버전 존재 여부 확인
+- [ ] deep 잔여 data-viz(도넛·StatHero 등) — 코드 컴포넌트(plan-11) 정본으로 진행, Figma는 손그림+토큰 유지 계약 확정됨
+</script>
 <script type="text/plain" id="plan-2026-08-07">
 # 2026-08-07 계획
 
@@ -5911,6 +5932,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
+  '2026-08-09': { tags: ['plan', '이월'] },
   '2026-08-07': { tags: ['plan', '이월', 'text-divider', '물결선', 'auth축', '다크시멘틱', '재스캔', '라이트박스', '비로그인', '게이트', '네트워크에러', 'history-footer', 'chromatic', '다크', '바텀시트', '팝오버', '첨부', '피드백', '컴포넌트화', 'attachment', '토큰정합', 'deep-ring', '그림자', 'tight행간', '고아마스터치환', 'commit'] },
   '2026-08-06': { tags: ['prism', 'ds', '포팅', 'sheet', 'slot', 'instance-swap', 'external-agent', 'vestway', '토큰', '게시전파', '첨부', '드래그앤드롭', 'v1.0.6', 'storybook', '레이아웃', 'responsive', 'breakpoint', '컬럼', '오버레이', '팝오버', '버블', 'text-divider', '게이트', '네트워크에러', '진입점', 'pr-54', 'commit'] },
   '2026-08-03': { tags: ['plan', '이월', 'prism', 'pr', '브랜치정리', 'chart-palette', 'header-nav-bar', '감사', '병렬실패', 'commit'] },
