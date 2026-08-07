@@ -2406,10 +2406,10 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 - [x] `History/Footer` DS 승격 — **(8/7 완료)** 주미님이 `History` 컴포넌트 세트로 승격(`4173:1981`, 축 `login=on|off`), 하단 진입점은 **가로안 채택**(세로안 폐기), 설정 버튼 44×44, 두 variant 높이 68 통일. Claude는 **패널 노출 연결**을 마무리 — `Chat History Panel` 5 variant 중 미노출로 남아 있던 `2280:5117` 하나를 `isExposedInstance=true`로 전환(나머지 4개는 주미님이 이미 처리). 임시 인스턴스로 `exposedInstances`에 `History{login=on}`이 잡히는 것 확인 후 삭제해 검증. **로그인하기 40→44도 통일 완료** — 재보니 터치 타깃만의 문제가 아니라 행은 이미 44인데 버튼이 FIXED 40 + 정렬 MIN이라 **위로 4px 어긋나** 있었다. 44를 박지 않고 `FILL`+행 정렬 `CENTER`로 교정(variant 높이 68 유지). **패키지 포팅까지 완료**(`75a4f26`) — `ChatHistoryPanel`에 `auth="logged-in|logged-out"` 축 추가(기본 logged-in이라 기존 사용처 무변화), `copy.login`·`copy.settingsLabel` ko/en/ja + `onLoginClick`·`onSettingsClick`, `PrismIcon`에 `log-in` 신설(피그마 `lucide:log-in`인데 코드엔 `log-out`만 있었다). 설정은 아이콘 단독이라 `settingsLabel`이 유일한 접근성 이름. **collapsed 레일 + 비로그인은 피그마에 없어** 로그인 진입점 하나로 축약(아바타를 두면 비로그인에 이니셜이 뜨는 거짓이 된다) — 계약에 근거 명시. 검증: typecheck·lint·test 85·build·storybook build 통과 + **test-runner로 ChatHistoryPanel 15개 스토리 브라우저 실행 전부 통과**(신설 5개 포함, `--failOnConsole`). **설정 라벨 논쟁**: Claude가 "비로그인의 유일한 설정 경로니 라벨 필요" 주장 → 주미님 반려("설정이 그 정도로 중요할까") → **유일한 경로인 것과 눈에 띄어야 하는 것은 다른 문제**, 저빈도 항목에 전환 목표와 동등한 무게를 주면 화면 목적만 흐려진다. 아이콘 단독 유지
 - [x] ~~(구) 사전 감사 기록~~ — **(8/7 오전)** 계획의 "축 추가 → 게시 1회로 종료"가 한 가지를 빠뜨렸다: 푸터(`2280:5116`, 단일 COMPONENT·속성 0)는 `Chat History Panel` 세트(`2280:5353`) **5개 variant 전부에 중첩**돼 있고 **`isExposedInstance=false`**(5/5). 축만 넣으면 패널 인스턴스에서 축에 손이 안 닿는다(제품 파일 푸터 인스턴스 16개도 전부 패널 경유, 로컬 푸터 0). **마스터 2개**를 건드려야 함 — ① 푸터 `combineAsVariants`로 `State` 축(key 유지·기본 logged-in이라 시각 무변경) ② 패널 5 variant 중첩 푸터를 노출 인스턴스로 전환. 대안(패널에도 State 축 → variant 5→10)은 기존 key 위험으로 비추천. Rollback: ①해체 ②`isExposedInstance=false`, 게시 전엔 제품 파일 무전파. **방식 확정 대기**
-- [ ] 승격 후 제품 파일 비로그인 2장 로컬 푸터 → 인스턴스 치환 + 웹 사이드바 비로그인 상태 확인
-- [ ] 패키지 `ChatHistoryPanel` logged-out 푸터 포팅 + 스토리북 반영
-- [ ] 게이트 웹(1440) 버전 — 모바일은 바텀시트, 웹은 센터 모달. `web / 다른 방법 (modal)` 골격 참고
-- [ ] 게이트 첨부 시도 트리거 — 같은 모달이라 결정 노트로 갈음할지 한 장 더 그릴지 판단
+- [x] 승격 후 제품 파일 비로그인 2장 로컬 푸터 → 인스턴스 치환 + 웹 사이드바 비로그인 상태 확인 — **(8/7 저녁 완료)** 확인해 보니 4장 전부 이미 `Chat History Panel` 인스턴스였는데 그중 2장이 **폐기 전 세로 120 스냅샷 세트**(7656:26405)를 참조 → 현행 `login=off`(가로 68, 7669:35766)로 swap. 전수 스캔 잔여 0건. 웹 사이드바 비로그인은 기존 web/home 8장 전부 로그인 상태 — 신설한 웹 게이트 프레임이 첫 사례
+- [x] 패키지 `ChatHistoryPanel` logged-out 푸터 포팅 + 스토리북 반영 — **(8/7 저녁 확인)** 기커밋 `75a4f26`에 이미 완료돼 있었음(auth 축·aria-label·스토리 4종), typecheck·test 91/91 재검증 후 체크리스트 마감
+- [x] 게이트 웹(1440) 버전 — **(8/7 저녁 완료)** `SA-1 비로그인 게이트 — web / Desktop 1440 (센터 모달)`(7707:107429) 신설. `chat / Desktop 1440` 복제 + dim(변수 바인딩 유지) + `web / 다른 방법 (modal)` 골격 400폭 모달, 문구·약관·LINE/Google/이메일은 SA-1에서 복제해 문구 이원화 차단
+- [x] 게이트 첨부 시도 트리거 — **(8/7 저녁 확정)** 결정 노트 갈음. 같은 모달·같은 dim이라 별도 프레임은 트리거만 다른 중복
 
 ## 오류 케이스 정합 (기획서와)
 
