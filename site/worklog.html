@@ -2391,8 +2391,8 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 
 ## 결정 대기 (주미님)
 
-- [ ] **PR #54 머지** — validate·check·storybook·Publish 전부 SUCCESS, Chromatic UI Review/Tests만 쿼터 블록으로 PENDING. 선행 결정: 플랜 업그레이드 vs 월 리셋 대기 vs Chromatic 체크 없이 머지. (#56 머지로 #57 버전 PR(0.4.1)도 열려 있음)
-- [ ] **마스터 3종 처분** — `Chart/StackBar`·`Chart/OptionBar`·`Deep/LoadingCard` 제품 사용처 0(가변 폭 바 인스턴스 불성립 결론). ① 5% 스텝 variant 개편 재도입 ② 참고용 유지 ③ 삭제(재게시 필요). **8/7 밤 갱신: DS에 기존 `Chart/StackBar`(321)·`Chart/ProgressBar (규격 참조 — 인스턴스 사용 불가)`가 이미 있어 신설 2종은 중복 — 권고 ③삭제(또는 규격 참조 표기 통합)**
+- [x] **PR #54 머지** — **(8/9 완료)** Chromatic 없이 머지 결정(주미님 위임). #58·#59까지 이어 머지, `@riiid/prism@0.6.0` npm latest 배포
+- [x] **마스터 3종 처분** — **(8/9 완료, ③삭제)** 전 파일 참조 0 확인 후 삭제, 잔존 `Chart/StackBar`(321)는 규격 참조 표기로 rename. DS 재게시만 대기
 - [ ] `Message Bubble Content=Image` 2건 — DS에 순수 이미지 변형 없음. DS 추가 vs Text+Image 스왑 vs 유지
 - [ ] 제품 오프스케일 그림자 29건(auth-card 8%·modal 16%·dialog 15%·Toast 복합) — 램프 확장 vs 화면별 동결
 - [ ] 다크 구간색 step 확정 — chart/band 다크 모드값 교체의 선행
@@ -2401,9 +2401,9 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 ## 작업 후보 (Claude)
 
 - [x] ~~댓글·추천질문 원본 FILL 확인~~ — **(8/7 밤 종결)** Comment 계열 내부는 규칙 충족, 유일 위반 `Answer/Footer` Frame 20만 FILL 전환(시각 0). FILL 정리 소진
-- [ ] 홈/히스토리·로그인/설정 고아 마스터 치환 — 8/7 주미님 지시로 보류(chat/chart 24곳만 완료). 재개 시 텍스트 스냅샷→복원 + 전후 스크린샷 게이트
+- [x] 홈/히스토리·로그인/설정 고아 마스터 치환 — **(8/9 완료, 212/214)** 텍스트 diff 게이트로 12건 복원, 제외 2건(`투자`·변칙 Bottom Bar)은 주미님 판단 대기
 - [x] ~~Sheet/전문 본문 웹(1440) 확인~~ — **(8/7 밤 종결)** Desktop 1440 전문 펼침 2장이 Side Panel 520으로 이미 존재
-- [ ] deep 잔여 data-viz(도넛·StatHero 등) — 코드 컴포넌트(plan-11) 정본으로 진행, Figma는 손그림+토큰 유지 계약 확정됨
+- [x] deep 잔여 data-viz — **(8/7~8/9 종결)** VoteBar·LegendItem·VoteResult 포팅·머지(0.6.0), 도넛은 기획 폐지로 클로즈, StatHero는 차주 기획 대기
 </script>
 <script type="text/plain" id="plan-2026-08-07">
 # 2026-08-07 계획
