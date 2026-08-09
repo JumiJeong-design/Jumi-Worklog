@@ -6046,7 +6046,17 @@ function ensureLog(date) {
     .catch(() => {});
 }
 function getMarkdown(date) {
-  if (LOG_CACHE[date] != null) return LOG_CACHE[date].trim();
+  if (LOG_CACHE[date] != null) {
+    // 2026-08-10부터: "미해결 항목" 절은 계획 탭 전용 — 기록 탭에서는 빼서 중복 표시를 없앤다.
+    if (date >= PLAN_SPLIT_FROM) {
+      const sec = findPlanSection(LOG_CACHE[date]);
+      if (sec) {
+        const lines = LOG_CACHE[date].split('\n');
+        return lines.slice(0, sec.start).concat(lines.slice(sec.end)).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+      }
+    }
+    return LOG_CACHE[date].trim();
+  }
   const el = document.getElementById('entry-' + date); return el ? el.textContent.trim() : '';
 }
 // 백로그/운영판 본문은 content/*.md를 정본으로 fetch(embed 블록은 fallback). Typora 등에서 .md만 고치면 반영됨.
@@ -6062,21 +6072,29 @@ function ensureContent(key, onLoad) {
 }
 function getDirectionMarkdown() { if (CONTENT_CACHE.direction != null) return CONTENT_CACHE.direction.trim(); const el = document.getElementById('direction-board'); return el ? el.textContent.trim() : ''; }
 function getBacklogMarkdown() { if (CONTENT_CACHE.backlog != null) return CONTENT_CACHE.backlog.trim(); const el = document.getElementById('backlog-board'); return el ? el.textContent.trim() : ''; }
-// 계획 단일 소스(2026-08-10~): 로그 MD의 "미해결 항목" 절이 정본. embed plan 블록은 과거 날짜 fallback으로만 유지 — 새 날짜엔 embed 블록을 만들지 않는다.
-function extractPlanFromLog(date) {
-  const md = LOG_CACHE[date];
-  if (md == null) return '';
+// 계획 단일 소스(2026-08-10~): 로그 MD의 "미해결 항목" 절 = 계획 탭, 나머지 = 기록 탭. 소급 없음 — 이 날짜 이전은 기존 embed plan 블록 방식 그대로.
+const PLAN_SPLIT_FROM = '2026-08-10';
+function findPlanSection(md) {
   const lines = md.split('\n');
   const start = lines.findIndex(l => /^#{1,4}\s*미해결 항목/.test(l));
-  if (start < 0) return '';
+  if (start < 0) return null;
   const level = (lines[start].match(/^#+/) || ['###'])[0].length;
   let end = lines.length;
   for (let i = start + 1; i < lines.length; i++) {
     const h = lines[i].match(/^(#{1,4})\s/);
     if (lines[i].trim() === '---' || (h && h[1].length <= level)) { end = i; break; }
   }
-  const body = lines.slice(start + 1, end).join('\n').trim();
-  return body ? `# ${date} 계획\n\n${lines[start].replace(/^#+\s*/, '> ')} — 로그 원문에서 추출(정본 = logs/*.md)\n\n${body}` : '';
+  return { start, end };
+}
+function extractPlanFromLog(date) {
+  if (date < PLAN_SPLIT_FROM) return '';
+  const md = LOG_CACHE[date];
+  if (md == null) return '';
+  const sec = findPlanSection(md);
+  if (!sec) return '';
+  const lines = md.split('\n');
+  const body = lines.slice(sec.start + 1, sec.end).join('\n').trim();
+  return body ? `# ${date} 계획\n\n${lines[sec.start].replace(/^#+\s*/, '> ')} — 로그 원문에서 추출(정본 = logs/*.md)\n\n${body}` : '';
 }
 function getPlan(date) {
   const el = document.getElementById('plan-' + date);
