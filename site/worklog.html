@@ -2384,33 +2384,6 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 | `socra-ai-workflow-wiki` | `24d6889` / `main` | Storybook QA 하네스 IA 최신화 |
 </script>
 
-<script type="text/plain" id="plan-2026-08-10">
-# 2026-08-10 계획
-
-> 8/9 마감 이월분. 8/9에 종결된 것(plan-22 산재·PR #63/#66·plan-19 중복·첨부 정책·800 가독폭 등)은 이월하지 않는다.
-
-## 결정/QA 대기 (주미님)
-
-- [ ] PR #62(Menu 글래스·Popover 포팅) 시각 QA 후 머지 — 8/9 밤 확인 중
-- [ ] 바텀시트 DS `Type=action` variant 처분(제거 vs 유지) — 세션 의견은 유지
-- [ ] Chat History Panel 재디자인 방향 인풋
-- [ ] History/Footer `PlanLabel` "Free" 처분 — 비로그인 variant 재작업 때
-- [ ] JP 문구 일괄 검토 · 개수 초과 토스트 3종 카피 확정
-- [ ] 에러 사유 툴팁 2.5s 체감 — Storybook `에러사유툴팁` 데스크톱 확인
-
-## 기획 대기 (차주)
-
-- [ ] 등급 판정 로직 승격·범례 % 노출 / StatHero·ReportCard shell 실측
-- [ ] 전송 실패(서버 오류) 화면 처리 · 오프라인 지속 시안 승인 — 기획 확인 2건
-- [ ] 브레이크포인트 구간 경계 확정 / 오프라인 배너 컴포넌트 승격
-
-## 블로킹/작업 후보
-
-- [ ] 제품 파일 REST 토큰 재발급(403) — 팝오버 전수 감사가 막혀 있음
-- [ ] Chromatic 쿼터 해제 시 main 전체 비교 1회(입력창 페이드 포함)
-- [ ] SourceChip 계약 문서 신설 시 최대폭 상대 규칙 이전
-- [ ] ComposerGroup 스테일 마스터 계보 청소
-</script>
 <script type="text/plain" id="plan-2026-08-09">
 # 2026-08-09 계획
 
@@ -6064,7 +6037,12 @@ function ensureLog(date) {
   LOG_FETCHED[date] = true;
   fetch(RAW_BASE + logSourcePath(date), { cache: 'no-cache' })
     .then(r => r.ok ? r.text() : null)
-    .then(t => { if (t != null) { LOG_CACHE[date] = t; if (ENTRIES[currentIndex] && ENTRIES[currentIndex].date === date) renderEntry(currentIndex); } })
+    .then(t => { if (t != null) {
+      LOG_CACHE[date] = t;
+      const i = ENTRY_MAP[date];
+      if (i !== undefined && !ENTRIES[i].plan && hasPlan(date)) { ENTRIES[i].plan = true; if (viewMode === 'cal') buildCalendar(); }
+      if (ENTRIES[currentIndex] && ENTRIES[currentIndex].date === date) renderEntry(currentIndex);
+    } })
     .catch(() => {});
 }
 function getMarkdown(date) {
@@ -6084,8 +6062,28 @@ function ensureContent(key, onLoad) {
 }
 function getDirectionMarkdown() { if (CONTENT_CACHE.direction != null) return CONTENT_CACHE.direction.trim(); const el = document.getElementById('direction-board'); return el ? el.textContent.trim() : ''; }
 function getBacklogMarkdown() { if (CONTENT_CACHE.backlog != null) return CONTENT_CACHE.backlog.trim(); const el = document.getElementById('backlog-board'); return el ? el.textContent.trim() : ''; }
-function getPlan(date) { const el = document.getElementById('plan-' + date); return el ? el.textContent.trim() : ''; }
-function hasPlan(date) { return !!document.getElementById('plan-' + date); }
+// 계획 단일 소스(2026-08-10~): 로그 MD의 "미해결 항목" 절이 정본. embed plan 블록은 과거 날짜 fallback으로만 유지 — 새 날짜엔 embed 블록을 만들지 않는다.
+function extractPlanFromLog(date) {
+  const md = LOG_CACHE[date];
+  if (md == null) return '';
+  const lines = md.split('\n');
+  const start = lines.findIndex(l => /^#{1,4}\s*미해결 항목/.test(l));
+  if (start < 0) return '';
+  const level = (lines[start].match(/^#+/) || ['###'])[0].length;
+  let end = lines.length;
+  for (let i = start + 1; i < lines.length; i++) {
+    const h = lines[i].match(/^(#{1,4})\s/);
+    if (lines[i].trim() === '---' || (h && h[1].length <= level)) { end = i; break; }
+  }
+  const body = lines.slice(start + 1, end).join('\n').trim();
+  return body ? `# ${date} 계획\n\n${lines[start].replace(/^#+\s*/, '> ')} — 로그 원문에서 추출(정본 = logs/*.md)\n\n${body}` : '';
+}
+function getPlan(date) {
+  const el = document.getElementById('plan-' + date);
+  if (el) return el.textContent.trim(); // 과거 날짜의 큐레이션 계획은 그대로 보존
+  return extractPlanFromLog(date);
+}
+function hasPlan(date) { return !!(document.getElementById('plan-' + date) || extractPlanFromLog(date)); }
 function checkboxSource(date, panel) { return panel === 'plan' ? getPlan(date) : getMarkdown(date); }
 function checkboxSignature(date, panel) {
   const text = checkboxSource(date, panel);
