@@ -2384,6 +2384,33 @@ Page design_chart 반복 가설 카드/칩을 공통 컴포넌트화할지 판�
 | `socra-ai-workflow-wiki` | `24d6889` / `main` | Storybook QA 하네스 IA 최신화 |
 </script>
 
+<script type="text/plain" id="plan-2026-08-10">
+# 2026-08-10 계획
+
+> 8/9 마감 이월분. 8/9에 종결된 것(plan-22 산재·PR #63/#66·plan-19 중복·첨부 정책·800 가독폭 등)은 이월하지 않는다.
+
+## 결정/QA 대기 (주미님)
+
+- [ ] PR #62(Menu 글래스·Popover 포팅) 시각 QA 후 머지 — 8/9 밤 확인 중
+- [ ] 바텀시트 DS `Type=action` variant 처분(제거 vs 유지) — 세션 의견은 유지
+- [ ] Chat History Panel 재디자인 방향 인풋
+- [ ] History/Footer `PlanLabel` "Free" 처분 — 비로그인 variant 재작업 때
+- [ ] JP 문구 일괄 검토 · 개수 초과 토스트 3종 카피 확정
+- [ ] 에러 사유 툴팁 2.5s 체감 — Storybook `에러사유툴팁` 데스크톱 확인
+
+## 기획 대기 (차주)
+
+- [ ] 등급 판정 로직 승격·범례 % 노출 / StatHero·ReportCard shell 실측
+- [ ] 전송 실패(서버 오류) 화면 처리 · 오프라인 지속 시안 승인 — 기획 확인 2건
+- [ ] 브레이크포인트 구간 경계 확정 / 오프라인 배너 컴포넌트 승격
+
+## 블로킹/작업 후보
+
+- [ ] 제품 파일 REST 토큰 재발급(403) — 팝오버 전수 감사가 막혀 있음
+- [ ] Chromatic 쿼터 해제 시 main 전체 비교 1회(입력창 페이드 포함)
+- [ ] SourceChip 계약 문서 신설 시 최대폭 상대 규칙 이전
+- [ ] ComposerGroup 스테일 마스터 계보 청소
+</script>
 <script type="text/plain" id="plan-2026-08-09">
 # 2026-08-09 계획
 
@@ -5932,6 +5959,7 @@ marked.use({
 
 // tags/notion은 날짜별로 덮어쓸 메타만 여기에 기록, 나머지는 DOM에서 자동 추출
 const ENTRY_META = {
+  '2026-08-10': { tags: ['plan', '이월', 'pr62', '바텀시트', 'action-variant', 'history-panel', 'planlabel', 'jp문구', '토스트카피', '사유툴팁', '등급판정', 'stathero', '기획대기', '브레이크포인트', '오프라인배너', 'rest토큰', 'chromatic쿼터', 'sourcechip', 'composergroup'] },
   '2026-08-09': { tags: ['plan', '이월', '머지', '0.6.0', '배포', '마스터삭제', '고아치환', 'swap', '다크구간색', '그림자', 'History문구', '그라데이션', 'ScrollFAB', '드래그앤드롭', '드롭존톤', '팝오버', '규칙29', 'glass-strong', 'Popover', '다크복구', '네트워크게이트', 'plan-22', 'Guidelines', '접근성', 'focus링', '라이트박스', '에러칩', '사유툴팁', 'v1.0.6정합', '360QA', '최소폭360', '접힘연동', '입력창페이드', 'mask-image', '네트워크에러', '오프라인배너', '첨부칩상태', '정합표', '오류케이스전수대조', '표면매핑', 'S9일원화', 'quick예외', '브레이크포인트', '근거주석', '화면캡션', '배치정리', 'commit'] },
   '2026-08-07': { tags: ['data-viz', 'votebar', 'legenditem', 'voteresult', 'pr58', 'plan', '이월', 'text-divider', '물결선', 'auth축', '다크시멘틱', '재스캔', '라이트박스', '비로그인', '게이트', '네트워크에러', 'history-footer', 'chromatic', '다크', '바텀시트', '팝오버', '첨부', '피드백', '컴포넌트화', 'attachment', '토큰정합', 'deep-ring', '그림자', 'tight행간', '고아마스터치환', 'commit'] },
   '2026-08-06': { tags: ['prism', 'ds', '포팅', 'sheet', 'slot', 'instance-swap', 'external-agent', 'vestway', '토큰', '게시전파', '첨부', '드래그앤드롭', 'v1.0.6', 'storybook', '레이아웃', 'responsive', 'breakpoint', '컬럼', '오버레이', '팝오버', '버블', 'text-divider', '게이트', '네트워크에러', '진입점', 'pr-54', 'commit'] },
