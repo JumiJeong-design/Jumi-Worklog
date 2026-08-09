@@ -247,7 +247,7 @@ git -C ~/Desktop/jumi-worklog pull --rebase && git -C ~/Desktop/jumi-worklog pus
    - tags는 그날 작업의 검색 키워드. 커밋이 있으면 `'commit'`도 넣는다.
    - **ENTRIES 배열은 건드리지 않는다** — `ENTRY_META` 키 추가만으로 캘린더·목록에 자동 반영된다.
 3. **`entry-YYYY-MM-DD` 블록을 새로 만들지 않는다.** 그건 fetch 실패 대비 fallback이고 과거 날짜에만 남아 있다. 새로 만들면 원문과 두 벌이 되어 어긋난다. (2026-07-29 정정 — 이전 판이 블록 생성을 지시하고 있었다)
-4. **plan 블록은 예외다.** `getPlan()`은 raw fetch가 없어 embed만 읽으므로, 계획 탭이 필요한 날짜는 `plan-YYYY-MM-DD` 블록을 HTML에 직접 넣어야 한다.
+4. **`plan-YYYY-MM-DD` 블록도 새로 만들지 않는다.** (2026-08-09 정정 — 이전 판이 "plan 블록은 예외"라며 생성을 지시했다) 뷰어의 `getPlan()`이 로그 MD의 `### 미해결 항목` 절을 추출해 계획 탭으로 보여주므로, **계획의 정본도 `logs/*.md` 하나다.** 새 날짜의 계획/이월 항목은 로그 파일 상단 `### 미해결 항목` 절에 쓰면 끝. embed plan 블록은 과거 날짜(2026-08-09 이전) fallback으로만 남아 있다.
 5. 로컬 파일에 저장한 뒤, **여기서 Step 4의 커밋·push를 한 번에 실행한다**
    (`logs/` + `CONTEXT.md` + `site/worklog.html`을 한 커밋으로).
 6. push 후 `git -C ~/Desktop/jumi-worklog status -sb`가 `ahead` 없이 깨끗한지 확인한다.
@@ -261,7 +261,7 @@ git -C ~/Desktop/jumi-worklog pull --rebase && git -C ~/Desktop/jumi-worklog pus
 
 커밋 메시지: `log: YYYY-MM-DD 작업 기록`
 
-**주의:** `<style>`, 사이드바, 스킬 패널, JS 함수 등 **다른 구조는 절대 건드리지 않는다.** 오직 `ENTRY_META` 키(+필요 시 `plan-` 블록)만 추가.
+**주의:** `<style>`, 사이드바, 스킬 패널, JS 함수 등 **다른 구조는 절대 건드리지 않는다.** 오직 `ENTRY_META` 키만 추가(entry/plan 블록 생성 금지).
 
 ---
 
