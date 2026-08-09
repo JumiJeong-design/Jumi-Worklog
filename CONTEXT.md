@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-08-07 (전면 갱신은 07-16 기준 · 07-28에 Quick/Deep 결과 화면 + 라벨 뱃지 계열·타이포 램프·브랜치 캐비엇 갱신 · 07-29에 스킬 검증·오탐 수정 반영 · 07-30~31에 prism npm 배포 재개와 `prism-dist` 은퇴 반영 · 08-03에 색 규칙 확정(구간 3색)·PR 4건 머지·Version PR #43·감사표 수치 재정정 반영 · 08-06에 기획서 v1.0.6 정합·첨부 정책 피벗·시트 패밀리 포팅·고아 마스터 종료·**반응형 레이아웃 기준 신설** 반영 · 08-07 오후에 Attachment 세트 통합·DS 토큰 정합 패스(deep-ring/tight 140%/그림자 스타일)·chat/chart 고아 마스터 24건 치환 반영 · 08-07 저녁에 비로그인 트랙 마감 — 스테일 스냅샷 스왑·웹 게이트 1440 신설·첨부 트리거 결정노트 갈음·ChatHistoryPanel auth 포팅 확인, PR #54 push 반영 · 08-07 밤에 TextDivider `type=default|loading`+`trailing` 신설·분리본 11개 재연결·패키지 포팅, 다크 시멘틱 충돌 지도 확정, 기획서 보드 감사 제외 규칙 · 08-07 심야에 Deep data-viz 3종 코드 포팅 — VoteBar·LegendItem·VoteResult PR #58 오픈)
+> Last updated: 2026-08-09 (전면 갱신은 07-16 기준 · 07-28에 Quick/Deep 결과 화면 + 라벨 뱃지 계열·타이포 램프·브랜치 캐비엇 갱신 · 07-29에 스킬 검증·오탐 수정 반영 · 07-30~31에 prism npm 배포 재개와 `prism-dist` 은퇴 반영 · 08-03에 색 규칙 확정(구간 3색)·PR 4건 머지·Version PR #43·감사표 수치 재정정 반영 · 08-06에 기획서 v1.0.6 정합·첨부 정책 피벗·시트 패밀리 포팅·고아 마스터 종료·**반응형 레이아웃 기준 신설** 반영 · 08-07 오후에 Attachment 세트 통합·DS 토큰 정합 패스(deep-ring/tight 140%/그림자 스타일)·chat/chart 고아 마스터 24건 치환 반영 · 08-07 저녁에 비로그인 트랙 마감 — 스테일 스냅샷 스왑·웹 게이트 1440 신설·첨부 트리거 결정노트 갈음·ChatHistoryPanel auth 포팅 확인, PR #54 push 반영 · 08-07 밤에 TextDivider `type=default|loading`+`trailing` 신설·분리본 11개 재연결·패키지 포팅, 다크 시멘틱 충돌 지도 확정, 기획서 보드 감사 제외 규칙 · 08-07 심야에 Deep data-viz 3종 코드 포팅 — VoteBar·LegendItem·VoteResult PR #58 오픈 · 08-09에 PR #54·#58·#59 전부 머지 — **`@riiid/prism@0.6.0` npm latest 배포**, 마스터 3종 삭제, 고아 로컬 마스터 치환 212/214, 결정 대기 3건 감사·권고화)
 >
 > 이 파일은 **누적 이력이 아니라 스냅샷**이다. 날짜별 경과는 `logs/`가 정본이므로 여기에 날짜 섹션을 쌓지 않고, 현재 상태 한 벌만 덮어쓴다(2026-07-14 정리 — 6/12~6/23 날짜 섹션 6개가 누적돼 worklog와 중복되고 갱신이 밀리던 것을 접음).
 
@@ -113,11 +113,11 @@
 - ~~**[미푸시] prism 피드백 선택 문법 커밋**~~ — **push 완료 + PR #54에 반영됨(08-07 저녁, `origin/feat/dark-band-sheet-body` = `23b40cf`).** 머지는 주미님 리뷰 대기. 미커밋 잔여 2건(19-mvp plan 수정·AttachmentLightbox.stories.tsx, 다른 세션 산출물로 보임)은 커밋 여부 판단 필요.
 - **[주미님 확인] `Message Bubble Content=Image` 2건** — chat/chart 고아 마스터 치환에서 제외(DS에 순수 이미지 변형 없음). DS 추가 vs Text+Image 스왑 vs 유지.
 - **오프스케일 그림자 29건** — 제품 화면(auth-card 8%·modal 16%·dialog 15%·Toast 복합). 램프 확장 vs 동결 결정 대기. deep 손코딩 ~60건은 컴포넌트화 트랙에서 해소.
-- **홈/히스토리·로그인/설정 고아 마스터 치환** — 주미님 지시로 보류(08-07, chat/chart 24건만 완료).
-- **deep 손코딩 리포트 뷰 컴포넌트화** — **1차분 착수·PR #58 오픈(08-07 심야)**: `VoteBar`·`LegendItem`·`VoteResult` 패키지 포팅(색은 `color.band.*`만, 폭이 데이터인 바는 코드가 정본 계약). DonutChart는 종결(v1.0.6 도넛 폐지)·OpinionRow 보류(손코딩 소스가 PR #48에서 삭제됨). 남은 판단 2건은 plan-20 「주미님 확인」(판정 로직 승격·범례 % 노출), 후순위는 StatHero·ReportCard shell(차주 기획 확정 후).
+- ~~**홈/히스토리·로그인/설정 고아 마스터 치환**~~ — **08-09 완료(212/214)**. 제외 2건(`투자` 세트·변칙 Bottom Bar)과 하단 바 Deep 칩 노출 확인만 주미님 몫(plan-20 「주미님 확인」).
+- **deep 손코딩 리포트 뷰 컴포넌트화** — **완료·머지됨(08-09, 0.6.0 배포)**: `VoteBar`·`LegendItem`·`VoteResult` 패키지 포팅(색은 `color.band.*`만, 폭이 데이터인 바는 코드가 정본 계약). DonutChart는 종결(v1.0.6 도넛 폐지)·OpinionRow 보류(손코딩 소스가 PR #48에서 삭제됨). 남은 판단 2건은 plan-20 「주미님 확인」(판정 로직 승격·범례 % 노출), 후순위는 StatHero·ReportCard shell(차주 기획 확정 후).
 
 - ~~**라이브러리 재게시 1회**~~ — **이미 됨(2026-07-31 06:51).** `Badge/Label` 18변형·`Button/DeepCTA`가 게시본에 들어가 있는 것을 componentKey로 확인했다. 다만 8/2에 **라임 변수 값이 바뀌어** 제품 파일 반영을 위한 재게시가 다시 필요하다(주미님 손).
-- **`chart/*` semantic 토큰 승격** — 확정된 구간색을 토큰으로. 라임이 main에 있어 착수 가능. 설계안 심사 중.
+- ~~**`chart/*` semantic 토큰 승격**~~ — **종결 확인(08-09)**: 코드 `color.band.*`+`color.badge.{band}.*`·피그마 `chart/band·badge` 모두 main/DS에 있음.
 - **형제 칩 포팅** — `SourceChip`(2변형, 쉬움). `Attachment/Chip`은 08-06에 `focused`까지 포팅됨(미리보기 팝오버 `Attachment/Preview`는 피그마만 있고 코드 없음). `ModelChip`·`ChipGroup`은 ideation 승격이 선행.
 - **Tier 1 잔여 5종** — `ChatInputBar`(레이아웃이 커진다) · `ModelProfile`(컨트리뷰터 데이터가 `{role, note}`뿐이라 어느 모델인지 정보가 없다 — 데이터 계약 선행) · `Spinner`(반쪽) · `MessageBubble`·`Button/ActionBar`(Deep 경로 인라인 잔존) · `HeaderNavBar` 나머지 1곳(`DeepWaitVote.stories.tsx:357`).
 - **문서 정정 4건** — `plan-16` §8 폐기 표시 / `plan-21` 대비표 접전 `cyan`→`orange` / `plan-20` Tier 1 수 / `design-system/tokens/color.md` 낡은 헥스 표(`blue/500`이 문서 `#1292F4` vs 토큰 `#0092F8`).
