@@ -8,11 +8,22 @@ if [ ! -f "$context_file" ]; then
   exit 0
 fi
 
-context_date="$(
+context_line="$(
   sed -n 's/^> Last updated: //p' "$context_file" \
-    | head -n 1 \
-    | tr -d '[:space:]'
+    | head -n 1
 )"
+
+context_date="$(
+  printf '%s' "$context_line" \
+    | grep -oE '^[0-9]{4}-[0-9]{2}-[0-9]{2}' \
+    || true
+)"
+
+# Last updated 줄은 날짜 한 개가 전부여야 한다. 세션 요약이 이 줄에 쌓이면
+# 스냅샷 원칙(이력은 logs/가 정본)이 깨지므로 잡아낸다.
+if [ -n "$context_date" ] && [ "${#context_line}" -gt 40 ]; then
+  echo "::warning file=$context_file::'Last updated' line is ${#context_line} chars — expected the date only. Session summaries belong in logs/; trim it back to 'Last updated: $context_date'."
+fi
 
 latest_log_date="$(
   find logs -type f -name '????-??-??.md' 2>/dev/null \
