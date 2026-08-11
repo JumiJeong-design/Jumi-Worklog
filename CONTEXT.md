@@ -60,6 +60,7 @@
 - **Tailwind `text-*` 크기 유틸리티가 08-11부터 `--font-size-*` 토큰값으로 렌더된다(#123).** 그전엔 `@theme` 미등재로 Tailwind 내장 기본값이 나가고 있었다(`lg` 18≠17, `2xl` 24≠22, markdown h1 36≠28, `text-13`류는 규칙 미생성 — 패키지 42곳). `build.ts` `publicThemeTokens`에 별칭 16종 등재로 일괄 교정. **새 크기 토큰을 추가하면 `--text-*` 별칭도 같이 등재해야 유틸리티가 생긴다.** 정본 plan-23 「text-* 전수 실측」 절.
 - **화면 가장자리 페이드 = `EdgeBand`(08-11 신설, PR #143 대기).** 스크롤 콘텐츠가 위/아래 끝에서 표면색으로 잦아든다. 색은 `color.bg.surface-fade-{10,50,90}`(→ `--color-surface-fade-*`), 피그마 `Edge Band`(`4432:2063`) + 변수 `semantic/surface/fade-*`(게시 완료). 등장 판정은 **소비처가 `scrollTop > 0`으로** 넘긴다. **progressive blur는 탈락**(부분 블러가 한글에서 렌더 결함으로 읽히고, 색의 무게를 안 없앤다) — 코드는 탈락 기록으로 남아 있으니 되살리지 말 것. 모바일 하단은 `BottomBar`가 같은 램프를 이미 깔아 쓰지 않는다.
   - 이름이 `scrim`이 아닌 이유: `color.overlay.scrim`은 **모달 뒤 검정 dim**이다. 가장자리는 dim이 아니라 페이드다.
+- **첨부 라이트박스 이미지는 안전영역 안에서 중앙 정렬한다(08-11, PR 대기).** "최대 뷰포트 90%"만 걸면 세로 사진이 하단 고정 캡션을 15.8px 침범한다 — 카운터·캡션이 있을 때만 위아래를 비우고(`attachment-lightbox.safe-top` 60 · `safe-bottom` 83) 그 안에서 중앙 정렬한다. 캡션 기준을 이미지 아래로 되돌리는 대안은 폐기(하단 고정을 세로에서만 뒤집게 됨). 피그마 마스터 4종 반영은 남아 있다.
 - **Chromatic은 월 스냅샷 쿼터 소진 상태다(08-10).** 머지분이 전부 UI Review pending — 주미님 "당장은 눈으로 QA하니 비블로커". 쿼터 해제 시 main 전체 비교 1회, 육안 우선순위는 `ModelProfile`을 쓰는 5곳(MessageBubble·ProfileGroup·SheetProfile·Comment·ReportParticipants). CI 자동 업로드는 없고 필요할 때 `pnpm visual` 수동 실행이 기준.
 - 문서 형식 게이트는 `.githooks/pre-commit`(→ `scripts/validate-design-system.sh`)으로 커밋 전 자동 실행된다. 새 클론은 `git config core.hooksPath .githooks` 필요.
 - 뱃지·칩 기준선: **눌러서 상태가 바뀌면 `Chip`, 그냥 읽는 라벨이면 `BadgeLabel`**(정본 `docs/plans/20` §5-1~5-3). 패키지엔 `Badge`·`BadgeLabel` 포팅 완료, `Button/DeepCTA`는 Figma만.
@@ -124,6 +125,8 @@
 - **공유 워킹트리에서 `git add -A` 금지(2026-08-11 실제 사고).** Claude 세션 둘이 같은 폴더에서 일하다 옆 세션 작업 7파일이 남의 PR로 갔고, 저녁엔 역방향으로 옆 세션이 내 브랜치에 커밋했다. 경로를 명시해 커밋하고, 두 번째 세션은 시작할 때 `git worktree`로 분리한다. 복구 레시피는 `docs/agent-parallel-rules.md`(휴면 아님 — 08-11 정정).
 - **헤드리스 브라우저로 판정 못 하는 게 있다(2026-08-11).** Playwright WebKit은 backdrop-filter를 아예 못 그리고(`CSS.supports`는 true), 헤드리스 Chromium의 rAF는 vsync에 고정돼 페인트 비용이 안 잡힌다. 기능 판정 전에 **대조군**으로 도구 한계부터 확인한다.
 - **컴포넌트 root가 `relative`면 className의 `absolute`는 안 먹는다(2026-08-11).** Tailwind 출력 순서상 `.relative`가 이긴다. 오버레이는 래퍼 div로 띄운다 — `Pages/Chat` Mobile의 BottomBar가 이 이유로 실제로는 안 떠 있었다.
+- **인스턴스 variant를 바꾸면 슬롯 콘텐츠가 초기화된다(2026-08-11).** 라이트박스 `count` 전환에 `이미지` 슬롯 사진이 마스터 자리표시로 되돌아갔다. 슬롯 작업은 전환 → 재조회 → 내용 재확인 순으로.
+- **렌더 판정은 스크린샷 육안이 아니라 픽셀로 한다(2026-08-11).** 밝아 보인다고 "스크림 미적용"으로 보고했다가 픽셀 (97,98,99) = 흰 배경 + `black-alpha/60`으로 정상임을 확인해 정정했다.
 - **카운트 비교 전에 가시성 필터부터.** `visible:false` 잔재와 타 제품 보드가 섞이면 수치가 오염된다.
 
 ---
@@ -137,6 +140,7 @@
 - **DS 게시 잔여** — `RetryButton` 세트만 두 번 연속 게시에서 빠져 CHANGED(위생분·비블로킹) — 다음 게시 때 다이얼로그 체크 확인. FileCard stroke 3건도 다음 재게시 포함. (`History Item` `State=loading`·`OTP Input`은 08-11 게시·제품 반영 완료.)
 - **홈 스토리 재정합 2차** — placeholder·액센트 정본 확정(위 결정) 후 `HomePage`·`WebShellFlow`를 새 `web/home` 기준으로 재대조(#117은 8/10 기준).
 - **홈/히스토리 후속** — 기획 요청 발신 2건(칩 9종 변환 문장·유도 질문 데이터셋 / 딥링크 파라미터↔홈 요소 매핑) · Coachmark 컴포넌트화(딤+스포트라이트+툴팁) 판단.
+- **첨부 라이트박스 마무리** — 피그마 마스터 4종에 안전영역 반영(flow·마스터 담당 세션 몫) · `be2fdd1` 머지(`feat/attachment-lightbox-safe-area` 푸시됨) · 세로 원본 사진 확보 시 슬롯 paint 교체.
 - **로그인·설정 트랙 잔무(08-11 본체 완료 후)** — 모바일 이메일 플로우 8시트·설정 §4.12 보완·탈퇴/언어/비로그인 4시트는 완료. 남은 것: ① **웹 설정 3탭(계정·앱·정보)에 같은 §4.12 정합** ② 👁 비밀번호 보기 토글(`lucide:eye` 키 확보, 아이콘 추가만) ③ 신규 카피 strings 등재·JP 전환 ④ 비밀번호 찾기 '발송 완료' 상태 1장.
 - **첨부 잔무** — 개수 토스트 카피(디자인 초안)·툴팁 2.5s 체감 확인·PR #63 머지 상태 재확인.
 - **[주미님 손] empty state 일러스트** — 검토 보드 `4347:2073`에 일러스트를 넣어 전체 UI 정합 판단. 채택 시 마스터 반영은 별도 승인.
