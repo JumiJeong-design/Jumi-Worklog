@@ -54,7 +54,8 @@
 
 ### `riiid/prism`
 
-- **최신 배포는 `@riiid/prism@0.8.0`(2026-08-10).** 같은 날 0.7.0(Popover 신설·글래스 전환·AttachmentLightbox) → 0.8.0(히스토리 패널 v1.0.6 정합·데스크톱 셸·BottomSheet 폭·ReportParticipants) 순으로 두 번 발행됐고 둘 다 `publish-latest` OIDC로 성공했다. 착수 전 우려했던 "미발행 패키지의 첫 OIDC 발행 실패"는 0.7.0이 이미 있어 **해당 없음**으로 확인됐다.
+- **최신 배포는 `@riiid/prism@0.10.0`(2026-08-11, #110).** 08-10에 0.7.0→0.8.0→0.9.0 세 번(전부 `publish-latest` OIDC 성공), 08-11에 0.10.0(첨부 슬롯 #122 포함). 미배포 changeset 2건(text-* 토큰 매핑·Comment chevron)이 다음 버전 PR로 대기 중.
+- **Tailwind `text-*` 크기 유틸리티가 08-11부터 `--font-size-*` 토큰값으로 렌더된다(#123).** 그전엔 `@theme` 미등재로 Tailwind 내장 기본값이 나가고 있었다(`lg` 18≠17, `2xl` 24≠22, markdown h1 36≠28, `text-13`류는 규칙 미생성 — 패키지 42곳). `build.ts` `publicThemeTokens`에 별칭 16종 등재로 일괄 교정. **새 크기 토큰을 추가하면 `--text-*` 별칭도 같이 등재해야 유틸리티가 생긴다.** 정본 plan-23 「text-* 전수 실측」 절.
 - **배포 재개됨 (2026-07-30). `@riiid/prism@0.2.0`이 npm에 `latest`·restricted로 배포됐다.** 첫 실배포다. 2026-07-14~07-16의 "changelog 전용 / 배포 금지" 방침은 접었고 `.changeset/readme.md` 방침 블록도 제거됐다. 설치는 `pnpm add @riiid/prism@0.2.0`. canary도 살아 있다(`0.2.0-canary.05a7f381...`).
   - 배포 경로는 로컬 `npm publish`가 아니라 **GitHub Actions + npm Trusted Publishing(OIDC)**이다. latest = Version PR을 `main`에 머지 / canary = `canary/**` 브랜치 push + changeset. 필요한 시크릿은 `NPM_READ_TOKEN`(restricted 버전 조회)·조직 앱 토큰·`CHROMATIC_PROJECT_TOKEN`. 정본은 `docs/release.md`.
   - 로컬에서 `npm view @riiid/prism`이 404여도 미배포가 아니다 — restricted라 미인증 조회가 막힌 것이다. 확인은 워크플로 로그로 한다.
@@ -108,6 +109,9 @@
 - **`swapComponent`는 텍스트 override를 흘린다(2026-08-09·08-10 두 번).** 스왑 전후 텍스트 대조 게이트(NFC normalize) 없이는 파일명·placeholder가 마스터 기본값으로 조용히 덮인다. `design-system/rules.md` 31번.
 - **변수 바인딩된 paint의 opacity(<1)는 게시·인스턴스 경계에서 소실된다(2026-08-10).** 마스터 렌더가 멀쩡해도 게시 스냅샷·인스턴스에서 opacity가 1로 리셋된다(3중 재현). 틴트는 alpha가 아니라 그 값을 가진 컬러 토큰을 바인딩한다. 게시 포함 여부 판정은 소비 파일 추측이 아니라 DS에서 `getPublishStatusAsync`(CURRENT/CHANGED) 실측으로 한다 — 스테일 스냅샷 함정과 오진 주의.
 - **제품 파일에 붙은 기획서 보드 이미지는 구버전 스냅샷이다(2026-08-11).** '홈' 보드 목업의 칩 카피(주식 투자/NISA·iDeco/재테크)를 근거로 "정합"했다가 노션 v1.0.6 원문(목돈·부동산·노후 자금)과 역주행해 원복했다. 카피·규칙 정합의 근거는 항상 노션 버전 폴더 최신본 원문이다.
+- **invisible 인스턴스 자식은 기본 스캔에서 빠진다(2026-08-11).** stroke 전수 모수가 273 vs 292로 갈렸고 Comment chevron-down(토글 기본=up이라 invisible) 수정이 1차에서 누락됐다. 전수 감사·수정 스크립트는 `figma.skipInvisibleInstanceChildren = false`를 명시하고 시작한다.
+- **게시 다이얼로그는 해제 선택을 기억한다(2026-08-11, 추정).** `RetryButton` 세트만 두 번 연속 게시에서 빠져 CHANGED 유지 — 로컬 상태가 정상인데 CHANGED가 반복되면 파일이 아니라 게시 선택 목록을 본다.
+- **"위반 N건" 감사 count는 판정 전 숫자다(2026-08-11).** stroke "위반 43건"의 실제 수정 대상은 9노드였다 — 최대 덩어리는 계약 명시값(첨부 20px/1.5), Checkbox 2.2는 icon-strong 적합. 계약·코드·규칙 3자 대조 없이 count로 달려들면 계약을 깬다.
 - **카운트 비교 전에 가시성 필터부터.** 7/29에 남은 `Chip` 31개를 보고 "안 써야 할 칩이 다시 들어왔나" 의심했는데 전부 `visible:false`인 잔재였다. 또 페이지 전체를 훑으면 인스턴스 내부 레이어와 타 제품 보드(`vai-home` 등)가 섞인다 — 이 페이지는 최상위 노드가 222개다.
 
 ---
@@ -122,7 +126,9 @@
 - ~~**네트워크·오류 케이스 잔무(08-09 밤)**~~ — **08-10 전부 종결/철회.** ① **오프라인 배너 승격은 철회**됐다(기획서 §5.3에 없는 표면, 자체 승인이었음 — 배너도 전송 비활성도 만들지 않고 "전송 시도 → 토스트 안내 + 입력 보존"으로 간다). 시안·정합표·`error/offline-banner` 변수까지 정리 완료. **이 줄을 보고 승격을 재개하지 말 것.** ② JP 문구는 `strings` 23개 등재 완료(배너분은 삭제돼 22개). ③ ComposerGroup 계보 청소는 08-09 심야 종결.
 - **[정정] 기획서 §5.3 오프라인 케이스는 이미 그려졌다(2026-08-06).** 다른 세션 인계 노트에 "바로 잡을 수 있는 것"으로 적혀 있으나, `plan-20`에 S9-1 전송 시점 오프라인(`7542:15623`)·S9-2 생성 중 끊김(`7542:94429`)이 결정 노트와 함께 기록돼 있다. 남은 건 그 절의 **주미님 확인 4건**(게이트/토스트 문구, 세션 승계 고지, 비로그인 복구 불가 문구, 기존 전송 실패 화면 opacity 20%)이다.
 - ~~**[주미님 손] DS 라이브러리 퍼블리시**~~ — **08-10에 3회 실행 완료**(strings+패널 개정 / `Attachment/Sent` 복원 / `chip=on` 5종+링 1px / Empty State). 전파 확인까지 끝났다. 게시가 Plugin API에 없다는 제약은 그대로이므로 신설 → 게시 대기 → 교체 리듬은 유지된다.
-- **[주미님 손] DS 재게시 1회** — `RetryButton` 위생분 + 아이콘 stroke 9노드 + **`History Item` `State=loading` 2종(08-11 신설, `4400:2055`·`4400:2064`)**. 게시되면 제품 `history — 행 상태` 시안의 생성 중 행 스피너 오버레이를 정식 인스턴스로 교체한다.
+- ~~**[주미님 손] DS 재게시 1회**~~ — **08-11에 2회 게시 완료·실측 확인**(1차: 뱃지 swap·badge=on 2xl / 2차: stroke 9노드·`History Item` `State=loading` 2종 — 전부 CURRENT). **`RetryButton`만 두 번 연속 빠져 CHANGED**(위생분·비블로킹, 게시 다이얼로그 선택 해제 추정 — 다음 게시 때 체크 확인). 게시가 됐으므로 제품 `history — 행 상태` 시안의 생성 중 행 스피너 오버레이 → 정식 `State=loading` 인스턴스 교체가 진행 가능하다.
+- **[주미님 판단] FileCard 20px file-text 3건(1.8)을 첨부 칩(1.5)과 통일할지** — stroke 판정에서 남은 유일한 결정(plan-10 「아이콘 stroke 전수 판정」 ④).
+- **홈 스토리 재정합 2차** — 오후 홈 개편(빠르게 시작하기 승격·placeholder 교체) 안정 후 `HomePage`·`WebShellFlow`를 새 `web/home` 기준으로 재대조(#117은 8/10 기준). 현재 프레임은 라이트=구 placeholder / 다크=신 placeholder로 혼재라 정본 확정이 선행.
 - **[주미님 손] empty state 일러스트** — 검토 보드 `4347:2073`(DS `✅ Components`, detach 사본 4케이스: 대조·Web260 Light/Dark·Mobile393)에 일러스트를 넣어 전체 UI 정합을 판단할 차례. 채택 시 마스터 반영은 별도 승인. 배경: 회색 플레이스홀더는 깨진 이미지로 읽혀 제거했고, 일러스트 자체는 브랜딩 확정 뒤로 미뤘다.
 - ~~**[미푸시] prism 피드백 선택 문법 커밋**~~ — **push 완료 + PR #54에 반영됨(08-07 저녁, `origin/feat/dark-band-sheet-body` = `23b40cf`).** 머지는 주미님 리뷰 대기. 미커밋 잔여 2건(19-mvp plan 수정·AttachmentLightbox.stories.tsx, 다른 세션 산출물로 보임)은 커밋 여부 판단 필요.
 - **[주미님 확인] `Message Bubble Content=Image` 2건** — chat/chart 고아 마스터 치환에서 제외(DS에 순수 이미지 변형 없음). DS 추가 vs Text+Image 스왑 vs 유지.
