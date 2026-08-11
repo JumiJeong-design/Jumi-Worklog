@@ -58,6 +58,8 @@
   - 패키지는 `--access restricted`라 **미인증 `npm view`가 E404를 내는 게 정상**이다 — 발행 실패로 오진하지 않는다. 확인은 워크플로 로그로 한다.
   - **빌드 산출물을 저장소에 커밋하지 않는다**(산출물 브랜치 `prism-dist`는 07-31 은퇴).
 - **Tailwind `text-*` 크기 유틸리티가 08-11부터 `--font-size-*` 토큰값으로 렌더된다(#123).** 그전엔 `@theme` 미등재로 Tailwind 내장 기본값이 나가고 있었다(`lg` 18≠17, `2xl` 24≠22, markdown h1 36≠28, `text-13`류는 규칙 미생성 — 패키지 42곳). `build.ts` `publicThemeTokens`에 별칭 16종 등재로 일괄 교정. **새 크기 토큰을 추가하면 `--text-*` 별칭도 같이 등재해야 유틸리티가 생긴다.** 정본 plan-23 「text-* 전수 실측」 절.
+- **화면 가장자리 페이드 = `EdgeBand`(08-11 신설, PR #143 대기).** 스크롤 콘텐츠가 위/아래 끝에서 표면색으로 잦아든다. 색은 `color.bg.surface-fade-{10,50,90}`(→ `--color-surface-fade-*`), 피그마 `Edge Band`(`4432:2063`) + 변수 `semantic/surface/fade-*`(게시 완료). 등장 판정은 **소비처가 `scrollTop > 0`으로** 넘긴다. **progressive blur는 탈락**(부분 블러가 한글에서 렌더 결함으로 읽히고, 색의 무게를 안 없앤다) — 코드는 탈락 기록으로 남아 있으니 되살리지 말 것. 모바일 하단은 `BottomBar`가 같은 램프를 이미 깔아 쓰지 않는다.
+  - 이름이 `scrim`이 아닌 이유: `color.overlay.scrim`은 **모달 뒤 검정 dim**이다. 가장자리는 dim이 아니라 페이드다.
 - **Chromatic은 월 스냅샷 쿼터 소진 상태다(08-10).** 머지분이 전부 UI Review pending — 주미님 "당장은 눈으로 QA하니 비블로커". 쿼터 해제 시 main 전체 비교 1회, 육안 우선순위는 `ModelProfile`을 쓰는 5곳(MessageBubble·ProfileGroup·SheetProfile·Comment·ReportParticipants). CI 자동 업로드는 없고 필요할 때 `pnpm visual` 수동 실행이 기준.
 - 문서 형식 게이트는 `.githooks/pre-commit`(→ `scripts/validate-design-system.sh`)으로 커밋 전 자동 실행된다. 새 클론은 `git config core.hooksPath .githooks` 필요.
 - 뱃지·칩 기준선: **눌러서 상태가 바뀌면 `Chip`, 그냥 읽는 라벨이면 `BadgeLabel`**(정본 `docs/plans/20` §5-1~5-3). 패키지엔 `Badge`·`BadgeLabel` 포팅 완료, `Button/DeepCTA`는 Figma만.
@@ -119,6 +121,9 @@
 - **컴포넌트 TEXT 속성이 걸린 라벨은 `characters` 쓰면 마스터 기본값으로 리셋된다(2026-08-11).** 인스턴스 복제 후 라벨을 바꿀 땐 `setProperties({'label#…': …})`로 속성 단위로 쓴다. 같은 이유로 라이브러리 업데이트 수락 전 인스턴스는 `setProperties`가 새 variant를 못 봐서 실패한다 — variant key `importComponentByKeyAsync` + `swapComponent`로 우회(텍스트 NFC 대조 게이트 필수).
 - **게시 다이얼로그는 해제 선택을 기억한다(2026-08-11, 추정).** 로컬 상태가 정상인데 CHANGED가 반복되면 파일이 아니라 게시 선택 목록을 본다.
 - **"위반 N건" 감사 count는 판정 전 숫자다(2026-08-11).** stroke "위반 43건"의 실제 수정 대상은 9노드였다 — 계약·코드·규칙 3자 대조 없이 count로 달려들면 계약을 깬다.
+- **공유 워킹트리에서 `git add -A` 금지(2026-08-11 실제 사고).** Claude 세션 둘이 같은 폴더에서 일하다 옆 세션 작업 7파일이 남의 PR로 갔고, 저녁엔 역방향으로 옆 세션이 내 브랜치에 커밋했다. 경로를 명시해 커밋하고, 두 번째 세션은 시작할 때 `git worktree`로 분리한다. 복구 레시피는 `docs/agent-parallel-rules.md`(휴면 아님 — 08-11 정정).
+- **헤드리스 브라우저로 판정 못 하는 게 있다(2026-08-11).** Playwright WebKit은 backdrop-filter를 아예 못 그리고(`CSS.supports`는 true), 헤드리스 Chromium의 rAF는 vsync에 고정돼 페인트 비용이 안 잡힌다. 기능 판정 전에 **대조군**으로 도구 한계부터 확인한다.
+- **컴포넌트 root가 `relative`면 className의 `absolute`는 안 먹는다(2026-08-11).** Tailwind 출력 순서상 `.relative`가 이긴다. 오버레이는 래퍼 div로 띄운다 — `Pages/Chat` Mobile의 BottomBar가 이 이유로 실제로는 안 떠 있었다.
 - **카운트 비교 전에 가시성 필터부터.** `visible:false` 잔재와 타 제품 보드가 섞이면 수치가 오염된다.
 
 ---
@@ -127,6 +132,7 @@
 
 아래는 후보/백로그다. 실제 실행 전 범위와 승인 상태를 다시 확인한다. 상세 to-do는 public viewer의 계획 탭을 정본으로 본다.
 
+- **[내일] DS `Bottom Bar`의 `Dark` variant 축 → 피그마 모드 전환.** 피그마는 다크를 variant로 고르고 코드는 모드로 뒤집는 불일치. 영향 실측 = 인스턴스 4개뿐(`chat/chart` 103개 전부 `Dark=false`, `home/history` 4개만 `true`). 마스터를 `semantic/surface/fade-*`로 재바인딩 → 축 제거 → 홈 다크 컷 3장 모드 명시. 죽은 `Toolbar` 축(옵션 `off` 하나)도 같이. 되돌리기가 번거로워 컷이 적은 지금이 싸다.
 - **[머지 확인] plan-22 문서 커밋 10개 브랜치 4곳 산재(08-09)** — 공유 체크아웃 브랜치 이동 탓. main에는 `e65ae61`만 반영, 나머지는 각 feat/docs 브랜치 PR 머지로 합류. 첨부 에러 정책 충돌 시 `9311cbf`(기획서 정합)가 정답.
 - **DS 게시 잔여** — `RetryButton` 세트만 두 번 연속 게시에서 빠져 CHANGED(위생분·비블로킹) — 다음 게시 때 다이얼로그 체크 확인. FileCard stroke 3건도 다음 재게시 포함. (`History Item` `State=loading`·`OTP Input`은 08-11 게시·제품 반영 완료.)
 - **홈 스토리 재정합 2차** — placeholder·액센트 정본 확정(위 결정) 후 `HomePage`·`WebShellFlow`를 새 `web/home` 기준으로 재대조(#117은 8/10 기준).
