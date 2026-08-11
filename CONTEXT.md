@@ -75,6 +75,8 @@
   - 모바일 바텀시트의 웹 대체는 시트 성격으로 가른다(LAYOUT 05): 짧은 액션 **Popover 320**(08-11 첨부 240→320) / 결정 차단 Dialog 400·660 / 대조하며 읽기 Side Panel 400·520.
   - **대체는 형태만 옮기는 게 아니라 정보량도 같이 옮긴다(08-11).** 첨부 시트는 행마다 아이콘+라벨+제약(형식·장수·용량)을 주는데 PC 팝오버는 라벨만 있었다. 폭 320은 그 제약 문구(실측 249)를 한 줄로 담는 최소치다. 결과적으로 Desktop 앵커드 오버레이는 첨부·모델 리스트 둘 다 320.
   - **유저 버블은 두 메커니즘 분업이다** — 상자 max/min은 `layout` 변수(Mobile/Web 모드), 텍스트 줄바꿈 캡은 `_TextBubble`의 `breakpoint=mo|web` variant. **하나로 합치려다 되돌린 이력이 있으니 다시 합치지 말 것.**
+- **바텀시트 상단은 `Sheet/Header` 한 곳에서 온다(08-11, 게시 대기).** 시트 chrome이 3계보(Bottom Sheet 세트 / Sheet/Shell 세트 / 손그림 19)로 갈려 있었고, 종료와 뒤로가기가 다른 컴포넌트에 갇혀 **둘 다 필요한 화면은 조립이 불가능**했다. `Sheet/Header`(`4475:2102`) `type = title | back` 두 벌, **종료는 두 벌 공통**. `Sheet/Shell`은 `back` 축·`뒤로가기 라벨` 제거 후 헤더 슬롯으로(변형 4→2, **브레이킹**), `Bottom Sheet`도 같은 헤더 사용. **시트 좌우 거터는 16**(화면 거터 실측 — 20은 시트 계열만의 값이었다). 종료는 헤더 패딩 6 + 아이콘 안쪽 10으로 16선 광학 정렬, 뒤로가기 칩은 면이 있어 박스로 16 정렬. 계약은 `design-system/components/sheet-header.md`(코드 포팅 시 `component-contracts/`로 승격), PR #148.
+- **딤은 2단이다(08-11).** 시트 `semantic/overlay/scrim-soft`(30%, `VariableID:4499:2561`) / 모달·차단형 `semantic/overlay/scrim`(라이트 40·다크 60). 시트는 뒤 대화가 근거로 계속 보여야 하고 모달은 뒤를 끊는 게 목적이라 갈린다. plan-22의 "실사례 생기면 2단 재검토" 조건이 파일 안에 이미 충족돼 있었다(시트 50개가 30%, 모달 6개가 raw 40%). **blur(backdrop-filter)는 렌더 비교 후 미채택** — 시트는 드래그되는 표면이라 매 프레임 재합성되고 분리는 이미 흰 표면·radius·그림자가 만든다. 시트 딤 50개 재바인딩은 게시 대기.
 - **제품 타이포 램프에 Bold가 없다.** 강조 굵기는 전부 SemiBold이고 Bold는 `foundation/*`(DS 문서용)과 `chat/h1`뿐이다. 15px 강조는 `body/md-sb`.
 
 ### 열려 있는 결정 (진행을 막고 있는 것)
@@ -142,6 +144,8 @@
 - **격리 브랜치로 옮길 땐 `git diff`가 아니라 `git diff main`으로 검증한다(2026-08-11, CI가 잡음).** 공유 워킹트리에서 `index.ts`가 "내 변경만"인 걸 `git diff`로 확인하고 통째로 복사했는데, 옆 세션이 **이미 커밋한** `EdgeBand` export가 딸려와 CI가 `Cannot find module './components/EdgeBand.tsx'`로 깨졌다. 커밋된 남의 변경은 작업 브랜치 diff에 안 잡힌다 — **기준은 옮겨갈 base(main)다.** 같은 이유로 **로컬 통과가 CI 통과가 아니다**: 로컬은 옆 세션 파일이 워킹트리에 있어서 통과했다. 격리 worktree에서 같은 명령을 돌려 확인한다(`pnpm`은 심링크 node_modules를 거부하므로 `node_modules/.bin/*` 직접 호출).
 - **`git worktree add`를 HEAD에서 따면 남의 브랜치 위에 얹힌다(2026-08-11).** 격리했는데도 base가 옆 세션 PR 브랜치라 내 브랜치에 남의 커밋 9개가 딸려 있었다. **worktree는 `main`에서 따고**, `git rev-list --count main..HEAD`로 내 커밋 수만 남았는지 확인한다. 생성물(토큰 `theme.css`·manifest)은 patch로 옮기지 말고 격리 쪽에서 **재생성**해야 남의 변경이 안 섞인다.
 - **피그마 모바일 시안의 y값에는 iOS StatusBar(59)가 들어 있다(2026-08-11).** 이 제품은 모바일 **웹**이 본선이라 실제 렌더엔 StatusBar가 없다 — 시안 절대 y를 코드 계약에 옮기면 틀린다. 앵커 기준(예: "헤더 하단 +8")으로 쓴다.
+- **계약 파일은 스토리가 없으면 만들 수 없다(2026-08-11).** `validate-design-system.sh`가 `packages/prism/component-contracts/*.md` ⇄ `storybook-map.md` ⇄ 실제 story 파일 3자를 강제한다. 피그마에만 있고 코드 포팅 전인 컴포넌트의 기록 자리는 `design-system/components/*.md`이고, 거기엔 `이 문서는 피그마 근거 기록입니다.` 배너 + `- 노드: 123:456` + `## Variant` + `## 상태`가 필수다.
+- **raw 색을 토큰에 묶는 것 자체가 다크 프레임에선 시각 변경이다(2026-08-11).** raw 검정 40% 딤을 `overlay/scrim`에 바인딩하니 모드가 명시된 다크 프레임만 60%가 됐다(토큰이 제대로 동작한 결과). "바인딩은 픽셀 무변화"라고 미리 단정하지 말고 모드 걸린 프레임을 따로 센다.
 - **`upload_assets`의 `success`는 "커밋됨"이지 "적용됨"이 아니다(2026-08-11).** `nodeId`를 줬는데도 대상 fill이 안 바뀌었다 — 반환된 `imageHash`로 `fills`를 직접 갈아끼워야 했다. 업로드 후 노드 fill을 다시 읽어 확인한다.
 
 ---
