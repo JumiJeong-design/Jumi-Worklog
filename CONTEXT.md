@@ -76,6 +76,8 @@
   - **대체는 형태만 옮기는 게 아니라 정보량도 같이 옮긴다(08-11).** 첨부 시트는 행마다 아이콘+라벨+제약(형식·장수·용량)을 주는데 PC 팝오버는 라벨만 있었다. 폭 320은 그 제약 문구(실측 249)를 한 줄로 담는 최소치다. 결과적으로 Desktop 앵커드 오버레이는 첨부·모델 리스트 둘 다 320.
   - **유저 버블은 두 메커니즘 분업이다** — 상자 max/min은 `layout` 변수(Mobile/Web 모드), 텍스트 줄바꿈 캡은 `_TextBubble`의 `breakpoint=mo|web` variant. **하나로 합치려다 되돌린 이력이 있으니 다시 합치지 말 것.**
 - **바텀시트 상단은 `Sheet/Header` 한 곳에서 온다(08-11, 게시 대기).** 시트 chrome이 3계보(Bottom Sheet 세트 / Sheet/Shell 세트 / 손그림 19)로 갈려 있었고, 종료와 뒤로가기가 다른 컴포넌트에 갇혀 **둘 다 필요한 화면은 조립이 불가능**했다. `Sheet/Header`(`4475:2102`) `type = title | back` 두 벌, **종료는 두 벌 공통**. `Sheet/Shell`은 `back` 축·`뒤로가기 라벨` 제거 후 헤더 슬롯으로(변형 4→2, **브레이킹**), `Bottom Sheet`도 같은 헤더 사용. **시트 좌우 거터는 16**(화면 거터 실측 — 20은 시트 계열만의 값이었다). 종료는 헤더 패딩 6 + 아이콘 안쪽 10으로 16선 광학 정렬, 뒤로가기 칩은 면이 있어 박스로 16 정렬. 계약은 `design-system/components/sheet-header.md`(코드 포팅 시 `component-contracts/`로 승격), PR #148.
+- **모바일 히스토리는 전체화면이 아니라 드로어다(08-12).** Drawer 337(= 화면 393 − 슬리버 56)·x0 풀하이트·우측 radius 16, 뒤에 home 화면 + `semantic/overlay/scrim`, StatusBar·HomeIndicator 최상위. **판단 기준 = 내용물의 성격**: 히스토리가 스위처(새 대화 + 목록 + 계정 진입점)인 동안은 드로어, 검색·다중선택·폴더 같은 관리 기능이 들어와 브라우즈 목적지로 커지면 full 재검토. 레퍼런스 갈림도 같은 축이다(Claude·ChatGPT·X=스위처형 드로어 / Gemini·Grok=검색 얹힌 목적지형 full) — 다수결로 정하지 않는다. 제품 파일 `➡️ home/history` 모바일 12장 + Usage 보드(`7876:21231`) 전환 완료, **컴포넌트 마스터·DS 파일 무변경**. 스토리북은 컴포넌트 QA 컨테이너 337 + `Pages/Home`의 `Mobile (393) — History Drawer`. 정본 `design-system/components/chat-history-panel.md`.
+- **`color.overlay.scrim` 코드값이 08-12에 피그마 정본으로 내려왔다** — 0.48/0.64 → **0.4/0.6**(피그마 `black-alpha/40|60`, `foundation/color.md` 표기와 일치). 문서가 아니라 코드가 드리프트해 있던 케이스. 소비처는 `ModalDialog`·`BottomSheet` backdrop.
 - **딤은 2단이다(08-11).** 시트 `semantic/overlay/scrim-soft`(30%, `VariableID:4499:2561`) / 모달·차단형 `semantic/overlay/scrim`(라이트 40·다크 60). 시트는 뒤 대화가 근거로 계속 보여야 하고 모달은 뒤를 끊는 게 목적이라 갈린다. plan-22의 "실사례 생기면 2단 재검토" 조건이 파일 안에 이미 충족돼 있었다(시트 50개가 30%, 모달 6개가 raw 40%). **blur(backdrop-filter)는 렌더 비교 후 미채택** — 시트는 드래그되는 표면이라 매 프레임 재합성되고 분리는 이미 흰 표면·radius·그림자가 만든다. 시트 딤 50개 재바인딩은 게시 대기.
 - **제품 타이포 램프에 Bold가 없다.** 강조 굵기는 전부 SemiBold이고 Bold는 `foundation/*`(DS 문서용)과 `chat/h1`뿐이다. 15px 강조는 `body/md-sb`.
 
@@ -110,6 +112,8 @@
 - **로그인 = 오버레이 모달, first-screen 전면 로그인은 스펙 외(08-11, §3.1)** — 진입점은 게이트·세션 목록 하단 2곳뿐. 정본 모달은 `chat/chart`의 SA-1. first-screen 5판은 `❌ 참고용` 섹션으로 분리(삭제 아님).
 
 ### 알려진 캐비엇
+- **화면 프레임이 오토레이아웃이면 삽입한 배경·스크림이 화면 밖으로 밀린다(08-12).** 제품 파일 history 화면 12장이 전부 가로 오토레이아웃이라 `insertChild`한 노드가 플로우에 편입돼 x=393·786에 나란히 놓였다. 스크린샷 전엔 "왜 배경만 보이지"로 읽힌다 — 삽입 후 `layoutPositioning = "ABSOLUTE"`를 반드시 세운다.
+- **생성 파일은 부분 스테이징으로 가른다(08-12).** 워킹트리를 공유하면 `theme.css` 한 파일에 내 토큰 변경과 옆 세션 재생성분이 함께 얹힌다. 통째로 커밋하면 남의 작업을 쓸어가고 빼면 소스와 산출물이 어긋난다. `git diff`에서 내 hunk만 필터해 `git apply --cached`로 스테이징하면 워킹트리를 건드리지 않고 갈린다(옆 세션 렌더도 안 깨짐).
 - **variant를 `clone()`으로 늘리면 `componentPropertyReferences`가 소실된다**(08-11, `Settings/Row` `Type=select`). 속성 축은 패널에 멀쩡히 보이고 값도 바뀌는데 렌더가 안 따라와 인스턴스 버그로 오진하기 쉽다. 클론 직후 원본과 refs를 대조하고 임시 인스턴스로 토글 검증할 것 — 게시 후 발견하면 재게시까지 필요하다.
 
 - Product 파일 홈 화면(`5027:3909`)의 컴포저는 DS 라이브러리 마스터가 아니라 **Product 파일 내 로컬 카피**(`5338:50726`)를 참조한다(포크 상태 — DS 마스터를 고쳐도 전파 안 됨). 라이브러리 publish 후 재연결은 defer.
