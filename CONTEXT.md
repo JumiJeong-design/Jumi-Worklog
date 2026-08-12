@@ -90,6 +90,8 @@
 
 - **리포트 뷰가 08-12에 전건 컴포넌트화됐다.** 패키지 `ReportDeep`·`ReportOption`·비공개 `ReportSurface` 신설(PR #154 대기), DS에 `Report/Surface`(`4571:2`)·`Report/Option`(`4572:2`) 마스터 신설, 제품 파일 리포트 카드 12장의 면과 선택지 행 42개를 전부 인스턴스로 교체(손그림 0). 면 값(radius·패딩·간격·그림자)이 마스터 한 곳에 모여 화면마다 갈리지 않는다. `ScoreBar`(Quick)와 `ReportOption`(Deep)을 나눈 기준은 **%를 눈에 보이게 쓰는지**다.
 - **패널 헤더가 모드로 갈린다.** `layout` 컬렉션에 `sheet/header-pad-y`(Mobile 16 / Web 8) 신설 → `Sheet/Header`의 `title=on`에 바인딩. 웹 21장에 `layout=Web` 명시. 웹 패널 헤더 60(축 30, 본문 헤더와 일치) / 모바일 시트 76. **`layout` 모드를 실제로 타는 첫 값이다** — `bubble/max`·`margin/screen`은 정의만 돼 있고 화면은 값을 직접 박아 쓴다.
+- **피그마 섹션 이름 = 스토리북 버킷 이름이다(08-12 확정).** DS `✅ Components`의 `스토리북 계약` 하위 섹션과 `Components/*` 버킷을 1:1로 맞췄다 — Base UI 16 · History 7 · Chat 26 · Overlay 12 · Navigation 2 · Settings 3 · Decision 16, 그리고 `Story book 미계약`에는 진짜 미계약 4개(`Deep/AgentBubble`·`Deep/VoteCard`·`OTP Input`·`Thinking/Toggle`)만. 섹션은 정리함이 아니라 **상태 선언**이라 낡으면 거짓말이 된다 — 실제로 3건이 어긋나 있었다(`Edge Band`는 계약·코드·스토리가 다 있는데 미계약 섹션 잔류 / Sheet 6개·`Attachment/Lightbox`는 스토리가 `Components/Chat/*`인데 피그마만 Overlay). **Overlay 버킷 기준 = 차단 동작(focus-trap·scrim·portal) 소유 여부** — `SheetShell`은 셸만 주고 모달 동작은 소비자가 감싸서 제외, 완결 모달 `BottomSheet`는 잔류. 어긋난 둘 중 정본은 **이미 소비되고 있는 쪽**(스토리 ID는 남이 참조하는 주소)이라 스토리북 기준으로 피그마를 옮겼다. 정본 `design-system/storybook/storybook-map.md`. **검증 스크립트는 피그마를 못 읽어 이 대조는 자동화가 안 된다.** 커밋 `f6281b7`·`a3e4623`(`feat/edge-scrim-exploration`, main 미도달) + `f52cffe`(PR #153).
+- **`OTPInput`은 계약 md만 있고 코드가 없다(08-12 분류).** 맵 「스토리 없는 계약」 표가 원래 "피그마가 뺐지만 코드는 유지"(내림) 한 갈래만 상정하고 있었는데 OTP는 정반대(미포팅)라, 두 갈래를 갈라 적었다. 코드가 들어오면 「이름 규칙」 표로 올린다.
 
 ### 열려 있는 결정 (진행을 막고 있는 것)
 
@@ -199,6 +201,10 @@
 - **삭제가 기본 동작인 마이그레이션 스크립트를 쓰지 않는다(08-12 사고).** 피그마 행 교체에서 "지정한 것만 옮기고 옛 노드는 삭제"로 짰다가, 구조가 한 겹 다른 카드에서 코멘트 블록 10개를 지웠다. 못 옮긴 자식이 하나라도 남으면 **건너뛰고 보고**해야 한다. 파일럿은 구조가 다른 케이스를 포함해야 하고, 배치의 부분 실패는 패치 대상이 아니라 가정을 재검토하라는 신호다. 공유 파일 부분 유실은 **복원보다 복제**가 먼저다(복원하면 그날 작업이 통째로 날아간다).
 - **슬롯 조작 3제약(08-12 실측).** ① 슬롯에 `appendChild`한 뒤에는 같은 스크립트에서 그 슬롯 자식을 **읽지도 못한다**(핸들 무효) — 이관은 맨 끝에 몰고 후속 편집은 다음 호출로. ② **절대배치 자식은 슬롯이 받지 않고 조용히 남는다** — 원본을 지우면 함께 사라진다. ③ 면을 인스턴스로 바꾸면 내용이 인스턴스 자식이 되므로 `skipInvisibleInstanceChildren = true`면 `findAll`이 안쪽을 못 본다.
 - **글래스 카드는 배경을 맞춰야 픽셀 대조가 성립한다.** 면이 70% 반투명이라 뒤 배경이 30% 비친다. 사본을 피그마 페이지 위에 놓고 재면 94% 불일치로 나오고, 실제 화면과 같은 캔버스색 위에 올리면 96.4% 동일로 뒤집힌다.
+- **부분 스테이징은 역적용으로 한다 — `-U0` 정방향 선별은 줄번호가 밀린다(08-12).** 공유 워킹트리에서 내 hunk만 커밋할 때, 앞 hunk를 빼면 뒤 hunk의 `+` 줄번호가 그만큼 어긋나고 `-U0`은 컨텍스트가 없어 git이 위치를 되찾지도 못한다. **전부 `git add` → 피어 hunk만 `git apply --cached --reverse --unidiff-zero`**가 안전하다(인덱스가 새 파일과 정확히 일치하므로 줄번호가 항상 맞는다).
+- **pre-commit 훅은 워킹트리를 본다 — 커밋될 트리는 따로 검증한다(08-12).** 부분 스테이징한 커밋이 단독으로 성립하는지 보려면 `git write-tree` → `git commit-tree` → `git worktree add --detach <커밋>`으로 인덱스 트리만 떼어 게이트를 돌린다. HEAD도 워킹트리도 안 건드린다. 이걸로 **HEAD 자체가 이미 깨져 있던 것**을 발견했다(`prompt-pill.md` 계약은 커밋됐는데 맵 행이 미커밋).
+- **worktree 점유는 "누가 작업 중"과 다르다(08-12).** `git worktree add`가 `already used by worktree at ...`로 막혀도 그 세션이 살아 있다는 뜻은 아니다. **uncommitted 0 · origin과 0/0 · 최근 파일 mtime 없음**이면 잠든 worktree이고 그대로 써도 된다. 점유만 보고 기다리면 헛대기가 된다.
+- **`appendChild`의 폰트 요구는 MCP 서버를 바꿔도 안 사라진다(08-12, 위 폰트 캐비엇 보충).** 텍스트를 품은 서브트리를 옮기면 `unloaded font`가 뜨는데, 이건 서버가 로컬 폰트를 못 보는 건과 **다른 문제**다(정상 Plugin API 계약). `findAllWithCriteria(['TEXT'])` → `getStyledTextSegments(['fontName'])`로 실제 폰트를 전수 수집해 로드한다. **로드는 호출마다 다시 해야 한다** — `use_figma` 컨텍스트가 매번 초기화라 "로드만 하는 스크립트"를 따로 돌리면 다음 호출에서 또 막힌다.
 
 ## 다음 후보 작업
 
