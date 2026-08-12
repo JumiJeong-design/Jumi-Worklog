@@ -206,6 +206,11 @@
 
 - **[내일] DS `Bottom Bar`의 `Dark` variant 축 → 피그마 모드 전환.** 피그마는 다크를 variant로 고르고 코드는 모드로 뒤집는 불일치. 영향 실측 = 인스턴스 4개뿐(`chat/chart` 103개 전부 `Dark=false`, `home/history` 4개만 `true`). 마스터를 `semantic/surface/fade-*`로 재바인딩 → 축 제거 → 홈 다크 컷 3장 모드 명시. 죽은 `Toolbar` 축(옵션 `off` 하나)도 같이. 되돌리기가 번거로워 컷이 적은 지금이 싸다.
 - **[대기] `SheetShell` 코드 정합 + `layout.md` Side Panel 절 정정** — 패널 헤더가 코드에선 56에 타이틀이 없고(피그마 60 · leading+Title+CloseBtn), `rounded-t-3xl`이 panel에도 걸려 있다. `layout.md`는 패널을 아직 "떠 있는 크롬"·zone 536으로 적고 있다. 셋 다 `feat/edge-scrim-exploration`이 편집 중인 파일이라 **그 브랜치 머지 후** 한 묶음으로.
+- **[인계] 홈 트랙 잔여 4건(08-12 밤 종료 시점)** — 홈 자체는 모바일·웹 다 닫혔고, 남은 건 아래뿐이다. 정본 기록은 plan-23(웹 홈)·plan-18(글로우)·plan-10(코치마크)이고 커밋은 `050babe`·`1b1ff20`(둘 다 `feat/edge-scrim-exploration`, **origin/main 미도달**).
+  - ① **홈 스토리 3건 시각 비교 미실시** — `pnpm visual`이 Theme 외 스냅샷을 꺼서 625·626·627이 전부 무의미했다(위 캐비엇). 머지 전 워크플로 전체 비교에서 확인.
+  - ② **포커스 글로우 범위 육안 판단** — 승격으로 채팅 컴포저도 포커스 글로우를 갖는다. 과하면 `glow={false}`. 주미님 실물 확인 대기.
+  - ③ **halo opacity `0.13` 토큰화** — `chat-input-bar.glow-halo-opacity`. 토큰 파일을 옆 세션이 잡고 있어(미커밋) `token:build`가 그쪽 작업분을 끌고 오므로 풀린 뒤에.
+  - ④ **기획 요청 2건** — 칩 9종 변환 문장(주미님 "당장 안 급함") / 딥링크 파라미터↔홈 요소 매핑(§4.1 "개발 착수 전 확정"). **딥링크 헤드라인 2줄 컷은 ④에 딸린 것**이라 별건으로 세지 않는다.
 - **[머지 확인] plan-22 문서 커밋 10개 브랜치 4곳 산재(08-09)** — 공유 체크아웃 브랜치 이동 탓. main에는 `e65ae61`만 반영, 나머지는 각 feat/docs 브랜치 PR 머지로 합류. 첨부 에러 정책 충돌 시 `9311cbf`(기획서 정합)가 정답.
 - **DS 게시 잔여** — `RetryButton` 세트만 두 번 연속 게시에서 빠져 CHANGED(위생분·비블로킹) — 다음 게시 때 다이얼로그 체크 확인. FileCard stroke 3건도 다음 재게시 포함. (`History Item` `State=loading`·`OTP Input`은 08-11 게시·제품 반영 완료.)
 - **socraAI 문서 3건 미커밋(08-11 심야)** — `docs/plans/26-login-signup-screen-spec-sync-2026-08.md`(신설) · `design-system/components/user-profile.md` · `chat-history-panel.md`. 현재 브랜치 `feat/edge-scrim-exploration`의 origin이 `[gone]`이라 커밋처를 정리한 뒤 반영한다.
