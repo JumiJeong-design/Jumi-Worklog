@@ -71,11 +71,14 @@
 - 문서 형식 게이트는 `.githooks/pre-commit`(→ `scripts/validate-design-system.sh`)으로 커밋 전 자동 실행된다. 새 클론은 `git config core.hooksPath .githooks` 필요.
 - 뱃지·칩 기준선: **눌러서 상태가 바뀌면 `Chip`, 그냥 읽는 라벨이면 `BadgeLabel`**(정본 `docs/plans/20` §5-1~5-3). 패키지엔 `Badge`·`BadgeLabel` 포팅 완료, `Button/DeepCTA`는 Figma만.
 - `chart/*` semantic은 **종결됐다(08-09)** — 코드 `color.band.*`+`color.badge.{band}.*`, 피그마 `chart/band·badge` 모두 main/DS에 있다. 다만 `apps/storybook/src/stories/chartPalette.ts`의 5색은 **폐기된 시리즈 팔레트**라 교체 대상이다.
-- **반응형 레이아웃 기준(2026-08-06~).** DS `Layout` 페이지(`4054:1848`)가 정본, 코드 계약은 `packages/prism/token-contract.md` "레이아웃 `layout.*`" 절, 근거는 `design-system/foundation/layout.md`.
+- **반응형 레이아웃 기준(2026-08-06~).** DS `➡️ Guidelines` 페이지(`4054:1848`)가 정본, 코드 계약은 `packages/prism/token-contract.md` "레이아웃 `layout.*`" 절, 근거는 `design-system/foundation/layout.md`.
+  - **보드는 08-12에 `layout.md`와 재정합됐다 — LAYOUT 01~10 + 예시 15슬롯 재캡처.** 그전까지 보드는 08-09판이라 폐기된 Side Panel 산식을 들고 있었다. 문서에만 있던 절 6개(버블 상한·떠 있는 것은 크롬뿐·패널 열림 셸 재배치·페이드 소유권·safe-bottom·토스트 예외)를 LAYOUT 07~10 + L05 각주로 옮겼다. **예시 이미지 슬롯↔원본 매핑 정본 = `design-system/sync/guideline-example-map.md`**(08-12에 main 회수 + L06 슬롯 ID 3건 오류 수정).
   - 브레이크포인트 Mobile <768 / Tablet 768–1279 / Desktop ≥1280. 768은 토큰 `{mo,pc}` 분기와 같고, **1280은 토큰이 아니다**(`@media` 조건은 `var()`를 못 받는다).
   - **컬럼은 한 겹이 아니다** — 800(평문 답변) 안에서 리포트 560·투표/폼 520이 자기 상한을 갖는다. 토큰 `--layout-column-{text,card,decision}` + 유틸리티 `max-w-{text,card,decision}`.
   - 웹 셸: 사이드바 260/rail 60 + gutter 8 → **zone = width + gutter×2**(276/76). max-width는 뷰포트가 아니라 **콘텐츠 영역** 기준.
   - 모바일 바텀시트의 웹 대체는 시트 성격으로 가른다(LAYOUT 05): 짧은 액션 **Popover 320**(08-11 첨부 240→320) / 결정 차단 Dialog 400·660 / 대조하며 읽기 Side Panel 400·520.
+  - **Side Panel을 열면 폭과 무관하게 사이드바를 rail로 접는다(08-11 정정, 08-12 보드 반영).** 패널도 zone(요약 416 · 펼침 536)이라 사이드바를 편 채로는 요약에서도 컬럼 508로 하한 520을 깬다. Desktop 1280 최소치: 요약 `1280−76−416=788`→708, 펼침 `1280−76−536=668`→588. 패널 열림 컬럼은 토큰이 아니라 잔여폭 `min(800, Main−80)`이다(1440에서 748). **"요약 400은 사이드바를 편 채로 둔다"는 초판은 폐기됐다.**
+  - **Modal 400의 근거 화면이 바뀌었다(08-12).** 로그인 '다른 방법'이 v1.0.6에서 폐기돼 실측 근거가 `web / 이메일 로그인 (1440 · 모달)`의 `Login Modal` 400×472로 교체됐다. **폭 기준 400 자체는 불변.**
   - **대체는 형태만 옮기는 게 아니라 정보량도 같이 옮긴다(08-11).** 첨부 시트는 행마다 아이콘+라벨+제약(형식·장수·용량)을 주는데 PC 팝오버는 라벨만 있었다. 폭 320은 그 제약 문구(실측 249)를 한 줄로 담는 최소치다. 결과적으로 Desktop 앵커드 오버레이는 첨부·모델 리스트 둘 다 320.
   - **유저 버블은 두 메커니즘 분업이다** — 상자 max/min은 `layout` 변수(Mobile/Web 모드), 텍스트 줄바꿈 캡은 `_TextBubble`의 `breakpoint=mo|web` variant. **하나로 합치려다 되돌린 이력이 있으니 다시 합치지 말 것.**
 - **바텀시트 상단은 두 층이다(08-12 확정, 게시 완료).** `Sheet/Header`(`4475:2102`)는 **크롬만** — 뒤로가기(BOOLEAN) · 화면 이름(짧은 명사) · 종료. 축은 `title = on(76) | off(60)`. 헤드라인 문장+설명은 `Sheet/Intro`(`4544:2276`)가 본문 첫 블록으로 맡는다. **좌측 44 슬롯은 뒤로가기가 없어도 자리를 지킨다**(가운데 이름이 흔들리지 않게). 배정 = 로그인·피드백 `title=off`+Intro / 첨부 `title=on` "첨부" / 전문 시트 계열 `title=on` **"AI 프로필"**(뒤로가기는 리스트 경유만). 종료·뒤로가기 모두 면 없음·`icon-muted`, 잉크가 좌우 16선(패딩 0 — 아이콘 박스≠잉크라 실측값). 시트 좌우 거터 16. 근거·결정 이력 `design-system/components/sheet-header.md`, PR #148. **코드 포팅 완료(PR #153, 머지 대기)** — `SheetHeader`·`SheetIntro` 신설, `SheetShell`은 `header` 슬롯(**BREAKING**: `backLabel`·`onBack`·`onClose` 제거). 계약 `component-contracts/sheet-header.md`·`sheet-intro.md`.
@@ -182,6 +185,8 @@
 - **인스턴스 variant를 바꾸면 슬롯 콘텐츠가 초기화된다(2026-08-11).** 라이트박스 `count` 전환에 `이미지` 슬롯 사진이 마스터 자리표시로 되돌아갔다. 슬롯 작업은 전환 → 재조회 → 내용 재확인 순으로.
 - **렌더 판정은 스크린샷 육안이 아니라 픽셀로 한다(2026-08-11).** 밝아 보인다고 "스크림 미적용"으로 보고했다가 픽셀 (97,98,99) = 흰 배경 + `black-alpha/60`으로 정상임을 확인해 정정했다.
 - **카운트 비교 전에 가시성 필터부터.** `visible:false` 잔재와 타 제품 보드가 섞이면 수치가 오염된다.
+- **`upload_assets`의 `nodeId` 배치는 무동작이다(08-09 발견, 08-12에 15/15 재현).** 응답은 `success: true` + imageHash를 정상으로 주는데 노드에는 아무것도 안 붙는다. 업로드는 **imageHash 확보용**으로만 쓰고 배치는 항상 `use_figma`로 `fills=[{type:"IMAGE", scaleMode:"FILL", imageHash}]` 수동 바인딩한다.
+- **매핑 문서의 노드 ID를 검증 없이 쓰지 않는다(2026-08-12).** `guideline-example-map.md`의 L06 슬롯 3개가 실제로는 다이어그램 노드를 가리키고 있어 도식 배경을 스크린샷으로 덮었다. Guidelines 예시 슬롯은 **이름이 반드시 `ex-*`**다. 더 일반적으로 — **파괴적 쓰기 전에 원본 값을 읽어두는 건 검증이 아니라 백업이다.** 안 읽고 덮으면 대칭 노드 추정으로만 복구된다(`4266:11` 색이 그래서 재구성값으로 남았다).
 - **`resize()`는 세로 사이징을 FIXED로 되돌리고, 같은 스크립트에서 읽은 크기는 재레이아웃 전 값이다(2026-08-11).** 폭만 바꾸려 `resize(w, h)`를 부르면 HUG였던 높이가 굳고, 리플로우 직후 `node.height`로 좌표를 계산하면 옛 값이 나온다(211 vs 실제 167 → 44px 어긋남). 리플로우 뒤 좌표는 **다음 호출에서 `get_metadata`로 확정 높이**를 받아 잡는다.
 - **규칙 보드의 값을 고쳤으면 그 값이 렌더되는지까지 본다(2026-08-11).** DS `LAYOUT 05` 대체 규칙 표는 셀 32개가 높이 10px + `clipsContent`라 텍스트가 한 줄도 안 보이는 상태로 방치돼 있었다(패딩 합 28 < 높이 10이 신호). 표 데이터를 고쳐도 아무도 못 읽는다.
 - **내부가 HUG면 프레임 폭을 줄여도 안 접히고 넘친다(2026-08-11).** 토스트를 536→344로 줄였더니 노드는 344인데 렌더는 570이었다(536은 override가 아니라 hug 결과였다). 폭 감사는 `node.width`만 보면 통과한다 — **`absoluteRenderBounds.width`와 대조**해야 오버플로가 잡힌다(그림자 bleed 약 40px은 정상). 접히게 하려면 `FILL` + TEXT `autoResize=HEIGHT`.
