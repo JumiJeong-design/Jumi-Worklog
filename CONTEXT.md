@@ -96,8 +96,8 @@
 - 기획서(`docs/20-socra-product-spec-2026-07.md`) [Open Issues] — 타임아웃·RAG 도메인·계정/인증·APPI는 PM/법무 대기라 디자인 착수 불가.
 - **로그인·아바타 비블로킹 4건**(08-11, 정본 plan-26) — ① 접힘 레일 헤더 접기 토글(반투명 원형 r24) vs 푸터 아이콘(사각 r12) 형태 불일치 ② `User Profile` radius 크기별 불일치(sm/md/lg=16, xl=28 — 40px에 16이면 원이 아니다) ③ 푸터 `PlanLabel 'Free'` 처분(08-09 합의대로 Footer 재작업 때) ④ 패키지 `UserProfileType` `"empty"` 제거(기본값이기도 함 — 브레이킹 후보).
 - ~~**`Navigation Bar` 마스터에 `StatusBar=on/off` 축을 만들지**~~(08-12 종결, plan-28) — **축을 만들지 않고 마스터에서 제거**했다(119→60). 제품 인스턴스 101개가 전부 `visible=false`라 옵션 자체가 불필요했다. 짧은 뷰포트 QA 프레임(393×664)도 2장 생성 완료. **폐기한 안 = variant 축 신설**(단일 COMPONENT를 variant로 쪼개는 비용 대비 실사용 0).
-- **개발 전달 — 뷰포트 메타 2줄 + `theme-color` 값**(08-12, plan-28) — `viewport-fit=cover`가 없으면 `env(safe-area-inset-*)`가 iOS에서 항상 0이고, `interactive-widget=resizes-content`가 없으면 컴포저 상한의 `dvh` 규칙이 키보드 열림에서 동작하지 않는다. **하단 인셋·컴포저 상한 작업 전체가 이 두 줄에 걸려 있다.** 문구는 plan-28에 준비, 색 값은 주미님 결정.
-- **하단 인셋·컴포저 상한 실기기 확인**(08-12) — 16↔34 전환도 `dvh` 반응도 **피그마·스토리북 데스크톱 어디서도 안 보인다.** 아이폰 사파리로 스토리북을 열어야 확인된다. 현재는 코드·시안 정합까지만 검증됨.
+- ~~**개발 전달 — 뷰포트 메타 2줄 + `theme-color` 값**~~(08-12 종결, plan-28) — 값 확정(라이트 `#F2F4F8` / 다크 `#0E0F12`)하고 `packages/prism/README.md` 「뷰포트 메타 (모바일 웹 필수)」 절로 승격했다. **메타가 없어도 에러가 안 나고 조용히 반만 동작**하는 종류라 전달 성공 여부에 기대지 않고 설치자가 지나가는 문서에 박았다. **폐기한 대안 = 라우트별 동적 `theme-color`.** 남은 것은 로그인 라이트만 `#FFFFFF`(primitive 직바인딩)인 드리프트 확인.
+- **하단 인셋·컴포저 상한 실기기 확인**(08-12) — 16↔34 전환도 `dvh` 반응도 **피그마·스토리북 데스크톱 어디서도 안 보인다.** 확인용으로 `Foundations/Viewport & Safe Area` 프로브 스토리를 만들어 뒀다 — 아이폰 사파리로 열면 `env()`·`dvh`/`svh`/`lvh`·해석된 토큰 값이 숫자로 뜨고, 키보드 입력란으로 `interactive-widget` 적용 여부까지 본다. **읽기만 하면 된다.**
 - 열린 PR 처분 — **#35**(plan-19 일정 v4, CONFLICTING — rebase/close 미정) · **#13**(codex Chip locale, draft — close 유력).
 
 **종결 — 되돌리기 금지(폐기 기록):**
