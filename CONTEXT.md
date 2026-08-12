@@ -77,6 +77,10 @@
   - **유저 버블은 두 메커니즘 분업이다** — 상자 max/min은 `layout` 변수(Mobile/Web 모드), 텍스트 줄바꿈 캡은 `_TextBubble`의 `breakpoint=mo|web` variant. **하나로 합치려다 되돌린 이력이 있으니 다시 합치지 말 것.**
 - **바텀시트 상단은 `Sheet/Header` 한 곳에서 온다(08-11, 게시 대기).** 시트 chrome이 3계보(Bottom Sheet 세트 / Sheet/Shell 세트 / 손그림 19)로 갈려 있었고, 종료와 뒤로가기가 다른 컴포넌트에 갇혀 **둘 다 필요한 화면은 조립이 불가능**했다. `Sheet/Header`(`4475:2102`) `type = title | back` 두 벌, **종료는 두 벌 공통**. `Sheet/Shell`은 `back` 축·`뒤로가기 라벨` 제거 후 헤더 슬롯으로(변형 4→2, **브레이킹**), `Bottom Sheet`도 같은 헤더 사용. **시트 좌우 거터는 16**(화면 거터 실측 — 20은 시트 계열만의 값이었다). 종료는 헤더 패딩 6 + 아이콘 안쪽 10으로 16선 광학 정렬, 뒤로가기 칩은 면이 있어 박스로 16 정렬. 계약은 `design-system/components/sheet-header.md`(코드 포팅 시 `component-contracts/`로 승격), PR #148.
 - **모바일 히스토리는 전체화면이 아니라 드로어다(08-12).** Drawer 337(= 화면 393 − 슬리버 56)·x0 풀하이트·우측 radius 16, 뒤에 home 화면 + `semantic/overlay/scrim`. **상태바·홈 인디케이터 더미는 두지 않는다**(08-12 plan-28 — OS/브라우저가 그리는 영역, 8/11 초안의 "StatusBar 최상위"를 대체). **판단 기준 = 내용물의 성격**: 히스토리가 스위처(새 대화 + 목록 + 계정 진입점)인 동안은 드로어, 검색·다중선택·폴더 같은 관리 기능이 들어와 브라우즈 목적지로 커지면 full 재검토. 레퍼런스 갈림도 같은 축이다(Claude·ChatGPT·X=스위처형 드로어 / Gemini·Grok=검색 얹힌 목적지형 full) — 다수결로 정하지 않는다. 제품 파일 `➡️ home/history` 모바일 12장 + Usage 보드(`7876:21231`) 전환 완료, **컴포넌트 마스터·DS 파일 무변경**. 스토리북은 컴포넌트 QA 컨테이너 337 + `Pages/Home`의 `Mobile (393) — History Drawer`. 정본 `design-system/components/chat-history-panel.md`.
+- **상태바·홈 인디케이터 더미는 제품 화면에 두지 않는다(08-12, 정본 plan-28).** 개발 요청 — OS·브라우저가 그리는 영역이라 구현 대상이 아닌데 시안이 전부 iPhone 16 기준이라 전 화면에 들어가 있었다. 제품 파일 정식 4페이지 **화면 145개·333건 처리**(삭제 아님 — `Bottom Bar`는 `HomeIndicator=off` variant 스왑 111, 나머지는 `visible=false` 222), 잔존 가시 0 확인. 제외 = `❌` 페이지와 **폭 2000px↑ 기획서 보드**.
+  - **chrome은 flow 안에 있어서 걷으면 본문이 위로 59·컴포저가 아래로 34 움직인다.** 절대배치 오버레이는 안 따라와 **14건을 실측 보정**했다(헤더 앵커 토스트 y127→68 · 컴포저 앵커 +34 · 코치마크 +34 · 흐름 앵커 −59 · 바닥 flush +34). 앞으로 chrome 있는 시안을 손댈 때 같은 후처리가 필요하다.
+  - **패키지에도 같은 더미가 있었다 → `env()`로 교체.** `--bottom-bar-safe-area`가 34px 상수(=아이폰 홈 인디케이터)라 노치 없는 기기·데스크톱에 빈 띠가 남았다. `bottom-bar.safe-area` = `env(safe-area-inset-bottom, 0px)`, `bottom-bar.height.chat` = `calc(202px + env(...))`, `SheetShell`은 `h-[env(...)]`. **컴포넌트 토큰에 CSS 환경 함수를 허용한 첫 사례**로 `token-contract.md`에 절 신설(같은 성격 아니면 확대 금지). changeset `minor`(노치 외 환경에서 하단 34 감소 = 시각 변화). **미커밋** — 옆 세션 미커밋분과 같은 파일에 섞여 있다.
+  - **아트보드 기준 393×852는 유지한다.** 문제는 852가 아니라 그 안의 chrome이었고, 걷어내면 852가 곧 "뷰포트 꽉 채운 화면(100dvh)"으로 읽혀 개발이 그대로 매핑한다. 브라우저 높이는 URL바로 계속 변해 진짜 높이 하나를 고를 수도 없다.
 - **`color.overlay.scrim` 코드값이 08-12에 피그마 정본으로 내려왔다** — 0.48/0.64 → **0.4/0.6**(피그마 `black-alpha/40|60`, `foundation/color.md` 표기와 일치). 문서가 아니라 코드가 드리프트해 있던 케이스. 소비처는 `ModalDialog`·`BottomSheet` backdrop.
 - **딤은 2단이다(08-11).** 시트 `semantic/overlay/scrim-soft`(30%, `VariableID:4499:2561`) / 모달·차단형 `semantic/overlay/scrim`(라이트 40·다크 60). 시트는 뒤 대화가 근거로 계속 보여야 하고 모달은 뒤를 끊는 게 목적이라 갈린다. plan-22의 "실사례 생기면 2단 재검토" 조건이 파일 안에 이미 충족돼 있었다(시트 50개가 30%, 모달 6개가 raw 40%). **blur(backdrop-filter)는 렌더 비교 후 미채택** — 시트는 드래그되는 표면이라 매 프레임 재합성되고 분리는 이미 흰 표면·radius·그림자가 만든다. 시트 딤 50개 재바인딩은 게시 대기.
 - **제품 타이포 램프에 Bold가 없다.** 강조 굵기는 전부 SemiBold이고 Bold는 `foundation/*`(DS 문서용)과 `chat/h1`뿐이다. 15px 강조는 `body/md-sb`.
@@ -92,6 +96,7 @@
 - **비로그인 게이트 닫은 뒤(SA-1a) 4건**(08-11, 정본 plan-25) — ① **PM 확인**: 소진 후 화면 표시가 기획서 미규정(§3.2는 모달만 정한다). 이번 잠금 상태는 디자인 제안이다 ② **KR 문구 확정 → `strings` 등재**(JP/EN 초안 작성 완료, DS write+게시 필요) ③ **DS 승격 `Chat Input Bar State=locked`** — 제안서 작성 완료, variant 옵션 추가라 기존 인스턴스 픽셀 변화 0 ④ **DS 승격 `disabled`의 중첩 `Mode Toggle` 비활성화** — 실측 확인된 실재 건이나 **픽셀 변화 있는 시각 변경**이라 게시 전 대상 조회 선행.
 - 기획서(`docs/20-socra-product-spec-2026-07.md`) [Open Issues] — 타임아웃·RAG 도메인·계정/인증·APPI는 PM/법무 대기라 디자인 착수 불가.
 - **로그인·아바타 비블로킹 4건**(08-11, 정본 plan-26) — ① 접힘 레일 헤더 접기 토글(반투명 원형 r24) vs 푸터 아이콘(사각 r12) 형태 불일치 ② `User Profile` radius 크기별 불일치(sm/md/lg=16, xl=28 — 40px에 16이면 원이 아니다) ③ 푸터 `PlanLabel 'Free'` 처분(08-09 합의대로 Footer 재작업 때) ④ 패키지 `UserProfileType` `"empty"` 제거(기본값이기도 함 — 브레이킹 후보).
+- **`Navigation Bar` 마스터에 `StatusBar=on/off` 축을 만들지**(08-12, plan-28) — 지금은 인스턴스 override라 **새로 조립하는 화면마다 상태바를 다시 꺼야 한다.** 축을 만들면 기본값 off로 한 번에 정리되지만 DS 파일 write라 전파 범위가 커서 승인 게이트 대상이다. 함께 남은 것: 상단 `theme-color` 메타 개발 전달 · 짧은 뷰포트 QA 프레임(393×664).
 - 열린 PR 처분 — **#35**(plan-19 일정 v4, CONFLICTING — rebase/close 미정) · **#13**(codex Chip locale, draft — close 유력).
 
 **종결 — 되돌리기 금지(폐기 기록):**
@@ -112,6 +117,8 @@
 - **로그인 = 오버레이 모달, first-screen 전면 로그인은 스펙 외(08-11, §3.1)** — 진입점은 게이트·세션 목록 하단 2곳뿐. 정본 모달은 `chat/chart`의 SA-1. first-screen 5판은 `❌ 참고용` 섹션으로 분리(삭제 아님).
 
 ### 알려진 캐비엇
+- **jsdom은 `env()`를 못 읽어 인라인 `style`을 통째로 버린다(08-12).** `style={{ height: "env(safe-area-inset-bottom,0px)" }}`가 DOM에서 사라져 테스트가 떨어진다(브라우저는 정상). Tailwind 임의값 클래스로 두면 클래스 문자열이 남아 검증도 되고, 패키지가 소스 `.tsx`를 배포하므로 소비자 Tailwind가 유틸리티를 생성한다.
+- **오버레이 앵커를 문서에 적을 땐 기준 노드까지 적는다(08-12).** `toast.md`의 "컴포저 상단 −16"이 재현 안 돼 헤맸는데, 기준이 `Bottom Bar`가 아니라 그 안의 **`Chat Input Bar`(보이는 카드) 상단**이었다(6px 차).
 - **화면 프레임이 오토레이아웃이면 삽입한 배경·스크림이 화면 밖으로 밀린다(08-12).** 제품 파일 history 화면 12장이 전부 가로 오토레이아웃이라 `insertChild`한 노드가 플로우에 편입돼 x=393·786에 나란히 놓였다. 스크린샷 전엔 "왜 배경만 보이지"로 읽힌다 — 삽입 후 `layoutPositioning = "ABSOLUTE"`를 반드시 세운다.
 - **생성 파일은 부분 스테이징으로 가른다(08-12).** 워킹트리를 공유하면 `theme.css` 한 파일에 내 토큰 변경과 옆 세션 재생성분이 함께 얹힌다. 통째로 커밋하면 남의 작업을 쓸어가고 빼면 소스와 산출물이 어긋난다. `git diff`에서 내 hunk만 필터해 `git apply --cached`로 스테이징하면 워킹트리를 건드리지 않고 갈린다(옆 세션 렌더도 안 깨짐).
 - **variant를 `clone()`으로 늘리면 `componentPropertyReferences`가 소실된다**(08-11, `Settings/Row` `Type=select`). 속성 축은 패널에 멀쩡히 보이고 값도 바뀌는데 렌더가 안 따라와 인스턴스 버그로 오진하기 쉽다. 클론 직후 원본과 refs를 대조하고 임시 인스턴스로 토글 검증할 것 — 게시 후 발견하면 재게시까지 필요하다.
