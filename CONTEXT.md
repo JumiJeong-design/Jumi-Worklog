@@ -130,6 +130,8 @@
 
 **종결 — 되돌리기 금지(폐기 기록):**
 
+- **socra 마크는 DS 로컬 세트가 정본(08-13 확정, 주미님 "통일하고 DS에서 관리")** — `Answer/Footer`가 물던 **외부 브랜드 라이브러리의 원격 socra를 폐기**하고 DS 로컬 `socra`(`4048:1726`)로 통일했다. 원격을 직접 물면 내부를 못 고쳐 색을 변수에 못 묶고, 실제로 마크가 라이트·다크 양쪽에서 검정 하드코딩이었다. 통일 후 얼굴 인스턴스 143개 단일 참조 · 구세트 0 · 다크 `203,206,210` / 라이트 `48,50,59`로 모드 전환 확인. **브랜드가 바뀌면 DS 로컬 socra만 교체한다 — 원격 직참조로 되돌리지 말 것.** (컴포넌트 설명의 옛 문구 "브랜드 확정 시 원본 라이브러리에서 교체한다"는 08-13 갱신됨)
+
 - **오프라인 배너·전송 비활성 승격 철회(08-10)** — 기획서 §5.3에 없는 표면이 자체 승인으로 들어와 있었다. "전송 시도 → 토스트 안내 + 입력 보존"이 정본. 시안·정합표·`error/offline-banner` 변수까지 정리 완료. **승격을 재개하지 말 것.**
 - 색 "강조 여부 2단"안 폐기(08-03) — `docs/plans/16` §8만 읽으면 반대로 간다. 폐기 표시가 문서 정정 잔업.
 - 전송 실패 전용 프레임 삭제 — S9 케이스로 일원화(08-09).
@@ -150,6 +152,10 @@
 ### 알려진 캐비엇
 
 - **게시 완료와 소비 파일 반영은 다른 사건이다(08-12).** DS에서 `getPublishStatusAsync`가 `CURRENT`여도 제품 파일 인스턴스는 새 속성을 못 본다 — 소비 파일 쪽 **라이브러리 업데이트 수락**이 따로 있다. **판정은 세트가 아니라 인스턴스의 `componentProperties`로 한다.** 급하면 `importComponentByKeyAsync(mainComponent.key)`로 게시본을 끌어와 `swapComponent` — 같은 키라 override(변수 바인딩·텍스트·크기)가 살아남지만, 먼저 1개로 시험하고 나머지에 돌린다.
+  - **업데이트를 받은 뒤에도 옛 마스터 프록시는 갱신되지 않는다(08-13).** 인스턴스 143개가 전부 새 세트로 넘어간 뒤에도 옛 프록시 노드(`7751:120479`·`7751:120478`)는 옛 세트 ID와 옛 레이어명을 계속 리포트했다. 프록시로 판정하면 영원히 "아직 안 됐다"가 나온다 — **인스턴스의 `getMainComponentAsync()` 집계로만 판정한다.**
+  - **`importComponentByKeyAsync` 실패는 "미게시/삭제" 근거가 아니다(08-13).** 멀쩡히 published된 `Answer/Footer` 키가 "not found"로 튕겼다. 생존 판정은 `search_design_system`(`componentKey`·`updatedAt`이 나온다).
+  - **참조가 두 갈래로 갈리면 호스트 컴포넌트별로 묶어본다(08-13).** 호스트별로 딱 정렬되면 인스턴스 수락 문제가 아니라 **호스트 마스터가 옛 것을 참조**하는 것이고, 소비 파일에서 업데이트를 눌러도 숫자가 안 변한다. 고칠 자리는 원본 라이브러리다.
+  - **`INSTANCE_SWAP` 기본값은 componentKey가 아니라 노드 id를 받는다(08-13).** key를 넣으면 `Property value is incompatible with component property type`. `preferredValues`의 `type`도 `COMPONENT`/`COMPONENT_SET`만 받고 `LIBRARY`는 거부된다.
 - **컴포넌트 세트가 에러 상태면 속성 API가 통째로 실패한다(08-12).** `variantGroupProperties`·`componentPropertyDefinitions` 조회가 `Component set has existing errors`로 튕기고 축·속성 추가도 막힌다. `Text Field`(`52:49`)의 원인은 **같은 좌표에 겹친 중복 variant 1개**라 캔버스로는 안 보였다 — variant 이름 목록을 뽑아 중복을 세면 잡힌다. 문법을 의심하기 전에 세트 무결성부터 본다.
 - **문서에 적힌 차단 사유를 액면가로 받지 않는다(08-12).** 캡션이 "lucide:eye 추가 후 반영(잔여)"라고 적어 뒀지만 `lucide:eye`·`eye-off`·`eye-closed`는 이미 DS에 있었고 진짜 차단은 위 세트 오류였다. **"왜 못 했는지"가 적혀 있으면 그것부터 실측한다** — 아니면 없는 작업을 하러 간다.
 - **클론한 노드에 `characters`를 쓰면 원본의 strings 바인딩이 조용히 풀린다(08-12).** 기존 컷을 복제해 문구만 덮으면 하드코딩이 되어 JP·EN 모드에서 한국어가 그대로 뜬다. 복제로 화면을 만들면 **바인딩 재연결이 기본 절차**다. `swapComponent` 직후의 인스턴스 subtree를 `findOne`으로 훑는 것도 스테일 자식 참조로 터지므로 얕은 `children.find()`를 쓴다.- **`pnpm visual`의 "Chromatic passed"는 시각 검증이 아니다(08-12).** 스토리북 프리뷰 기본값이 `VITE_STORYBOOK_FULL_SNAPSHOTS !== "true"`면 스냅샷을 꺼서, 옵트인한 `Theme` 스토리 2장만 찍힌다. 홈 3연속 변경(625·626·627)이 전부 passed였지만 셋 다 비교 대상이 아니었다. **전체 비교는 머지 전 워크플로 `workflow_dispatch`로 따로 돌린다.**
