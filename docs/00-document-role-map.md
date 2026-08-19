@@ -43,6 +43,7 @@ Root의 `README.md`, `AGENTS.md`, `CLAUDE.md`는 도구가 자동으로 찾는 �
 | `AGENTS.md` | `00` | Keep root entry | 세션 시작 규칙. `docs/00-document-role-map.md` 링크 추가 후보. |
 | `CONTEXT.md` | `10` | Keep root current snapshot | 이미 100줄로 축소. freshness check 기준 유지. |
 | `docs/00-document-role-map.md` | `00` | New canonical map | 이 문서. |
+| `docs/20-completion-criteria.md` | `20` | New canonical rule | 1차/공유 가능/픽스 완료 단계와 각 기준. `AGENTS.md`에서 링크. |
 | `docs/80-external-prompt-architecture-notes.md` | `80` | New external reference note | Every 글, 비공식 prompt architecture 자료를 구조 참고용으로만 관리. |
 | `ops-plan.md` | `10` 또는 `90` | Review | 현재 active plan인지, 과거 계획인지 확인 필요. |
 | `hooks/README.md` | `40` | Keep | git push guard 등 local hook 검증/설치 안내. |
