@@ -643,6 +643,7 @@
 | Components page | `0:1` |
 | Foundation page | `70:218` |
 | Icons page | `74:10109` |
+| Guidelines page | `4054:1848` — 보드 여섯: `Layout` · `Overlay` · `Surface` · `Loading` · `Empty & Error` · `Accessibility` (2026-09-01 재편, 그전엔 Layout 한 장에 열한 절) |
 | Page design test | `76:10172` |
 | Image reference | `76:10169` |
 
