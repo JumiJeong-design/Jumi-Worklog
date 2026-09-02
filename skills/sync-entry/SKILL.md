@@ -66,9 +66,8 @@ disable-model-invocation: false
 
 추가로 날짜 하나만 보지 말고, 사용자가 보는 월 전체를 확인한다:
 
-- 공개 HTML을 저장한 뒤 `node scripts/verify-public-worklog-month.mjs --html <downloaded worklog.html> --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD`를 실행한다.
-- `--allow-unchecked`에는 내일 `Next`처럼 의도적으로 남기는 entry만 넣는다.
-- 오늘 완료한 항목이 `[ ]`로 남거나, 허용하지 않은 `plan-YYYY-MM-DD` 블록이 남으면 동기화 정상으로 보고하지 않는다.
+- 공개 HTML을 저장한 뒤 **그 달의 날짜가 목록·캘린더에 다 뜨는지** 본다. 안 보이면 코드를 고치기 전에 캐시부터 의심한다(`?v=$(date +%s)`).
+- **`verify-public-worklog-month.mjs`는 쓰지 않는다(2026-09-02 확정).** 뷰어 HTML 안에 본문이 복사돼 있던 시절의 검사이고, 2026-08-09에 그 방식을 접어 지금은 어느 달을 넣어도 실패한다. 근거는 `AGENTS.md` 워크로그 절.
 
 ---
 

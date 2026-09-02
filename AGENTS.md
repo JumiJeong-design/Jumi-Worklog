@@ -75,7 +75,8 @@
 - 새 `##`를 추가하기 전에는 "이 항목이 사용자가 독립 탭으로 전환해 볼 만큼 큰 작업 흐름인가?"를 먼저 판단한다
 - 후속 체크리스트는 이전 작업 탭 안에 묻어두지 말고 해당 날짜의 `Next` 또는 다음 날짜 로그로 이월한다
 - 워크로그를 수정하면 원본 MD만 고치고 끝내지 않는다. 반드시 같은 repo의 `site/worklog.html`도 같은 내용으로 갱신하고, 커밋/푸시한 뒤 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`에서 실제 문구가 보이는지 확인한다.
-- 공개 URL 확인은 문구 존재만 보면 안 된다. 사용자가 보는 월 전체를 기준으로 `scripts/verify-public-worklog-month.mjs --html <worklog.html> --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD`처럼 실행해 날짜별 unchecked 수와 허용되지 않은 plan 블록을 확인한다. Plan/Log 탭과 캘린더 두 색 점은 `plan-*` 블록에 의존하므로 정상 plan 블록을 삭제하지 않는다.
+- 공개 URL 확인은 문구 존재만 보면 안 된다. 새 날짜가 목록·캘린더에 실제로 뜨는지 보고, 원문이 raw로 받아지는지도 확인한다(`curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/JumiJeong-design/Jumi-Worklog/main/logs/YYYY/MM/YYYY-MM-DD.md`).
+- **`scripts/verify-public-worklog-month.mjs`는 더 이상 돌리지 않는다(2026-09-02 확정).** 검사할 대상이 없어졌다 — 이 스크립트는 뷰어 HTML **안에 본문이 복사돼 있던 시절**의 `entry-`/`plan-` 블록 체크박스를 세는데, 2026-08-09에 그 방식을 접고 원문 `logs/*.md`를 raw로 받아 그리는 구조로 바꿨다. 그래서 **어느 달을 넣어도 실패한다**(9월은 블록이 없어서, 8월은 지나간 날의 미해결 항목이 미체크로 쌓여서). 원문 기준으로 다시 쓰지도 않는다 — 원문의 `- [ ]`는 「아직 안 끝난 일」이라 정상이므로 무엇을 실패로 볼지가 없다.
 
 ## 커뮤니케이션
 

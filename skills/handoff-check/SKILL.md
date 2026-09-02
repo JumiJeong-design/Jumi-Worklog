@@ -68,11 +68,7 @@ disable-model-invocation: false
 - 공개 URL fetch 후 문구 확인
 - 월 단위 체크박스 검증 실행
 
-예시:
-
-```bash
-node scripts/verify-public-worklog-month.mjs --html <downloaded-worklog.html> --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD
-```
+> **`verify-public-worklog-month.mjs`는 쓰지 않는다(2026-09-02 확정).** 뷰어 HTML 안에 본문이 복사돼 있던 시절의 검사이고, 2026-08-09에 그 방식을 접어 지금은 어느 달을 넣어도 실패한다. 근거는 `AGENTS.md` 워크로그 절.
 
 ## Step 4 — Wiki 승격 후보 확인
 

@@ -253,11 +253,6 @@ git -C ~/Desktop/jumi-worklog pull --rebase && git -C ~/Desktop/jumi-worklog pus
 7. 공개 URL `https://jumijeong-design.github.io/Jumi-Worklog/worklog.html`을 직접 받아 새 날짜가 실제로 보이는지 확인한다. **안 보이면 코드를 또 고치기 전에 캐시부터 의심한다** — `?v=$(date +%s)`를 붙여 cache-bust로 재확인한다. GitHub Pages/CDN 반영이 늦으면 20~30초 간격으로 재시도.
 8. 원문이 raw로 실제 받아지는지도 확인한다:
    `curl -s -o /dev/null -w '%{http_code}' https://raw.githubusercontent.com/JumiJeong-design/Jumi-Worklog/main/logs/YYYY/MM/YYYY-MM-DD.md`
-9. 월 단위 체크박스 검증을 실행한다.
-   - 예: `node scripts/verify-public-worklog-month.mjs --html /tmp/worklog-public.html --month YYYY-MM --allow-plan plan-YYYY-MM-DD --allow-unchecked plan-YYYY-MM-DD`
-   - `--allow-unchecked`에는 내일 `Next`처럼 의도적으로 남기는 entry만 넣는다.
-   - **오늘 만든 것과 과거 누적분을 구분해 보고한다.** 과거 plan 블록의 미체크가 쌓여 있으면 검증은 항상 실패로 나온다. 오늘 기여분이 0이면 그렇게 명시하고, 누적분을 오늘 작업의 실패로 보고하지 않는다.
-
 커밋 메시지: `log: YYYY-MM-DD 작업 기록`
 
 **주의:** `<style>`, 사이드바, 스킬 패널, JS 함수 등 **다른 구조는 절대 건드리지 않는다.** 오직 `ENTRY_META` 키만 추가(entry/plan 블록 생성 금지).
@@ -272,6 +267,23 @@ git -C ~/Desktop/jumi-worklog pull --rebase && git -C ~/Desktop/jumi-worklog pus
 
 > AX 실험 기록처럼 **별도 사례글**을 Notion에 올리는 건 이 스킬 범위가 아니다. 그건 `ax-log` 스킬이 다룬다.
 
+---
+
+## 월별 체크박스 검증 — 하지 않는다 (2026-09-02 확정)
+
+`scripts/verify-public-worklog-month.mjs`를 **더 이상 돌리지 않는다.** 검사할 대상이 없어졌다.
+
+그 스크립트는 공개 뷰어 HTML **안에 본문이 복사돼 있던 시절**의 검사다. 날짜마다 `entry-YYYY-MM-DD` 블록이 HTML에 박혀 있었고 그 안의 체크박스를 셌다. 그런데 2026-08-09에 그 방식을 접었다 — 지금은 뷰어가 원문 `logs/*.md`를 raw로 받아 그리고, 이 스킬도 Step 4.6에서 **그 블록을 새로 만들지 말라고 못박고 있다**(만들면 원문과 두 벌이 되어 어긋난다).
+
+그래서 **어느 달을 넣어도 실패한다**(2026-09-02 실측).
+
+- 2026-09 — 블록이 아예 없어 `No worklog script blocks found`로 실패
+- 2026-08 — 옛 블록이 남아 있는데 미체크가 쌓여 실패(8/01 61건 · 8/03 38건 · 8/07 18건 · 8/09 1건)
+
+8월 쪽 미체크는 **지나간 날의 미해결 항목**이라 미체크인 것이 정상이고 고칠 대상이 아니다. 검사 대상이 사라졌는데 검사만 남아, 워크로그를 쓸 때마다 손댈 것 없는 실패가 떴다.
+
+**원문 MD 기준으로 다시 쓰지도 않는다.** 원문의 `- [ ]`는 「아직 안 끝난 일」이라 정상이므로 무엇을 실패로 볼지가 없다. 검증 자리는 Step 4.6의 공개 URL 확인과 raw 확인이 대신한다.
+
 성공 시 출력:
 ```
 worklog 저장 완료.
@@ -279,7 +291,7 @@ worklog 저장 완료.
 ├── CONTEXT.md 갱신 완료
 ├── worklog.html ENTRY_META 등록 완료
 ├── 공개 URL 확인 완료 → https://jumijeong-design.github.io/Jumi-Worklog/worklog.html
-└── 월별 체크박스 검증 → 오늘 기여분 N건 / 과거 누적 M건
+└── 원문 raw 확인 완료 (200)
 ```
 
 ---
