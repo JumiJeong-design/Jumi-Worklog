@@ -6,8 +6,8 @@ disable-model-invocation: false
 
 # record-trap
 
-실수·함정 발생 시 성격에 맞는 정본 문서와 오늘 worklog에 기록해서 재발을 방지한다.
-한 곳에만 쓰면 다음 세션에서 Claude나 Codex가 놓칠 수 있으므로, Prism 규칙과 Jumi-Worklog 운영 규칙을 구분해 라우팅한다.
+실수·함정 발생 시 **먼저 게이트(코드)로 막을 수 있는지 보고**(Step 0), 못 막는 것만 성격에 맞는 정본 문서와 오늘 worklog에 기록해서 재발을 방지한다.
+규칙은 읽어야 작동하고 게이트는 안 읽어도 걸린다. 문서로 내리는 것은 판단이 필요한 함정뿐이며, 그때는 Prism 규칙과 Jumi-Worklog 운영 규칙을 구분해 라우팅한다.
 
 ---
 
