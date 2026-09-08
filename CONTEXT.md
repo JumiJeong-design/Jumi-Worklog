@@ -50,6 +50,7 @@
 - **Claude Code 단일 에이전트** 체제다(2026-07-13~, Codex 병행 중단). 브랜치 전략은 main-first: 짧은 feature 브랜치 → PR → main. 장수 병렬 트랙(`plan/parallel-codex`류)은 새로 만들지 않는다.
 - 같은 세션에서 병렬이 필요하면 서브에이전트 + `git worktree` 격리를 쓰되 팬아웃은 3~4개 소규모가 기본이다. **감사·리서치류는 인라인이 기본**(7/10·7/13 대규모 팬아웃이 두 번 다 세션리밋에 걸렸다).
 - **완료 보고는 3단계로 한다(8/19 신설).** 에이전트는 "완료"를 단독으로 쓰지 않고 `1차` / `공유 가능` / `픽스` 단계명 + 남은 것을 문장으로 남긴다. `공유 가능`은 자가 검사 7항목을 첨부했을 때만, `픽스`는 디자이너만 선언한다. 기준 정본 `docs/20-completion-criteria.md`, 진입 규칙 `AGENTS.md` 「완료 기준」. 배경 — AI의 완료(기획이 그려짐)와 디자이너의 완료(품질·UX 검토 끝)가 달라 남은 일이 기록 없이 사람 머릿속에만 쌓이던 것.
+- **공유 워킹트리에서 `git add -A`·`reset --hard`류는 훅이 실행 전에 막는다(09-08, #597).** 커밋할 일이 있으면 `scripts/new-desk.sh`로 책상부터 나눈다. 목록은 `docs/agent-parallel-rules.md` 도구 3.
 - 2-에이전트 병렬 규칙은 휴면 상태로 보존돼 있다(정본: `riiid/prism`의 `AGENTS.md`). `socra-ai-workflow-wiki`의 핸드오프/컴포넌트 플레이북과 `AGENTS.md`도 2026-07-16에 같은 (휴면) 패턴으로 맞췄다.
 
 ### 제품 파일 DS 정합 (`🌍Socra AI Product_PageUI_MVP`)
@@ -93,6 +94,7 @@
 
 ### `riiid/prism`
 
+- **공유 폴더 파괴 명령·changeset 누락을 실행 자리에서 막는 훅 셋이 들어갔다(09-08 밤, #597 `d3feb085`).** `.claude/hooks/shared-tree-guard.sh`(PreToolUse)는 메인 워킹트리에서 `git add -A`·`commit -a`·`stash -u`·`reset --hard`·`clean`·`checkout main`·`pull`(ff-only 없이)·`rebase`를 실행 직전에 막고, 격리 워크트리는 git-dir 비교로 판정해 안 막는다(우회 `ALLOW_SHARED_TREE=1`). `session-brief.sh`(SessionStart)는 공유 트리 여부·`origin/main` 대비 뒤/앞·main `docs/plans` 열린 체크박스 수·오늘 worklog 유무를 첫 화면에 얹는다. pre-commit 막는 자리 5는 `packages/prism/src` 변경인데 브랜치에 changeset이 없으면 막는다(우회 `ALLOW_NO_CHANGESET=1`). 메인 폴더는 브랜치가 뒤처져 있어 세 파일을 작업 사본에 복사해 뒀다(settings.json은 exclude라 status에 안 뜬다). **에이전트 요청 문구 개정본은 노션 「에이전트 지침 2609」에 있다.**
 - **색 램프 8종 80칸이 전부 피그마 `color` 컬렉션 Light/Dark와 같아졌다(09-08 저녁, #590 `42f52746`).** blue·orange·purple·lime 34칸을 마지막으로 옮겼고 「거울 단계」는 계약에서 걷었다. 손으로 뒤집어 둔 시맨틱·컴포넌트 28자리를 한 칸 참조로 접었고, `label.orange.bg`·`badge.contested.bg`만 다크 `/50`(green과 같은 이유). **다크에서 투표 선택지 선택 상태가 짙은 남색 트랙 + 선명한 파란 막대로 바뀌었다** — 소비처가 할 일은 없다. red·gray·brand 램프는 여전히 라이트 단일값.
 - **DS 마스터 선 두께 원시값 31곳을 `icon-thin`·`control`·`emphasis`에 걸었다(09-08 저녁, #589).** 아이콘·링 27 · Text Field focused 테두리 2 · 밑줄 2. `socra` 로고 10곳은 주미님이 「안 쓸 것」이라 제외. Text Field 테두리 폭이 계약(전 상태 1.5)과 피그마(focused만 1.5)가 다른 것은 plan-67 ⑥에 발견으로만 있다.
 - **답변 대기 시머를 흐름으로 보는 스토리가 생겼다(09-08, PR #583 `330d3946` 머지).** `Explorations/Chat 답변 대기 — 질문에서 답변까지`가 `Pages/Chat` 웹·모바일 판 위에서 입력창 → 시머 대기 → 답변 순으로 돈다. 배속이 시머 `animation-duration`에도 곱해진다. 대기 문구는 패키지 기본값 그대로이고 strings 몫으로 열려 있다. 한글 스토리 ID 링크는 퍼센트 인코딩해서 줘야 한다(그대로 주면 터미널에서 404).
