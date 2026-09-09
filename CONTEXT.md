@@ -55,6 +55,8 @@
 
 ### 제품 파일 DS 정합 (`🌍Socra AI Product_PageUI_MVP`)
 
+- **표면을 그리는 프레임이 프리미티브 `neutral/white`를 물던 것을 전 페이지에서 걷었다(09-09 밤, 290곳).** 다크 램프에서 `neutral/white`는 흰색이 아니라 `#141518`이라, 얹혀야 할 면이 배경(`#1D1E21`)보다 어두워져 구멍처럼 파인다. 되건 곳은 시트 상단 chrome 9 · Google 로그인 버튼 9 · `Survey/Option` 계열 243 · `Sheet/Shell` 3 · JP 다크 화면 배경 4 · Quick·Deep 라이트 화면 배경 8 · `HintPill`·`Lightbox` 둘·`RenameInput` 14다. 표면급은 `semantic/surface/elevated`와 `semantic/surface/base`로, 로그인 버튼은 `alpha/white-alpha/100`으로 걸었다. 13페이지 전수 재감사에서 남은 4건은 보드 화살표 도형 3개와 `Tooltip text`이고 둘 다 결함이 아니다. 검토 보드 띠 12건과 약관 동의 화면 배경 4건(스크림에 덮여 안 보인다)은 일부러 남겼다.
+
 - **웹 설정 다이얼로그의 마지막 행이 잘리던 것을 고쳤다(09-04).** `Settings/Dialog Shell`의 Content 슬롯이 세로 `FILL`이라 본문이 슬롯 높이로 깎이고 「문의 · 고객센터」가 밖으로 밀려 있었다. 제품 16장 · DS 마스터 · `Settings/Content Placeholder`를 세로 `HUG`로 맞췄다(16/16 확인). **패키지 `SettingsDialogShell.tsx`는 원래 맞았다** — `{children}`이 `overflow-y-auto`에 바로 들어가 높이를 깎는 층이 없다. **셸 세트 게시는 `2026-09-04T01:36:56Z`에 멈춰 있다**(중복 컴포넌트 없음 · 프록시 세대 하나 · override는 다 먹음으로 좁혔다). 이미 놓인 16장은 닫혔으니 남는 영향은 **새로 꽂을 때 슬롯을 `HUG`로 두는 것** 하나뿐이라 게시를 다시 부탁하지 않는다.
 
 - **설정 PC 로고·행 아이콘을 정리했다(09-02 · 정본 `plan-53`).** 로고 3곳이 마스터 기본값 `164.01`을 그대로 쓰고 있어 `88`로 맞췄고(다른 화면은 전부 88이었다), 행 아이콘 43곳이 `Settings/Row`의 Type별 자리표시(`user`·`credit-card`·`vibrate`)로 남아 있어 모바일 기준으로 갈았다. 재발을 막으려 세트에 `Icon`(`INSTANCE_SWAP`) 속성을 신설해 변이 16개를 연결했고 게시·수락까지 끝냈다. **제품 파일 아이콘 43곳은 화면에서 직접 건 override라 앞으로 라이브러리 변경을 안 따라간다.**
@@ -312,6 +314,8 @@
 
 ### 알려진 캐비엇
 
+- **채우기를 꺼도 `boundVariables`는 남는다(2026-09-09).** 결속만 세는 색 감사는 화면에 안 그려지는 자리까지 결함으로 집계한다. 실제로 122건이라고 보고했다가 102건이 허수였고, `Header Nav Bar` 85건은 전부 `fills[0].visible === false`였다. 필터는 세 겹이어야 한다: 노드 자신의 `visible`, 조상 체인의 `visible`, 그리고 **페인트의 `visible`**. 마지막 겹을 빠뜨리기 쉽다.
+- **인스턴스 색이 마스터와 같아도 override일 수 있고, `swapComponent`는 그 override를 보존한다(2026-09-09).** `Survey/Option` 243곳이 값이 같아 마스터 결함으로 봤는데 DS 마스터는 이미 맞았고, 제품 파일에 낡은 프록시(`9773:28300`)와 최신본(`13164:56387`)이 함께 살고 있었다. 최신 프록시로 갈아도 마스터 id·문구·크기만 옮겨지고 채우기는 그대로다. 색은 `setBoundVariableForPaint`로 노드마다 직접 건다(`resetOverrides()`는 variant까지 날리므로 쓰지 않는다). 곁들여, 원격 변수 id는 앞 해시가 변수마다 달라서 짐작하면 조회에 실패한다.
 - **회색 표면 토큰을 잘못 골랐는지는 라이트 모드에서 판정할 수 없다(2026-09-09).** 라이트에서 `bg/surface-inset`과 `bg/fill-subtle`이 둘 다 `#EAEDF2`로 완전히 같은 값이라, 어느 쪽을 집어도 화면이 픽셀 단위로 동일하게 나온다. 다크에서는 시트 본문 `#27282B`를 사이에 두고 `#141518`(어두움)과 `#303134`(밝음)로 정반대로 갈린다. `surface-inset`의 다크 정의가 `{color.neutral.white}`인 것이 함정을 키우는데, 다크 램프에서 `neutral/white`는 흰색이 아니라 `#141518`이다. **표면 색 판정은 다크에서 한다.**
 - **프레임 이름 검색이 0건이어도 「없다」가 아니다(2026-09-08).** 설정 섹션에서 「비밀번호」가 들어간 프레임이 0개였는데, 텍스트를 전수로 다시 재니 캔버스 주석에 「`비밀번호 변경` 삭제」가 있었다. 0건은 검산할 대상이 없으므로 축을 바꿔 한 번 더 잰다(`rules.md` 44-5-2). 곁들여: `get_metadata`를 nodeId 없이 부르면 페이지 목록이 조용히 잘리고(13개 중 1개), `use_figma`는 `console.log`를 안 잡으므로 `return`으로 받는다.
 - **노션 `notion-update-page`는 파라미터를 최상위에 둔다(2026-09-08).** `data` 래퍼로 감싸면 `page_id: expected string, received undefined`로 막힌다. `update_content`는 원자적이라 `content_updates` 중 하나만 `No matches found`여도 나머지까지 전부 무산되므로 한 건씩 나눠 건다. synced block은 자기 id로 못 고치고, 그 블록을 품은 페이지 id에 쓴다.
