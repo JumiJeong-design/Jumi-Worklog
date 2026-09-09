@@ -43,7 +43,7 @@
 
 ---
 
-## 현재 상태 (2026-09-08 기준)
+## 현재 상태 (2026-09-09 기준)
 
 ### 운영 모드
 
@@ -94,6 +94,8 @@
 
 ### `riiid/prism`
 
+- **npm 최신은 `@riiid/prism@0.47.0`이고 열린 PR은 0이다(09-09 오전, #617 `1787d846` · #612 `63f8ccf0`).** 담긴 것은 `red` 램프 다크 10칸(minor)과 `settings-dialog.divider`를 `{color.border.control}`에서 `{color.border.divider}`로 옮긴 교정(patch) 둘이다. 구분선은 라이트에서 두 토큰이 같은 `neutral/150`이라 값이 같았고 다크에서만 `neutral/200`으로 갈라져 `ΔL*` 4.99가 벌어져 있었다 — **라이트만 보면 안 드러나는 차이다.** 09-04에 열어 둔 「발행이 실제로 걸리는지는 다음 Version PR 머지 때 확인된다」는 0.46.0·0.47.0 두 번 연속 `publish-latest` 성공으로 닫혔다.
+- **배포·머지 상태를 오독하게 만드는 신호 둘(09-09).** ① **restricted 패키지는 무인증 `npm view`가 404를 낸다** — 이 머신 npm은 로그인 상태가 아니라서 항상 404다. 배포 판정은 Actions `publish-latest` 로그(`+ @riiid/prism@X.Y.Z`)로만 한다. 09-09에 앞 세션이 이걸 발행 실패로 읽고 멈췄다. ② **Chromatic 쿼터가 막히면 PR이 `mergeStateStatus: UNSTABLE`로 뜬다** — `UI Review`·`UI Tests`가 「Update your plan to resume」로 `PENDING`에 고정되기 때문이고, GitHub 검사와 `Storybook Publish`는 전부 통과다. `mergeable: MERGEABLE`이면 그대로 머지된다. **머지 블로커가 아니다.**
 - **09-08 밤 늦게 머지: #599 plan-62 종결 · #600 44-5-2 훅 로그 줄 전체 · #602 다크 램프 세대 정렬 + `bg.fill-subtle` + 토스트 폭.** 머지 대기는 #603(`surface-placeholder`를 `fill-subtle`의 alias로, 화면 변화 0) 하나. #602는 공유 트리에 미커밋으로 남아 있던 23개 파일을 main 위에 다시 얹은 것이고, 토스트 폭 규칙이 바뀐다 — mo `100%`(앵커 폭 − 화면 마진, 393에서 361) / pc `fit-content`(최소 344, 한 줄). top layer 모드에서는 `styles.css`가 `anchor-size(width)`로 뷰포트 폭을 준다. 피그마 `Toast` 마스터는 아직 344 고정(별도 승인). 머지되면 공유 트리의 미커밋 23개는 버려도 된다.
 - **공유 폴더 파괴 명령·changeset 누락을 실행 자리에서 막는 훅 셋이 들어갔다(09-08 밤, #597 `d3feb085`).** `.claude/hooks/shared-tree-guard.sh`(PreToolUse)는 메인 워킹트리에서 `git add -A`·`commit -a`·`stash -u`·`reset --hard`·`clean`·`checkout main`·`pull`(ff-only 없이)·`rebase`를 실행 직전에 막고, 격리 워크트리는 git-dir 비교로 판정해 안 막는다(우회 `ALLOW_SHARED_TREE=1`). `session-brief.sh`(SessionStart)는 공유 트리 여부·`origin/main` 대비 뒤/앞·main `docs/plans` 열린 체크박스 수·오늘 worklog 유무를 첫 화면에 얹는다. pre-commit 막는 자리 5는 `packages/prism/src` 변경인데 브랜치에 changeset이 없으면 막는다(우회 `ALLOW_NO_CHANGESET=1`). 메인 폴더는 브랜치가 뒤처져 있어 세 파일을 작업 사본에 복사해 뒀다(settings.json은 exclude라 status에 안 뜬다). **에이전트 요청 문구 개정본은 노션 「에이전트 지침 2609」에 있다.**
 - **색 램프 8종 80칸이 전부 피그마 `color` 컬렉션 Light/Dark와 같아졌다(09-08 저녁, #590 `42f52746`).** blue·orange·purple·lime 34칸을 마지막으로 옮겼고 「거울 단계」는 계약에서 걷었다. 손으로 뒤집어 둔 시맨틱·컴포넌트 28자리를 한 칸 참조로 접었고, `label.orange.bg`·`badge.contested.bg`만 다크 `/50`(green과 같은 이유). **다크에서 투표 선택지 선택 상태가 짙은 남색 트랙 + 선명한 파란 막대로 바뀌었다** — 소비처가 할 일은 없다. red·gray·brand 램프는 여전히 라이트 단일값.
