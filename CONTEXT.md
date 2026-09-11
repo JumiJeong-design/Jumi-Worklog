@@ -2,7 +2,7 @@
 
 > 새 세션이 현재 기준과 위험 게이트만 빠르게 잡도록 돕는 파일.
 > 상세 이력은 `logs/YYYY/MM/YYYY-MM-DD.md`와 각 repo git history를 본다.
-> Last updated: 2026-09-10
+> Last updated: 2026-09-11
 >
 > 이 파일은 **누적 이력이 아니라 스냅샷**이다. 날짜별 경과는 `logs/`가 정본이므로 여기에 날짜 섹션을 쌓지 않고, 현재 상태 한 벌만 덮어쓴다(2026-07-14 정리 — 6/12~6/23 날짜 섹션 6개가 누적돼 worklog와 중복되고 갱신이 밀리던 것을 접음. 2026-08-10 정리 — `Last updated` 줄에 세션 요약이 괄호로 6천 자까지 쌓여 날짜만 남김. **이 줄에는 날짜만 쓴다** — 세션 요약은 worklog로, 상태 변화는 아래 본문 섹션 덮어쓰기로 간다. 2026-08-11 전면 갱신 — 해소된 취소선 항목과 배포 초기 서사를 걷어내고 현행만 남김).
 
@@ -97,6 +97,7 @@
 
 ### `riiid/prism`
 
+- **`ThinkingToggle` 헤더가 마스터대로 hug가 됐다(09-11 낮, #796 `a7a0fc61`).** 단계 문구 자리를 `flex-1`로 두어 chevron을 늘 오른쪽 끝에 붙이던 것을 걷었다 — 포팅 PR #193 때 계약에 적힌 결정인데 피그마 근거가 없었고, 데브에서 「사고과정이 부각된다」로 잡힌 원인이었다. 이제 문구가 없으면 chevron이 라벨 뒤 gap 8에 붙고(`8661:35195` Label 84 → Chevron 92와 같다), 문구가 있어도 문구 뒤에 붙는다. 빈 문구 `span`은 라이브 영역이라 `sr-only`로 남긴다. **프론트 몫이 둘 남았다** — 말풍선→토글 24 · 토글→답변 12 여백과 라벨 `사고 과정`(띄어쓰기). 계약 `thinking-toggle.md` 「헤더는 hug다」.
 - **아이콘 전용 버튼 23곳이 Tab 포커스에서도 이름을 띄운다(09-10 저녁, #734 `f0820e2c` · #739 `9f64a3b4` · #745 `b732dcfb` · #755 `03a62896`).** `Tooltip`에 말꼭지 없는 `Type=label`(13px)을 신설하고 `ActionBar` 4 · `ChatHistoryPanel` 7 · `AttachmentLightbox` 3 · `ChatInputBar` 2 등에 걸었다. Esc 닫기(WCAG 1.4.13)도 함께 들어갔는데, 첫판은 `Tooltip`의 keydown effect가 `onDismiss`를 의존 목록에 두고 있어 렌더마다 `document` 리스너를 다시 걸었고 **그 재등록이 Esc 디스패치 도중에 끼면 뒤 순번 툴팁이 이벤트를 놓쳤다** — `onDismissRef`로 뺐다. 소비처 10개 중 `onDismiss`를 넘기는 곳은 `AttachmentChip.tsx` 세 곳뿐이고, 동시 노출이 가능한 일곱 곳은 실물로 재서 「둘 → Esc 한 번 → 0개」를 확인했다. `Toast`는 스토리 8개 범위에 동시 노출 경로가 없어 **미측정**으로 남겼다.
 - **npm 최신은 `@riiid/prism@0.47.0`이고 열린 PR은 0이다(09-09 오전, #617 `1787d846` · #612 `63f8ccf0`).** 담긴 것은 `red` 램프 다크 10칸(minor)과 `settings-dialog.divider`를 `{color.border.control}`에서 `{color.border.divider}`로 옮긴 교정(patch) 둘이다. 구분선은 라이트에서 두 토큰이 같은 `neutral/150`이라 값이 같았고 다크에서만 `neutral/200`으로 갈라져 `ΔL*` 4.99가 벌어져 있었다 — **라이트만 보면 안 드러나는 차이다.** 09-04에 열어 둔 「발행이 실제로 걸리는지는 다음 Version PR 머지 때 확인된다」는 0.46.0·0.47.0 두 번 연속 `publish-latest` 성공으로 닫혔다.
 - **배포·머지 상태를 오독하게 만드는 신호 둘(09-09).** ① **restricted 패키지는 무인증 `npm view`가 404를 낸다** — 이 머신 npm은 로그인 상태가 아니라서 항상 404다. 배포 판정은 Actions `publish-latest` 로그(`+ @riiid/prism@X.Y.Z`)로만 한다. 09-09에 앞 세션이 이걸 발행 실패로 읽고 멈췄다. ② **Chromatic 쿼터가 막히면 PR이 `mergeStateStatus: UNSTABLE`로 뜬다** — `UI Review`·`UI Tests`가 「Update your plan to resume」로 `PENDING`에 고정되기 때문이고, GitHub 검사와 `Storybook Publish`는 전부 통과다. `mergeable: MERGEABLE`이면 그대로 머지된다. **머지 블로커가 아니다.**
